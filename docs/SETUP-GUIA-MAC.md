@@ -4,6 +4,9 @@ Pasos mejorados para cerrar el push pendiente y levantar el entorno local **sin 
 
 **Tiempo estimado:** 15–25 min (primera vez)
 
+> **Importante:** Este repo incluye infra completa en `infra/` (Postgres, Mosquitto, edge, prod).  
+> Los scripts viven en **`scripts/`**, no en la raíz. Si ves `setup-local-mac.sh` o `block-b-*.sh` en la raíz que buscan `docker-compose.yml`, es un clone viejo o placeholders de Codespaces — elimínalos y haz `git pull`. Ver `scripts/README.md`.
+
 ---
 
 ## Antes de empezar

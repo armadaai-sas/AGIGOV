@@ -15,6 +15,26 @@ FAIL=0
 BLOCK_A=0
 BLOCK_B=0
 
+section "Clone correcto (no placeholders en raíz)"
+ROOT_PLACEHOLDERS=0
+for f in setup-local-mac.sh block-b-setup.sh block-b-verify.sh api-public.sh agents-flow.sh; do
+  if [ -f "$ROOT/$f" ]; then
+    fail "Script obsoleto en raíz: $f (elimínalo; usa scripts/$f)"
+    ROOT_PLACEHOLDERS=1
+  fi
+done
+if [ "$ROOT_PLACEHOLDERS" -eq 0 ]; then
+  pass "Scripts solo en scripts/ (estructura correcta)"
+fi
+if [ ! -f infra/docker-compose.dev.yml ]; then
+  fail "Falta infra/docker-compose.dev.yml — clona Armada-2026/Armada-VZLA y git pull"
+elif [ -f docker-compose.yml ] && [ ! -f infra/docker-compose.dev.yml ]; then
+  warn "docker-compose.yml en raíz es incorrecto; la infra está en infra/"
+else
+  pass "infra/docker-compose.dev.yml"
+fi
+echo ""
+
 section "Paso 1 — Node (verificación código)"
 command -v node >/dev/null && pass "Node $(node -v)" || fail "Node.js"
 command -v npm >/dev/null && pass "npm $(npm -v)" || fail "npm"
