@@ -39,7 +39,14 @@
     "swarm:export-env": "tsx scripts/export-swarm-env.ts",
     "panic:drill": "tsx scripts/panic-drill.ts",
     "test:smoke": "tsx scripts/smoke-preprod.ts",
-    "security:honeypot": "tsx src/security/honeypot-server.ts"
+    "security:honeypot": "tsx src/security/honeypot-server.ts",
+    "setup:check": "bash scripts/check-prerequisites.sh",
+    "setup:local": "bash scripts/setup-local-mac.sh",
+    "github:push": "bash scripts/github-push.sh",
+    "block-b:setup": "bash scripts/block-b-setup.sh",
+    "block-b:verify": "bash scripts/block-b-verify.sh",
+    "block-b:pilot": "bash scripts/block-b-pilot.sh",
+    "setup:guia": "open docs/SETUP-GUIA-MAC.md 2>/dev/null || cat docs/SETUP-GUIA-MAC.md"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
