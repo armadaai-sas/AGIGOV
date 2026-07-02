@@ -1,0 +1,19 @@
+[Unit]
+Description=Armada Centinela IAP Worker (24/7)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/armada
+EnvironmentFile=/opt/armada/.env
+Environment=AGENT_ROLE=centinela
+Environment=NODE_DID=did:armada:core:centinela
+ExecStart=/usr/bin/npx tsx src/bus/run-worker.ts
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

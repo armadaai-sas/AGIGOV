@@ -1,0 +1,197 @@
+// Core ledger — PostgreSQL (fuente de verdad transaccional)
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/core"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProcessStatus {
+  received
+  validated
+  decided
+  committed
+  published
+  frozen
+}
+
+enum EscrowStatus {
+  PENDING
+  LOCKED
+  RELEASED
+  FROZEN
+}
+
+enum LedgerEntryType {
+  VOTE
+  ESCROW
+  ACTA
+  TRUST_EDGE
+  PROCESS
+}
+
+model TerritorialNode {
+  id           String    @id @default(uuid())
+  code         String    @unique
+  name         String
+  originNodeId String    @unique @default(uuid())
+  version      Int       @default(1)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  citizens  Citizen[]
+  votes     Vote[]
+  escrows   Escrow[]
+  actas     Acta[]
+  trustNodes TrustNode[]
+
+  @@index([updatedAt])
+}
+
+model Citizen {
+  id           String    @id @default(uuid())
+  did          String    @unique
+  displayName  String?
+  territoryId  String
+  territory    TerritorialNode @relation(fields: [territoryId], references: [id])
+  originNodeId String
+  version      Int       @default(1)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  votes      Vote[]
+  trustNode  TrustNode?
+
+  @@index([territoryId])
+  @@index([updatedAt])
+  @@index([originNodeId])
+}
+
+model Vote {
+  id           String   @id @default(uuid())
+  payloadHash  String   @unique
+  citizenDid   String
+  citizen      Citizen  @relation(fields: [citizenDid], references: [did])
+  territoryId  String
+  territory    TerritorialNode @relation(fields: [territoryId], references: [id])
+  processId    String
+  signature    String
+  payload      Json
+  originNodeId String
+  committedAt  DateTime @default(now())
+
+  @@index([territoryId])
+  @@index([processId])
+  @@index([citizenDid])
+}
+
+model Escrow {
+  id           String       @id @default(uuid())
+  processId    String       @unique
+  territoryId  String?
+  territory    TerritorialNode? @relation(fields: [territoryId], references: [id])
+  amount       Decimal      @db.Decimal(18, 4)
+  currency     String       @default("VES")
+  status       EscrowStatus @default(PENDING)
+  threshold    Int
+  signers      Json
+  originNodeId String
+  version      Int          @default(1)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([status])
+  @@index([updatedAt])
+  @@index([originNodeId])
+  @@index([territoryId])
+}
+
+model Acta {
+  id           String        @id @default(uuid())
+  processId    String        @unique
+  territoryId  String?
+  territory    TerritorialNode? @relation(fields: [territoryId], references: [id])
+  title        String
+  contentHash  String        @unique
+  sovereignDid String
+  status       ProcessStatus @default(received)
+  originNodeId String
+  version      Int           @default(1)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status])
+  @@index([updatedAt])
+  @@index([territoryId])
+}
+
+model TrustNode {
+  id           String   @id @default(uuid())
+  citizenDid   String   @unique
+  citizen      Citizen  @relation(fields: [citizenDid], references: [did])
+  territoryId  String
+  territory    TerritorialNode @relation(fields: [territoryId], references: [id])
+  score        Float    @default(0)
+  originNodeId String
+  version      Int      @default(1)
+  updatedAt    DateTime @updatedAt
+
+  edgesFrom TrustEdge[] @relation("TrustFrom")
+  edgesTo   TrustEdge[] @relation("TrustTo")
+
+  @@index([territoryId])
+  @@index([updatedAt])
+}
+
+model TrustEdge {
+  id           String    @id @default(uuid())
+  fromNodeId   String
+  fromNode     TrustNode @relation("TrustFrom", fields: [fromNodeId], references: [id])
+  toNodeId     String
+  toNode       TrustNode @relation("TrustTo", fields: [toNodeId], references: [id])
+  weight       Float
+  evidenceRef  String
+  originNodeId String
+  version      Int       @default(1)
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@unique([fromNodeId, toNodeId])
+  @@index([updatedAt])
+  @@index([originNodeId])
+}
+
+model LedgerEntry {
+  id          String          @id @default(uuid())
+  entryType   LedgerEntryType
+  entityId    String
+  entityHash  String          @unique
+  processId   String
+  agentId     String
+  evidenceRef String
+  committedAt DateTime        @default(now())
+
+  @@index([processId])
+  @@index([entryType])
+  @@index([committedAt])
+}
+
+model ProcessCheckpoint {
+  id             String        @id @default(uuid())
+  processId      String        @unique
+  status         ProcessStatus @default(received)
+  agentId        String
+  evidenceBundle Json
+  originNodeId   String
+  version        Int           @default(1)
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status])
+  @@index([updatedAt])
+  @@index([originNodeId])
+}

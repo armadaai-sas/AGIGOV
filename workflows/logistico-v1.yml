@@ -1,0 +1,22 @@
+# Workflow Dify — Pipeline logístico (Fase 3 stub)
+# Exportar a Dify v1.x; conectar tools HTTP → src/agents handlers
+
+name: armada-logistico-v1
+version: "1.0.0"
+trigger: validation-result
+nodes:
+  - id: ingest
+    type: start
+    input: evidenceBundle
+  - id: allocate
+    type: llm
+    tool: armada-upsert-escrow
+    prompt: "Optimizar asignación según facts territoriales. Solo hechos verificables."
+  - id: handoff
+    type: http
+    url: "${ARMADA_BUS_URL}/handoff"
+    body:
+      intent: allocate-resources
+      recipient: did:armada:core:centinela
+  - id: end
+    type: end

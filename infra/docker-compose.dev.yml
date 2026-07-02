@@ -1,0 +1,35 @@
+# Desarrollo local — MQTT en localhost:1883 (sin WireGuard)
+# Uso: docker compose -f infra/docker-compose.dev.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: armada-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: armada
+      POSTGRES_PASSWORD: armada
+      POSTGRES_DB: armada_core
+    ports:
+      - "5432:5432"
+    volumes:
+      - armada-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U armada -d armada_core"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: armada-mosquitto-dev
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-dev-data:/mosquitto/data
+
+volumes:
+  armada-postgres-data:
+  mosquitto-dev-data:

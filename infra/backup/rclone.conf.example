@@ -1,0 +1,13 @@
+# Ejemplo rclone — copiar a infra/backup/rclone.conf y completar credenciales
+# NUNCA commitear rclone.conf con secrets reales
+
+[armada-backup]
+type = s3
+provider = Other
+env_auth = false
+access_key_id = CHANGE_ME
+secret_access_key = CHANGE_ME
+endpoint = https://s3.example.com
+acl = private
+
+# Alternativa: Google Drive / Backblaze B2 / SFTP según tier free disponible

@@ -1,0 +1,130 @@
+# Pre-producción LIGERA — ~1 GB RAM (Oracle/GCP e2-micro)
+#
+# Uso:
+#   ./scripts/prod-up-light.sh
+#   HONEYPOT=1 ./scripts/prod-up-light.sh
+
+x-resource-small: &resource-small
+  deploy:
+    resources:
+      limits:
+        memory: 256M
+      reservations:
+        memory: 128M
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: armada-postgres-light
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-armada}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-armada_core}
+    command:
+      - postgres
+      - -c
+      - shared_buffers=128MB
+      - -c
+      - max_connections=30
+      - -c
+      - effective_cache_size=256MB
+      - -c
+      - maintenance_work_mem=32MB
+      - -c
+      - wal_buffers=4MB
+    volumes:
+      - armada-light-pg:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-armada} -d ${POSTGRES_DB:-armada_core}']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    <<: *resource-small
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: armada-mosquitto-light
+    restart: always
+    volumes:
+      - ./mosquitto/mosquitto.prod.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-light-data:/mosquitto/data
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+  core-lite:
+    build:
+      context: ..
+      dockerfile: infra/core/Dockerfile
+    container_name: armada-core-lite
+    restart: always
+    env_file: .env.prod
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      MQTT_URL: mqtt://mosquitto:1883
+      NODE_OPTIONS: ${NODE_OPTIONS:---max-old-space-size=96}
+      SWARM_LITE_ROLES: ${SWARM_LITE_ROLES:-centinela,comunicador}
+      PUBLIC_API_PORT: ${PUBLIC_API_PORT:-3001}
+      BUS_FLUSH_INTERVAL_MS: ${BUS_FLUSH_INTERVAL_MS:-30000}
+    ports:
+      - '${PUBLIC_API_PORT:-3001}:3001'
+    volumes:
+      - ../data:/data
+    command: ['core-lite']
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  migrate:
+    build:
+      context: ..
+      dockerfile: infra/core/Dockerfile
+    container_name: armada-migrate-light
+    env_file: .env.prod
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+    command: ['migrate']
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  honeypot:
+    build:
+      context: ..
+      dockerfile: infra/core/Dockerfile
+    container_name: armada-honeypot-light
+    restart: always
+    env_file: .env.prod
+    environment:
+      MQTT_URL: mqtt://mosquitto:1883
+      HONEYPOT_PORT: '8088'
+    ports:
+      - '8088:8088'
+    command: ['honeypot']
+    depends_on:
+      - mosquitto
+    profiles: ['honeypot']
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+volumes:
+  armada-light-pg:
+  mosquitto-light-data:

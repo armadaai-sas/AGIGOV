@@ -1,0 +1,43 @@
+# Infra soberana — MQTT accesible SOLO vía túnel WireGuard
+# Uso: docker compose -f infra/docker-compose.yml up -d
+# Peer configs: infra/wireguard/config/peer1/peer1.conf
+
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: armada-wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      TZ: ${TZ:-America/Caracas}
+      SERVERURL: ${WG_SERVERURL:-auto}
+      SERVERPORT: ${WG_SERVERPORT:-51820}
+      PEERS: ${WG_PEERS:-3}
+      PEERDNS: ${WG_PEERDNS:-auto}
+      INTERNAL_SUBNET: ${WG_INTERNAL_SUBNET:-10.8.0.0}
+      ALLOWEDIPS: ${WG_ALLOWEDIPS:-10.8.0.0/24}
+    volumes:
+      - ./wireguard/config:/config
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "${WG_SERVERPORT:-51820}:51820/udp"
+    restart: unless-stopped
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: armada-mosquitto
+    network_mode: "service:wireguard"
+    depends_on:
+      - wireguard
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-sovereign-data:/mosquitto/data
+
+volumes:
+  mosquitto-sovereign-data:

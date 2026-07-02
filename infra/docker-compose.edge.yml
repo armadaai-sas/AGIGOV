@@ -1,0 +1,54 @@
+# Nodo territorial edge — SQLite + sync daemon + ingest LoRaWAN
+# Requiere core Postgres/API accesible (host.docker.internal en Mac/Win/Linux reciente)
+#
+# Uso:
+#   docker compose -f infra/docker-compose.edge.yml up -d
+#   docker compose -f infra/docker-compose.edge.yml run --rm edge-sync bootstrap
+
+services:
+  edge-sync:
+    build:
+      context: ..
+      dockerfile: infra/edge/Dockerfile
+    container_name: armada-edge-sync
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      ORIGIN_NODE_ID: ${ORIGIN_NODE_ID:-node-mar-north-01}
+      TERRITORY_CODE: ${TERRITORY_CODE:-MAR_NORTH_01}
+      NODE_TIER: ${NODE_TIER:-peripheral}
+      EDGE_DATABASE_URL: file:/data/edge.db
+      DATABASE_URL: ${DATABASE_URL:-postgresql://armada:armada@host.docker.internal:5432/armada_core?schema=public}
+      CORE_HEALTH_URL: ${CORE_HEALTH_URL:-http://host.docker.internal:3001/api/public/health}
+      EDGE_SYNC_INTERVAL_MS: ${EDGE_SYNC_INTERVAL_MS:-30000}
+      MQTT_URL: ${MQTT_URL:-mqtt://host.docker.internal:1883}
+    volumes:
+      - edge-data:/data
+      - edge-keys:/keys
+    command: ["sync-daemon"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  edge-lorawan:
+    build:
+      context: ..
+      dockerfile: infra/edge/Dockerfile
+    container_name: armada-edge-lorawan
+    restart: unless-stopped
+    environment:
+      ORIGIN_NODE_ID: ${ORIGIN_NODE_ID:-node-mar-north-01}
+      TERRITORY_CODE: ${TERRITORY_CODE:-MAR_NORTH_01}
+      EDGE_DATABASE_URL: file:/data/edge.db
+      DATABASE_URL: ${DATABASE_URL:-postgresql://armada:armada@host.docker.internal:5432/armada_core?schema=public}
+      MQTT_URL: ${MQTT_URL:-mqtt://host.docker.internal:1883}
+    volumes:
+      - edge-data:/data
+    command: ["lorawan-handler"]
+    depends_on:
+      - edge-sync
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  edge-data:
+  edge-keys:

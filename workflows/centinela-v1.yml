@@ -1,0 +1,27 @@
+# Workflow Dify — Validación centinela (Fase 3 stub)
+
+name: armada-centinela-v1
+version: "1.0.0"
+trigger: validate-request
+nodes:
+  - id: ingest
+    type: start
+    input: evidenceBundle
+  - id: rules
+    type: code
+    description: Verificar hashes y rulesTriggered (no LLM como prueba)
+  - id: freeze
+    type: condition
+    if: anomaly_detected
+    then: human_review
+    else: validate
+  - id: human_review
+    type: human-in-the-loop
+    timeout: 24h
+  - id: handoff
+    type: http
+    body:
+      intent: validation-result
+      recipient: did:armada:core:logistico
+  - id: end
+    type: end

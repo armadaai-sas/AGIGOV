@@ -1,0 +1,27 @@
+# ChirpStack v4 — integración MQTT hacia Mosquitto local (dev)
+# Documentación: https://www.chirpstack.io/docs/
+
+[logging]
+  level="info"
+
+[postgresql]
+  dsn="postgres://chirpstack:chirpstack@chirpstack-postgres/chirpstack?sslmode=disable"
+
+[redis]
+  servers=["redis://chirpstack-redis:6379/"]
+
+[network]
+  net_id="000000"
+  enabled_regions=["eu868"]
+
+[integration]
+  enabled=["mqtt"]
+
+  [integration.mqtt]
+    server="tcp://host.docker.internal:1883"
+    json=true
+    event_topic_template="application/{{ .ApplicationID }}/device/{{ .DevEUI }}/event/{{ .EventType }}"
+
+[api]
+  bind="0.0.0.0:8080"
+  secret="armada-chirpstack-dev-secret-change-me"

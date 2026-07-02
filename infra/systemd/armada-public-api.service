@@ -1,0 +1,14 @@
+[Unit]
+Description=Armada Public API + Ops Health
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/armada
+EnvironmentFile=/opt/armada/.env
+ExecStart=/usr/bin/npx tsx src/server/public-api.ts
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

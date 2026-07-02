@@ -1,0 +1,52 @@
+# ChirpStack + Redis + Postgres (LoRaWAN → MQTT → Armada ingest)
+# Requiere Mosquitto accesible (dev: infra/docker-compose.dev.yml)
+#
+# Uso:
+#   docker compose -f infra/docker-compose.dev.yml up -d
+#   docker compose -f infra/docker-compose.lorawan.yml up -d
+#   npm run ingest:lorawan
+#   npm run ingest:lorawan-demo
+
+services:
+  chirpstack-redis:
+    image: redis:7-alpine
+    container_name: armada-chirpstack-redis
+    restart: unless-stopped
+
+  chirpstack-postgres:
+    image: postgres:16-alpine
+    container_name: armada-chirpstack-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: chirpstack
+      POSTGRES_PASSWORD: chirpstack
+      POSTGRES_DB: chirpstack
+    volumes:
+      - chirpstack-pg:/var/lib/postgresql/data
+
+  chirpstack:
+    image: chirpstack/chirpstack:4
+    container_name: armada-chirpstack
+    restart: unless-stopped
+    depends_on:
+      - chirpstack-redis
+      - chirpstack-postgres
+    volumes:
+      - ./chirpstack/chirpstack.toml:/etc/chirpstack/chirpstack.toml:ro
+    ports:
+      - "8080:8080"
+    command: ["-c", "/etc/chirpstack/chirpstack.toml"]
+
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    container_name: armada-chirpstack-gw-bridge
+    restart: unless-stopped
+    depends_on:
+      - chirpstack
+    volumes:
+      - ./chirpstack/gateway-bridge.toml:/etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml:ro
+    ports:
+      - "1700:1700/udp"
+
+volumes:
+  chirpstack-pg:

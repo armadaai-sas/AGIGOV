@@ -53,3 +53,9 @@ composer.phar
 .cache/
 tmp/
 temp/
+data/*.db
+data/did-registry.json
+data/edge.db
+prisma-edge/data/
+src/generated/
+infra/wireguard/config/

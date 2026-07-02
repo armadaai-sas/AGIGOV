@@ -1,0 +1,53 @@
+// Edge node — SQLite (sync offline-first)
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/edge"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("EDGE_DATABASE_URL")
+}
+
+enum SyncStatus {
+  pending
+  syncing
+  synced
+  failed
+  rejected
+}
+
+enum SyncEntityType {
+  citizen
+  vote
+  escrow
+  acta
+  trust_edge
+  process
+}
+
+model SyncOutbox {
+  id           String         @id @default(uuid())
+  mutationType String
+  entityType   SyncEntityType
+  entityId     String
+  payload      Json
+  payloadHash  String         @unique
+  originNodeId String
+  status       SyncStatus     @default(pending)
+  attempts     Int            @default(0)
+  lastError    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  syncedAt     DateTime?
+
+  @@index([status, createdAt])
+  @@index([originNodeId])
+}
+
+model EdgeMeta {
+  id           String   @id @default("singleton")
+  originNodeId String
+  lastSyncAt   DateTime?
+  updatedAt    DateTime @updatedAt
+}
