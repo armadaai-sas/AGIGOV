@@ -11,6 +11,19 @@ Generados por el agente **comercial-agigov** (skill `agigov-gtm`).
 | `faq/` | Objeciones y respuestas honestas |
 | `campaigns/` | Plan semanal de mercadeo |
 
+## Materiales publicados
+
+| Modelo | Audiencia | One-pager | FAQ | Deck |
+|--------|-----------|-----------|-----|------|
+| EGS | B2G | [egs-b2g.md](./one-pagers/egs-b2g.md) | [b2g-egs.md](./faq/b2g-egs.md) | [egs-b2g-champion.md](./decks/egs-b2g-champion.md) |
+| Escrow | B2B | [escrow-b2b.md](./one-pagers/escrow-b2b.md) | [b2b-escrow.md](./faq/b2b-escrow.md) | [escrow-b2b-champion.md](./decks/escrow-b2b-champion.md) |
+| Participación | B2C | [participacion-b2c.md](./one-pagers/participacion-b2c.md) | [b2c-participacion.md](./faq/b2c-participacion.md) | [participacion-b2c-champion.md](./decks/participacion-b2c-champion.md) |
+| Gestión verificable | B2G | [gestion-b2g.md](./one-pagers/gestion-b2g.md) | [b2g-gestion.md](./faq/b2g-gestion.md) | [gestion-b2g-champion.md](./decks/gestion-b2g-champion.md) |
+
+## FAQ consolidado
+
+[consolidado-multi-audiencia.md](./faq/consolidado-multi-audiencia.md) — objeciones transversales B2G · B2B · B2C.
+
 ## Reglas
 
 1. Solo promover modelos con `approved: true` o beta con disclaimer explícito.

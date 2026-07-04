@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { fetchDashboard } from '../api.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
@@ -40,7 +40,11 @@ export default function DashboardPage() {
       />
 
       {fatalError ? (
-        <ErrorState message={error!} onRetry={() => void reload()} />
+        <DataConnectionState
+          module="gestion"
+          error={error!}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState /> : null}

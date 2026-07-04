@@ -1,17 +1,29 @@
 # comercial-agigov — 2026-07-04
 
-## Entregable
+## Entregables
 
-- One-pager **EGS B2G**: `docs/commercial/one-pagers/egs-b2g.md`
-- FAQ objeciones: `docs/commercial/faq/b2g-egs.md`
-- **Deck champion 5 min**: `docs/commercial/decks/egs-b2g-champion.md`
+| Asset | Ruta |
+|-------|------|
+| One-pager **EGS B2G** | `docs/commercial/one-pagers/egs-b2g.md` |
+| FAQ EGS B2G | `docs/commercial/faq/b2g-egs.md` |
+| Deck champion EGS | `docs/commercial/decks/egs-b2g-champion.md` |
+| One-pager **Escrow B2B** | `docs/commercial/one-pagers/escrow-b2b.md` |
+| FAQ Escrow B2B | `docs/commercial/faq/b2b-escrow.md` |
+| Deck champion Escrow | `docs/commercial/decks/escrow-b2b-champion.md` |
+| One-pager **Participación B2C** | `docs/commercial/one-pagers/participacion-b2c.md` |
+| FAQ Participación B2C | `docs/commercial/faq/b2c-participacion.md` |
+| Deck champion Participación | `docs/commercial/decks/participacion-b2c-champion.md` |
+| One-pager **Gestión B2G** | `docs/commercial/one-pagers/gestion-b2g.md` |
+| FAQ Gestión B2G | `docs/commercial/faq/b2g-gestion.md` |
+| Deck champion Gestión | `docs/commercial/decks/gestion-b2g-champion.md` |
+| **FAQ consolidado** multi-audiencia | `docs/commercial/faq/consolidado-multi-audiencia.md` |
 
-## Modelo
+## UX producto (sesión actual)
 
-- **EGS** · audiencia **B2G** · status `disponible` (audit 3/3 pass)
-- Pricing orientativo 5–15% Δ · reparto 70/20/10 demo
-- Disclaimer: no tesorería nacional conectada
+- **`DataConnectionState`** — estados amigables sin error rojo genérico
+- Botón **Conectar** + **Reintentar** en módulos sin datos / nodo offline
+- Aplicado: `/contratos`, `/gestion`, `/propuestas`, `/suministros`, `/proyectos`, `/cne`, consola EGS
 
-## Próximo día
+## Próximo día (rotación GTM)
 
-Rotar a **Escrow B2B** o **Participación B2C** según campaña semanal.
+**campaigns/** plan semanal o modelo **Consulta** (beta con disclaimer).

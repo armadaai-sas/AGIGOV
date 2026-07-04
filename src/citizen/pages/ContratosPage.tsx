@@ -4,11 +4,12 @@ import { ArrowRight } from 'lucide-react';
 import { fetchMinistryHealth } from '../api.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
+  EmptyState,
 } from '../components/PageShell.js';
 
 const TILE_STYLES: Record<string, string> = {
@@ -45,7 +46,11 @@ export default function ContratosPage() {
       />
 
       {fatalError ? (
-        <ErrorState message={error!} onRetry={() => void reload()} />
+        <DataConnectionState
+          module="escrow"
+          error={error!}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState label="Cargando contratos…" /> : null}
@@ -59,6 +64,14 @@ export default function ContratosPage() {
             <span>{data.contracts.length} contratos activos</span>
             <span>{data.releaseCount} hitos contabilizados</span>
           </div>
+
+          {data.contracts.length === 0 ? (
+            <EmptyState
+              title="No hay contratos activos"
+              description="Cuando el ministerio publique contratos con hitos verificables, aparecerán aquí."
+              hint="Demo: npm run db:seed:egs-pilot"
+            />
+          ) : null}
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {data.contracts.map((contract) => (

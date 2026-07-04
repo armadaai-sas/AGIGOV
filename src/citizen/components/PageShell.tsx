@@ -130,7 +130,7 @@ export function EmptyState({
   kicker?: string;
   title: string;
   description: string;
-  hint?: string;
+  hint?: ReactNode;
   action?: ReactNode;
 }) {
   return (

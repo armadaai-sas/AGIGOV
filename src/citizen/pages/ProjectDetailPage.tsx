@@ -16,10 +16,10 @@ import {
 import { ActionReceipt } from '../components/ActionReceipt.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   DsSpinner,
 } from '../components/PageShell.js';
@@ -55,8 +55,12 @@ export default function ProjectDetailPage() {
         Todos los proyectos
       </Link>
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {error && state === 'error' && !data ? (
+        <DataConnectionState
+          module="projects"
+          error={error}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!project && state !== 'error' ? <LoadingState label="Cargando proyecto…" /> : null}

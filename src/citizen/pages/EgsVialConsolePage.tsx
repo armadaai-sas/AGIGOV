@@ -8,10 +8,10 @@ import {
   ServiceConnectionPanel,
 } from '../components/services/ServiceConnectionPanel.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
 } from '../components/PageShell.js';
 import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from '../platform/agigovModels.js';
@@ -60,7 +60,11 @@ export default function EgsVialConsolePage() {
       ) : health.state === 'syncing' && !health.data ? (
         <LoadingState label="Cargando consola operativa…" />
       ) : health.error && !health.data ? (
-        <ErrorState message={health.error} onRetry={() => void health.reload()} />
+        <DataConnectionState
+          module="egs"
+          error={health.error}
+          onRetry={() => void health.reload()}
+        />
       ) : health.data ? (
         <MinistryHealthPanel data={health.data} />
       ) : (

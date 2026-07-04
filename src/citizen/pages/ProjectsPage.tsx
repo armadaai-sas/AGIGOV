@@ -19,10 +19,10 @@ import { ActionReceipt } from '../components/ActionReceipt.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { applyContributionOptimistic } from '../utils/optimisticProjects.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   EmptyState,
   DsSpinner,
@@ -186,7 +186,13 @@ function SaludTab({
   health: ReturnType<typeof useCachedFetch<MinistryHealthResponse>>;
 }) {
   if (health.error && health.state === 'error' && !health.data) {
-    return <ErrorState message={health.error} onRetry={() => void health.reload()} />;
+    return (
+      <DataConnectionState
+        module="egs"
+        error={health.error}
+        onRetry={() => void health.reload()}
+      />
+    );
   }
 
   if (!health.data && health.state !== 'error') {
@@ -209,8 +215,12 @@ function DaoTab({
 }) {
   return (
     <>
-      {dao.error && dao.state === 'error' ? (
-        <ErrorState message={dao.error} onRetry={() => void dao.reload()} />
+      {dao.error && dao.state === 'error' && !dao.data ? (
+        <DataConnectionState
+          module="projects"
+          error={dao.error}
+          onRetry={() => void dao.reload()}
+        />
       ) : null}
 
       {!dao.data && dao.state !== 'error' ? <LoadingState /> : null}

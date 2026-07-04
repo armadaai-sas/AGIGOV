@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Circle, Loader2, RefreshCw, Server, Database, Shield } from 'lucide-react';
 
+import { fetchHealth } from '../../api.js';
 import {
   checkEgsVialService,
   EGS_CONSOLE_PATH,
@@ -11,118 +12,235 @@ import { PlatformAlert } from '../PlatformAlert.js';
 
 const DEV_MODE = import.meta.env.DEV;
 
-export function ServiceConnectionPanel({
-  onReadyChange,
-  showConsoleLink = true,
-}: {
+type ConnectionPanelProps = {
+  title: string;
   onReadyChange?: (ready: boolean) => void;
   showConsoleLink?: boolean;
-}) {
+  autoVerify?: boolean;
+};
+
+/** Verifica nodo API público genérico (gestión, propuestas, DAO…). */
+export function PublicApiConnectionPanel({
+  title,
+  onReadyChange,
+  autoVerify = true,
+}: Omit<ConnectionPanelProps, 'showConsoleLink'>) {
+  const [apiOk, setApiOk] = useState<boolean | null>(null);
+  const [checking, setChecking] = useState(autoVerify);
+  const onReadyRef = useRef(onReadyChange);
+  onReadyRef.current = onReadyChange;
+
+  const verify = useCallback(async () => {
+    setChecking(true);
+    try {
+      const health = await fetchHealth();
+      setApiOk(health.ok);
+      onReadyRef.current?.(health.ok);
+    } catch {
+      setApiOk(false);
+      onReadyRef.current?.(false);
+    } finally {
+      setChecking(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (autoVerify) void verify();
+  }, [autoVerify, verify]);
+
+  return (
+    <ConnectionPanelShell
+      title={title}
+      checking={checking}
+      onVerify={() => void verify()}
+      ready={apiOk === true}
+      devHint="npm run api:public · npm run db:seed"
+      rows={[
+        {
+          icon: Server,
+          label: 'Nodo API público',
+          ok: apiOk ?? undefined,
+          pending: checking && apiOk === null,
+          detail: apiOk ? 'Responde en este entorno' : apiOk === false ? 'No responde' : '—',
+        },
+      ]}
+    />
+  );
+}
+
+/** Verifica API + Postgres + datos EGS (escrow, consola EGS). */
+export function EgsConnectionPanel({
+  title,
+  onReadyChange,
+  showConsoleLink = true,
+  autoVerify = true,
+}: ConnectionPanelProps) {
   const [status, setStatus] = useState<EgsServiceStatus | null>(null);
-  const [checking, setChecking] = useState(true);
+  const [checking, setChecking] = useState(autoVerify);
+  const onReadyRef = useRef(onReadyChange);
+  onReadyRef.current = onReadyChange;
 
   const verify = useCallback(async () => {
     setChecking(true);
     try {
       const next = await checkEgsVialService();
       setStatus(next);
-      onReadyChange?.(next.ready);
+      onReadyRef.current?.(next.ready);
     } catch {
-      setStatus({
+      const failed = {
         apiOk: false,
         postgresOk: false,
         egsDataOk: false,
         ready: false,
         checkedAt: new Date().toISOString(),
-      });
-      onReadyChange?.(false);
+      };
+      setStatus(failed);
+      onReadyRef.current?.(false);
     } finally {
       setChecking(false);
     }
-  }, [onReadyChange]);
+  }, []);
 
   useEffect(() => {
-    void verify();
-  }, [verify]);
+    if (autoVerify) void verify();
+  }, [autoVerify, verify]);
 
+  return (
+    <ConnectionPanelShell
+      title={title}
+      checking={checking}
+      onVerify={() => void verify()}
+      ready={status?.ready ?? false}
+      devHint="npm run api:public · npm run db:seed:egs-pilot"
+      consoleLink={showConsoleLink ? EGS_CONSOLE_PATH : undefined}
+      rows={[
+        {
+          icon: Server,
+          label: 'Nodo API público',
+          ok: status?.apiOk,
+          pending: checking && !status,
+          detail: status?.apiOk ? 'Responde en este entorno' : 'No responde',
+        },
+        {
+          icon: Database,
+          label: 'Ledger / Postgres',
+          ok: status?.postgresOk,
+          pending: checking && !status,
+          detail: status?.postgresOk ? 'Activo' : status?.apiOk ? 'Sin verificar' : '—',
+        },
+        {
+          icon: Shield,
+          label: 'Datos EGS en ledger',
+          ok: status?.egsDataOk,
+          pending: checking && !status,
+          detail: status?.egsDataOk ? 'Contratos demo disponibles' : 'Sin datos publicados',
+        },
+      ]}
+    />
+  );
+}
+
+/** @deprecated Usar EgsConnectionPanel */
+export function ServiceConnectionPanel(props: {
+  onReadyChange?: (ready: boolean) => void;
+  showConsoleLink?: boolean;
+}) {
+  return (
+    <EgsConnectionPanel
+      title="Efficiency Gain Share (EGS)"
+      onReadyChange={props.onReadyChange}
+      showConsoleLink={props.showConsoleLink ?? true}
+    />
+  );
+}
+
+function ConnectionPanelShell({
+  title,
+  checking,
+  onVerify,
+  ready,
+  devHint,
+  consoleLink,
+  rows,
+}: {
+  title: string;
+  checking: boolean;
+  onVerify: () => void;
+  ready: boolean;
+  devHint: string;
+  consoleLink?: string;
+  rows: Array<{
+    icon: typeof Server;
+    label: string;
+    ok?: boolean;
+    pending?: boolean;
+    detail: string;
+  }>;
+}) {
   return (
     <div className="agigov-card service-connection-panel">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
-            Estado del servicio
+            Verificación del nodo
           </p>
-          <h2 className="mt-1 font-display text-lg font-semibold text-agigov-text">
-            Efficiency Gain Share (EGS)
-          </h2>
+          <h2 className="mt-1 font-display text-lg font-semibold text-agigov-text">{title}</h2>
+          <p className="mt-2 text-sm text-agigov-text-muted">
+            Comprueba si el nodo API público de este despliegue está activo. No abre cuentas ni
+            conecta wallets — solo valida que el servicio responda aquí.
+          </p>
         </div>
         <button
           type="button"
-          onClick={() => void verify()}
+          onClick={onVerify}
           disabled={checking}
-          className="ui-btn-secondary shrink-0"
+          className="ui-btn-secondary shrink-0 min-h-11"
         >
-          {checking ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-          Verificar conexión
+          {checking ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCw className="h-4 w-4" />
+          )}
+          Verificar servicio
         </button>
       </div>
 
       <ul className="mt-6 space-y-3">
-        <StatusRow
-          icon={Server}
-          label="Nodo API público"
-          ok={status?.apiOk}
-          pending={checking && !status}
-          detail={status?.apiOk ? 'Conectado' : 'No disponible'}
-        />
-        <StatusRow
-          icon={Database}
-          label="Ledger / Postgres"
-          ok={status?.postgresOk}
-          pending={checking && !status}
-          detail={
-            status?.postgresOk ? 'Activo' : status?.apiOk ? 'Sin verificar' : '—'
-          }
-        />
-        <StatusRow
-          icon={Shield}
-          label="Datos EGS en ledger"
-          ok={status?.egsDataOk}
-          pending={checking && !status}
-          detail={status?.egsDataOk ? 'Operativo' : 'Requiere activación del nodo'}
-        />
+        {rows.map((row) => (
+          <StatusRow key={row.label} {...row} />
+        ))}
       </ul>
 
-      {status?.ready ? (
+      {ready ? (
         <div className="mt-6 flex flex-wrap gap-3">
-          {showConsoleLink ? (
-            <Link to={EGS_CONSOLE_PATH} className="ui-btn-primary">
+          {consoleLink ? (
+            <Link to={consoleLink} className="ui-btn-primary min-h-11">
               Abrir consola operativa
             </Link>
           ) : null}
           <p className="flex items-center gap-2 text-sm text-emerald-300">
             <CheckCircle2 className="h-4 w-4" />
-            Servicio listo para uso
+            Servicio listo — recargando datos…
           </p>
         </div>
       ) : (
         <PlatformAlert
           variant="warning"
-          title="Servicio no conectado"
+          title="Servicio pendiente"
           className="mt-6"
           hint={
             DEV_MODE ? (
               <>
-                Modo desarrollo:{' '}
-                <code className="agigov-mono-id">npm run api:public</code>
-                {' · '}
-                <code className="agigov-mono-id">npm run db:seed:egs-pilot</code>
+                Administrador del entorno:{' '}
+                <code className="agigov-mono-id">{devHint}</code>
               </>
-            ) : undefined
+            ) : (
+              'Contacte al administrador del despliegue si el servicio debería estar activo.'
+            )
           }
         >
-          El nodo de demostración no responde o aún no está activado en este entorno. Contacte al
-          administrador del despliegue o reintente la verificación.
+          Active el nodo API en este entorno y pulse «Verificar servicio». Los datos aparecerán
+          automáticamente cuando la verificación sea exitosa.
         </PlatformAlert>
       )}
     </div>
@@ -162,10 +280,10 @@ export function EgsServiceUnavailable({ compact = false }: { compact?: boolean }
   if (compact) {
     return (
       <PlatformAlert variant="warning" title="Servicio EGS no disponible">
-        Verifique la conexión con el nodo de demostración antes de continuar.
+        Verifique el nodo API público antes de continuar.
       </PlatformAlert>
     );
   }
 
-  return <ServiceConnectionPanel />;
+  return <EgsConnectionPanel title="Efficiency Gain Share (EGS)" />;
 }

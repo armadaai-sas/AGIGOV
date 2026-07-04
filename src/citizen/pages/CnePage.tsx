@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { castCneVote, fetchCneConsultation, type CneConsultation } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   DsSpinner,
 } from '../components/PageShell.js';
@@ -45,8 +45,12 @@ export default function CnePage() {
         lead="Boleta cifrada, commit firmado Ed25519 y recuento reproducible — demo SET-CNE-1-beta, no elección nacional."
       />
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {error && state === 'error' && !data ? (
+        <DataConnectionState
+          module="cne"
+          error={error}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!consultation && state !== 'error' ? <LoadingState /> : null}

@@ -4,10 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import { fetchSupply } from '../api.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
@@ -34,8 +34,12 @@ export default function SupplyPage() {
         }
       />
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {error && state === 'error' && !data ? (
+        <DataConnectionState
+          module="supply"
+          error={error}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState /> : null}

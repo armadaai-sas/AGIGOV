@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 
 import type { MinistryHealthResponse } from '../../api.js';
+import { EgsConnectionPanel } from '../services/ServiceConnectionPanel.js';
 import { PlatformAlert } from '../PlatformAlert.js';
 import { StatusBadge } from '../StatusBadge.js';
 
@@ -182,9 +183,11 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
 
 export function MinistryHealthUnavailable() {
   return (
-    <PlatformAlert variant="warning" title="Datos EGS no publicados">
-      Active el nodo de demostración o verifique la conexión antes de ver la telemetría presupuestaria.
-    </PlatformAlert>
+    <EgsConnectionPanel
+      title="Efficiency Gain Share (EGS)"
+      showConsoleLink={false}
+      autoVerify
+    />
   );
 }
 

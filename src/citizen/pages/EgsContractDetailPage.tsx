@@ -9,10 +9,10 @@ import {
 
 import { fetchEgsContractDetail } from '../api.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
 } from '../components/PageShell.js';
 import { StatusBadge } from '../components/StatusBadge.js';
@@ -54,8 +54,12 @@ export default function EgsContractDetailPage() {
         Salud del Ministerio
       </Link>
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {error && state === 'error' && !data ? (
+        <DataConnectionState
+          module="escrow"
+          error={error}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState label="Cargando contrato…" /> : null}

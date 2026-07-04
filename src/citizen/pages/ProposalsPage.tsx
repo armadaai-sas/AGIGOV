@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { fetchProposals } from '../api.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
   SectionHeader,
-  ErrorState,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
@@ -28,8 +28,12 @@ export default function ProposalsPage() {
         helpTopic="propuestas"
       />
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {error && state === 'error' && !data ? (
+        <DataConnectionState
+          module="proposals"
+          error={error}
+          onRetry={() => void reload()}
+        />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState /> : null}
