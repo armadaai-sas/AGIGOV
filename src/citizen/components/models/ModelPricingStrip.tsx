@@ -1,4 +1,5 @@
 import type { AgigovModel } from '../../platform/agigovModels.js';
+import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
 import { getModelValidation } from '../../platform/modelValidationState.js';
 
 type Props = {
@@ -7,8 +8,9 @@ type Props = {
 
 export function ModelPricingStrip({ model }: Props) {
   const validation = getModelValidation(model.id);
+  const effectiveStatus = getEffectiveModelStatus(model.id, model.status);
   const isDemo =
-    model.status !== 'disponible' ||
+    effectiveStatus !== 'disponible' ||
     (validation && !validation.approved) ||
     validation?.stages.operacional === 'partial';
 

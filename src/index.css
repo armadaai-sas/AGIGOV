@@ -255,24 +255,61 @@
     @apply animate-pulse rounded-xl bg-white/5;
   }
 
+  .agigov-page-state {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+  }
+
+  .agigov-page-state--compact {
+    @apply p-4 md:p-5;
+  }
+
+  .agigov-page-state--start {
+    @apply text-left;
+  }
+
+  .agigov-page-state--error {
+    @apply border-red-500/20 bg-red-500/[0.04];
+  }
+
+  .agigov-page-state-icon {
+    @apply mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400/90;
+  }
+
+  .agigov-page-state--start .agigov-page-state-icon {
+    @apply mx-0;
+  }
+
+  .agigov-page-state--error .agigov-page-state-icon {
+    @apply bg-red-500/10 text-red-400;
+  }
+
+  .agigov-page-state-kicker {
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
+  }
+
+  .agigov-page-state-hint {
+    @apply mx-auto mt-4 max-w-sm text-xs text-agigov-text-muted;
+  }
+
+  /* Aliases legacy — solo utilidades Tailwind (v4 no @apply custom→custom) */
+  .agigov-empty-state {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-center shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+  }
+
+  .agigov-empty-state-kicker {
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
+  }
+
+  .agigov-empty-state-hint {
+    @apply mx-auto mt-4 max-w-sm text-xs text-agigov-text-muted;
+  }
+
   .agigov-loading-state {
-    @apply space-y-3;
+    @apply space-y-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-left shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
   }
 
   .agigov-loading-state > svg:first-child {
     @apply mb-1;
-  }
-
-  .agigov-empty-state {
-    @apply rounded-2xl border border-amber-500/15 bg-amber-500/[0.04] p-5 text-center shadow-lg shadow-black/10 backdrop-blur-sm md:p-6;
-  }
-
-  .agigov-empty-state-kicker {
-    @apply text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-200/70;
-  }
-
-  .agigov-empty-state-hint {
-    @apply mx-auto mt-4 max-w-sm text-xs text-agigov-text-muted/80;
   }
 
   .agigov-glass {
@@ -1863,7 +1900,7 @@
 
   .app-topbar-menu,
   .app-topbar-close {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-agigov-text-muted hover:bg-black/[0.04];
+    @apply inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg text-agigov-text-muted hover:bg-black/[0.04];
   }
 
   .app-topbar-context {
@@ -1885,6 +1922,184 @@
   .app-shell-content .agigov-shell,
   .app-shell-content .agigov-shell-narrow {
     @apply mx-auto max-w-4xl pb-16 pt-6;
+  }
+
+  .app-shell-content--catalog-dock .agigov-shell,
+  .app-shell-content--catalog-dock .agigov-shell-narrow {
+    @apply pb-28;
+  }
+
+  @media (min-width: 1024px) {
+    .app-shell-content--catalog-dock .agigov-shell,
+    .app-shell-content--catalog-dock .agigov-shell-narrow {
+      @apply pb-16;
+    }
+  }
+
+  .model-catalog-filter-chip {
+    @apply inline-flex min-h-11 items-center rounded-full border border-white/10 bg-transparent px-4 text-xs text-agigov-text-muted transition hover:border-white/20 hover:text-agigov-text;
+  }
+
+  .model-catalog-filter-chip--active {
+    @apply border-sky-500/40 bg-sky-500/15 font-medium text-sky-200;
+  }
+
+  .catalog-mobile-dock {
+    @apply fixed inset-x-0 bottom-0 z-40 flex border-t border-agigov-border bg-agigov-void/95 backdrop-blur-md;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .catalog-mobile-dock-link {
+    @apply flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 px-2 text-[10px] font-medium text-agigov-text-muted no-underline transition;
+  }
+
+  .catalog-mobile-dock-link--active {
+    @apply bg-agigov-primary/10 font-semibold text-agigov-primary;
+  }
+
+  .catalog-mobile-dock-link:active {
+    @apply bg-black/[0.04];
+  }
+
+  .model-status-badge {
+    @apply inline-flex items-center gap-1 rounded-full border font-medium uppercase tracking-wide;
+  }
+
+  .model-status-badge--sm {
+    @apply px-2 py-0.5 text-[10px];
+  }
+
+  .model-status-badge--md {
+    @apply px-3 py-1 text-xs;
+  }
+
+  .model-status-badge--disponible {
+    @apply border-emerald-500/35 bg-emerald-500/10 text-emerald-200;
+  }
+
+  .model-status-badge--beta {
+    @apply border-amber-500/35 bg-amber-500/10 text-amber-200;
+  }
+
+  .model-status-badge--roadmap {
+    @apply border-white/15 bg-white/[0.04] text-agigov-text-muted;
+  }
+
+  .model-status-badge--drift {
+    @apply ring-2 ring-amber-500/30 ring-offset-1 ring-offset-agigov-void;
+  }
+
+  .model-status-badge-drift-mark {
+    @apply normal-case opacity-80;
+  }
+
+  .model-catalog-card--status-drift {
+    @apply border-amber-500/20;
+  }
+
+  .model-status-sync-alert {
+    @apply rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-4 py-3;
+  }
+
+  .model-status-sync-ok {
+    @apply rounded-lg border border-emerald-500/20 bg-emerald-500/[0.04] px-3 py-2;
+  }
+
+  .legacy-redirect-banner-dismiss {
+    @apply inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.04] px-4 text-sm font-medium text-agigov-text transition hover:bg-white/[0.08];
+  }
+
+  .agigov-alert {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+
+  .agigov-alert--banner {
+    @apply rounded-none border-x-0 border-t-0 px-4 py-2.5 text-center;
+  }
+
+  .agigov-alert-icon {
+    @apply mt-0.5;
+  }
+
+  .agigov-alert-title {
+    @apply font-semibold text-agigov-text;
+  }
+
+  .agigov-alert-body {
+    @apply mt-1 text-agigov-text-muted;
+  }
+
+  .agigov-alert-hint {
+    @apply mt-3 text-xs text-agigov-text-muted;
+  }
+
+  .agigov-alert-hint code {
+    @apply text-sky-400;
+  }
+
+  .agigov-alert-action {
+    @apply mt-4;
+  }
+
+  .agigov-alert-banner-meta {
+    @apply ml-2 font-normal opacity-80;
+  }
+
+  .agigov-alert--info {
+    @apply border-sky-500/25 bg-sky-500/10;
+  }
+
+  .agigov-alert--info .agigov-alert-icon {
+    @apply text-sky-400;
+  }
+
+  .agigov-alert--warning {
+    @apply border-amber-500/25 bg-amber-500/10;
+  }
+
+  .agigov-alert--warning .agigov-alert-icon {
+    @apply text-amber-500;
+  }
+
+  .agigov-alert--error {
+    @apply border-red-500/25 bg-red-500/10;
+  }
+
+  .agigov-alert--error .agigov-alert-icon {
+    @apply text-red-400;
+  }
+
+  .agigov-alert--offline {
+    @apply border-amber-500/25 bg-amber-500/10;
+  }
+
+  .agigov-alert--offline .agigov-alert-icon {
+    @apply text-amber-500;
+  }
+
+  .agigov-alert--success {
+    @apply border-emerald-500/25 bg-emerald-500/10;
+  }
+
+  .agigov-alert--success .agigov-alert-icon {
+    @apply text-emerald-400;
+  }
+
+  .agigov-alert--banner.agigov-alert--info {
+    @apply border-sky-500/20 bg-sky-500/[0.08] text-agigov-text;
+  }
+
+  .agigov-alert--banner.agigov-alert--warning,
+  .agigov-alert--banner.agigov-alert--offline {
+    @apply border-amber-500/20 bg-amber-500/[0.08] text-agigov-text;
+  }
+
+  .agigov-alert--banner.agigov-alert--error {
+    @apply border-red-500/20 bg-red-500/[0.08] text-agigov-text;
+  }
+
+  .agigov-alert--banner.agigov-alert--success {
+    @apply border-emerald-500/20 bg-emerald-500/[0.08] text-agigov-text;
   }
 
   /* ─── Cinematic hero + dream story (landing) ─── */

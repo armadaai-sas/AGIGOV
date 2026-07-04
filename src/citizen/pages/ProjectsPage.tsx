@@ -14,7 +14,6 @@ import {
   MinistryHealthPanel,
   MinistryHealthUnavailable,
 } from '../components/egs/MinistryHealthPanel.js';
-import { EgsServiceUnavailable } from '../components/services/ServiceConnectionPanel.js';
 import { EGS_CONSOLE_PATH } from '../services/egs-vial-service.js';
 import { ActionReceipt } from '../components/ActionReceipt.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
@@ -98,13 +97,19 @@ export default function ProjectsPage() {
   const bannerUpdated =
     tab === 'salud' ? health.lastUpdated : dao.lastUpdated;
 
+  const healthFatal =
+    tab === 'salud' && Boolean(health.error && health.state === 'error' && !health.data);
+  const daoFatal =
+    tab === 'dao' && Boolean(dao.error && dao.state === 'error' && !dao.data);
+  const suppressBanner = healthFatal || daoFatal;
+
   if (funnelNav && tabParam !== 'dao') {
     return <Navigate to={EGS_CONSOLE_PATH} replace />;
   }
 
   return (
     <PageShell
-      banner={{ state: bannerState, lastUpdated: bannerUpdated }}
+      banner={suppressBanner ? undefined : { state: bannerState, lastUpdated: bannerUpdated }}
       breadcrumbs={breadcrumbsForPath('/proyectos')}
     >
       <SectionHeader
@@ -181,12 +186,7 @@ function SaludTab({
   health: ReturnType<typeof useCachedFetch<MinistryHealthResponse>>;
 }) {
   if (health.error && health.state === 'error' && !health.data) {
-    return (
-      <div className="space-y-4">
-        <EgsServiceUnavailable compact />
-        <ErrorState message={health.error} onRetry={() => void health.reload()} />
-      </div>
-    );
+    return <ErrorState message={health.error} onRetry={() => void health.reload()} />;
   }
 
   if (!health.data && health.state !== 'error') {

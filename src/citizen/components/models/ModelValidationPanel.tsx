@@ -4,6 +4,11 @@ import {
   type ValidationStageResult,
 } from '../../platform/modelValidationState.js';
 import type { ModelStatus } from '../../platform/agigovModels.js';
+import {
+  getModelStatusSync,
+  MODEL_STATUS_LABEL,
+} from '../../platform/modelStatusSync.js';
+import { ModelStatusBadge } from './ModelStatusBadge.js';
 
 type Props = {
   modelId: string;
@@ -40,7 +45,7 @@ export function ModelValidationPanel({ modelId, catalogStatus }: Props) {
   const validation = getModelValidation(modelId);
   if (!validation) return null;
 
-  const outOfSync = validation.recommendedStatus !== catalogStatus;
+  const sync = getModelStatusSync(modelId, catalogStatus);
 
   return (
     <section className="agigov-card" id="validacion">
@@ -55,6 +60,7 @@ export function ModelValidationPanel({ modelId, catalogStatus }: Props) {
           </p>
         </div>
         <div className="flex flex-col items-end gap-2">
+          <ModelStatusBadge modelId={modelId} status={catalogStatus} size="md" showDriftHint />
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               validation.approved
@@ -64,13 +70,23 @@ export function ModelValidationPanel({ modelId, catalogStatus }: Props) {
           >
             {validation.approved ? 'Aprobado catálogo' : 'Pendiente / parcial'}
           </span>
-          {outOfSync ? (
-            <span className="text-[10px] text-amber-200/90">
-              Catálogo: {catalogStatus} · Auditoría: {validation.recommendedStatus}
-            </span>
-          ) : null}
         </div>
       </div>
+
+      {!sync.inSync ? (
+        <div className="model-status-sync-alert mt-4" role="status">
+          <p className="text-sm text-agigov-text">
+            El estado en <code className="agigov-mono-id">agigovModels.ts</code> (
+            {MODEL_STATUS_LABEL[sync.catalogStatus]}) difiere de la auditoría (
+            {sync.auditStatus ? MODEL_STATUS_LABEL[sync.auditStatus] : '—'}). Ejecute{' '}
+            <code className="agigov-mono-id">npm run models:audit</code> para sincronizar.
+          </p>
+        </div>
+      ) : (
+        <p className="model-status-sync-ok mt-4 text-xs text-emerald-600 dark:text-emerald-300/90">
+          Catálogo y auditoría alineados en {MODEL_STATUS_LABEL[sync.displayStatus]}.
+        </p>
+      )}
 
       <div className="mt-5 flex gap-1 rounded-full bg-white/[0.04] p-1">
         {(['tecnica', 'operacional', 'comercial'] as const).map((key, i) => (

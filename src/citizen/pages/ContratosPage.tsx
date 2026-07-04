@@ -10,7 +10,6 @@ import {
   ErrorState,
   LoadingState,
 } from '../components/PageShell.js';
-import { EgsServiceUnavailable } from '../components/services/ServiceConnectionPanel.js';
 
 const TILE_STYLES: Record<string, string> = {
   ok: 'border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400/60',
@@ -31,9 +30,11 @@ export default function ContratosPage() {
     15_000,
   );
 
+  const fatalError = Boolean(error && state === 'error' && !data);
+
   return (
     <PageShell
-      banner={{ state, lastUpdated }}
+      banner={fatalError ? undefined : { state, lastUpdated }}
       breadcrumbs={breadcrumbsForPath('/contratos')}
     >
       <SectionHeader
@@ -43,11 +44,8 @@ export default function ContratosPage() {
         helpTopic="proyectos"
       />
 
-      {error && state === 'error' && !data ? (
-        <>
-          <EgsServiceUnavailable compact />
-          <ErrorState message={error} onRetry={() => void reload()} />
-        </>
+      {fatalError ? (
+        <ErrorState message={error!} onRetry={() => void reload()} />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState label="Cargando contratos…" /> : null}

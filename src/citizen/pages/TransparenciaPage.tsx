@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Download, ExternalLink, FileText, Scale, ShieldCheck } from 'lucide-react';
 
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
+import { PlatformAlert } from '../components/PlatformAlert.js';
 import { PageShell, SectionHeader } from '../components/PageShell.js';
 import { EGS_MODEL_PATH } from '../services/egs-vial-service.js';
 
@@ -52,9 +53,9 @@ export default function TransparenciaPage() {
         helpTopic="proyectos"
       />
 
-      <div className="mb-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-        Demo técnica validada — promulgación pública sujeta a firma multi-sig del marco contractual.
-      </div>
+      <PlatformAlert variant="warning" title="Demo técnica" className="mb-6">
+        Promulgación pública sujeta a firma multi-sig del marco contractual.
+      </PlatformAlert>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {DOCS.map((doc) => {

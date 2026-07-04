@@ -1,12 +1,10 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
 
 import { fetchMinistryHealth } from '../api.js';
-import { MinistryHealthPanel } from '../components/egs/MinistryHealthPanel.js';
+import { EgsConsoleToolbar } from '../components/egs/EgsConsoleToolbar.js';
+import { MinistryHealthPanel, MinistryHealthUnavailable } from '../components/egs/MinistryHealthPanel.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import {
-  EgsServiceUnavailable,
   ServiceConnectionPanel,
 } from '../components/services/ServiceConnectionPanel.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
@@ -16,12 +14,9 @@ import {
   ErrorState,
   LoadingState,
 } from '../components/PageShell.js';
-import {
-  EGS_CONSOLE_PATH,
-  EGS_MODEL_PATH,
-} from '../services/egs-vial-service.js';
+import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from '../platform/agigovModels.js';
 
-/** Consola operativa EGS — sin tabs DAO, solo verdad presupuestaria. */
+/** Consola operativa EGS — layout app, breadcrumbs, telemetría presupuestaria. */
 export default function EgsVialConsolePage() {
   const [serviceReady, setServiceReady] = useState<boolean | null>(null);
   const health = useCachedFetch('ministry-health', () => fetchMinistryHealth('MPPI'), 15_000);
@@ -38,6 +33,7 @@ export default function EgsVialConsolePage() {
 
   return (
     <PageShell
+      narrow={false}
       banner={
         showHealth
           ? { state: health.state === 'error' ? 'offline' : health.state, lastUpdated: health.lastUpdated }
@@ -45,20 +41,17 @@ export default function EgsVialConsolePage() {
       }
       breadcrumbs={breadcrumbsForPath(EGS_CONSOLE_PATH)}
     >
-      <Link to={EGS_MODEL_PATH} className="agigov-help-back">
-        <ArrowLeft className="h-4 w-4" />
-        Modelo Efficiency Gain Share
-      </Link>
+      <EgsConsoleToolbar
+        syncState={showHealth ? health.state : undefined}
+        lastUpdated={health.lastUpdated}
+        onRefresh={showHealth ? () => void health.reload() : undefined}
+        refreshing={health.state === 'syncing'}
+      />
 
       <SectionHeader
-        eyebrow="AGIGOV · Gubernamental · EGS · Consola"
+        eyebrow="AGIGOV · Gubernamental · EGS"
         title="Salud presupuestaria"
-        lead={
-          <>
-            Cierre trimestral · partida presupuestaria demo · baseline, gasto verificado y ahorro Δ
-            en tiempo real.
-          </>
-        }
+        lead="Cierre trimestral demo: baseline firmada, gasto verificado en ledger y ahorro Δ con reparto 70/20/10."
         helpTopic="proyectos"
       />
 
@@ -67,15 +60,19 @@ export default function EgsVialConsolePage() {
       ) : health.state === 'syncing' && !health.data ? (
         <LoadingState label="Cargando consola operativa…" />
       ) : health.error && !health.data ? (
-        <div className="space-y-4">
-          <EgsServiceUnavailable compact />
-          <ErrorState message="No se pudo cargar el panel operativo." onRetry={() => void health.reload()} />
-        </div>
+        <ErrorState message={health.error} onRetry={() => void health.reload()} />
       ) : health.data ? (
         <MinistryHealthPanel data={health.data} />
       ) : (
-        <EgsServiceUnavailable />
+        <MinistryHealthUnavailable />
       )}
+
+      <p className="mt-10 text-center text-xs text-agigov-text-muted">
+        Demo técnica · sin tesorería nacional conectada ·{' '}
+        <a href={EGS_MODEL_PATH} className="text-sky-400 no-underline hover:text-sky-300">
+          Ver ficha EGS
+        </a>
+      </p>
     </PageShell>
   );
 }

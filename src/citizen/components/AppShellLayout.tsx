@@ -4,13 +4,19 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { AppSidebar } from './AppSidebar.js';
+import { CatalogMobileDock, usesCatalogMobileDock } from './models/CatalogMobileDock.js';
+import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
 import { SiteFooterCompact } from './SiteFooterCompact.js';
 import { CommandPaletteButton } from './CommandPalette.js';
 
+import { EGS_CONSOLE_PATH } from '../platform/agigovModels.js';
 import { usesFunnelShell } from '../platform/navConfig.js';
 import { usePlatform } from '../context/PlatformContext.js';
 
 function topbarContext(pathname: string): { prefix: string; label: string } {
+  if (pathname === EGS_CONSOLE_PATH || pathname.startsWith(`${EGS_CONSOLE_PATH}/`)) {
+    return { prefix: 'AGIGOV', label: 'Consola EGS' };
+  }
   if (pathname.startsWith('/modelos')) {
     return { prefix: 'AGIGOV', label: 'Modelos' };
   }
@@ -35,6 +41,8 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
   const { implementationId } = usePlatform();
   const funnelMode = usesFunnelShell(pathname, implementationId);
   const ctx = topbarContext(pathname);
+  const catalogDock = usesCatalogMobileDock(pathname);
+  const showLegacyBanner = pathname.startsWith('/modelos');
 
   return (
     <div className="app-shell" data-agigov-mode={funnelMode ? 'funnel' : 'full'}>
@@ -90,8 +98,12 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
           ) : null}
         </header>
 
-        <div className="app-shell-content">{children}</div>
+        <div className={`app-shell-content ${catalogDock ? 'app-shell-content--catalog-dock' : ''}`}>
+          {showLegacyBanner ? <LegacyRedirectBanner /> : null}
+          {children}
+        </div>
         <SiteFooterCompact />
+        <CatalogMobileDock />
       </div>
     </div>
   );

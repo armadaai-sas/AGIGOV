@@ -151,6 +151,9 @@ export default function ModelDetailPage() {
             <ArrowRight className="h-4 w-4" />
           </Link>
         ) : null}
+        <Link to={`/modelos?compare=${model.id}`} className="ui-btn-secondary">
+          Comparar con otro modelo
+        </Link>
         <Link to="/modelos" className="ui-btn-secondary">
           Ver otros modelos
         </Link>

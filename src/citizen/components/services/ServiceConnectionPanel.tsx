@@ -7,6 +7,7 @@ import {
   EGS_CONSOLE_PATH,
   type EgsServiceStatus,
 } from '../../services/egs-vial-service.js';
+import { PlatformAlert } from '../PlatformAlert.js';
 
 const DEV_MODE = import.meta.env.DEV;
 
@@ -105,21 +106,24 @@ export function ServiceConnectionPanel({
           </p>
         </div>
       ) : (
-        <div className="mt-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-          <p className="font-medium">Servicio no conectado</p>
-          <p className="mt-1 text-amber-200/90">
-            El nodo de demostración no responde o aún no está activado en este entorno. Contacte al
-            administrador del despliegue o reintente la verificación.
-          </p>
-          {DEV_MODE ? (
-            <p className="mt-3 text-xs text-amber-200/70">
-              Modo desarrollo:{' '}
-              <code className="agigov-mono-id">npm run api:public</code>
-              {' · '}
-              <code className="agigov-mono-id">npm run db:seed:egs-pilot</code>
-            </p>
-          ) : null}
-        </div>
+        <PlatformAlert
+          variant="warning"
+          title="Servicio no conectado"
+          className="mt-6"
+          hint={
+            DEV_MODE ? (
+              <>
+                Modo desarrollo:{' '}
+                <code className="agigov-mono-id">npm run api:public</code>
+                {' · '}
+                <code className="agigov-mono-id">npm run db:seed:egs-pilot</code>
+              </>
+            ) : undefined
+          }
+        >
+          El nodo de demostración no responde o aún no está activado en este entorno. Contacte al
+          administrador del despliegue o reintente la verificación.
+        </PlatformAlert>
       )}
     </div>
   );
@@ -157,15 +161,9 @@ function StatusRow({
 export function EgsServiceUnavailable({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
-      <div className="agigov-empty-state" role="status">
-        <p className="agigov-empty-state-kicker">Servicio no disponible</p>
-        <p className="font-display text-lg font-semibold text-agigov-text">
-          Consola EGS temporalmente inaccesible
-        </p>
-        <p className="agigov-lead mx-auto mt-2 max-w-md">
-          Verifique la conexión con el nodo de demostración antes de continuar.
-        </p>
-      </div>
+      <PlatformAlert variant="warning" title="Servicio EGS no disponible">
+        Verifique la conexión con el nodo de demostración antes de continuar.
+      </PlatformAlert>
     );
   }
 

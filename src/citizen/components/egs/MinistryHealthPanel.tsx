@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import {
-  AlertTriangle,
   ArrowRight,
   Landmark,
   PiggyBank,
@@ -9,8 +8,8 @@ import {
 } from 'lucide-react';
 
 import type { MinistryHealthResponse } from '../../api.js';
+import { PlatformAlert } from '../PlatformAlert.js';
 import { StatusBadge } from '../StatusBadge.js';
-import { EgsServiceUnavailable } from '../services/ServiceConnectionPanel.js';
 
 function formatVes(value: string): string {
   const n = parseFloat(value);
@@ -31,29 +30,22 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
   return (
     <div className="space-y-8 agigov-stagger-list">
       {data.pilotBanner ? (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+        <PlatformAlert variant="warning" title="Aviso piloto">
           {data.pilotBanner}
-        </div>
+        </PlatformAlert>
       ) : null}
 
       {!data.reconcileOk ? (
-        <div
-          className="flex gap-3 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-4 text-sm text-red-100"
-          role="alert"
-        >
-          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
-          <div>
-            <p className="font-semibold">Cierre trimestral bloqueado — centinela detectó discrepancia</p>
-            <ul className="mt-2 list-inside list-disc text-red-200/90">
-              {data.discrepancies.map((d) => (
-                <li key={d}>{d}</li>
-              ))}
-            </ul>
-            <p className="mt-2 text-xs text-red-200/70">
-              Los pagos a tesorería permanecen congelados hasta resolución humana.
-            </p>
-          </div>
-        </div>
+        <PlatformAlert variant="error" title="Cierre trimestral bloqueado — centinela detectó discrepancia">
+          <ul className="mt-2 list-inside list-disc">
+            {data.discrepancies.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs opacity-90">
+            Los pagos a tesorería permanecen congelados hasta resolución humana.
+          </p>
+        </PlatformAlert>
       ) : null}
 
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -163,7 +155,7 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
       <section className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
-            <h2 className="font-display text-lg font-semibold">Mapa de contratos viales</h2>
+            <h2 className="font-display text-lg font-semibold">Contratos en escrow</h2>
             <p className="text-sm text-agigov-text-muted">
               {data.contracts.length} contratos · clic para cadena de custodia
             </p>
@@ -189,7 +181,11 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
 }
 
 export function MinistryHealthUnavailable() {
-  return <EgsServiceUnavailable compact />;
+  return (
+    <PlatformAlert variant="warning" title="Datos EGS no publicados">
+      Active el nodo de demostración o verifique la conexión antes de ver la telemetría presupuestaria.
+    </PlatformAlert>
+  );
 }
 
 function KpiCard({

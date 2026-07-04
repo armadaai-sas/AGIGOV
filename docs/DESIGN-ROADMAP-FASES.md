@@ -135,16 +135,40 @@ Objetivo: producto vendible con diseño premium e honestidad técnica. Agente: *
 | I2 | Ficha modelo | Problema · beneficios · operación · negocio · validación | ✅ |
 | I3 | Bloque validación 3 etapas | pass/partial/fail visual; barra progreso; sync catálogo | ✅ |
 | I4 | Pricing por modelo | M1–M9 / fee EGS; simulador Δ en ficha EGS | ✅ |
-| I5 | Simulador Δ EGS | Inputs simples en ficha EGS; sin tesorería real | ⬜ |
-| I6 | Consola EGS | Layout app + breadcrumbs en `/modelos/egs/consola` | ⬜ |
-| I7 | Filtros catálogo | Audiencia + status | ⬜ |
-| I8 | Comparador modelos | `?compare=a,b` side-by-side | ⬜ |
-| I9 | Empty / error | Mismo tono `LoadingState` | ⬜ |
-| I10 | Mobile catálogo | Stack + touch ≥ 44px | ⬜ |
-| I11 | Sync status visual | `agigovModels` ↔ `modelValidationState` | ⬜ |
-| I12 | Redirects legacy | Banner suave `/ven/servicios/*` → `/modelos` | ⬜ |
+| I5 | Simulador Δ EGS | Inputs simples en ficha EGS; sin tesorería real | ✅ |
+| I6 | Consola EGS | Layout app + breadcrumbs en `/modelos/egs/consola` | ✅ |
+| I7 | Filtros catálogo | Audiencia + status · URL `?audiencia=&status=` | ✅ |
+| I8 | Comparador modelos | `?compare=a,b` side-by-side | ✅ |
+| I9 | Empty / error | Mismo tono `LoadingState`; sin jerga técnica | ✅ |
+| I10 | Mobile catálogo | Stack + touch ≥ 44px | ✅ |
+| I11 | Sync status visual | `agigovModels` ↔ `modelValidationState` | ✅ |
+| I12 | Redirects legacy | Banner suave `/ven/servicios/*` → `/modelos` | ✅ |
 
-**Estado:** Fase I en progreso. Paralelo comercial: **comercial-agigov** (one-pagers en `docs/commercial/`).
+**Estado:** Fase I cerrada (12/12). Paralelo comercial: **comercial-agigov**. Siguiente: **Fase K** (alertas/contraste).
+
+---
+
+## Fase K — Alertas, errores y contraste (post Fase I)
+
+**Objetivo:** Unificar avisos de servicio no disponible, errores API y banners de sync con **legibilidad WCAG AA** en skin claro (`trust-light`) y oscuro. Evitar apilar 3 bloques redundantes (banner + empty + ErrorState).
+
+| ID | Cambio | Detalle | Estado |
+|----|--------|---------|--------|
+| K1 | Componente `PlatformAlert` | Variantes: info · warning · error · offline — tokens `agigov-alert-*` | ✅ |
+| K2 | Skin trust-light | Overrides para amber/red alerts (texto oscuro sobre fondo claro) | ✅ |
+| K3 | `ServiceConnectionPanel` | Reemplazar `text-amber-100` hardcoded; dev hints legibles | ✅ |
+| K4 | `ErrorState` + `NetworkBanner` | Contraste en light; botón Reintentar visible | ✅ |
+| K5 | `agigov-empty-state` | Kicker legible; no `amber-200` sobre blanco | ✅ |
+| K6 | Dedupe errores EGS | Una sola superficie en consola/contratos/proyectos | ✅ |
+| K7 | Audit rutas | `/modelos/egs/consola`, `/contratos`, `/proyectos`, `/gestion` | ✅ |
+
+**Estado:** Fase K cerrada.
+
+**Causa raíz (jul 2026):** colores pensados para fondo void oscuro (`text-amber-100`, `bg-red-950/30`) renderizados sobre **skin trust blanco** → contraste ~1.2:1, ilegible.
+
+**Criterio de cierre:** AA contraste en alertas · una alerta principal por vista · comandos dev en `<code>` legible.
+
+**Agente:** artesano-ui + civic-institutional-ux · **después de cerrar Fase I (I8–I12)**.
 
 ---
 

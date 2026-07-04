@@ -488,9 +488,5 @@ export function filterModels(query: string): AgigovModel[] {
   );
 }
 
-/** Rutas legacy → nuevas. */
-export const LEGACY_VEN_REDIRECTS: Record<string, string> = {
-  '/ven/servicios': `${BASE}`,
-  '/ven/servicios/egs-vial': `${BASE}/egs`,
-  '/ven/servicios/egs-vial/consola': `${BASE}/egs/consola`,
-};
+/** @deprecated Usar `LEGACY_VEN_REDIRECTS` en `./legacyRedirects.js` */
+export { LEGACY_VEN_REDIRECT_TARGETS as LEGACY_VEN_REDIRECTS } from './legacyRedirects.js';

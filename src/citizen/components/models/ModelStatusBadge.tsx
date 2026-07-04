@@ -1,38 +1,48 @@
 import type { ModelStatus } from '../../platform/agigovModels.js';
-import { getModelValidation } from '../../platform/modelValidationState.js';
-
-const STATUS_LABEL: Record<ModelStatus, string> = {
-  disponible: 'Disponible',
-  beta: 'Beta',
-  roadmap: 'En roadmap',
-};
-
-const STATUS_STYLES: Record<ModelStatus, string> = {
-  disponible: 'border-emerald-500/35 bg-emerald-500/10 text-emerald-200',
-  beta: 'border-amber-500/35 bg-amber-500/10 text-amber-200',
-  roadmap: 'border-white/15 bg-white/[0.04] text-agigov-text-muted',
-};
+import {
+  getModelStatusSync,
+  MODEL_STATUS_BADGE_CLASS,
+  MODEL_STATUS_LABEL,
+} from '../../platform/modelStatusSync.js';
 
 type Props = {
   modelId: string;
   status: ModelStatus;
   size?: 'sm' | 'md';
+  showDriftHint?: boolean;
 };
 
-export function ModelStatusBadge({ modelId, status, size = 'sm' }: Props) {
-  const validation = getModelValidation(modelId);
-  const displayStatus = validation?.recommendedStatus ?? status;
-  const outOfSync = validation && validation.recommendedStatus !== status;
+export function ModelStatusBadge({
+  modelId,
+  status,
+  size = 'sm',
+  showDriftHint = false,
+}: Props) {
+  const sync = getModelStatusSync(modelId, status);
+  const sizeClass = size === 'sm' ? 'model-status-badge--sm' : 'model-status-badge--md';
 
   return (
-    <span
-      className={`inline-flex items-center gap-1 rounded-full border font-medium uppercase tracking-wide ${STATUS_STYLES[displayStatus]} ${
-        size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-xs'
-      }`}
-      title={outOfSync ? `Catálogo: ${status} · Auditoría: ${displayStatus}` : undefined}
-    >
-      {STATUS_LABEL[displayStatus]}
-      {outOfSync ? <span className="normal-case opacity-70">· audit</span> : null}
+    <span className="inline-flex flex-col items-end gap-1">
+      <span
+        className={`${MODEL_STATUS_BADGE_CLASS[sync.displayStatus]} ${sizeClass} ${
+          !sync.inSync ? 'model-status-badge--drift' : ''
+        }`}
+        title={
+          !sync.inSync
+            ? `Catálogo: ${MODEL_STATUS_LABEL[sync.catalogStatus]} · Auditoría: ${MODEL_STATUS_LABEL[sync.displayStatus]}`
+            : sync.approved
+              ? 'Aprobado por auditoría'
+              : undefined
+        }
+      >
+        {MODEL_STATUS_LABEL[sync.displayStatus]}
+        {!sync.inSync ? <span className="model-status-badge-drift-mark">↻</span> : null}
+      </span>
+      {showDriftHint && !sync.inSync ? (
+        <span className="text-[10px] text-amber-600 dark:text-amber-200/90">
+          Catálogo: {MODEL_STATUS_LABEL[sync.catalogStatus]}
+        </span>
+      ) : null}
     </span>
   );
 }
@@ -45,3 +55,5 @@ export function audienceBadgeClass(audience: 'gubernamental' | 'empresarial' | '
   };
   return map[audience];
 }
+
+export { getModelStatusSync, getEffectiveModelStatus } from '../../platform/modelStatusSync.js';

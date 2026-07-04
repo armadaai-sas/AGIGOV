@@ -8,6 +8,7 @@ import { OnboardingModal } from './components/OnboardingModal.js';
 import { LoadingState } from './components/PageShell.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
+import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
 import { usesAppShell } from './platform/navConfig.js';
 import HomePage from './pages/HomePage.js';
 const DashboardPage = lazy(() => import('./pages/DashboardPage.js'));
@@ -50,9 +51,7 @@ function AppRoutes() {
         <Route path="/modelos" element={<ModelsCatalogPage />} />
         <Route path="/modelos/:modelId" element={<ModelDetailPage />} />
         <Route path="/modelos/egs/consola" element={<EgsVialConsolePage />} />
-        <Route path="/ven/servicios" element={<Navigate to="/modelos" replace />} />
-        <Route path="/ven/servicios/egs-vial" element={<Navigate to="/modelos/egs" replace />} />
-        <Route path="/ven/servicios/egs-vial/consola" element={<Navigate to="/modelos/egs/consola" replace />} />
+        <Route path="/ven/servicios/*" element={<LegacyVenRouteRedirect />} />
         <Route path="/proyectos" element={<ProjectsPage />} />
         <Route path="/proyectos/contrato/:escrowProcessId" element={<EgsContractDetailPage />} />
         <Route path="/proyectos/:id" element={<ProjectDetailPage />} />

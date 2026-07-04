@@ -98,3 +98,127 @@
 [data-agigov-skin='trust'] .app-topbar {
   background: rgba(255, 255, 255, 0.92);
 }
+
+[data-agigov-skin='trust'] .agigov-page-state {
+  border-color: var(--color-agigov-border);
+  background: var(--color-agigov-surface);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+[data-agigov-skin='trust'] .agigov-page-state--error {
+  border-color: rgba(220, 38, 38, 0.22);
+  background: rgba(254, 242, 242, 0.85);
+}
+
+[data-agigov-skin='trust'] .agigov-page-state--error .agigov-page-state-icon {
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--color-agigov-danger);
+}
+
+[data-agigov-skin='trust'] .agigov-skeleton {
+  background: #e2e8f0;
+}
+
+[data-agigov-skin='trust'] .catalog-mobile-dock {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: var(--color-agigov-border);
+}
+
+[data-agigov-skin='trust'] .catalog-mobile-dock-link--active {
+  color: var(--color-agigov-primary);
+  background: rgba(0, 82, 255, 0.08);
+}
+
+[data-agigov-skin='trust'] .model-catalog-filter-chip--active {
+  color: var(--color-agigov-primary);
+  background: rgba(0, 82, 255, 0.08);
+  border-color: rgba(0, 82, 255, 0.25);
+}
+
+[data-agigov-skin='trust'] .model-status-badge--disponible {
+  color: var(--color-agigov-success);
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.25);
+}
+
+[data-agigov-skin='trust'] .model-status-badge--beta {
+  color: var(--color-agigov-accent-soft);
+  background: rgba(217, 119, 6, 0.08);
+  border-color: rgba(217, 119, 6, 0.25);
+}
+
+[data-agigov-skin='trust'] .model-status-badge--roadmap {
+  color: var(--color-agigov-text-muted);
+  background: var(--color-agigov-surface-elevated);
+  border-color: var(--color-agigov-border);
+}
+
+[data-agigov-skin='trust'] .model-status-badge--drift {
+  --tw-ring-offset-color: #fff;
+}
+
+[data-agigov-skin='trust'] .model-status-sync-alert {
+  border-color: rgba(217, 119, 6, 0.25);
+  background: rgba(255, 251, 235, 0.9);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .model-catalog-card--status-drift {
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+[data-agigov-skin='trust'] .legacy-redirect-banner-dismiss {
+  border-color: var(--color-agigov-border);
+  background: var(--color-agigov-surface);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-page-state-kicker {
+  color: var(--color-agigov-primary);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--info {
+  border-color: rgba(0, 82, 255, 0.2);
+  background: rgba(0, 82, 255, 0.06);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--warning,
+[data-agigov-skin='trust'] .agigov-alert--offline {
+  border-color: rgba(217, 119, 6, 0.25);
+  background: rgba(255, 251, 235, 0.95);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--warning .agigov-alert-icon,
+[data-agigov-skin='trust'] .agigov-alert--offline .agigov-alert-icon {
+  color: var(--color-agigov-accent-soft);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--error {
+  border-color: rgba(220, 38, 38, 0.22);
+  background: rgba(254, 242, 242, 0.95);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--error .agigov-alert-icon {
+  color: var(--color-agigov-danger);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--success {
+  border-color: rgba(5, 150, 105, 0.22);
+  background: rgba(236, 253, 245, 0.95);
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--success .agigov-alert-icon {
+  color: var(--color-agigov-success);
+}
+
+[data-agigov-skin='trust'] .agigov-alert-hint code {
+  color: var(--color-agigov-primary);
+}
+
+[data-agigov-skin='trust'] .agigov-alert--banner {
+  color: var(--color-agigov-text);
+}

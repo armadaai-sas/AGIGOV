@@ -20,8 +20,13 @@ export default function DashboardPage() {
     fetchDashboard,
   );
 
+  const fatalError = Boolean(error && state === 'error' && !data);
+
   return (
-    <PageShell banner={{ state, lastUpdated }} breadcrumbs={breadcrumbsForPath('/gestion')}>
+    <PageShell
+      banner={fatalError ? undefined : { state, lastUpdated }}
+      breadcrumbs={breadcrumbsForPath('/gestion')}
+    >
       <SectionHeader
         eyebrow="AGIGOV · Gestión Pública Verificable"
         title="Gestión pública verificable"
@@ -34,8 +39,8 @@ export default function DashboardPage() {
         }
       />
 
-      {error && state === 'error' ? (
-        <ErrorState message={error} onRetry={() => void reload()} />
+      {fatalError ? (
+        <ErrorState message={error!} onRetry={() => void reload()} />
       ) : null}
 
       {!data && state !== 'error' ? <LoadingState /> : null}
