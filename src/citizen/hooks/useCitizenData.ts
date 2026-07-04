@@ -49,9 +49,10 @@ export function useCachedFetch<T>(
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Error de red';
       const cached = await readCache<T>(key);
-      if (cached) {
-        dataRef.current = cached;
-        setData(cached);
+      const fallback = cached ?? dataRef.current;
+      if (fallback !== null) {
+        dataRef.current = fallback;
+        setData(fallback);
         setState('offline');
         setError(message);
       } else {
