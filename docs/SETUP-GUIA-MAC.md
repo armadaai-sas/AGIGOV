@@ -340,3 +340,49 @@ npm run infra:down
 ```
 
 Cuando Oracle Free Tier esté listo, el siguiente paso será `./scripts/prod-up-light.sh` en la VM (guía en `docs/SERVER-SIZING.md`).
+
+---
+
+## Mac viejo / sin Docker {#mac-viejo-sin-docker}
+
+**Tu perfil detectado:** macOS 12 Monterey, Intel i5, **4 GB RAM**.
+
+Docker Desktop en este Mac suele fallar o ir muy lento (la VM de Docker consume 2–4 GB extra). **No uses Docker Cloud** — es temporal y no sirve para desarrollo real.
+
+### Opción recomendada: Homebrew nativo (sin contenedores)
+
+Ya tienes Homebrew. Instala Postgres y Mosquitto directamente en macOS:
+
+```bash
+cd /Users/macbook/Downloads/Armada_VZLA-main
+npm run setup:local:native
+```
+
+Eso hace:
+1. `brew install postgresql@16 mosquitto`
+2. Arranca servicios en segundo plano
+3. Crea usuario `armada` / base `armada_core`
+4. Migraciones + seed (igual que Bloque B con Docker)
+
+Luego las mismas 3 terminales:
+
+```bash
+npm run api:public      # terminal 1
+npm run dev             # terminal 2
+npm run block-b:pilot   # terminal 3
+npm run block-b:verify -- --native --api
+```
+
+**Consejos para 4 GB RAM:**
+- Cierra Chrome, Spotify y otras apps antes de `npm run dev`
+- No abras Docker Desktop y Homebrew Postgres a la vez (elige uno)
+- Parar servicios al terminar: `brew services stop postgresql@16 mosquitto`
+
+### Si Homebrew falla
+
+| Problema | Solución |
+|----------|----------|
+| `brew install` muy lento | Normal en Mac viejo; deja correr 15–30 min |
+| Puerto 5432 ocupado | `lsof -i :5432` y detén el proceso |
+| Postgres no arranca | `brew services restart postgresql@16` |
+| Alternativa en la nube | Oracle Free Tier + `prod-up-light.sh` (Mac solo como cliente) |

@@ -1,5 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" fill="#000"/>
-  <rect x="64" y="64" width="384" height="384" fill="#06b6d4"/>
-  <text x="256" y="320" text-anchor="middle" font-family="system-ui,sans-serif" font-size="240" font-weight="900" fill="#000">A</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="AGIGOV">
+  <defs>
+    <linearGradient id="o" x1="0" y1="256" x2="512" y2="256">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="c" x1="150" y1="106" x2="362" y2="406">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#050810"/>
+  <circle cx="256" cy="256" r="213" stroke="url(#o)" stroke-width="13" fill="none" stroke-dasharray="42 32"/>
+  <path d="M256 64a192 192 0 0 1 0 384" stroke="#fbbf24" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.8"/>
+  <path d="M256 149l85 48v96L256 363l-85-48v-96L256 149z" fill="url(#c)" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+  <circle cx="256" cy="245" r="27" fill="#f8fafc"/>
 </svg>

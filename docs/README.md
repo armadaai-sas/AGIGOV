@@ -1,7 +1,8 @@
-# Documentación — Armada VZLA
+# Documentación — Armada VZLA / AGIGOV
 
 | Documento | Contenido |
 |-----------|-----------|
+| **[AGIGOV/](./AGIGOV/README.md)** | **Modelo AGIGOV** — concepto, plan, Venezuela, economía, CNE, seguridad |
 | **[PLAN-EJECUCION-FASES.md](./PLAN-EJECUCION-FASES.md)** | Roadmap por fases (0–6), Gantt, riesgos, criterios de cierre |
 | **[../infra/README.md](../infra/README.md)** | WireGuard + Mosquitto + Postgres, comandos de despliegue |
 | **[../AGENTS.md](../AGENTS.md)** | Convenciones para agentes de código |

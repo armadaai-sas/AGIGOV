@@ -5,9 +5,9 @@ Sistema operativo soberano para reconstrucción nacional: agentes institucionale
 ## Stack
 
 - **Frontend:** React 19, Vite, Tailwind CSS v4 (`src/`)
-- **Skills:** `.cursor/skills/` (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación)
+- **Skills:** `.cursor/skills/` (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación, producto soberano, **legal-político**, **UX institucional**)
 - **Protocolo IAP:** `src/protocol/` (envelopes cifrados/firmados entre agentes)
-- **Agentes:** `.cursor/agents/` (centinela, logistico, soberano, conciliador, comunicador)
+- **Agentes:** `.cursor/agents/` (centinela, logistico, soberano, conciliador, comunicador, **artesano-ui**, **comercial-agigov**, modelo-guardian, cso-monetizacion)
 - **Reglas:** `.cursor/rules/` (soberanía, ejecución por evidencia, enjambre)
 
 ## Comandos
@@ -36,8 +36,31 @@ Disputas: **conciliador** (grafo de confianza). Incidentes: **centinela** FREEZE
 | Soberano | Gobernanza | Dictamen vs whitepaper; lenguaje ciudadano |
 | Conciliador | Justicia | Mediación por grafo de confianza |
 | Comunicador | Transparencia | Telemetría → dashboards legibles |
+| **modelo-guardian** | Calidad catálogo | Audita 3 etapas · `npm run models:audit` |
+| **artesano-ui** | Craft visual producto | Fase I catálogo · 6 h/día · design system |
+| **comercial-agigov** | Ventas y GTM | One-pagers, decks, FAQ · ganar-ganar honesto |
+| Innovador | Innovación y prosperidad | Monetización, macro, roadmap 24/7 |
+| CSO Monetización | Estrategia comercial | Cuadro modelos, auditoría ingresos |
 
 Definiciones: `.cursor/agents/*.md`
+
+## Producto y visión
+
+Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/producto final, usar skill **`sovereign-product-studio`**.
+
+| Necesidad | Skill |
+|-----------|-------|
+| Revisión legal, Carta, DAO, CNE, política VE/intl | **`state-legal-political`** |
+| Colores, UX, accesibilidad PWA AGIGOV | **`civic-institutional-ux`** |
+| Identidad premium (NASA/SpaceX/gov avanzado), logo, hero | **`premium-civic-design`** |
+| Pilotos e innovación institucional | **`state-innovation`** |
+| Qué sigue / priorizar muchos frentes | **`agigov-strategic-analysis`** |
+| Monetización, tokens, DAO, ingresos | **`sovereign-economics-monetization`** |
+| Validación 3 etapas catálogo modelos | **`model-validation`** + agente **`modelo-guardian`** |
+| UI producto catálogo / fichas / 6 h craft | **`ui-product-craft`** + agente **`artesano-ui`** |
+| Ventas, one-pagers, mercadeo modelos | **`agigov-gtm`** + agente **`comercial-agigov`** |
+| CSO / Cuadro modelos / success fee / micro-tx | **`agigov-strategic-analysis`** + **`agigov-cso-deliverable`** + agente **`cso-monetizacion`** |
+| País, PIB, geopolítica, proyectos estatales | **`macro-intelligence-governance`** |
 
 ## Convenciones
 

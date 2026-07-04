@@ -1,0 +1,100 @@
+/**
+ * AGIGOV — Skin TRUST (institucional claro · Coinbase/NASA inspired)
+ * Default desde jul 2026
+ */
+[data-agigov-skin='trust'] {
+  --color-agigov-navy: #ffffff;
+  --color-agigov-navy-light: #f8fafc;
+  --color-agigov-surface: #ffffff;
+  --color-agigov-surface-elevated: #f1f5f9;
+  --color-agigov-primary: #0052ff;
+  --color-agigov-primary-hover: #0040cc;
+  --color-agigov-primary-soft: #3b82f6;
+  --color-agigov-accent: #b45309;
+  --color-agigov-accent-soft: #d97706;
+  --color-agigov-success: #059669;
+  --color-agigov-danger: #dc2626;
+  --color-agigov-text: #0f172a;
+  --color-agigov-text-muted: #64748b;
+  --color-agigov-border: rgba(15, 23, 42, 0.1);
+  --color-agigov-void: #ffffff;
+  --color-agigov-orbit: #0052ff;
+  --color-agigov-signal: #d97706;
+  --color-agigov-data: #059669;
+  --color-agigov-glass: rgba(255, 255, 255, 0.92);
+  --color-agigov-console: #f8fafc;
+}
+
+[data-agigov-skin='trust'] .agigov-card,
+[data-agigov-skin='trust'] .agigov-card-interactive {
+  border-color: var(--color-agigov-border);
+  background: var(--color-agigov-surface);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+[data-agigov-skin='trust'] .agigov-card-interactive:hover {
+  border-color: rgba(0, 82, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 82, 255, 0.08);
+}
+
+[data-agigov-skin='trust'] .agigov-eyebrow {
+  color: var(--color-agigov-primary);
+}
+
+[data-agigov-skin='trust'] .site-header {
+  border-color: var(--color-agigov-border);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-agigov-skin='trust'] .site-nav-link {
+  color: var(--color-agigov-text-muted);
+}
+
+[data-agigov-skin='trust'] .site-nav-link--active,
+[data-agigov-skin='trust'] .site-nav-link:hover {
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .ds-btn-app,
+[data-agigov-skin='trust'] .agigov-btn-primary {
+  background: var(--color-agigov-primary);
+  color: #fff;
+}
+
+[data-agigov-skin='trust'] .agigov-input {
+  border-color: var(--color-agigov-border);
+  background: #fff;
+  color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-progress-track {
+  background: #e2e8f0;
+}
+
+[data-agigov-skin='trust'] .app-sidebar {
+  background: #f8fafc;
+  border-color: var(--color-agigov-border);
+}
+
+[data-agigov-skin='trust'] .app-sidebar-section--ven {
+  border-color: rgba(217, 119, 6, 0.25);
+}
+
+[data-agigov-skin='trust'] .app-sidebar-section--modelo {
+  border-color: rgba(0, 82, 255, 0.15);
+}
+
+[data-agigov-skin='trust'] .site-header--landing {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+[data-agigov-skin='trust'] .cinematic-hero-glass {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+[data-agigov-skin='trust'] .app-topbar {
+  background: rgba(255, 255, 255, 0.92);
+}

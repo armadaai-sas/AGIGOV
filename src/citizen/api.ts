@@ -19,6 +19,7 @@ export interface ProposalItem {
   title: string;
   status: string;
   citizenSummary: string;
+  dictamen?: 'CONFORME' | 'REVISAR';
   updatedAt: string;
 }
 
@@ -37,6 +38,44 @@ export interface SupplyItem {
 export interface SupplyResponse {
   updatedAt: string;
   inventory: SupplyItem[];
+}
+
+export interface ProjectMilestone {
+  label: string;
+  done: boolean;
+}
+
+export interface ProjectEscrow {
+  processId: string;
+  status: string;
+  amount: string;
+  threshold: number;
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  sector: string;
+  territoryCode: string;
+  targetAmount: string;
+  raisedAmount: string;
+  currency: string;
+  contributions: number;
+  daoApproved: boolean;
+  milestones: ProjectMilestone[];
+  escrow: ProjectEscrow | null;
+  updatedAt: string;
+}
+
+export interface ProjectsResponse {
+  updatedAt: string;
+  summary: {
+    projectCount: number;
+    totalRaised: string;
+    totalContributions: number;
+    currency: string;
+  };
+  projects: ProjectItem[];
 }
 
 const API_BASE = import.meta.env.VITE_PUBLIC_API_URL ?? '';
@@ -59,4 +98,352 @@ export function fetchProposals() {
 
 export function fetchSupply() {
   return fetchPublic<SupplyResponse>('/api/public/supply');
+}
+
+export function fetchProjects() {
+  return fetchPublic<ProjectsResponse>('/api/public/projects');
+}
+
+export interface ProjectDetailResponse {
+  updatedAt: string;
+  project: ProjectItem & {
+    recentContributions: ContributionReceipt[];
+  };
+}
+
+export function fetchProjectDetail(id: string) {
+  return fetchPublic<ProjectDetailResponse>(`/api/public/projects/${encodeURIComponent(id)}`);
+}
+
+export interface CartaStatus {
+  updatedAt: string;
+  processId: string;
+  version: string;
+  documentRef: string;
+  ratified: boolean;
+  actaStatus: string;
+  checkpointStatus: string;
+  threshold: number;
+  signatureCount: number;
+}
+
+export interface ContributionReceipt {
+  receiptId: string;
+  projectId: string;
+  amount: number;
+  currency: string;
+  territoryCode: string;
+  committedAt: string;
+  ledgerHash: string;
+}
+
+export function fetchCartaStatus() {
+  return fetchPublic<CartaStatus>('/api/public/carta');
+}
+
+export interface PublicHealthPayload {
+  ok: boolean;
+  service: string;
+  postgres?: boolean;
+  panicMode?: boolean;
+  crossHealthOk: boolean;
+  checkedAt: string;
+  peer?: {
+    ok: boolean;
+    jurisdiction?: string;
+    latencyMs?: number;
+  };
+}
+
+export function fetchHealth() {
+  return fetchPublic<PublicHealthPayload>('/api/public/health?peer=0');
+}
+
+export interface GlobalNetworkMetrics {
+  activeNodes: number;
+  integrityLabel: string;
+  ok: boolean;
+}
+
+/** Métricas globales IAP para el panel superior del hero (inglés). */
+export async function fetchGlobalNetworkMetrics(): Promise<GlobalNetworkMetrics> {
+  const health = await fetchHealth();
+  if (!health.ok) {
+    throw new Error('Platform health unavailable');
+  }
+
+  const activeNodes = 1 + (health.peer?.ok ? 1 : 0);
+  let integrity = 99.0;
+  if (health.postgres) integrity += 0.9;
+  if (health.crossHealthOk) integrity += 0.0999;
+
+  return {
+    activeNodes,
+    integrityLabel: `${integrity.toFixed(4)}%`,
+    ok: true,
+  };
+}
+
+export interface LandingTelemetry {
+  updatedAt: string;
+  ledgerEntries: number;
+  reportCount: number;
+  proposalCount: number;
+  projectCount: number;
+  totalRaised: string;
+  cartaRatified: boolean;
+  platformOk: boolean;
+  recentReports: DashboardReport[];
+  recentProposals: ProposalItem[];
+}
+
+export async function fetchLandingTelemetry(): Promise<LandingTelemetry> {
+  const [dashboard, proposals, projects, carta, health] = await Promise.all([
+    fetchDashboard().catch(() => null),
+    fetchProposals().catch(() => null),
+    fetchProjects().catch(() => null),
+    fetchCartaStatus().catch(() => null),
+    fetchHealth().catch(() => null),
+  ]);
+
+  return {
+    updatedAt: dashboard?.updatedAt ?? new Date().toISOString(),
+    ledgerEntries: dashboard?.ledgerEntries ?? 0,
+    reportCount: dashboard?.reports.length ?? 0,
+    proposalCount: proposals?.proposals.length ?? 0,
+    projectCount: projects?.summary.projectCount ?? 0,
+    totalRaised: projects?.summary.totalRaised ?? '0',
+    cartaRatified: carta?.ratified ?? false,
+    platformOk: health?.ok ?? false,
+    recentReports: dashboard?.reports.slice(0, 4) ?? [],
+    recentProposals: proposals?.proposals.slice(0, 3) ?? [],
+  };
+}
+
+export interface ProposalReceipt {
+  processId: string;
+  status: string;
+  citizenSummary: string;
+  dictamen: 'CONFORME' | 'REVISAR';
+  committedAt: string;
+}
+
+export async function submitProposal(input: {
+  title: string;
+  sector: string;
+  territoryCode?: string;
+  facts: Array<{ text: string; source?: string; date?: string }>;
+}): Promise<{ ok: boolean; receipt: ProposalReceipt }> {
+  const res = await fetch(`${API_BASE}/api/public/proposals`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      ...input,
+      territoryCode: input.territoryCode ?? 'MAR_NORTH_01',
+    }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `API proposals → ${res.status}`);
+  }
+  return res.json() as Promise<{ ok: boolean; receipt: ProposalReceipt }>;
+}
+
+export async function submitContribution(input: {
+  projectId: string;
+  amount: number;
+  territoryCode?: string;
+}): Promise<{ ok: boolean; receipt: ContributionReceipt }> {
+  const res = await fetch(`${API_BASE}/api/public/contributions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      ...input,
+      currency: 'VES',
+      territoryCode: input.territoryCode ?? 'MAR_NORTH_01',
+    }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `API contributions → ${res.status}`);
+  }
+  return res.json() as Promise<{ ok: boolean; receipt: ContributionReceipt }>;
+}
+
+export interface IrregularityReceipt {
+  processId: string;
+  status: string;
+  category: string;
+  committedAt: string;
+  message: string;
+}
+
+export async function submitIrregularityReport(input: {
+  category: string;
+  description: string;
+  evidenceRef?: string;
+}): Promise<{ ok: boolean; receipt: IrregularityReceipt }> {
+  const res = await fetch(`${API_BASE}/api/public/reports/irregularity`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ ...input, territoryCode: 'MAR_NORTH_01' }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `API irregularity → ${res.status}`);
+  }
+  return res.json() as Promise<{ ok: boolean; receipt: IrregularityReceipt }>;
+}
+
+export interface CneOption {
+  id: string;
+  label: string;
+  votes: number;
+}
+
+export interface CneConsultation {
+  id: string;
+  title: string;
+  description: string;
+  territoryCode: string;
+  phase: string;
+  binding: false;
+  status: 'open' | 'closed';
+  options: CneOption[];
+  updatedAt: string;
+  setLedger?: {
+    commitCount: number;
+    verifiedCount: number;
+    lastCommittedAt: string | null;
+  };
+}
+
+export function fetchCneConsultation() {
+  return fetchPublic<{ updatedAt: string; consultation: CneConsultation }>(
+    '/api/public/cne/consultation',
+  );
+}
+
+export async function castCneVote(optionId: string, voterToken?: string) {
+  const token =
+    voterToken ??
+    (typeof localStorage !== 'undefined'
+      ? (localStorage.getItem('agigov-voter-token') ??
+          (() => {
+            const t = crypto.randomUUID();
+            localStorage.setItem('agigov-voter-token', t);
+            return t;
+          })())
+      : crypto.randomUUID());
+
+  const res = await fetch(`${API_BASE}/api/public/cne/vote`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ optionId, voterToken: token }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `API cne vote → ${res.status}`);
+  }
+  return res.json() as Promise<{
+    ok: boolean;
+    receipt: { receiptHash: string; optionId: string; votedAt: string };
+    consultation: CneConsultation;
+  }>;
+}
+
+export interface PilotStatus {
+  updatedAt: string;
+  processId: string;
+  ok: boolean;
+  checks: Record<string, boolean>;
+  detail: Record<string, unknown>;
+}
+
+export function fetchPilotStatus() {
+  return fetchPublic<PilotStatus>('/api/public/pilot');
+}
+
+export interface MinistryHealthContract {
+  id: string;
+  title: string;
+  territoryCode: string;
+  totalAmount: string;
+  spentAmount: string;
+  status: 'ok' | 'discrepancy' | 'partial';
+  milestonesTotal: number;
+  milestonesReleased: number;
+  escrowStatus: string;
+}
+
+export interface MinistryHealthResponse {
+  updatedAt: string;
+  available: true;
+  ministryCode: string;
+  programName: string;
+  fiscalYear: number;
+  quarter: number;
+  quarterCloseStatus: string;
+  reconcileOk: boolean;
+  discrepancies: string[];
+  baselineTrimestral: string;
+  gastosVerificados: string;
+  calculoAhorroFinal: string;
+  executionPct: number;
+  escrowExecutionPct: number;
+  split: {
+    reinversion: string;
+    meritPool: string;
+    agigovFee: string;
+  };
+  releaseCount: number;
+  contracts: MinistryHealthContract[];
+  treasuryPayload: Record<string, string | number> | null;
+  ledgerProcessId: string | null;
+  published: boolean;
+  pilotBanner: string;
+}
+
+export function fetchMinistryHealth(ministry = 'MPPI') {
+  return fetchPublic<MinistryHealthResponse>(
+    `/api/public/egs/ministry-health?ministry=${encodeURIComponent(ministry)}`,
+  );
+}
+
+export interface EgsMilestoneCustody {
+  index: number;
+  label: string;
+  amount: string;
+  state: 'LOCKED' | 'VALIDATED' | 'RELEASED';
+  verifiedAt: string | null;
+  evidenceRef: string | null;
+  validators: {
+    centinela: string;
+    iot: string;
+    citizens: [string, string];
+  } | null;
+}
+
+export interface EgsContractDetailResponse {
+  updatedAt: string;
+  contract: MinistryHealthContract & {
+    currency: string;
+    signers: string[];
+    threshold: number;
+  };
+  quarter: {
+    fiscalYear: number;
+    quarter: number;
+    status: string;
+    reconcileOk: boolean;
+    discrepancies: string[];
+  };
+  milestones: EgsMilestoneCustody[];
+  ledgerProcessId: string | null;
+}
+
+export function fetchEgsContractDetail(escrowProcessId: string) {
+  return fetchPublic<EgsContractDetailResponse>(
+    `/api/public/egs/contracts/${encodeURIComponent(escrowProcessId)}`,
+  );
 }

@@ -1,56 +1,78 @@
+import { Link } from 'react-router-dom';
+
 import { fetchProposals } from '../api.js';
+import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
-import { NetworkBanner } from '../components/NetworkBanner.js';
+import {
+  PageShell,
+  SectionHeader,
+  ErrorState,
+  LoadingState,
+  EmptyState,
+} from '../components/PageShell.js';
+import { StatusBadge } from '../components/StatusBadge.js';
+import { DictamenBadge, inferDictamen } from '../components/DictamenBadge.js';
 
 export default function ProposalsPage() {
-  const { data, error, state, lastUpdated } = useCachedFetch(
+  const { data, error, state, lastUpdated, reload } = useCachedFetch(
     'proposals',
     fetchProposals,
   );
 
   return (
-    <>
-      <NetworkBanner state={state} lastUpdated={lastUpdated} />
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-2xl font-black text-white">Propuestas y leyes</h1>
-          <p className="mt-2 text-sm text-white/50">
-            Resumen ciudadano del agente Soberano — lenguaje accesible.
-          </p>
-        </header>
+    <PageShell banner={{ state, lastUpdated }} breadcrumbs={breadcrumbsForPath('/propuestas')}>
+      <SectionHeader
+        eyebrow="AGIGOV · Participación y Dictamen"
+        title="Propuestas y dictámenes"
+        lead="Resumen ciudadano del agente Soberano — lenguaje accesible con trazabilidad en ledger."
+        helpTopic="propuestas"
+      />
 
-        {error && state === 'error' ? (
-          <p className="rounded border border-red-900 bg-red-950/40 p-4 text-sm text-red-200">
-            {error}
-          </p>
-        ) : null}
+      {error && state === 'error' ? (
+        <ErrorState message={error} onRetry={() => void reload()} />
+      ) : null}
 
-        {data ? (
-          <ul className="space-y-3">
-            {data.proposals.length === 0 ? (
-              <li className="text-sm text-white/40">No hay propuestas publicadas aún.</li>
-            ) : (
-              data.proposals.map((p) => (
-                <li
-                  key={p.id}
-                  className="rounded border border-white/10 bg-white/5 p-4"
-                >
-                  <p className="font-mono text-[10px] text-white/40">{p.id}</p>
-                  <h2 className="mt-1 font-semibold text-white">{p.title}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-white/70">
-                    {p.citizenSummary}
-                  </p>
-                  <p className="mt-2 font-mono text-[10px] text-tactical-amber">
-                    Estado: {p.status}
-                  </p>
-                </li>
-              ))
-            )}
-          </ul>
-        ) : (
-          <p className="animate-pulse text-sm text-white/40">Cargando…</p>
-        )}
-      </main>
-    </>
+      {!data && state !== 'error' ? <LoadingState /> : null}
+
+      {data ? (
+        <ul className="space-y-4 agigov-stagger-list">
+          {data.proposals.length === 0 ? (
+            <li>
+              <EmptyState
+                title="No hay propuestas publicadas"
+                description="Las propuestas validadas por el pipeline aparecerán aquí con resumen ciudadano y trazabilidad en ledger."
+                action={
+                  <Link to="/participar" className="ds-btn-secondary ds-btn-app-shape">
+                    Enviar propuesta
+                  </Link>
+                }
+              />
+            </li>
+          ) : (
+            data.proposals.map((p) => {
+              const dictamen = p.dictamen ?? inferDictamen(p.citizenSummary);
+              return (
+              <li key={p.id} className="agigov-card agigov-card-interactive">
+                <div className="flex flex-wrap items-center gap-2">
+                  <StatusBadge status={p.status} />
+                  {dictamen ? <DictamenBadge dictamen={dictamen} /> : null}
+                  <span className="agigov-mono-id">{p.id}</span>
+                </div>
+                <h2 className="mt-3 font-display text-lg font-semibold text-agigov-text">
+                  {p.title}
+                </h2>
+                <p className="mt-2 text-base leading-relaxed text-agigov-text-muted">
+                  {p.citizenSummary}
+                </p>
+                <p className="mt-3 text-xs text-agigov-text-muted/70">
+                  {new Date(p.updatedAt).toLocaleString('es-VE')}
+                </p>
+              </li>
+              );
+            })
+          )}
+        </ul>
+      ) : null}
+    </PageShell>
   );
 }

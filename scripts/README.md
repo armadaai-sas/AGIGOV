@@ -21,6 +21,7 @@ Todos los comandos de setup viven en **`scripts/`**. No uses `.sh` en la raíz d
 | Entorno | Archivo |
 |---------|---------|
 | Dev local (Mac) | `infra/docker-compose.dev.yml` |
+| Dev local (Mac viejo, sin Docker) | `npm run setup:local:native` (Homebrew) |
 | Producción | `infra/docker-compose.prod.yml` |
 | Pre-prod ligero (~1 GB RAM) | `infra/docker-compose.prod.light.yml` |
 | Edge | `infra/docker-compose.edge.yml` |

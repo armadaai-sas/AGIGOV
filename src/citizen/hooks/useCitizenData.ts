@@ -62,5 +62,5 @@ export function useCachedFetch<T>(
     return () => clearInterval(id);
   }, [load, pollMs]);
 
-  return { data, error, state, lastUpdated, reload: load };
+  return { data, error, state, lastUpdated, reload: load, setData };
 }

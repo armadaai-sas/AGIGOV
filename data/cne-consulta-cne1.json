@@ -1,0 +1,27 @@
+{
+  "id": "consulta-piloto-mar-north-01",
+  "title": "Consulta ciudadana piloto (no vinculante)",
+  "description": "CNE-AGIGOV fase CNE-1: preferencia agregada sobre prioridad de inversión en MAR_NORTH_01. Sin identidad en ledger público.",
+  "territoryCode": "MAR_NORTH_01",
+  "phase": "CNE-1",
+  "binding": false,
+  "status": "open",
+  "options": [
+    {
+      "id": "agua",
+      "label": "Agua potable comunitaria",
+      "votes": 1
+    },
+    {
+      "id": "salud",
+      "label": "Salud primaria",
+      "votes": 1
+    },
+    {
+      "id": "educacion",
+      "label": "Educación digital",
+      "votes": 0
+    }
+  ],
+  "updatedAt": "2026-07-03T06:43:12.981Z"
+}

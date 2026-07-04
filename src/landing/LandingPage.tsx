@@ -17,7 +17,8 @@ import {
   Crosshair,
   AlertTriangle,
   Server,
-  Skull
+  Skull,
+  type LucideIcon,
 } from 'lucide-react';
 
 // --- TYPES ---
@@ -33,7 +34,7 @@ interface TacticalSectionProps {
   subtitle: string;
   specs: Spec[];
   imagePlaceholder: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   serial: string;
 }
 

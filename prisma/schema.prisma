@@ -25,6 +25,24 @@ enum EscrowStatus {
   FROZEN
 }
 
+enum EgsPilotStatus {
+  draft
+  active
+  closed
+  frozen
+}
+
+enum QuarterCloseStatus {
+  DRAFT
+  BASELINE_LOCKED
+  COLLECTING
+  PENDING_VALIDATION
+  DELTA_CALCULATED
+  SPLIT_APPROVED
+  PUBLISHED
+  FROZEN
+}
+
 enum LedgerEntryType {
   VOTE
   ESCROW
@@ -95,6 +113,8 @@ model Escrow {
   processId    String       @unique
   territoryId  String?
   territory    TerritorialNode? @relation(fields: [territoryId], references: [id])
+  budgetLinePilotId String?
+  budgetLinePilot   BudgetLinePilot? @relation(fields: [budgetLinePilotId], references: [id])
   amount       Decimal      @db.Decimal(18, 4)
   currency     String       @default("VES")
   status       EscrowStatus @default(PENDING)
@@ -105,10 +125,129 @@ model Escrow {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
+  quarterCloseReleases QuarterCloseRelease[]
+
   @@index([status])
   @@index([updatedAt])
   @@index([originNodeId])
   @@index([territoryId])
+  @@index([budgetLinePilotId])
+}
+
+/// Partida presupuestaria incluida en piloto EGS (infraestructura vial).
+model BudgetLinePilot {
+  id           String         @id @default(uuid())
+  ministryCode String
+  budgetCode   String
+  programName  String
+  currency     String         @default("VES")
+  pilotStatus  EgsPilotStatus @default(draft)
+  originNodeId String
+  version      Int            @default(1)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  escrows       Escrow[]
+  baselineActs  BaselineAct[]
+  quarterCloses QuarterClose[]
+
+  @@unique([ministryCode, budgetCode])
+  @@index([pilotStatus])
+  @@index([updatedAt])
+}
+
+/// Acta baseline 24m — fuente de verdad para baseline trimestral.
+model BaselineAct {
+  id                   String          @id @default(uuid())
+  budgetLinePilotId    String
+  budgetLinePilot      BudgetLinePilot @relation(fields: [budgetLinePilotId], references: [id])
+  fiscalYear           Int
+  historicalMonths     Int             @default(24)
+  annualAmountBaseline Decimal         @db.Decimal(18, 4)
+  seasonalFactorQ1     Decimal         @default(1) @db.Decimal(8, 4)
+  seasonalFactorQ2     Decimal         @default(1) @db.Decimal(8, 4)
+  seasonalFactorQ3     Decimal         @default(1) @db.Decimal(8, 4)
+  seasonalFactorQ4     Decimal         @default(1) @db.Decimal(8, 4)
+  contentHash          String          @unique
+  actaProcessId        String          @unique
+  signedAt             DateTime?
+  signers              Json
+  originNodeId         String
+  version              Int             @default(1)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+
+  @@index([budgetLinePilotId])
+  @@index([fiscalYear])
+}
+
+/// Cierre trimestral EGS — cálculo automático Δ y reparto 70/20/10.
+model QuarterClose {
+  id                   String             @id @default(uuid())
+  budgetLinePilotId    String
+  budgetLinePilot      BudgetLinePilot    @relation(fields: [budgetLinePilotId], references: [id])
+  fiscalYear           Int
+  quarter              Int
+  status               QuarterCloseStatus @default(DRAFT)
+  baselineTrimestral   Decimal            @db.Decimal(18, 4)
+  gastosVerificados    Decimal            @default(0) @db.Decimal(18, 4)
+  ajustesFuerzaMayor   Decimal            @default(0) @db.Decimal(18, 4)
+  calculoAhorroFinal   Decimal            @default(0) @db.Decimal(18, 4)
+  reinversionAmount    Decimal            @default(0) @db.Decimal(18, 4)
+  meritPoolAmount      Decimal            @default(0) @db.Decimal(18, 4)
+  agigovFeeAmount      Decimal            @default(0) @db.Decimal(18, 4)
+  currency             String             @default("VES")
+  treasuryRef          String?
+  ledgerProcessId      String?            @unique
+  contentHash          String?            @unique
+  signedAt             DateTime?
+  signers              Json?
+  originNodeId         String
+  version              Int                @default(1)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  verifiedReleases         QuarterCloseRelease[]
+  forceMajeureAdjustments  ForceMajeureAdjustment[]
+
+  @@unique([budgetLinePilotId, fiscalYear, quarter])
+  @@index([status])
+  @@index([fiscalYear, quarter])
+  @@index([updatedAt])
+}
+
+/// Liberación Smart Escrow contabilizada en un trimestre (1 fila por hito).
+model QuarterCloseRelease {
+  id             String       @id @default(uuid())
+  quarterCloseId String
+  quarterClose   QuarterClose @relation(fields: [quarterCloseId], references: [id])
+  escrowId       String
+  escrow         Escrow       @relation(fields: [escrowId], references: [id])
+  milestoneIndex Int
+  amount         Decimal      @db.Decimal(18, 4)
+  evidenceRef    String
+  verifiedAt     DateTime
+  originNodeId   String
+  createdAt      DateTime     @default(now())
+
+  @@unique([quarterCloseId, escrowId, milestoneIndex])
+  @@index([quarterCloseId])
+  @@index([escrowId])
+}
+
+/// Ajuste fuerza mayor — tope 5% baseline trimestral (validación en aplicación).
+model ForceMajeureAdjustment {
+  id             String       @id @default(uuid())
+  quarterCloseId String
+  quarterClose   QuarterClose @relation(fields: [quarterCloseId], references: [id])
+  amount         Decimal      @db.Decimal(18, 4)
+  reason         String
+  actaProcessId  String
+  approvedAt     DateTime
+  originNodeId   String
+  createdAt      DateTime     @default(now())
+
+  @@index([quarterCloseId])
 }
 
 model Acta {

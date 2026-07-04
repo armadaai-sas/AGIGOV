@@ -1,0 +1,160 @@
+{
+  "generatedAt": "2026-07-04T16:24:31.556Z",
+  "summary": {
+    "total": 10,
+    "approved": 6,
+    "disponible": 6,
+    "beta": 4,
+    "roadmap": 0
+  },
+  "models": [
+    {
+      "modelId": "egs",
+      "validatedAt": "2026-07-04T16:24:31.517Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "escrow-institucional",
+      "validatedAt": "2026-07-04T16:24:31.554Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "gestion-verificable",
+      "validatedAt": "2026-07-04T16:24:31.554Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "set",
+      "validatedAt": "2026-07-04T16:24:31.554Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "partial",
+        "comercial": "pass"
+      },
+      "approved": false,
+      "recommendedStatus": "beta",
+      "notes": [
+        "SET demo: boleta cifrada + commit firmado + recuento reproducible — no elección nacional."
+      ],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "participacion",
+      "validatedAt": "2026-07-04T16:24:31.555Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "dao-ciudadano",
+      "validatedAt": "2026-07-04T16:24:31.555Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "consulta-ciudadana",
+      "validatedAt": "2026-07-04T16:24:31.555Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "partial",
+        "comercial": "pass"
+      },
+      "approved": false,
+      "recommendedStatus": "beta",
+      "notes": [
+        "SET demo: boleta cifrada + commit firmado + recuento reproducible — no elección nacional."
+      ],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "evidencia-certificada",
+      "validatedAt": "2026-07-04T16:24:31.555Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "pass",
+        "comercial": "pass"
+      },
+      "approved": true,
+      "recommendedStatus": "disponible",
+      "notes": [],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "iaau",
+      "validatedAt": "2026-07-04T16:24:31.556Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "partial",
+        "comercial": "pass"
+      },
+      "approved": false,
+      "recommendedStatus": "beta",
+      "notes": [
+        "Metering demo activo — conciliación ledger producción pendiente."
+      ],
+      "missingPaths": [],
+      "missingApi": []
+    },
+    {
+      "modelId": "data-trust",
+      "validatedAt": "2026-07-04T16:24:31.556Z",
+      "stages": {
+        "tecnica": "pass",
+        "operacional": "partial",
+        "comercial": "pass"
+      },
+      "approved": false,
+      "recommendedStatus": "beta",
+      "notes": [
+        "Pipeline demo k-anonymized — dictamen soberano + sandbox legal pendiente."
+      ],
+      "missingPaths": [],
+      "missingApi": []
+    }
+  ]
+}

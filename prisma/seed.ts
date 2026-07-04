@@ -123,15 +123,109 @@ async function main(): Promise<void> {
       where: { processId: spec.processId },
       create: {
         processId: spec.processId,
-        territoryId: territory.id,
+        territoryId: territoryPeripheral.id,
         amount: spec.amount,
         currency: 'VES',
         status: spec.status,
         threshold: 2,
         signers: ['did:armada:core:logistico', 'did:armada:core:soberano'],
-        originNodeId: ORIGIN_NODE,
+        originNodeId: ORIGIN_PERIPHERAL,
       },
       update: { status: spec.status, amount: spec.amount },
+    });
+  }
+
+  const daoProjects = [
+    {
+      processId: 'proj-dao-agua-zulia',
+      title: 'Red de agua potable — Costa norte Zulia',
+      sector: 'infraestructura',
+      territoryCode: 'MAR_NORTH_01',
+      escrowProcessId: 'escrow-seed-locked',
+      targetAmount: '12000.0000',
+      raisedAmount: '8450.0000',
+      contributions: 127,
+      milestones: [
+        { label: 'Estudio técnico', done: true },
+        { label: 'Tubería tramo 1', done: true },
+        { label: 'Conexiones domiciliarias', done: false },
+      ],
+    },
+    {
+      processId: 'proj-dao-escuela-rural',
+      title: 'Escuela rural conectada — Fe y Alegría piloto',
+      sector: 'educacion',
+      territoryCode: 'MAR_NORTH_01',
+      escrowProcessId: 'escrow-seed-pending',
+      targetAmount: '5000.0000',
+      raisedAmount: '2100.0000',
+      contributions: 43,
+      milestones: [
+        { label: 'Dictamen soberano', done: true },
+        { label: 'DAO aprobación', done: false },
+        { label: 'Construcción módulo 1', done: false },
+      ],
+    },
+    {
+      processId: 'proj-dao-salud-movil',
+      title: 'Clínica móvil — Atención primaria rural',
+      sector: 'salud',
+      territoryCode: 'MAR_NORTH_01',
+      escrowProcessId: 'escrow-seed-released',
+      targetAmount: '8000.0000',
+      raisedAmount: '8000.0000',
+      contributions: 201,
+      milestones: [
+        { label: 'Equipamiento', done: true },
+        { label: 'Personal capacitado', done: true },
+        { label: 'Primer ciclo atención', done: true },
+      ],
+    },
+  ];
+
+  for (const project of daoProjects) {
+    await db.processCheckpoint.upsert({
+      where: { processId: project.processId },
+      create: {
+        processId: project.processId,
+        status: 'published',
+        agentId: 'comunicador',
+        evidenceBundle: {
+          publicProject: {
+            ...project,
+            currency: 'VES',
+            daoApproved: project.escrowProcessId !== 'escrow-seed-pending',
+            publishedAt: new Date().toISOString(),
+          },
+        },
+        originNodeId: ORIGIN_PERIPHERAL,
+      },
+      update: {
+        status: 'published',
+        agentId: 'comunicador',
+        evidenceBundle: {
+          publicProject: {
+            ...project,
+            currency: 'VES',
+            daoApproved: project.escrowProcessId !== 'escrow-seed-pending',
+            publishedAt: new Date().toISOString(),
+          },
+        },
+      },
+    });
+
+    await db.ledgerEntry.createMany({
+      data: [
+        {
+          entryType: 'PROCESS',
+          entityId: project.processId,
+          entityHash: payloadHash({ project: project.processId }),
+          processId: project.processId,
+          agentId: 'comunicador',
+          evidenceRef: 'seed-dao-project',
+        },
+      ],
+      skipDuplicates: true,
     });
   }
 

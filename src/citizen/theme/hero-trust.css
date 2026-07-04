@@ -1,0 +1,46 @@
+/**
+ * Hero AGIGOV — tokens dual skin (Trust / Legacy).
+ * Estándar global: variables consumidas por componentes hero/*.
+ */
+
+[data-agigov-skin='trust'] {
+  --hero-bg: #ffffff;
+  --hero-bg-gradient: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  --hero-watermark-opacity: 0.12;
+  --hero-glass-bg: rgba(255, 255, 255, 0.9);
+  --hero-glass-border: rgba(15, 23, 42, 0.1);
+  --hero-glass-shadow: 0 24px 48px rgba(15, 23, 42, 0.08);
+  --hero-text-primary: #0f172a;
+  --hero-text-muted: #64748b;
+  --hero-accent: #0052ff;
+  --hero-gov-stroke: #0052ff;
+  --hero-gov-node-fill: #ffffff;
+  --hero-gov-node-stroke: rgba(15, 23, 42, 0.12);
+  --hero-progress-track: rgba(15, 23, 42, 0.15);
+  --hero-progress-active: #0052ff;
+  --hero-monitor-bg: rgba(255, 255, 255, 0.9);
+  --hero-monitor-border: rgba(15, 23, 42, 0.1);
+}
+
+[data-agigov-skin='legacy'] {
+  --hero-bg: #030508;
+  --hero-bg-gradient: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.96) 0%,
+    rgba(11, 18, 32, 0.92) 100%
+  );
+  --hero-watermark-opacity: 0.08;
+  --hero-glass-bg: rgba(8, 12, 22, 0.88);
+  --hero-glass-border: rgba(255, 255, 255, 0.1);
+  --hero-glass-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  --hero-text-primary: #f8fafc;
+  --hero-text-muted: #94a3b8;
+  --hero-accent: #0ea5e9;
+  --hero-gov-stroke: #38bdf8;
+  --hero-gov-node-fill: rgba(30, 41, 59, 0.9);
+  --hero-gov-node-stroke: rgba(255, 255, 255, 0.15);
+  --hero-progress-track: rgba(255, 255, 255, 0.2);
+  --hero-progress-active: #38bdf8;
+  --hero-monitor-bg: rgba(8, 12, 22, 0.9);
+  --hero-monitor-border: rgba(255, 255, 255, 0.1);
+}

@@ -68,19 +68,26 @@ fi
 echo ""
 
 section "Bloque B — Docker local"
-command -v docker >/dev/null && pass "Docker CLI" || fail "Docker CLI → instalar Docker Desktop"
+command -v docker >/dev/null && pass "Docker CLI" || warn "Docker CLI ausente → usa npm run setup:local:native (Mac viejo)"
 if command -v docker >/dev/null && docker info >/dev/null 2>&1; then
   pass "Docker daemon"
   BLOCK_B=1
 else
-  fail "Docker daemon → abrir Docker Desktop"
+  if command -v brew >/dev/null 2>&1; then
+    warn "Sin Docker → alternativa: npm run setup:local:native"
+  else
+    fail "Docker daemon → abrir Docker Desktop o instalar Homebrew"
+  fi
 fi
 
 if docker ps --format '{{.Names}}' 2>/dev/null | grep -q armada-postgres-dev; then
   pass "Contenedor Postgres"
   BLOCK_B=2
+elif lsof -iTCP:5432 -sTCP:LISTEN >/dev/null 2>&1; then
+  pass "Postgres nativo en :5432"
+  BLOCK_B=2
 else
-  warn "Postgres no corriendo → npm run setup:local"
+  warn "Postgres no corriendo → npm run setup:local o setup:local:native"
 fi
 
 [ -f .env ] && pass ".env" || warn ".env faltante (setup:local lo crea)"
