@@ -8,6 +8,7 @@ import {
   getAgigovModel,
 } from '../../platform/agigovModels.js';
 import type { NetworkSyncState } from '../../api.js';
+import { useSovereignConfig } from '../../context/PlatformContext.js';
 
 type Props = {
   syncState?: NetworkSyncState;
@@ -23,6 +24,7 @@ export function EgsConsoleToolbar({
   onRefresh,
   refreshing,
 }: Props) {
+  const { t } = useSovereignConfig();
   const model = getAgigovModel('egs');
 
   return (
@@ -72,7 +74,7 @@ export function EgsConsoleToolbar({
           Salud presupuestaria
         </Link>
         <Link to={`${EGS_MODEL_PATH}#simulador-delta`} className="ds-btn-secondary ds-btn-app-shape ds-btn-sm">
-          Simulador Δ
+          {t('egs.simulator.toolbar')}
         </Link>
         <Link to={EGS_MODEL_PATH} className="ds-btn-secondary ds-btn-app-shape ds-btn-sm">
           Ficha modelo

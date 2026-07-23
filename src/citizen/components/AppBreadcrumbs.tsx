@@ -86,6 +86,12 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
       return [root, { label: 'Participar' }];
     case '/institucional':
       return [root, { label: 'Institucional' }];
+    case '/institucional/piloto':
+      return [root, { label: 'Institucional', to: '/institucional' }, { label: 'Piloto fiscal' }];
+    case '/institucional/registro':
+      return [root, { label: 'Institucional', to: '/institucional' }, { label: 'Registro institucional' }];
+    case '/institucional/acceso':
+      return [root, { label: 'Institucional', to: '/institucional' }, { label: 'Acceso institucional' }];
     case '/aprender/glosario':
       return [root, { label: 'Ayuda', to: '/ayuda' }, { label: 'Glosario' }];
     case '/ayuda':

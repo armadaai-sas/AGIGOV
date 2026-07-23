@@ -1,0 +1,1282 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedFor": "AGIGOV EGS — banco de prueba institucional",
+  "defaultEntity": {
+    "displayName": "Alcaldía de Valencia — Piloto Fiscal AGIGOV",
+    "slug": "alcaldia-valencia-trust-pilot",
+    "iso": "VEN",
+    "currency": "VES",
+    "ministryCode": "ALCVAL",
+    "budgetCode": "3.02.01.05.00",
+    "programName": "Mantenimiento vial y alumbrado público verificable",
+    "territoryCode": "VEN_VALENCIA_01",
+    "fiscalYear": 2026,
+    "quarter": 2,
+    "escrowPrefix": "escrow-ven-alcval",
+    "baselineTrimestralDemo": "12000000.0000",
+    "annualBaselineDemo": "48000000.0000"
+  },
+  "folderLayout": {
+    "happy": "Casos verdes end-to-end",
+    "ingest": "Filas de ingest incoherentes o parciales",
+    "reconcile": "Catálogos que provocan FREEZE centinela",
+    "onboarding": "Estados incompletos de onboarding",
+    "cross": "Incoherencia entre archivos 01/02/03",
+    "auth-ops": "Pruebas manuales API / entorno (sin JSON de gobierno)"
+  },
+  "scenarios": [
+    {
+      "scenarioId": "HAP-001",
+      "title": "Camino feliz — alcaldía Q2, ahorro verificado positivo, Q-close publicado",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/01-institucion-perfil.json",
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json"
+      ],
+      "wizardSteps": ["profile", "model", "baseline", "ingest", "reconcile", "close", "dashboard"],
+      "preconditions": ["postgres up", "PANIC_MODE off"],
+      "actions": [
+        "POST /api/ops/tenants/provision",
+        "POST /api/ops/tenants/{slug}/onboard",
+        "POST /api/ops/tenants/{slug}/baseline/ratify",
+        "POST /api/ops/ingest/{slug} (Bearer)",
+        "POST /api/ops/tenants/{slug}/q-close publish:false",
+        "POST /api/ops/tenants/{slug}/q-close publish:true"
+      ],
+      "expected": {
+        "httpStatus": 200,
+        "onboardingStatus": "ingest_ready",
+        "accepted": ">=1",
+        "skipped": 0,
+        "reconcileOk": true,
+        "quarterCloseStatus": "PUBLISHED",
+        "calculoAhorroFinal": ">0",
+        "published": true,
+        "uiGate": null
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "HAP-002",
+      "title": "Camino feliz — ministerio regional COL, 10 contratos, alto volumen ingest",
+      "category": "happy",
+      "severity": "info",
+      "slug": "gobernacion-carabobo-trust-pilot",
+      "files": [
+        "happy/gobernacion-carabobo/01-institucion-perfil.json",
+        "happy/gobernacion-carabobo/02-catalogo-presupuestario-egs.json",
+        "happy/gobernacion-carabobo/03-ejecucion-trimestre-OK.json"
+      ],
+      "wizardSteps": ["profile", "model", "baseline", "ingest", "reconcile", "close", "dashboard"],
+      "preconditions": ["iso COL", "currency COP"],
+      "actions": ["Mismo pipeline HAP-001 con 40+ filas ingest"],
+      "expected": {
+        "httpStatus": 200,
+        "reconcileOk": true,
+        "quarterCloseStatus": "PUBLISHED",
+        "releaseCount": ">=40"
+      },
+      "productGap": "Paginación / resumen ingest en UI para lotes grandes"
+    },
+    {
+      "scenarioId": "HAP-003",
+      "title": "Ahorro verificado = 0 — gasto igual a baseline (fee AGIGOV = 0)",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/01-institucion-perfil.json",
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-cero-ahorro.json"
+      ],
+      "wizardSteps": ["ingest", "reconcile", "close"],
+      "preconditions": ["ingest_ready", "baselineTrimestral=12000000"],
+      "actions": ["Ingest con suma rows = baseline exacto"],
+      "expected": {
+        "httpStatus": 200,
+        "reconcileOk": true,
+        "calculoAhorroFinal": 0,
+        "agigovFeeAmount": 0,
+        "quarterCloseStatus": "DELTA_CALCULATED",
+        "published": true
+      },
+      "productGap": "Copy explícito en dashboard: «Sin ahorro este trimestre — fee AGIGOV = 0»"
+    },
+    {
+      "scenarioId": "HAP-004",
+      "title": "Ahorro positivo con ajuste fuerza mayor dentro del 5%",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-con-fm-ok.json"
+      ],
+      "wizardSteps": ["ingest", "reconcile", "close"],
+      "preconditions": ["ajustesFuerzaMayor <= 600000 VES (5% de 12M)"],
+      "actions": ["Ingest OK + forceMajeureAdjustments válidos en DB/seed"],
+      "expected": {
+        "reconcileOk": true,
+        "calculoAhorroFinal": "baseline - gastos - ajustes",
+        "quarterCloseStatus": "DELTA_CALCULATED"
+      },
+      "productGap": "Pantalla/API para registrar ajustes fuerza mayor antes del Q-close"
+    },
+    {
+      "scenarioId": "PRO-001",
+      "title": "Slug con mayúsculas y caracteres especiales",
+      "category": "onboarding",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["onboarding/13-perfil-slug-invalido.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": [],
+      "actions": ["POST provision con slug «Alcaldía Valencia!!!»"],
+      "expected": {
+        "httpStatus": 201,
+        "slugNormalized": "alcaldia-valencia-trust-pilot",
+        "uiGate": null
+      },
+      "productGap": "Validar y previsualizar slug normalizado en formulario antes de provisionar"
+    },
+    {
+      "scenarioId": "PRO-002",
+      "title": "Par ministryCode + budgetCode duplicado",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot-duplicado",
+      "files": ["onboarding/13-perfil-duplicado-rubro.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": ["Tenant ALCVAL + 3.02.01.05.00 ya existe"],
+      "actions": ["POST provision segundo tenant mismo rubro"],
+      "expected": {
+        "httpStatus": 500,
+        "errorContains": "unique",
+        "uiGate": "Mensaje: rubro presupuestario ya registrado"
+      },
+      "productGap": "HTTP 409 con código RUBRO_ALREADY_REGISTERED y sugerencia reconectar"
+    },
+    {
+      "scenarioId": "PRO-003",
+      "title": "ISO y moneda incoherentes en perfil",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/19-moneda-distinta.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": [],
+      "actions": ["Provision iso:COL currency:VES en body"],
+      "expected": {
+        "httpStatus": 201,
+        "currencyResolved": "COP",
+        "uiGate": "Advertencia moneda corregida a COP"
+      },
+      "productGap": "Rechazar cruce iso↔currency inválido o pedir confirmación explícita"
+    },
+    {
+      "scenarioId": "PRO-004",
+      "title": "Año fiscal fuera de rango",
+      "category": "onboarding",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["onboarding/13-perfil-anio-invalido.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": [],
+      "actions": ["fiscalYear: 2010"],
+      "expected": {
+        "httpStatus": 201,
+        "uiGate": null
+      },
+      "productGap": "Validar fiscalYear 2024–2030 en formulario"
+    },
+    {
+      "scenarioId": "PRO-005",
+      "title": "Trimestre inválido (0 o 5)",
+      "category": "onboarding",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["onboarding/13-perfil-trimestre-invalido.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": [],
+      "actions": ["quarter: 0"],
+      "expected": {
+        "httpStatus": 201,
+        "uiGate": null
+      },
+      "productGap": "Validar quarter 1–4 obligatorio"
+    },
+    {
+      "scenarioId": "PRO-006",
+      "title": "Campos institucionales vacíos",
+      "category": "onboarding",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["onboarding/13-perfil-campos-vacios.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": [],
+      "actions": ["displayName y programName vacíos"],
+      "expected": {
+        "httpStatus": 201,
+        "defaultsApplied": true
+      },
+      "productGap": "Bloquear provision si displayName o programName vacíos"
+    },
+    {
+      "scenarioId": "ONB-001",
+      "title": "Ingest sin baseline ratificado",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/01-institucion-perfil.json",
+        "ingest/14-ingest-sin-ratify.json"
+      ],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["onboardingStatus: pending | registered | baseline_pending"],
+      "actions": ["POST ingest con Bearer válido antes de ratify"],
+      "expected": {
+        "httpStatus": 403,
+        "error": "baseline_not_ratified",
+        "uiGate": "Complete baseline multi-sig (onboard + ratify)"
+      },
+      "productGap": "Traducir baseline_not_ratified a español institucional en UI"
+    },
+    {
+      "scenarioId": "ONB-002",
+      "title": "Ratify sin onboard previo",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["onboarding/15-ratify-sin-onboard.json"],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["Tenant provisionado, onboard no ejecutado"],
+      "actions": ["POST baseline/ratify sin onboard"],
+      "expected": {
+        "httpStatus": 500,
+        "errorContains": "ejecuta onboard primero",
+        "uiGate": "Botón ratify deshabilitado hasta baseline_pending"
+      },
+      "productGap": "HTTP 400 orden inválido: onboard requerido"
+    },
+    {
+      "scenarioId": "ONB-003",
+      "title": "Onboard tenant inexistente",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "fantasma-tenant-xyz",
+      "files": [],
+      "wizardSteps": ["baseline"],
+      "preconditions": [],
+      "actions": ["POST onboard slug fantasma"],
+      "expected": {
+        "httpStatus": 500,
+        "errorContains": "Tenant desconocido"
+      },
+      "productGap": "HTTP 404 tenant_not_found"
+    },
+    {
+      "scenarioId": "ONB-004",
+      "title": "Tenant suspendido — ingest bloqueado",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["status: suspended en DB"],
+      "actions": ["POST ingest"],
+      "expected": {
+        "httpStatus": 403,
+        "error": "tenant_not_active"
+      },
+      "productGap": "Mostrar estado suspended en lista tenants y wizard"
+    },
+    {
+      "scenarioId": "ONB-005",
+      "title": "Ratify sin claves institucionales",
+      "category": "onboarding",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["Borrar institution-keys.json del tenant"],
+      "actions": ["POST baseline/ratify"],
+      "expected": {
+        "httpStatus": 500,
+        "errorContains": "Faltan claves institucionales"
+      },
+      "productGap": "Runbook en UI: re-ejecutar onboard regenera claves"
+    },
+    {
+      "scenarioId": "ONB-006",
+      "title": "Multi-sig insuficiente — ratify parcial",
+      "category": "onboarding",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["threshold=3, validCount<3"],
+      "actions": ["POST ratify con claves incompletas"],
+      "expected": {
+        "httpStatus": 200,
+        "ratified": false,
+        "onboardingStatus": "baseline_pending",
+        "uiGate": "Faltan firmas para umbral multi-sig"
+      },
+      "productGap": "Mostrar validCount/threshold en paso baseline"
+    },
+    {
+      "scenarioId": "ONB-007",
+      "title": "Re-onboard idempotente cuando ya ingest_ready",
+      "category": "onboarding",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["onboardingStatus: ingest_ready"],
+      "actions": ["POST onboard de nuevo"],
+      "expected": {
+        "httpStatus": 200,
+        "onboardingStatus": "ingest_ready"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "ING-001",
+      "title": "Ingest — contractRef inexistente en catálogo",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "ingest/04-ingest-contrato-inexistente.json"
+      ],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["POST ingest contractRef escrow-fantasma-c99"],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 1,
+        "reconcileOk": null,
+        "uiMessage": "Aceptadas 0 · omitidas 1"
+      },
+      "productGap": "Devolver skipReasons[]: CONTRACT_NOT_FOUND por fila"
+    },
+    {
+      "scenarioId": "ING-002",
+      "title": "Ingest — monto cero",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/05-ingest-monto-invalido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["amount: \"0\""],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 1
+      },
+      "productGap": "skipReason: INVALID_AMOUNT_ZERO"
+    },
+    {
+      "scenarioId": "ING-003",
+      "title": "Ingest — monto no numérico",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/05-ingest-monto-invalido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["amount: \"abc\""],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 1
+      },
+      "productGap": "skipReason: INVALID_AMOUNT_FORMAT"
+    },
+    {
+      "scenarioId": "ING-004",
+      "title": "Ingest — hito duplicado (mismo contractRef + milestoneIndex)",
+      "category": "ingest",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/06-ingest-hito-duplicado.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready", "hito 1 ya aceptado en Q2"],
+      "actions": ["Re-enviar misma fila"],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 1
+      },
+      "productGap": "skipReason: DUPLICATE_MILESTONE — idempotencia explícita"
+    },
+    {
+      "scenarioId": "ING-005",
+      "title": "Ingest — lote mixto (3 válidas + 2 inválidas)",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/07-ingest-mixto-aceptado-omitido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["POST 5 rows en un body"],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 3,
+        "skipped": 2,
+        "centinela": "reconcile si escrow OK"
+      },
+      "productGap": "Tabla resultado fila a fila en wizard ingest"
+    },
+    {
+      "scenarioId": "ING-006",
+      "title": "Ingest — milestoneIndex negativo o decimal",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/05-ingest-monto-invalido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["milestoneIndex: -1 o 1.5"],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 1
+      },
+      "productGap": "Validar milestoneIndex entero positivo en API schema"
+    },
+    {
+      "scenarioId": "ING-007",
+      "title": "Ingest — 50 filas todas inválidas",
+      "category": "ingest",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/07-ingest-todas-invalidas.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["POST 50 rows contractRef fantasma"],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 0,
+        "skipped": 50,
+        "uiGate": "Alerta: ninguna fila aceptada — revise catálogo"
+      },
+      "productGap": "HTTP 422 si accepted=0 en lote > N filas"
+    },
+    {
+      "scenarioId": "ING-008",
+      "title": "Ingest — verifiedAt mal formado",
+      "category": "ingest",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/05-ingest-monto-invalido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["verifiedAt: \"ayer por la tarde\""],
+      "expected": {
+        "httpStatus": 200,
+        "accepted": 1,
+        "verifiedAtFallback": "now()"
+      },
+      "productGap": "Validar ISO 8601 estricto o rechazar fila"
+    },
+    {
+      "scenarioId": "AUT-001",
+      "title": "Ingest sin header Authorization",
+      "category": "auth-ops",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["auth-ops/16-ingest-sin-bearer.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["POST ingest sin Bearer"],
+      "expected": {
+        "httpStatus": 401,
+        "error": "missing_bearer"
+      },
+      "productGap": "Mensaje UI: token de ingestión requerido — reconecte tenant"
+    },
+    {
+      "scenarioId": "AUT-002",
+      "title": "Ingest con Bearer inválido",
+      "category": "auth-ops",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["auth-ops/17-ingest-token-invalido.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["Authorization: Bearer token-falso"],
+      "expected": {
+        "httpStatus": 401,
+        "error": "invalid_token"
+      },
+      "productGap": "Botón reconectar regenera token en paso perfil"
+    },
+    {
+      "scenarioId": "AUT-003",
+      "title": "Ingest a slug desconocido",
+      "category": "auth-ops",
+      "severity": "error",
+      "slug": "tenant-inexistente-xyz",
+      "files": [],
+      "wizardSteps": ["ingest"],
+      "preconditions": [],
+      "actions": ["POST /api/ops/ingest/tenant-inexistente-xyz"],
+      "expected": {
+        "httpStatus": 401,
+        "error": "unknown_tenant"
+      },
+      "productGap": "HTTP 404 para slug desconocido"
+    },
+    {
+      "scenarioId": "AUT-004",
+      "title": "Ingest body vacío — sin rows",
+      "category": "ingest",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/08-ingest-body-vacio.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["POST {} o rows:[]"],
+      "expected": {
+        "httpStatus": 400,
+        "error": "body.rows[] requerido (al menos una fila)"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "AUT-005",
+      "title": "PANIC_MODE — todas las mutaciones ops suspendidas",
+      "category": "auth-ops",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["auth-ops/18-ops-panic-mode.json"],
+      "wizardSteps": ["profile", "baseline", "ingest", "close"],
+      "preconditions": ["PANIC_MODE=1"],
+      "actions": ["provision | onboard | ingest | q-close"],
+      "expected": {
+        "httpStatus": 503,
+        "errorContains": "PANIC_MODE"
+      },
+      "productGap": "Banner global PWA cuando panic activo"
+    },
+    {
+      "scenarioId": "REC-001",
+      "title": "Centinela FREEZE — escrow LOCKED con hito ingestado",
+      "category": "reconcile",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "reconcile/09-catalogo-escrow-no-released.json",
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json"
+      ],
+      "wizardSteps": ["reconcile", "close"],
+      "preconditions": ["ingest_ready", "contrato c03 status LOCKED en catálogo"],
+      "actions": ["Ingest hito en c03 → POST q-close publish:false"],
+      "expected": {
+        "httpStatus": 409,
+        "reconcileOk": false,
+        "quarterCloseStatus": "FROZEN",
+        "discrepanciesContains": "expected RELEASED",
+        "uiGate": "Cierre trimestral bloqueado — centinela detectó discrepancia"
+      },
+      "productGap": "Link desde discrepancia al contrato en consola EGS"
+    },
+    {
+      "scenarioId": "REC-002",
+      "title": "Reconcile en quarter ya FROZEN",
+      "category": "reconcile",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["reconcile/12-quarter-ya-frozen.json"],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["quarterClose.status=FROZEN"],
+      "actions": ["POST q-close"],
+      "expected": {
+        "httpStatus": 409,
+        "discrepanciesContains": "QuarterClose FROZEN",
+        "reconcileOk": false
+      },
+      "productGap": "Flujo human-in-the-loop des-congelar con acta"
+    },
+    {
+      "scenarioId": "REC-003",
+      "title": "Ajustes fuerza mayor superan 5% baseline",
+      "category": "reconcile",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "reconcile/10-fuerza-mayor-supera-5pct.json"
+      ],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["ajustes > 600000 VES sobre baseline 12M"],
+      "actions": ["POST q-close"],
+      "expected": {
+        "httpStatus": 409,
+        "reconcileOk": false,
+        "discrepanciesContains": "exceden tope 5%",
+        "quarterCloseStatus": "FROZEN"
+      },
+      "productGap": "Validar tope 5% al cargar ajustes, no solo en reconcile"
+    },
+    {
+      "scenarioId": "REC-004",
+      "title": "Re-ejecutar reconcile tras FREEZE sin corrección",
+      "category": "reconcile",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["Estado FROZEN post REC-001"],
+      "actions": ["Botón re-ejecutar reconcile en wizard"],
+      "expected": {
+        "httpStatus": 409,
+        "reconcileOk": false,
+        "published": false
+      },
+      "productGap": "Checklist de resolución antes de permitir re-run"
+    },
+    {
+      "scenarioId": "FIS-001",
+      "title": "Ahorro verificado positivo — reparto 70/20/10",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json"],
+      "wizardSteps": ["reconcile", "close"],
+      "preconditions": ["gastos < baseline"],
+      "actions": ["q-close"],
+      "expected": {
+        "calculoAhorroFinal": ">0",
+        "reinversionAmount": "70% ahorro",
+        "meritPoolAmount": "20% ahorro",
+        "agigovFeeAmount": "10% ahorro"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "FIS-002",
+      "title": "Gasto igual baseline — ahorro 0, fee 0",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["happy/alcaldia-valencia/03-ejecucion-trimestre-cero-ahorro.json"],
+      "wizardSteps": ["reconcile", "close"],
+      "preconditions": [],
+      "actions": ["q-close"],
+      "expected": {
+        "calculoAhorroFinal": 0,
+        "agigovFeeAmount": 0,
+        "reconcileOk": true
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "FIS-003",
+      "title": "Sobregasto — gasto > baseline (ahorro ≤ 0)",
+      "category": "reconcile",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["reconcile/11-gasto-supera-baseline.json"],
+      "wizardSteps": ["reconcile", "close"],
+      "preconditions": ["suma ingest > baselineTrimestral"],
+      "actions": ["q-close"],
+      "expected": {
+        "calculoAhorroFinal": "<=0",
+        "agigovFeeAmount": 0,
+        "reconcileOk": true,
+        "uiMessage": "Sin ahorro verificado este trimestre"
+      },
+      "productGap": "Alerta amarilla sobregasto antes de publicar"
+    },
+    {
+      "scenarioId": "FIS-004",
+      "title": "Cero ingest — ahorro = baseline completo",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["ingestAccepted=0", "sin releases"],
+      "actions": ["q-close sin ingest previo"],
+      "expected": {
+        "gastosVerificados": 0,
+        "calculoAhorroFinal": "baseline completo",
+        "uiGate": "Envíe al menos un hito (wizard)"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "FIS-005",
+      "title": "Redondeo 4 decimales en reparto EGS",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json"],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["ahorro pequeño e.g. 0.3333"],
+      "actions": ["q-close"],
+      "expected": {
+        "sumBuckets": "≈ calculoAhorroFinal ± 0.0001"
+      },
+      "productGap": "Documentar regla redondeo en ficha EGS"
+    },
+    {
+      "scenarioId": "QCL-001",
+      "title": "Q-close sin publicar — solo reconcile",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["ingest OK"],
+      "actions": ["POST q-close publish:false"],
+      "expected": {
+        "httpStatus": 200,
+        "published": false,
+        "quarterCloseStatus": "PENDING_VALIDATION",
+        "reconcileOk": true
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "QCL-002",
+      "title": "Q-close publicado — dashboard habilitado",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["close", "dashboard"],
+      "preconditions": ["reconcileOk true"],
+      "actions": ["POST q-close publish:true"],
+      "expected": {
+        "httpStatus": 200,
+        "published": true,
+        "quarterCloseStatus": "PUBLISHED",
+        "uiGate": null
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "QCL-003",
+      "title": "Publish bloqueado si reconcile falla",
+      "category": "reconcile",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["reconcile/09-catalogo-escrow-no-released.json"],
+      "wizardSteps": ["close"],
+      "preconditions": ["reconcileOk false / FROZEN"],
+      "actions": ["POST q-close publish:true"],
+      "expected": {
+        "httpStatus": 409,
+        "published": false
+      },
+      "productGap": "Desactivar botón publicar si reconcileOk !== true"
+    },
+    {
+      "scenarioId": "QCL-004",
+      "title": "Doble publish — idempotencia",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["close"],
+      "preconditions": ["ya PUBLISHED"],
+      "actions": ["POST q-close publish:true x2"],
+      "expected": {
+        "httpStatus": 200,
+        "published": true,
+        "idempotent": true
+      },
+      "productGap": "Mensaje «Ya publicado» en segundo intento"
+    },
+    {
+      "scenarioId": "QCL-005",
+      "title": "Publish con PANIC_MODE activo",
+      "category": "auth-ops",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["close"],
+      "preconditions": ["PANIC_MODE=1"],
+      "actions": ["POST q-close publish:true"],
+      "expected": {
+        "httpStatus": 503,
+        "errorContains": "PANIC_MODE: q-close suspendido"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "QCL-006",
+      "title": "Dashboard bloqueado sin publish",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["dashboard"],
+      "preconditions": ["published false"],
+      "actions": ["Navegar paso 7 wizard"],
+      "expected": {
+        "uiGate": "Publique el Q-close para ver su dashboard con datos reales"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "X-001",
+      "title": "Moneda distinta entre perfil y catálogo",
+      "category": "cross",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/19-moneda-distinta.json"],
+      "wizardSteps": ["profile", "ingest"],
+      "preconditions": ["01 currency VES, 02 currency COP"],
+      "actions": ["Importar paquete inconsistente"],
+      "expected": {
+        "httpStatus": "400 o freeze",
+        "uiGate": "Moneda inconsistente entre archivos"
+      },
+      "productGap": "Validador cross-file al importar paquete fixture"
+    },
+    {
+      "scenarioId": "X-002",
+      "title": "Trimestre distinto entre perfil e ingest",
+      "category": "cross",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/20-trimestre-distinto.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["perfil Q2, meta ingest Q3"],
+      "actions": ["Cargar 03 con quarter:3"],
+      "expected": {
+        "uiGate": "Datos de otro trimestre — revise periodo fiscal"
+      },
+      "productGap": "Validar fiscalYear/quarter en meta de archivo 03"
+    },
+    {
+      "scenarioId": "X-003",
+      "title": "Slug distinto entre archivos del paquete",
+      "category": "cross",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/21-slug-cruzado.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": ["01 slug A, 03 meta slug B"],
+      "actions": ["Importar paquete"],
+      "expected": {
+        "uiGate": "Slug inconsistente"
+      },
+      "productGap": "Validación slug único en import"
+    },
+    {
+      "scenarioId": "X-004",
+      "title": "Suma hitos supera totalAmount del contrato",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+        "ingest/07-ingest-excede-contrato.json"
+      ],
+      "wizardSteps": ["ingest", "reconcile"],
+      "preconditions": ["totalAmount contrato c01 = 82000"],
+      "actions": ["Ingest suma > 82000 en c01"],
+      "expected": {
+        "accepted": ">=1",
+        "reconcileOk": "TBD — posible gap",
+        "productNote": "Sistema puede aceptar ingest; validar si centinela debe alertar"
+      },
+      "productGap": "Regla: suma hitos por contrato ≤ escrow.amount"
+    },
+    {
+      "scenarioId": "X-005",
+      "title": "territoryCode del contrato ≠ perfil institucional",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/21-territorio-distinto.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["perfil VEN_VALENCIA_01, contrato VEN_NAGUANA_02"],
+      "actions": ["Ingest normal"],
+      "expected": {
+        "accepted": ">=1",
+        "uiWarning": "Contrato en territorio distinto al perfil"
+      },
+      "productGap": "Warning territorial en consola"
+    },
+    {
+      "scenarioId": "X-006",
+      "title": "ministryCode perfil ≠ baseline acta",
+      "category": "cross",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/21-ministerio-distinto.json"],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["01 ALCVAL, 02 acta MPPI"],
+      "actions": ["Onboard + ratify"],
+      "expected": {
+        "httpStatus": 500,
+        "errorContains": "BaselineAct"
+      },
+      "productGap": "Validar ministryCode en import catálogo"
+    },
+    {
+      "scenarioId": "X-007",
+      "title": "evidenceRef sin entrada en evidenceCatalog",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json",
+        "happy/alcaldia-valencia/evidenceCatalog.json"
+      ],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["evidenceRef huérfano"],
+      "actions": ["Ingest OK"],
+      "expected": {
+        "accepted": 1,
+        "auditGap": "Evidencia no catalogada"
+      },
+      "productGap": "Conciliador alerta evidenceRef sin catálogo"
+    },
+    {
+      "scenarioId": "X-008",
+      "title": "Baseline anual acta ≠ derivación trimestral en catálogo",
+      "category": "cross",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/21-baseline-incoherente.json"],
+      "wizardSteps": ["baseline", "reconcile"],
+      "preconditions": ["annual 48M pero baselineTrimestral 20M sin factor"],
+      "actions": ["Ratify + q-close"],
+      "expected": {
+        "uiWarning": "Baseline trimestral no cuadra con acta anual"
+      },
+      "productGap": "Validar baselineTrimestral = f(acta, quarter, seasonal)"
+    },
+    {
+      "scenarioId": "UI-001",
+      "title": "Wizard — ingest sin slug/token",
+      "category": "happy",
+      "severity": "info",
+      "slug": null,
+      "files": [],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["sesión vacía localStorage"],
+      "actions": ["Ir paso ingest directo"],
+      "expected": {
+        "uiGate": "Falta token — vuelva a provisionar o reconecte tenant"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-002",
+      "title": "Wizard — baseline sin modelo EGS",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["baseline"],
+      "preconditions": ["modelId null"],
+      "actions": ["Saltar a paso baseline"],
+      "expected": {
+        "uiGate": "Seleccione el modelo fiscal EGS"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-003",
+      "title": "Wizard — ingest con baseline_pending",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["onboardingStatus baseline_pending"],
+      "actions": ["Ir paso ingest"],
+      "expected": {
+        "uiGate": "Complete baseline multi-sig (onboard + ratify)"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-004",
+      "title": "Wizard — reconcile sin ingest",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["ingestAccepted=0"],
+      "actions": ["Ir paso reconcile"],
+      "expected": {
+        "uiGate": "Envíe al menos un hito verificado"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-005",
+      "title": "Wizard — Q-close con reconcile fallido",
+      "category": "reconcile",
+      "severity": "error",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["close"],
+      "preconditions": ["reconcileOk false"],
+      "actions": ["Ir paso close"],
+      "expected": {
+        "uiGate": "Centinela debe validar reconcile antes de publicar"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-006",
+      "title": "Wizard — dashboard sin publish",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["dashboard"],
+      "preconditions": ["published false"],
+      "actions": ["Ir paso dashboard"],
+      "expected": {
+        "uiGate": "Publique el Q-close para ver dashboard"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "UI-007",
+      "title": "Wizard — reconectar tenant CLI sin localStorage",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["profile"],
+      "preconditions": ["tenant en DB, sin sesión PWA"],
+      "actions": ["Lista tenants → Reconectar"],
+      "expected": {
+        "ingestToken": "nuevo",
+        "maxStepReached": ">=1"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "OPS-001",
+      "title": "Health ops — postgres y panic",
+      "category": "auth-ops",
+      "severity": "info",
+      "slug": null,
+      "files": [],
+      "wizardSteps": [],
+      "preconditions": [],
+      "actions": ["GET /api/ops/health"],
+      "expected": {
+        "postgres": true,
+        "panicMode": false,
+        "ok": true
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "OPS-002",
+      "title": "Postgres caído — API degradada",
+      "category": "auth-ops",
+      "severity": "critical",
+      "slug": null,
+      "files": [],
+      "wizardSteps": [],
+      "preconditions": ["postgres stopped"],
+      "actions": ["GET /api/public/health"],
+      "expected": {
+        "postgres": false,
+        "uiDegraded": true
+      },
+      "productGap": "Estado degradado en PWA con instrucciones ops"
+    },
+    {
+      "scenarioId": "OPS-003",
+      "title": "Rotación token ingest — re-provision",
+      "category": "auth-ops",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [],
+      "wizardSteps": ["profile"],
+      "preconditions": ["token viejo filtrado"],
+      "actions": ["Re-provision → ingest con token nuevo"],
+      "expected": {
+        "oldToken": "invalid_token",
+        "newToken": "accepted"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "OPS-004",
+      "title": "Drill pánico — npm run panic:drill",
+      "category": "auth-ops",
+      "severity": "critical",
+      "slug": null,
+      "files": [],
+      "wizardSteps": [],
+      "preconditions": ["runbook Fase 6"],
+      "actions": ["panic:drill"],
+      "expected": {
+        "PANIC_MODE": true,
+        "mutationsBlocked": true
+      },
+      "productGap": "Runbook link desde banner panic"
+    },
+    {
+      "scenarioId": "GOV-001",
+      "title": "Escala alcaldía — 3 proveedores, 15 contratos, parroquias",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": [
+        "happy/alcaldia-valencia/02-catalogo-presupuestario-egs-15c.json",
+        "happy/alcaldia-valencia/03-ejecucion-trimestre-15c.json",
+        "happy/alcaldia-valencia/evidenceCatalog.json"
+      ],
+      "wizardSteps": ["ingest", "reconcile", "close", "dashboard"],
+      "preconditions": ["ingest_ready"],
+      "actions": ["Ingest 45+ hitos"],
+      "expected": {
+        "reconcileOk": true,
+        "contracts": 15,
+        "parishes": ["Candelaria", "San Blas", "Santa Rosa", "Naguanagua", "Sur"]
+      },
+      "productGap": "Filtro por parroquia en consola EGS"
+    },
+    {
+      "scenarioId": "GOV-002",
+      "title": "Freeze parcial — 1 contrato FROZEN + 9 RELEASED",
+      "category": "reconcile",
+      "severity": "critical",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["reconcile/09-catalogo-escrow-mixto-freeze.json"],
+      "wizardSteps": ["reconcile"],
+      "preconditions": ["c05 FROZEN, resto RELEASED"],
+      "actions": ["Ingest solo en c05"],
+      "expected": {
+        "reconcileOk": false,
+        "quarterCloseStatus": "FROZEN"
+      },
+      "productGap": "Aislar contrato problemático sin bloquear todo el catálogo (futuro)"
+    },
+    {
+      "scenarioId": "GOV-003",
+      "title": "Evidencias mixtas — acta + foto GPS + IoT",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["happy/alcaldia-valencia/evidenceCatalog.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": [],
+      "actions": ["Ingest con evidenceRef de catálogo"],
+      "expected": {
+        "evidenceTypes": ["acta_recepcion", "foto_georreferenciada", "iot_uplink"]
+      },
+      "productGap": "Vista custodia por tipo de evidencia en ficha contrato"
+    },
+    {
+      "scenarioId": "GOV-004",
+      "title": "Factor estacional Q4 — baseline trimestral ≠ anual/4",
+      "category": "happy",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["happy/alcaldia-valencia/02-catalogo-q4-estacional.json"],
+      "wizardSteps": ["baseline", "reconcile"],
+      "preconditions": ["seasonalFactorQ4: 1.1"],
+      "actions": ["Q4 provision"],
+      "expected": {
+        "baselineTrimestral": "annual/4 * 1.1"
+      },
+      "productGap": null
+    },
+    {
+      "scenarioId": "GOV-005",
+      "title": "Re-ingest corrección trimestre — idempotencia operativa",
+      "category": "ingest",
+      "severity": "info",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["ingest/06-correccion-trimestre.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["hito erróneo corregido con nuevo milestoneIndex"],
+      "actions": ["Segundo ingest con índice nuevo"],
+      "expected": {
+        "accepted": 1,
+        "skipped": 0
+      },
+      "productGap": "Flujo anulación hito con acta (human-in-the-loop)"
+    },
+    {
+      "scenarioId": "GOV-006",
+      "title": "Colisión territoryCode — dos entidades mismo código",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/21-territorio-colision.json"],
+      "wizardSteps": ["profile"],
+      "preconditions": ["VEN_VALENCIA_01 ya usado por otro tenant"],
+      "actions": ["Provision segundo tenant mismo territory"],
+      "expected": {
+        "httpStatus": "TBD",
+        "uiWarning": "Territorio ya asignado"
+      },
+      "productGap": "Unicidad territoryCode por tenant activo"
+    },
+    {
+      "scenarioId": "GOV-007",
+      "title": "Error humano — rubro reportado en moneda dual",
+      "category": "cross",
+      "severity": "warning",
+      "slug": "alcaldia-valencia-trust-pilot",
+      "files": ["cross/19-moneda-mixta-en-rows.json"],
+      "wizardSteps": ["ingest"],
+      "preconditions": ["catálogo VES, fila con amount USD mental"],
+      "actions": ["Ingest monto 100x fuera de escala"],
+      "expected": {
+        "uiWarning": "Monto atípico vs baseline — confirme moneda"
+      },
+      "productGap": "Heurística outlier antes de accept"
+    }
+  ],
+  "summary": {
+    "totalScenarios": 58,
+    "byCategory": {
+      "happy": 14,
+      "ingest": 10,
+      "reconcile": 9,
+      "onboarding": 10,
+      "cross": 10,
+      "auth-ops": 8,
+      "ui": 7
+    },
+    "topProductGaps": [
+      "skipReasons[] por fila en ingest",
+      "Validador cross-file al importar paquete 01+02+03",
+      "API/pantalla ajustes fuerza mayor",
+      "Flujo human-in-the-loop des-congelar FROZEN",
+      "Copy ahorro cero / fee cero en dashboard",
+      "Link discrepancia → contrato en consola",
+      "HTTP 409 RUBRO_ALREADY_REGISTERED en provision duplicada"
+    ],
+    "nextFilesToGenerate": [
+      "happy/alcaldia-valencia/01-institucion-perfil.json",
+      "happy/alcaldia-valencia/02-catalogo-presupuestario-egs.json",
+      "happy/alcaldia-valencia/03-ejecucion-trimestre-OK.json",
+      "happy/alcaldia-valencia/evidenceCatalog.json",
+      "ingest/04-ingest-contrato-inexistente.json",
+      "ingest/07-ingest-mixto-aceptado-omitido.json",
+      "reconcile/09-catalogo-escrow-no-released.json",
+      "reconcile/10-fuerza-mayor-supera-5pct.json",
+      "reconcile/11-gasto-supera-baseline.json"
+    ]
+  },
+  "promptForNextAgent": "Lee defaultEntity y cada scenarioId. Genera los archivos listados en nextFilesToGenerate con datos realistas Alcaldía Valencia (calles: Av. Bolívar, Av. Lara, calle Páez, sector Naguanagua). Montos VES string 4 decimales. Cada JSON incluye bloque _validation con checksums y _expected alineado al MANIFEST. Luego genera el resto de archivos referenciados por escenarios ING/REC/CROSS."
+}

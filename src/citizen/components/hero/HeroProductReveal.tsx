@@ -22,6 +22,7 @@ const DEMO: MinistryHealthResponse = {
   baselineTrimestral: '2400000',
   gastosVerificados: '2220000',
   calculoAhorroFinal: '180000',
+  currency: 'VES',
   executionPct: 92,
   escrowExecutionPct: 94,
   split: { reinversion: '126000', meritPool: '36000', agigovFee: '18000' },
@@ -75,7 +76,7 @@ export function HeroProductReveal() {
           </h1>
 
           <p className="hero-landing-lead">
-            Cierre trimestral automático, hitos en Smart Escrow y ahorro Δ verificable por
+            Cierre trimestral automático, hitos en Smart Escrow y ahorro verificable por
             centinela. Mismo techo presupuestario, más obra publicada — fee AGIGOV solo sobre
             ahorro real.
           </p>
@@ -146,7 +147,7 @@ function HeroConsoleMockup({ variant }: { variant: 'compact' | 'full' }) {
           <div className="hero-console-mockup-kpis">
             <div className="hero-console-mockup-kpi hero-console-mockup-kpi--accent">
               {!compact ? <TrendingDown className="h-4 w-4 text-emerald-400" /> : null}
-              <p className="hero-console-mockup-kpi-label">Ahorro Δ</p>
+              <p className="hero-console-mockup-kpi-label">Ahorro verificado</p>
               <p className="hero-console-mockup-kpi-value">
                 {formatVes(data.calculoAhorroFinal)}
                 <span className="hero-console-mockup-kpi-unit">VES</span>

@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 
-/** Simulador demo Δ EGS — no conecta tesorería real. */
+import { useSovereignConfig } from '../../context/PlatformContext.js';
+
+/** Simulador demo de ahorro EGS — no conecta tesorería real. */
 export function EgsDeltaSimulator() {
+  const { t } = useSovereignConfig();
   const [baseline, setBaseline] = useState(1_000_000);
   const [spent, setSpent] = useState(850_000);
   const [feePct, setFeePct] = useState(10);
@@ -21,7 +24,7 @@ export function EgsDeltaSimulator() {
 
   return (
     <section className="agigov-card" id="simulador-delta">
-      <h2 className="font-display text-lg font-semibold">Simulador Δ (demo)</h2>
+      <h2 className="font-display text-lg font-semibold">{t('egs.simulator.title')}</h2>
       <p className="mt-1 text-sm text-agigov-text-muted">
         Estime ahorro fiscal verificable y reparto referencia 70/20/10 — sin vincular tesorería nacional.
       </p>
@@ -50,7 +53,7 @@ export function EgsDeltaSimulator() {
           />
         </label>
         <label className="block text-sm">
-          <span className="text-agigov-text-muted">Success fee (% del Δ)</span>
+          <span className="text-agigov-text-muted">{t('egs.simulator.feePct')}</span>
           <input
             type="range"
             min={5}
@@ -62,7 +65,7 @@ export function EgsDeltaSimulator() {
           <span className="mt-1 block font-mono text-sky-300">{feePct}%</span>
         </label>
         <label className="block text-sm">
-          <span className="text-agigov-text-muted">Reparto ciudadano / operador (% del Δ)</span>
+          <span className="text-agigov-text-muted">{t('egs.simulator.splitPct')}</span>
           <div className="mt-2 flex gap-2">
             <input
               type="number"
@@ -84,13 +87,13 @@ export function EgsDeltaSimulator() {
             />
           </div>
           <span className="mt-1 block text-xs text-agigov-text-muted">
-            Protocolo: {protocolPct}% · Fee operador AGIGOV: {feePct}% del Δ
+            {t('egs.simulator.feeNote', { protocolPct: String(protocolPct), feePct: String(feePct) })}
           </span>
         </label>
       </div>
 
       <dl className="mt-6 grid gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.04] p-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label="Δ ahorro" value={result.delta} highlight />
+        <Metric label={t('egs.simulator.metric')} value={result.delta} highlight />
         <Metric label="Fee EGS" value={result.fee} />
         <Metric label="→ Ciudadano" value={result.citizen} />
         <Metric label="→ Operador" value={result.operator} />

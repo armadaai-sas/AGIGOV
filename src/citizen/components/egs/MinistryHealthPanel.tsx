@@ -12,10 +12,12 @@ import { EgsConnectionPanel } from '../services/ServiceConnectionPanel.js';
 import { PlatformAlert } from '../PlatformAlert.js';
 import { StatusBadge } from '../StatusBadge.js';
 
-function formatVes(value: string): string {
+import { useSovereignConfig } from '../../context/PlatformContext.js';
+
+function formatAmount(value: string, formatMoney: (v: string | number, o?: { showCode?: boolean }) => string): string {
   const n = parseFloat(value);
   if (Number.isNaN(n)) return value;
-  return n.toLocaleString('es-VE', { maximumFractionDigits: 0 });
+  return formatMoney(n);
 }
 
 function pctOf(part: string, total: string): number {
@@ -26,6 +28,9 @@ function pctOf(part: string, total: string): number {
 }
 
 export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) {
+  const { formatMoney, sovereign, t } = useSovereignConfig();
+  const unit = data.currency ?? sovereign.currency;
+  const fmt = (v: string) => `${formatAmount(v, formatMoney)} ${unit}`;
   const budgetOk = data.reconcileOk && data.quarterCloseStatus !== 'FROZEN';
 
   return (
@@ -52,9 +57,9 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <KpiCard
           icon={TrendingDown}
-          label="Ahorro Δ trimestral"
-          value={formatVes(data.calculoAhorroFinal)}
-          suffix="VES"
+          label={t('egs.savings.quarterly')}
+          value={formatAmount(data.calculoAhorroFinal, formatMoney)}
+          suffix={unit}
           accent={data.reconcileOk ? 'text-emerald-300' : 'text-red-300'}
         />
         <KpiCard
@@ -99,9 +104,9 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
             className="bg-emerald-500/80"
           />
           <div className="flex justify-between text-sm">
-            <span className="text-agigov-text-muted">Ahorro generado (Δ)</span>
+            <span className="text-agigov-text-muted">{t('egs.savings.generated')}</span>
             <span className="font-semibold text-emerald-300">
-              {formatVes(data.calculoAhorroFinal)} VES
+              {fmt(data.calculoAhorroFinal)}
             </span>
           </div>
         </div>
@@ -113,7 +118,7 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
           <h2 className="font-display text-lg font-semibold">Reparto EGS 70 / 20 / 10</h2>
         </div>
         <p className="mt-1 text-sm text-agigov-text-muted">
-          Sobre el ahorro verificable Δ — Efficiency Gain Share
+          {t('egs.savings.splitLead')}
         </p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -238,12 +243,13 @@ function BudgetBar({
   pct: number;
   className: string;
 }) {
+  const { formatMoney, sovereign } = useSovereignConfig();
   return (
     <div>
       <div className="mb-2 flex justify-between text-sm">
         <span className="text-agigov-text-muted">{label}</span>
         <span className="font-medium text-agigov-text">
-          {formatVes(amount)} VES · {pct}%
+          {formatMoney(amount)} {sovereign.currency} · {pct}%
         </span>
       </div>
       <div className="agigov-progress-track">
@@ -267,12 +273,13 @@ function SplitBucket({
   amount: string;
   className: string;
 }) {
+  const { formatMoney, sovereign } = useSovereignConfig();
   return (
     <div className={`rounded-xl border px-4 py-3 ${className}`}>
       <p className="text-2xl font-bold text-agigov-text">{pct}%</p>
       <p className="text-xs text-agigov-text-muted">{label}</p>
       <p className="mt-2 font-display text-sm font-semibold text-agigov-text">
-        {formatVes(amount)} VES
+        {formatMoney(amount)} {sovereign.currency}
       </p>
     </div>
   );
@@ -289,6 +296,7 @@ function ContractTile({
 }: {
   contract: MinistryHealthResponse['contracts'][number];
 }) {
+  const { formatMoney, sovereign } = useSovereignConfig();
   return (
     <Link
       to={`/proyectos/contrato/${encodeURIComponent(contract.id)}`}
@@ -300,7 +308,7 @@ function ContractTile({
         {contract.milestonesReleased}/{contract.milestonesTotal} hitos
       </p>
       <p className="mt-1 text-xs font-medium text-agigov-text">
-        {formatVes(contract.spentAmount)} VES
+        {formatMoney(contract.spentAmount)} {sovereign.currency}
       </p>
       <span className="mt-3 flex items-center gap-1 text-[10px] text-sky-300 opacity-0 transition group-hover:opacity-100">
         Ver custodia <ArrowRight className="h-3 w-3" />

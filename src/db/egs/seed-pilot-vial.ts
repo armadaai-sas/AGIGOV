@@ -1,27 +1,94 @@
+import type { JurisdictionIso } from '../../config/sovereign/jurisdictions.js';
 import type { CoreDb } from '../client.js';
 import { payloadHash } from '../sync/conflicts.js';
+import {
+  getPilotProfileForIso,
+  type PilotJurisdictionProfile,
+} from '../../pilot/pilot-jurisdiction-profiles.js';
 import {
   baselineTrimestralFromActa,
   computeQuarterClose,
   toTreasuryPayload,
 } from './quarter-close.js';
 
-const ORIGIN = 'node-ven-vial-pilot-01';
-const MINISTRY = 'MPPI';
-const BUDGET_CODE = '4.01.02.01.00';
-const FISCAL_YEAR = 2026;
-const QUARTER = 2;
+export type SeedEgsPilotOptions = {
+  iso?: JurisdictionIso;
+  ministryCode?: string;
+  budgetCode?: string;
+  programName?: string;
+  territoryCode?: string;
+  fiscalYear?: number;
+  quarter?: number;
+  originNodeId?: string;
+  contractCount?: number;
+  currency?: string;
+  /** Override escala monetaria (p. ej. tests). */
+  egsScale?: PilotJurisdictionProfile['egsScale'];
+};
 
-/** 10 contratos · 50 hitos (5 por contrato) · Δ positivo demo. */
-export async function seedEgsPilotVial(db: CoreDb) {
+function resolveSeedContext(options: SeedEgsPilotOptions) {
+  const iso = options.iso ?? 'VEN';
+  const profile = getPilotProfileForIso(iso);
+  const scale = options.egsScale ?? profile.egsScale;
+  const ministryCode = options.ministryCode ?? profile.ministryCode;
+  const budgetCode = options.budgetCode ?? profile.budgetCode;
+  const currency = options.currency ?? profile.currency;
+  const didNs = profile.didNamespace;
+  const escrowPrefix = profile.escrowPrefix;
+
+  return {
+    iso,
+    profile,
+    scale,
+    ORIGIN: options.originNodeId ?? profile.originNodeId,
+    MINISTRY: ministryCode,
+    BUDGET_CODE: budgetCode,
+    FISCAL_YEAR: options.fiscalYear ?? 2026,
+    QUARTER: options.quarter ?? 2,
+    programName: options.programName ?? profile.programName,
+    territoryCode: options.territoryCode ?? profile.territoryCode,
+    currency,
+    didNs,
+    escrowPrefix,
+    contractCount: options.contractCount ?? scale.contractCount,
+    releasePerMilestone: scale.releasePerMilestone,
+    milestonesPerContract: scale.milestonesPerContract,
+    annualBaseline: scale.annualBaseline,
+    actaProcessId: `acta-baseline-${iso.toLowerCase()}-vial-pilot-2026`,
+    pilotTag: profile.pilotEvidenceTag,
+  };
+}
+
+/** Contratos + hitos EGS — montos y moneda por jurisdicción (VEN/COL/USA). */
+export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions = {}) {
+  const ctx = resolveSeedContext(options);
+  const {
+    ORIGIN,
+    MINISTRY,
+    BUDGET_CODE,
+    FISCAL_YEAR,
+    QUARTER,
+    contractCount,
+    programName,
+    territoryCode,
+    currency,
+    didNs,
+    escrowPrefix,
+    releasePerMilestone,
+    milestonesPerContract,
+    annualBaseline,
+    actaProcessId,
+    pilotTag,
+  } = ctx;
+
   const territory = await db.territorialNode.upsert({
-    where: { code: 'VEN_VIAL_PILOT_01' },
+    where: { code: territoryCode },
     create: {
-      code: 'VEN_VIAL_PILOT_01',
-      name: 'Piloto Vial Venezuela — Miranda/Zulia demo',
+      code: territoryCode,
+      name: `Territorio piloto — ${MINISTRY}`,
       originNodeId: ORIGIN,
     },
-    update: { name: 'Piloto Vial Venezuela — Miranda/Zulia demo' },
+    update: { name: `Territorio piloto — ${MINISTRY}`, originNodeId: ORIGIN },
   });
 
   const budgetLine = await db.budgetLinePilot.upsert({
@@ -29,17 +96,21 @@ export async function seedEgsPilotVial(db: CoreDb) {
     create: {
       ministryCode: MINISTRY,
       budgetCode: BUDGET_CODE,
-      programName: 'Mantenimiento vial verificable — Piloto EGS',
-      currency: 'VES',
+      programName,
+      currency,
       pilotStatus: 'active',
       originNodeId: ORIGIN,
     },
-    update: { pilotStatus: 'active' },
+    update: { pilotStatus: 'active', programName, currency },
   });
 
-  const annualBaseline = 4_000_000;
-  const actaProcessId = 'acta-baseline-vial-pilot-2026';
-  const baselineContent = { ministry: MINISTRY, budgetCode: BUDGET_CODE, annualBaseline, months: 24 };
+  const baselineContent = {
+    ministry: MINISTRY,
+    budgetCode: BUDGET_CODE,
+    annualBaseline,
+    months: 24,
+    iso: ctx.iso,
+  };
 
   await db.baselineAct.upsert({
     where: { actaProcessId },
@@ -52,19 +123,22 @@ export async function seedEgsPilotVial(db: CoreDb) {
       actaProcessId,
       signedAt: new Date('2026-04-01T00:00:00Z'),
       signers: [
-        'did:armada:ven:ministerio:mppi',
-        'did:armada:ven:contraloria:pilot',
-        'did:armada:ven:centinela:observer',
+        `did:armada:${didNs}:ministerio:${MINISTRY.toLowerCase()}`,
+        `did:armada:${didNs}:contraloria:${MINISTRY.toLowerCase()}`,
+        `did:armada:${didNs}:centinela:observer`,
       ],
       originNodeId: ORIGIN,
     },
-    update: {},
+    update: {
+      annualAmountBaseline: annualBaseline,
+      contentHash: payloadHash(baselineContent),
+    },
   });
 
-  const baselineQ = baselineTrimestralFromActa(annualBaseline, QUARTER);
-  const releasePerMilestone = 16_400;
-  const milestonesPerContract = 5;
-  const contractCount = 10;
+  const baselineQ = baselineTrimestralFromActa(
+    annualBaseline,
+    (QUARTER >= 1 && QUARTER <= 4 ? QUARTER : 2) as 1 | 2 | 3 | 4,
+  );
 
   const quarterClose = await db.quarterClose.upsert({
     where: {
@@ -80,15 +154,15 @@ export async function seedEgsPilotVial(db: CoreDb) {
       quarter: QUARTER,
       status: 'COLLECTING',
       baselineTrimestral: baselineQ,
-      currency: 'VES',
+      currency,
       originNodeId: ORIGIN,
     },
-    update: { status: 'COLLECTING', baselineTrimestral: baselineQ },
+    update: { status: 'COLLECTING', baselineTrimestral: baselineQ, currency },
   });
 
   let milestoneIndex = 0;
   for (let c = 1; c <= contractCount; c++) {
-    const processId = `escrow-vial-pilot-c${String(c).padStart(2, '0')}`;
+    const processId = `${escrowPrefix}-c${String(c).padStart(2, '0')}`;
     const contractTotal = releasePerMilestone * milestonesPerContract;
 
     const escrow = await db.escrow.upsert({
@@ -98,16 +172,21 @@ export async function seedEgsPilotVial(db: CoreDb) {
         territoryId: territory.id,
         budgetLinePilotId: budgetLine.id,
         amount: contractTotal,
-        currency: 'VES',
+        currency,
         status: 'RELEASED',
         threshold: 3,
-        signers: ['did:armada:ven:logistico', 'did:armada:ven:mppi', 'did:armada:ven:centinela'],
+        signers: [
+          `did:armada:${didNs}:logistico`,
+          `did:armada:${didNs}:${MINISTRY.toLowerCase()}`,
+          `did:armada:${didNs}:centinela`,
+        ],
         originNodeId: ORIGIN,
       },
       update: {
         budgetLinePilotId: budgetLine.id,
         status: 'RELEASED',
         amount: contractTotal,
+        currency,
       },
     });
 
@@ -116,8 +195,12 @@ export async function seedEgsPilotVial(db: CoreDb) {
       const evidenceRef = payloadHash({
         contract: processId,
         milestone: m,
+        iso: ctx.iso,
         iot: `lorawan-uplink-${milestoneIndex}`,
-        citizens: [`did:armada:ven:auditor:${milestoneIndex}a`, `did:armada:ven:auditor:${milestoneIndex}b`],
+        citizens: [
+          `did:armada:${didNs}:auditor:${milestoneIndex}a`,
+          `did:armada:${didNs}:auditor:${milestoneIndex}b`,
+        ],
         centinela: 'verified',
       });
 
@@ -135,7 +218,9 @@ export async function seedEgsPilotVial(db: CoreDb) {
           milestoneIndex: m,
           amount: releasePerMilestone,
           evidenceRef,
-          verifiedAt: new Date(`2026-0${QUARTER}-${String(Math.min(m * 5, 28)).padStart(2, '0')}T12:00:00Z`),
+          verifiedAt: new Date(
+            `2026-0${QUARTER}-${String(Math.min(m * 5, 28)).padStart(2, '0')}T12:00:00Z`,
+          ),
           originNodeId: ORIGIN,
         },
         update: { amount: releasePerMilestone, evidenceRef },
@@ -150,12 +235,12 @@ export async function seedEgsPilotVial(db: CoreDb) {
     ajustesFuerzaMayor: 0,
   });
 
-  const ledgerProcessId = `proc-quarter-close-vial-${FISCAL_YEAR}-q${QUARTER}`;
+  const ledgerProcessId = `proc-quarter-close-${ctx.iso.toLowerCase()}-vial-${FISCAL_YEAR}-q${QUARTER}`;
   const treasuryPayload = toTreasuryPayload(
     quarterClose.id,
     FISCAL_YEAR,
     QUARTER,
-    'VES',
+    currency,
     ledgerProcessId,
     computed,
   );
@@ -181,7 +266,8 @@ export async function seedEgsPilotVial(db: CoreDb) {
       status: 'validated',
       agentId: 'centinela',
       evidenceBundle: {
-        pilot: 'egs-vial-ven',
+        pilot: pilotTag,
+        iso: ctx.iso,
         milestones: milestoneIndex,
         contracts: contractCount,
         treasuryPayload,
@@ -192,7 +278,8 @@ export async function seedEgsPilotVial(db: CoreDb) {
       status: 'validated',
       agentId: 'centinela',
       evidenceBundle: {
-        pilot: 'egs-vial-ven',
+        pilot: pilotTag,
+        iso: ctx.iso,
         milestones: milestoneIndex,
         contracts: contractCount,
         treasuryPayload,
@@ -201,6 +288,10 @@ export async function seedEgsPilotVial(db: CoreDb) {
   });
 
   return {
+    iso: ctx.iso,
+    currency,
+    escrowPrefix,
+    firstEscrowRef: `${escrowPrefix}-c01`,
     budgetLineId: budgetLine.id,
     quarterCloseId: quarterClose.id,
     baselineTrimestral: baselineQ,

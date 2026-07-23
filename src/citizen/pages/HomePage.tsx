@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
-import { LandingChallengeSection } from '../components/landing/LandingChallengeSection.js';
 import { LandingCtaSection } from '../components/landing/LandingCtaSection.js';
-import { LandingSolutionSection } from '../components/landing/LandingSolutionSection.js';
+import { LandingGovernanceCompareSection } from '../components/landing/LandingGovernanceCompareSection.js';
+import { LandingModelsInteractiveSection } from '../components/landing/LandingModelsInteractiveSection.js';
 
-/** Landing AGIGOV — catálogo de modelos + manifesto. */
+/** Landing AGIGOV — hero + comparativo + catálogo + CTA. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -15,8 +15,8 @@ export default function HomePage() {
   return (
     <div className="landing-manifest bg-[#f9fafb]">
       <HeroOrchestrator />
-      <LandingChallengeSection />
-      <LandingSolutionSection />
+      <LandingGovernanceCompareSection />
+      <LandingModelsInteractiveSection />
       <LandingCtaSection />
     </div>
   );

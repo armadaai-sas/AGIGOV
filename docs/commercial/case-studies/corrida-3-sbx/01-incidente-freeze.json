@@ -1,0 +1,27 @@
+{
+  "corrida": "3-sbx-adversarial",
+  "incidentType": "CENTINELA_FREEZE_ESCROW_MISMATCH",
+  "trigger": "npm run egs:stress — escrow LOCKED mientras releases contabilizados existen",
+  "quarterCloseStatusDuringIncident": "FROZEN",
+  "reconcileOkDuringIncident": false,
+  "discrepancies": [
+    "Release ce1c3d1f-4e34-4597-92bf-cfaf9f63161e: escrow escrow-vial-pilot-c10 status=LOCKED, expected RELEASED",
+    "Release adca29cb-d739-4919-8cec-8a368267adf6: escrow escrow-vial-pilot-c10 status=LOCKED, expected RELEASED",
+    "Release 2c5c5a16-19e8-4fd4-9c9e-b807b188e13a: escrow escrow-vial-pilot-c10 status=LOCKED, expected RELEASED",
+    "Release 3b5963bc-b6ea-4cdc-87fd-581f3025b83c: escrow escrow-vial-pilot-c10 status=LOCKED, expected RELEASED",
+    "Release dd515666-2d49-4100-9a62-04aea55e857e: escrow escrow-vial-pilot-c10 status=LOCKED, expected RELEASED"
+  ],
+  "humanInTheLoop": "Script restaura escrow RELEASED + QuarterClose COLLECTING → reconcile OK",
+  "postRecovery": {
+    "reconcileOk": true,
+    "calculoAhorroFinal_ves": "180000",
+    "quarterCloseStatus": "DELTA_CALCULATED"
+  },
+  "panicDrill": {
+    "command": "npm run panic:drill",
+    "result": "7 OK, 0 FAIL",
+    "checks": ["FREEZE ledger", "IAP block mutable", "DID rotate", "RECOVER checklist"]
+  },
+  "generatedAt": "2026-07-06T02:57:57Z",
+  "disclaimer": "Incidente simulado SBX — demuestra FREEZE antes de publicación incorrecta."
+}

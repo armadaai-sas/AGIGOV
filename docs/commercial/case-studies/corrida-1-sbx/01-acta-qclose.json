@@ -1,0 +1,26 @@
+{
+  "corrida": "1-sbx-happy-path",
+  "scenario": "MPPI · rubro vial · seed estándar",
+  "fiscalYear": 2026,
+  "quarter": 2,
+  "status": "DELTA_CALCULATED",
+  "baseline_trimestral_ves": "1000000.0000",
+  "gastos_verificados_ves": "820000.0000",
+  "calculo_ahorro_final_ves": "180000.0000",
+  "reinversion_70pct_ves": "126000.0000",
+  "merit_pool_20pct_ves": "36000.0000",
+  "agigov_fee_10pct_ves": "18000.0000",
+  "currency": "VES",
+  "ledgerProcessId": "proc-quarter-close-vial-2026-q2",
+  "quarterCloseId": "a194d786-aec6-46ff-a7e0-794a8e420de3",
+  "discrepancies": [],
+  "hitos_contabilizados": 50,
+  "signers_demo": [
+    "did:armada:ven:logistico",
+    "did:armada:ven:mppi",
+    "did:armada:ven:centinela"
+  ],
+  "threshold": 3,
+  "generatedAt": "2026-07-06T02:50:00Z",
+  "disclaimer": "Acta demo SBX — no constituye acta de tesorería nacional vinculante."
+}

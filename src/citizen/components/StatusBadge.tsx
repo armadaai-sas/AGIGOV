@@ -10,7 +10,7 @@ const STATUS: Record<string, { label: string; className: string }> = {
   RELEASED: { label: 'Completado', className: 'bg-emerald-500/20 text-emerald-200' },
   FROZEN: { label: 'Congelado', className: 'bg-red-500/20 text-red-200' },
   VALIDATED: { label: 'Validado', className: 'bg-amber-500/20 text-amber-200' },
-  DELTA_CALCULATED: { label: 'Δ calculado', className: 'bg-emerald-500/20 text-emerald-200' },
+  DELTA_CALCULATED: { label: 'Ahorro calculado', className: 'bg-emerald-500/20 text-emerald-200' },
   PENDING_VALIDATION: { label: 'Pendiente validación', className: 'bg-sky-500/20 text-sky-200' },
   COLLECTING: { label: 'Recopilando', className: 'bg-sky-500/20 text-sky-200' },
   PUBLISHED: { label: 'Publicado', className: 'bg-emerald-500/20 text-emerald-200' },

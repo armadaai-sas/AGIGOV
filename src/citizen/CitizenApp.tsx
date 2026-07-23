@@ -17,6 +17,9 @@ const SupplyPage = lazy(() => import('./pages/SupplyPage.js'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage.js'));
 const ParticiparPage = lazy(() => import('./pages/ParticiparPage.js'));
 const InstitutionalPage = lazy(() => import('./pages/InstitutionalPage.js'));
+const InstitutionPilotPage = lazy(() => import('./pages/InstitutionPilotPage.js'));
+const InstitutionRegisterPage = lazy(() => import('./pages/InstitutionRegisterPage.js'));
+const InstitutionAccessPage = lazy(() => import('./pages/InstitutionAccessPage.js'));
 const GlosarioPage = lazy(() => import('./pages/GlosarioPage.js'));
 const HelpCenterPage = lazy(() => import('./pages/HelpCenterPage.js'));
 const HelpTutorialPage = lazy(() => import('./pages/HelpTutorialPage.js'));
@@ -62,6 +65,9 @@ function AppRoutes() {
         <Route path="/desarrolladores" element={<DevelopersPage />} />
         <Route path="/cne" element={<CnePage />} />
         <Route path="/participar" element={<ParticiparPage />} />
+        <Route path="/institucional/registro" element={<InstitutionRegisterPage />} />
+        <Route path="/institucional/acceso" element={<InstitutionAccessPage />} />
+        <Route path="/institucional/piloto" element={<InstitutionPilotPage />} />
         <Route path="/institucional" element={<InstitutionalPage />} />
         <Route path="/aprender/glosario" element={<GlosarioPage />} />
         <Route path="/ayuda" element={<HelpCenterPage />} />
@@ -92,7 +98,7 @@ export default function CitizenApp() {
 
 function CitizenAppInner() {
   return (
-    <div className="min-h-screen bg-[#f9fafb] text-agigov-text">
+    <div className="min-h-screen bg-agigov-void text-agigov-text">
       <PanicBanner />
       <ScrollToTop />
       <PageTransition>

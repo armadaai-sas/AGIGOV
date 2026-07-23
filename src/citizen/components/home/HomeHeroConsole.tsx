@@ -8,37 +8,51 @@ import {
   TrendingDown,
 } from 'lucide-react';
 
-import { useCachedFetch } from '../../hooks/useCitizenData.js';
+import { useHeroEgsData } from '../../hooks/useHeroEgsData.js';
+import { useSovereignConfig } from '../../context/PlatformContext.js';
 import {
   EGS_VIAL_CONSOLE_PATH,
   EGS_VIAL_PRODUCT_PATH,
 } from '../../services/egs-vial-service.js';
-import { fetchHomeHeroEgs, formatHeroVes, HOME_HERO_DEMO } from './homeHeroData.js';
 
-const NAV = [
-  { icon: Package, label: 'Servicio' },
-  { icon: LayoutDashboard, label: 'Consola', active: true },
-  { icon: FileCheck, label: 'Contratos' },
-  { icon: ShieldCheck, label: 'Docs' },
+const NAV_KEYS = [
+  { icon: Package, key: 'hero.console.nav.service' as const },
+  { icon: LayoutDashboard, key: 'hero.console.nav.console' as const, active: true },
+  { icon: FileCheck, key: 'hero.console.nav.contracts' as const },
+  { icon: ShieldCheck, key: 'hero.console.nav.docs' as const },
 ] as const;
 
 type Props = {
   compact?: boolean;
+  /** Escena hero central — sin links inferiores, sombra cinematográfica */
+  cinematic?: boolean;
+  /** Hero pantalla 1 — ancho completo del stage */
+  wide?: boolean;
 };
 
-export function HomeHeroConsole({ compact = false }: Props) {
-  const health = useCachedFetch('home-hero-egs', fetchHomeHeroEgs, 30_000);
-  const live = Boolean(health.data);
-  const data = health.data ?? HOME_HERO_DEMO;
-  const syncing = !health.data && health.state !== 'error';
-  const badge = syncing ? 'SYNC' : live ? 'EN VIVO' : 'VISTA PREVIA';
+export function HomeHeroConsole({ compact = false, cinematic = false, wide = false }: Props) {
+  const { formatMoney, sovereign, t } = useSovereignConfig();
+  const { data, live, syncing } = useHeroEgsData('home-hero-egs');
+  const badge = syncing ? t('common.sync') : live ? t('common.live') : t('common.preview');
 
   return (
-    <div className={compact ? 'w-full' : 'w-full lg:translate-y-2'}>
+    <div
+      className={
+        cinematic
+          ? wide
+            ? 'hero-console-cinematic-shell w-full'
+            : 'w-full max-w-md mx-auto'
+          : compact
+            ? 'w-full'
+            : 'w-full lg:translate-y-2'
+      }
+    >
       <div
-        className={`overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)] ${
-          compact ? '' : 'lg:rotate-[0.5deg] lg:scale-[1.02]'
-        }`}
+        className={`overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] ${
+          cinematic
+            ? 'hero-console-cinematic shadow-[0_32px_80px_-20px_rgba(15,23,42,0.45)]'
+            : 'shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]'
+        } ${compact || cinematic ? '' : 'lg:rotate-[0.5deg] lg:scale-[1.02]'}`}
       >
         {/* Title bar */}
         <div className="flex items-center gap-3 border-b border-white/10 bg-black/60 px-4 py-2.5">
@@ -48,7 +62,7 @@ export function HomeHeroConsole({ compact = false }: Props) {
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
           </div>
           <span className="min-w-0 flex-1 truncate font-mono text-[10px] uppercase tracking-wider text-slate-500">
-            consola.agigov.ven / egs-vial
+            {t('hero.console.path', { iso: sovereign.iso })}
           </span>
           <span
             className={`shrink-0 rounded px-2 py-0.5 font-mono text-[9px] font-bold tracking-widest ${
@@ -68,11 +82,13 @@ export function HomeHeroConsole({ compact = false }: Props) {
               className="hidden w-12 shrink-0 flex-col items-center gap-3 border-r border-white/10 bg-black/40 py-4 sm:flex"
               aria-hidden
             >
-              {NAV.map(({ icon: Icon, label, ...rest }) => {
+              {NAV_KEYS.map(({ icon: Icon, key, ...rest }) => {
                 const active = 'active' in rest && rest.active === true;
+                const label = t(key);
                 return (
                 <span
-                  key={label}
+                  key={key}
+                  title={label}
                   className={`flex h-8 w-8 items-center justify-center rounded-lg ${
                     active ? 'bg-sky-500/20 text-sky-300' : 'text-slate-600'
                   }`}
@@ -88,7 +104,7 @@ export function HomeHeroConsole({ compact = false }: Props) {
             <header className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
               <div>
                 <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-                  Salud del Ministerio
+                  {t('hero.console.ministryHealth')}
                 </p>
                 <p className="mt-0.5 font-mono text-sm text-slate-200">
                   {data.ministryCode} · Q{data.quarter} {data.fiscalYear}
@@ -101,21 +117,21 @@ export function HomeHeroConsole({ compact = false }: Props) {
 
             <div className="mt-4 grid grid-cols-3 gap-2">
               <Kpi
-                label="Ahorro Δ"
-                value={formatHeroVes(data.calculoAhorroFinal)}
-                unit="VES"
+                label={t('hero.console.savings')}
+                value={formatMoney(data.calculoAhorroFinal)}
+                unit={sovereign.currency}
                 accent
                 icon={compact ? undefined : TrendingDown}
               />
-              <Kpi label="Escrow" value={`${data.escrowExecutionPct}%`} />
-              <Kpi label="Contratos" value={String(data.contracts.length)} />
+              <Kpi label={t('hero.console.escrow')} value={`${data.escrowExecutionPct}%`} />
+              <Kpi label={t('hero.console.contractsCount')} value={String(data.contracts.length)} />
             </div>
 
-            {!compact ? (
+            {!compact && (cinematic ? wide : true) ? (
               <>
                 <div className="mt-4">
                   <div className="mb-1 flex justify-between text-[9px] uppercase tracking-wide text-slate-500">
-                    <span>Ejecución presupuestaria</span>
+                    <span>{t('hero.console.budgetExecution')}</span>
                     <span>{data.executionPct}%</span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-white/10">
@@ -146,7 +162,7 @@ export function HomeHeroConsole({ compact = false }: Props) {
                   <span className="w-[10%] bg-violet-500" />
                 </div>
                 <p className="mt-1 text-[9px] uppercase tracking-wide text-slate-600">
-                  Reparto EGS 70 · 20 · 10
+                  {t('hero.console.split')}
                 </p>
               </>
             ) : null}
@@ -154,21 +170,23 @@ export function HomeHeroConsole({ compact = false }: Props) {
         </div>
       </div>
 
+      {!cinematic ? (
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
         <Link
           to={EGS_VIAL_CONSOLE_PATH}
           className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-400 no-underline hover:text-sky-300"
         >
-          Abrir consola
+          {t('hero.console.openConsole')}
           <ArrowRight className="h-4 w-4" />
         </Link>
         <Link
           to={EGS_VIAL_PRODUCT_PATH}
           className="text-sm text-slate-500 no-underline hover:text-slate-300"
         >
-          Detalle del servicio
+          {t('hero.console.serviceDetail')}
         </Link>
       </div>
+      ) : null}
     </div>
   );
 }

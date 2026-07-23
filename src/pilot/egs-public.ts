@@ -31,6 +31,7 @@ export interface PublicMinistryHealth {
   baselineTrimestral: string;
   gastosVerificados: string;
   calculoAhorroFinal: string;
+  currency: string;
   executionPct: number;
   escrowExecutionPct: number;
   split: {
@@ -244,6 +245,7 @@ export async function getMinistryHealth(ministryCode = 'MPPI'): Promise<PublicMi
     baselineTrimestral: baseline.toFixed(4),
     gastosVerificados: gastos.toFixed(4),
     calculoAhorroFinal: reconcile.calculoAhorroFinal.toFixed(4),
+    currency: refreshed.currency,
     executionPct,
     escrowExecutionPct,
     split: {

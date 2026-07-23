@@ -21,6 +21,7 @@ import { PillarCard } from '../components/QuickActionCard.js';
 import { PolicyComparator } from '../components/PolicyComparator.js';
 import { PilotStatusSection } from '../components/PilotStatusSection.js';
 import { InstitutionalStoryActs } from '../components/institutional/InstitutionalStoryActs.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 const pillars = [
   {
@@ -125,14 +126,24 @@ export default function InstitutionalPage() {
               <li>· Conexión con sandbox AGIGOV-SBX para pruebas controladas</li>
             </ul>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/participar" className="ds-btn-app">
-                Iniciar solicitud
+              <Link to={INSTITUTION_ROUTES.register} className="ds-btn-app">
+                Registro institucional
                 <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to={INSTITUTION_ROUTES.login} className="ds-btn-secondary ds-btn-app-shape">
+                Ya tengo cuenta
               </Link>
               <Link to="/institucional#protocolo" className="ds-btn-secondary ds-btn-app-shape">
                 Ver protocolo
               </Link>
             </div>
+            <p className="mt-3 text-xs text-agigov-text-muted">
+              Flujo: registro → acceso → piloto EGS. La consola pública sigue en{' '}
+              <Link to={INSTITUTION_ROUTES.console} className="text-sky-300 no-underline hover:underline">
+                /modelos/egs/consola
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>

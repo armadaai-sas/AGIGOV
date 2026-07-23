@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 import { getCoreDb, disconnectCoreDb } from '../db/client.js';
 import { isPanicMode } from '../security/panic.js';
@@ -22,26 +23,181 @@ import { getDatasetById, getPublishedDatasets, runAggregationPipeline } from '..
 import { processVesPaymentWebhook } from '../pilot/payment-webhook.js';
 import { verifyPilotClosure, PILOT_PROCESS_ID } from '../pilot/multisig-acta.js';
 import {
+  authenticateTenantIngest,
+  ingestPilotMilestones,
+  type IngestRow,
+} from '../pilot/tenant-ingest.js';
+import { listPilotTenants, provisionPilotTenant } from '../pilot/tenant-provision.js';
+import { getPilotProfileForIso } from '../pilot/pilot-jurisdiction-profiles.js';
+import {
+  getTenantBaselineStatus,
+  onboardPilotTenant,
+  ratifyPilotTenantBaseline,
+} from '../pilot/tenant-onboarding.js';
+import { runTenantQuarterClosePipeline } from '../pilot/tenant-q-close.js';
+import {
   SBX_PROCESS_ID,
   SBX_PEER_JURISDICTION,
 } from '../pilot/sandbox-adhesion.js';
-import { buildPublicHealth, VEN_NODE } from '../pilot/network-health.js';
+import { buildPublicHealth, type NodeIdentity } from '../pilot/network-health.js';
+import {
+  JURISDICTIONS,
+  SUPPORTED_CURRENCIES,
+  SUPPORTED_LOCALES,
+  buildPublicSovereignConfig,
+  nodeIdentityFromEnv,
+} from '../config/sovereign/index.js';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import {
+  loginInstitutionUser,
+  registerInstitutionUser,
+  requestInstitutionMagicLink,
+  resolveInstitutionSession,
+  revokeInstitutionSession,
+  toSessionResponse,
+  verifyInstitutionMagicLink,
+} from './institution-auth.js';
+import { sendBaselineReadyEmail } from './email/index.js';
 
 const app = express();
 const port = Number(process.env.PUBLIC_API_PORT ?? 3001);
+const NODE: NodeIdentity = nodeIdentityFromEnv();
 
 app.use(express.json({ limit: '32kb' }));
 app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
   next();
 });
 
 app.options('*', (_req, res) => {
   res.sendStatus(204);
+});
+
+type OpsAuthRequest = Request & {
+  institutionSession?: Awaited<ReturnType<typeof resolveInstitutionSession>>;
+};
+
+function isOpsAuthExcluded(path: string): boolean {
+  return (
+    path === '/api/ops/health' ||
+    path.startsWith('/api/ops/auth/') ||
+    path.startsWith('/api/ops/ingest/')
+  );
+}
+
+async function requireOpsAuth(req: OpsAuthRequest, res: Response, next: NextFunction) {
+  if (!req.path.startsWith('/api/ops/')) {
+    next();
+    return;
+  }
+  if (isOpsAuthExcluded(req.path)) {
+    next();
+    return;
+  }
+
+  const staticOpsKey = process.env.AGIGOV_OPS_API_KEY?.trim();
+  const suppliedOpsKey = String(req.headers['x-ops-key'] ?? '').trim();
+  if (staticOpsKey && suppliedOpsKey && suppliedOpsKey === staticOpsKey) {
+    next();
+    return;
+  }
+
+  const session = await resolveInstitutionSession(req.headers.authorization);
+  if (!session) {
+    res.status(401).json({ error: 'ops_auth_required' });
+    return;
+  }
+  req.institutionSession = session;
+  next();
+}
+
+app.use((req, res, next) => {
+  void requireOpsAuth(req as OpsAuthRequest, res, next).catch(() => {
+    res.status(500).json({ error: 'ops_auth_guard_failed' });
+  });
+});
+
+app.post('/api/ops/auth/register', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: auth suspendida' });
+    return;
+  }
+  try {
+    const body = req.body as {
+      email?: string;
+      password?: string;
+      institutionName?: string;
+      entityType?: string;
+      officialCode?: string;
+      contactName?: string;
+      contactRole?: string;
+    };
+    const session = await registerInstitutionUser({
+      email: body.email ?? '',
+      password: body.password ?? '',
+      institutionName: body.institutionName ?? '',
+      entityType: body.entityType ?? 'other',
+      officialCode: body.officialCode,
+      contactName: body.contactName,
+      contactRole: body.contactRole,
+    });
+    res.status(201).json(session);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'auth_register_error';
+    const status = msg === 'email_already_registered' ? 409 : 400;
+    res.status(status).json({ error: msg });
+  }
+});
+
+app.post('/api/ops/auth/login', async (req, res) => {
+  try {
+    const body = req.body as { email?: string; password?: string };
+    const session = await loginInstitutionUser(body.email ?? '', body.password ?? '');
+    res.json(session);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'auth_login_error';
+    const status = msg === 'invalid_credentials' ? 401 : 400;
+    res.status(status).json({ error: msg });
+  }
+});
+
+app.get('/api/ops/auth/session', async (req, res) => {
+  const session = await resolveInstitutionSession(req.headers.authorization);
+  if (!session) {
+    res.status(401).json({ error: 'invalid_session' });
+    return;
+  }
+  res.json(toSessionResponse(session));
+});
+
+app.post('/api/ops/auth/logout', async (req, res) => {
+  await revokeInstitutionSession(req.headers.authorization);
+  res.status(204).end();
+});
+
+app.post('/api/ops/auth/magic-link/request', async (req, res) => {
+  const body = req.body as { email?: string };
+  try {
+    const result = await requestInstitutionMagicLink(body.email ?? '');
+    res.status(202).json(result);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'magic_link_request_error';
+    res.status(400).json({ error: msg });
+  }
+});
+
+app.post('/api/ops/auth/magic-link/verify', async (req, res) => {
+  const body = req.body as { token?: string };
+  try {
+    const session = await verifyInstitutionMagicLink(body.token ?? '');
+    res.json(session);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'magic_link_verify_error';
+    res.status(401).json({ error: msg });
+  }
 });
 
 /** Sin PII — solo datos publicados post-commit. */
@@ -533,6 +689,53 @@ app.post('/api/public/contributions', async (req, res) => {
   }
 });
 
+/** Configuración soberana del nodo — autoritativa para ledger; PWA puede sobreescribir display. */
+app.get('/api/public/config', (_req, res) => {
+  const cfg = buildPublicSovereignConfig();
+  res.json({
+    updatedAt: new Date().toISOString(),
+    iso: cfg.iso,
+    jurisdictionCode: cfg.jurisdictionCode,
+    label: cfg.label,
+    currency: cfg.currency,
+    locale: cfg.locale,
+    timezone: cfg.timezone,
+    territoryCode: cfg.territoryCode,
+    supportedJurisdictions: Object.values(JURISDICTIONS).map((j) => ({
+      iso: j.iso,
+      jurisdictionCode: j.jurisdictionCode,
+      label: j.label,
+      currency: j.currency,
+      locale: j.locale,
+      status: j.status,
+    })),
+    supportedLocales: [...SUPPORTED_LOCALES],
+    supportedCurrencies: [...SUPPORTED_CURRENCIES],
+    note:
+      'Preferencia de usuario en PWA no altera ledger. Geo-hint solo sugiere COP en Colombia.',
+  });
+});
+
+/** Defaults de piloto por país — sin secretos (PWA wizard). */
+app.get('/api/public/pilot/defaults', (req, res) => {
+  const isoRaw = typeof req.query.iso === 'string' ? req.query.iso : 'VEN';
+  const profile = getPilotProfileForIso(isoRaw);
+  const j = JURISDICTIONS[profile.iso];
+  res.json({
+    iso: profile.iso,
+    jurisdictionCode: j?.jurisdictionCode ?? 'AGIGOV',
+    currency: profile.currency,
+    slug: profile.slug,
+    ministryCode: profile.ministryCode,
+    budgetCode: profile.budgetCode,
+    displayName: profile.displayName,
+    programName: profile.programName,
+    territoryCode: profile.territoryCode,
+    fiscalYear: 2026,
+    quarter: 2,
+  });
+});
+
 app.get('/api/public/health', async (req, res) => {
   const skipPeer = req.query.peer === '0';
   const peerUrl =
@@ -548,7 +751,7 @@ app.get('/api/public/health', async (req, res) => {
   }
 
   const payload = await buildPublicHealth({
-    node: VEN_NODE,
+    node: NODE,
     peerUrl,
     postgres,
     panicMode: isPanicMode(),
@@ -575,7 +778,7 @@ app.get('/api/public/gov', async (_req, res) => {
       process.env.AGIGOV_PEER_HEALTH_URL?.trim() ||
       'http://127.0.0.1:3002/api/public/health';
     const health = await buildPublicHealth({
-      node: VEN_NODE,
+      node: NODE,
       peerUrl,
       postgres: true,
       panicMode: isPanicMode(),
@@ -591,6 +794,22 @@ app.get('/api/public/gov', async (_req, res) => {
           documentRef: 'docs/AGIGOV/CARTA-AGIGOV-VEN.md',
           ratified: cartaBundle.cartaRatification === true,
           checkpointStatus: cartaCheckpoint?.status ?? 'missing',
+        },
+        {
+          code: 'AGIGOV-COL',
+          iso: 'COL',
+          documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+          ratified: false,
+          checkpointStatus: 'pilot',
+          currency: 'COP',
+        },
+        {
+          code: 'AGIGOV-USA',
+          iso: 'USA',
+          documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+          ratified: false,
+          checkpointStatus: 'pilot',
+          currency: 'USD',
         },
         {
           code: 'AGIGOV-SBX',
@@ -641,6 +860,222 @@ app.get('/api/ops/health', async (_req, res) => {
     honeypotAlerts,
     checkedAt: new Date().toISOString(),
   });
+});
+
+/** Fase A — provisionar tenant desde wizard institucional (sandbox / ops local). */
+app.post('/api/ops/tenants/provision', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: provision suspendida' });
+    return;
+  }
+
+  const body = req.body as {
+    iso?: string;
+    slug?: string;
+    ministryCode?: string;
+    budgetCode?: string;
+    displayName?: string;
+    programName?: string;
+    territoryCode?: string;
+    fiscalYear?: number;
+    quarter?: number;
+  };
+
+  const iso = (body.iso?.trim() || 'VEN').toUpperCase();
+  const profile = getPilotProfileForIso(iso);
+
+  try {
+    const result = await provisionPilotTenant({
+      iso: profile.iso,
+      slug: body.slug?.trim() || profile.slug,
+      ministryCode: body.ministryCode?.trim() || profile.ministryCode,
+      budgetCode: body.budgetCode?.trim() || profile.budgetCode,
+      displayName: body.displayName?.trim() || profile.displayName,
+      programName: body.programName?.trim() || profile.programName,
+      territoryCode: body.territoryCode?.trim() || profile.territoryCode,
+      fiscalYear: body.fiscalYear ?? 2026,
+      quarter: body.quarter ?? 2,
+    });
+
+    res.status(201).json({
+      slug: result.slug,
+      ministryCode: result.ministryCode,
+      budgetCode: result.budgetCode,
+      currency: result.currency,
+      firstEscrowRef: result.firstEscrowRef,
+      consoleUrl: result.consoleUrl,
+      ingestUrl: result.ingestUrl,
+      healthUrl: result.healthUrl,
+      ingestToken: result.ingestToken,
+      credentialsPath: result.credentialsPath,
+    });
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error al provisionar tenant',
+    });
+  }
+});
+
+/** Fase A — tenants piloto (sin tokens; solo metadatos publicables). */
+app.get('/api/ops/tenants', async (_req, res) => {
+  try {
+    const tenants = await listPilotTenants();
+    res.json({
+      tenants: tenants.map((t) => ({
+        slug: t.slug,
+        ministry: t.ministryCode,
+        budgetCode: t.budgetCode,
+        displayName: t.displayName,
+        status: t.status,
+        fiscalYear: t.fiscalYear,
+        quarter: t.quarter,
+        onboardingStatus: t.onboardingStatus,
+        provisionedAt: t.createdAt.toISOString(),
+      })),
+      count: tenants.length,
+    });
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'No se pudo listar tenants piloto',
+    });
+  }
+});
+
+/** Fase A — ingest firmado por ministerio (Bearer token por tenant). */
+app.post('/api/ops/ingest/:slug', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: ingest suspendido' });
+    return;
+  }
+
+  const slug = String(req.params.slug ?? '').trim();
+  if (!slug) {
+    res.status(400).json({ error: 'slug requerido' });
+    return;
+  }
+
+  const auth = await authenticateTenantIngest(slug, req.headers.authorization);
+  if (auth.ok === false) {
+    const statusByReason: Record<string, number> = {
+      missing_bearer: 401,
+      invalid_token: 401,
+      unknown_tenant: 404,
+      tenant_not_active: 403,
+      baseline_not_ratified: 403,
+    };
+    res.status(statusByReason[auth.reason] ?? 401).json({ error: auth.reason });
+    return;
+  }
+
+  const body = req.body as { rows?: IngestRow[] };
+  const rows = Array.isArray(body?.rows) ? body.rows : [];
+  if (rows.length === 0) {
+    res.status(400).json({ error: 'body.rows[] requerido (al menos una fila)' });
+    return;
+  }
+
+  try {
+    const db = getCoreDb();
+    const result = await ingestPilotMilestones(db, slug, rows);
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error en ingest piloto',
+    });
+  }
+});
+
+/** Fase B — estado onboarding institucional del tenant. */
+app.get('/api/ops/tenants/:slug/onboarding', async (req, res) => {
+  const slug = String(req.params.slug ?? '').trim();
+  try {
+    const status = await getTenantBaselineStatus(slug);
+    if (!status) {
+      res.status(404).json({ error: 'tenant_not_found' });
+      return;
+    }
+    res.json(status);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error onboarding status',
+    });
+  }
+});
+
+/** Fase B — registro institucional + DID + baseline multi-sig. */
+app.post('/api/ops/tenants/:slug/onboard', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: onboard suspendido' });
+    return;
+  }
+  const slug = String(req.params.slug ?? '').trim();
+  try {
+    const result = await onboardPilotTenant(slug);
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error en onboard piloto',
+    });
+  }
+});
+
+/** Fase B — ratificar baseline con claves institucionales (DidRegistry). */
+app.post('/api/ops/tenants/:slug/baseline/ratify', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: ratify suspendido' });
+    return;
+  }
+  const slug = String(req.params.slug ?? '').trim();
+  try {
+    const result = await ratifyPilotTenantBaseline(slug);
+
+    const authReq = req as OpsAuthRequest;
+    const sessionUser = authReq.institutionSession?.user;
+    if (
+      sessionUser?.email &&
+      (result as { onboardingStatus?: string }).onboardingStatus === 'ingest_ready'
+    ) {
+      const status = await getTenantBaselineStatus(slug);
+      const tenantRow = await getCoreDb().pilotTenant.findUnique({
+        where: { slug },
+        select: { budgetCode: true },
+      });
+      void sendBaselineReadyEmail({
+        institutionName: sessionUser.institutionName,
+        email: sessionUser.email,
+        slug,
+        ministryCode: status?.ministryCode ?? '—',
+        budgetCode: tenantRow?.budgetCode ?? '—',
+      }).catch((err) => {
+        console.error('[email] baseline_ready failed:', err);
+      });
+    }
+
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error ratificando baseline',
+    });
+  }
+});
+
+/** Fase C — centinela reconcilia y opcionalmente publica Q-close. */
+app.post('/api/ops/tenants/:slug/q-close', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: q-close suspendido' });
+    return;
+  }
+  const slug = String(req.params.slug ?? '').trim();
+  const publish = Boolean((req.body as { publish?: boolean })?.publish);
+  try {
+    const db = getCoreDb();
+    const result = await runTenantQuarterClosePipeline(db, slug, { publish });
+    res.status(result.ok ? 200 : 409).json(result);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error en Q-close',
+    });
+  }
 });
 
 function simplificarTitulo(title: string): string {

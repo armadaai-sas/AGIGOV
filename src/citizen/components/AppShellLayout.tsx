@@ -8,8 +8,10 @@ import { CatalogMobileDock, usesCatalogMobileDock } from './models/CatalogMobile
 import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
 import { SiteFooterCompact } from './SiteFooterCompact.js';
 import { CommandPaletteButton } from './CommandPalette.js';
+import { InstitutionAccountNav } from './institutional/InstitutionAccountNav.js';
 
 import { EGS_CONSOLE_PATH } from '../platform/agigovModels.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 import { usesFunnelShell } from '../platform/navConfig.js';
 import { usePlatform } from '../context/PlatformContext.js';
 
@@ -19,6 +21,18 @@ function topbarContext(pathname: string): { prefix: string; label: string } {
   }
   if (pathname.startsWith('/modelos')) {
     return { prefix: 'AGIGOV', label: 'Modelos' };
+  }
+  if (pathname.startsWith('/institucional')) {
+    if (pathname.startsWith(INSTITUTION_ROUTES.register)) {
+      return { prefix: 'AGIGOV', label: 'Registro institucional' };
+    }
+    if (pathname.startsWith(INSTITUTION_ROUTES.login)) {
+      return { prefix: 'AGIGOV', label: 'Acceso institucional' };
+    }
+    if (pathname.startsWith(INSTITUTION_ROUTES.pilot)) {
+      return { prefix: 'AGIGOV', label: 'Piloto fiscal' };
+    }
+    return { prefix: 'AGIGOV', label: 'Institucional' };
   }
   if (
     pathname.startsWith('/gestion') ||
@@ -82,9 +96,7 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
           </p>
           <div className="app-topbar-actions">
             <CommandPaletteButton />
-            <Link to="/" className="app-topbar-home hidden md:inline-flex">
-              Inicio AGIGOV
-            </Link>
+            <InstitutionAccountNav variant="topbar" />
           </div>
           {mobileOpen ? (
             <button

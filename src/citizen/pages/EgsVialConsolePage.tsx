@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { fetchMinistryHealth } from '../api.js';
+import { useSovereignConfig } from '../context/PlatformContext.js';
 import { EgsConsoleToolbar } from '../components/egs/EgsConsoleToolbar.js';
 import { MinistryHealthPanel, MinistryHealthUnavailable } from '../components/egs/MinistryHealthPanel.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
@@ -19,7 +20,12 @@ import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from '../platform/agigovModels.js';
 /** Consola operativa EGS — layout app, breadcrumbs, telemetría presupuestaria. */
 export default function EgsVialConsolePage() {
   const [serviceReady, setServiceReady] = useState<boolean | null>(null);
-  const health = useCachedFetch('ministry-health', () => fetchMinistryHealth('MPPI'), 15_000);
+  const { sovereign } = useSovereignConfig();
+  const health = useCachedFetch(
+    `ministry-health-${sovereign.iso}`,
+    () => fetchMinistryHealth(sovereign.ministryCode),
+    15_000,
+  );
 
   const handleReadyChange = useCallback(
     (ready: boolean) => {
@@ -51,7 +57,7 @@ export default function EgsVialConsolePage() {
       <SectionHeader
         eyebrow="AGIGOV · Gubernamental · EGS"
         title="Salud presupuestaria"
-        lead="Cierre trimestral demo: baseline firmada, gasto verificado en ledger y ahorro Δ con reparto 70/20/10."
+        lead="Cierre trimestral demo: baseline firmada, gasto verificado en ledger y ahorro verificado con reparto 70/20/10."
         helpTopic="proyectos"
       />
 

@@ -3,10 +3,10 @@ import { useId } from 'react';
 type LogoSize = 'sm' | 'md' | 'lg' | 'xl';
 
 const sizes: Record<LogoSize, string> = {
-  sm: 'h-9 w-9',
-  md: 'h-11 w-11',
-  lg: 'h-14 w-14',
-  xl: 'h-[5.5rem] w-[5.5rem]',
+  sm: 'h-9 w-9',   /* 36px — nav estándar */
+  md: 'h-11 w-11', /* 44px — header destacado */
+  lg: 'h-14 w-14', /* 56px — hero lockup (intl. ~48–64px) */
+  xl: 'h-16 w-16', /* 64px — máx. hero sin dominar viewport */
 };
 
 /** Marca AGIGOV — órbita + núcleo hexagonal (favicon-safe, sin badges en wordmark). */
@@ -15,12 +15,15 @@ export function AgigovLogo({
   showWordmark = false,
   tagline,
   showVenBadge = false,
+  variant = 'dark',
 }: {
   size?: LogoSize;
   showWordmark?: boolean;
-  /** @deprecated Sin subtítulos — solo logo + nombre */
+  /** Subtítulo bajo wordmark (ej. Gobernanza 2.0) */
   tagline?: string;
   showVenBadge?: boolean;
+  /** `light` = fondo claro (wordmark oscuro) */
+  variant?: 'dark' | 'light';
 }) {
   const uid = useId().replace(/:/g, '');
   const orbitGrad = `agigov-orbit-${uid}`;
@@ -78,11 +81,24 @@ export function AgigovLogo({
       {showWordmark ? (
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="font-display text-lg font-semibold tracking-[-0.03em] text-agigov-text md:text-xl">
+            <p
+              className={`font-display text-lg font-semibold tracking-[-0.03em] md:text-xl ${
+                variant === 'light' ? 'text-slate-900' : 'text-agigov-text'
+              }`}
+            >
               AGIGOV
             </p>
             {showVenBadge ? <span className="agigov-badge-ven">VEN</span> : null}
           </div>
+          {tagline ? (
+            <p
+              className={`mt-0.5 text-[11px] font-medium uppercase tracking-[0.18em] ${
+                variant === 'light' ? 'text-slate-500' : 'text-slate-500'
+              }`}
+            >
+              {tagline}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </div>

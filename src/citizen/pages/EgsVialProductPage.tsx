@@ -22,7 +22,7 @@ const AGENTS = [
     id: 'centinela',
     name: 'Centinela',
     role: 'Validación e integridad',
-    detail: 'Reconcilia hitos ↔ escrow antes de calcular Δ. Congela el cierre ante discrepancia.',
+    detail: 'Reconcilia hitos ↔ escrow antes de calcular el ahorro. Congela el cierre ante discrepancia.',
   },
   {
     id: 'logistico',
@@ -81,14 +81,14 @@ export default function EgsVialProductPage() {
           <ul className="mt-4 space-y-2 text-sm text-agigov-text-muted">
             <li>· Baseline ministerial multi-sig</li>
             <li>· 50 hitos verificados (demo: 10 contratos × 5)</li>
-            <li>· Δ trimestral publicable (demo: 180.000 VES)</li>
+            <li>· Ahorro trimestral publicable (demo: 180.000 VES)</li>
           </ul>
         </div>
         <div className="agigov-card">
           <Scale className="h-6 w-6 text-sky-400" />
           <h2 className="mt-4 font-display text-lg font-semibold">Modelo comercial EGS</h2>
           <p className="mt-2 text-sm text-agigov-text-muted">
-            Sin licencia adelantada. Reparto del ahorro verificable Δ:
+            Sin licencia adelantada. Reparto del ahorro verificable:
           </p>
           <dl className="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
             <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
@@ -104,7 +104,7 @@ export default function EgsVialProductPage() {
               <dd className="text-xs text-agigov-text-muted">Fee AGIGOV</dd>
             </div>
           </dl>
-          <p className="mt-3 text-xs text-agigov-text-muted">Si Δ = 0, fee AGIGOV = 0.</p>
+          <p className="mt-3 text-xs text-agigov-text-muted">Si no hay ahorro, fee AGIGOV = 0.</p>
         </div>
       </section>
 
@@ -124,7 +124,7 @@ export default function EgsVialProductPage() {
           ))}
         </div>
         <div className="agigov-card mt-4 font-mono text-xs text-agigov-text-muted">
-          Escrow → Hitos (IoT + auditores) → Centinela → QuarterClose → Δ → 70/20/10 → Tesorería
+          Escrow → Hitos (IoT + auditores) → Centinela → QuarterClose → Ahorro → 70/20/10 → Tesorería
         </div>
       </section>
 

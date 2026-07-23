@@ -1,0 +1,15 @@
+{
+  "slug": "mppi-trust-pilot",
+  "tenantId": "13d24a05-c153-4439-a0c0-32f473f2cfe0",
+  "ministryCode": "MPPI",
+  "budgetCode": "4.01.02.01.00",
+  "displayName": "Ministerio de Obras Públicas — Piloto Fiscal",
+  "programName": "Mantenimiento vial verificable — Trust Pilot Fiscal",
+  "status": "active",
+  "budgetLineId": "44b99662-8456-4407-8c95-ea1859e2f710",
+  "quarterCloseId": "a194d786-aec6-46ff-a7e0-794a8e420de3",
+  "consolePath": "/modelos/egs/consola",
+  "healthPath": "/api/public/egs/ministry-health/MPPI",
+  "ingestPath": "/api/ops/ingest/mppi-trust-pilot",
+  "provisionedAt": "2026-07-06T18:20:49.251Z"
+}

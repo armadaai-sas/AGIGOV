@@ -118,7 +118,7 @@ export default function ProjectsPage() {
         lead={
           tab === 'salud' ? (
             <>
-              Cierre trimestral EGS · baseline, gasto verificado y ahorro Δ en tiempo real.
+              Cierre trimestral EGS · baseline, gasto verificado y ahorro verificado en tiempo real.
             </>
           ) : (
             <>Proyectos con escrow programático y aportes ciudadanos trazables.</>

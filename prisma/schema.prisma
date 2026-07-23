@@ -9,6 +9,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PilotTenantStatus {
+  provisioning
+  active
+  suspended
+  closed
+}
+
+enum PilotOnboardingStatus {
+  pending
+  registered
+  baseline_pending
+  baseline_ratified
+  ingest_ready
+}
+
+enum InstitutionUserStatus {
+  active
+  suspended
+}
+
+model PilotTenant {
+  id                String                 @id @default(uuid())
+  slug              String                 @unique
+  ministryCode      String
+  budgetCode        String
+  displayName       String
+  programName       String
+  territoryCode     String                 @default("VEN_VIAL_PILOT_01")
+  fiscalYear        Int                    @default(2026)
+  quarter           Int                    @default(2)
+  status            PilotTenantStatus      @default(provisioning)
+  onboardingStatus  PilotOnboardingStatus  @default(pending)
+  ingestTokenHash   String
+  budgetLinePilotId String?
+  baselineActaProcessId String?
+  institutionSigners Json?
+  baselineSignatures Json?
+  multisigThreshold Int                    @default(3)
+  originNodeId      String
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  @@unique([ministryCode, budgetCode])
+  @@index([status])
+  @@index([onboardingStatus])
+  @@index([ministryCode])
+}
+
+model InstitutionUser {
+  id              String                @id @default(uuid())
+  email           String                @unique
+  institutionName String
+  entityType      String
+  officialCode    String?
+  contactName     String?
+  contactRole     String?
+  passwordSalt    String
+  passwordHash    String
+  status          InstitutionUserStatus @default(active)
+  magicLinkHash   String?
+  magicLinkExpiry DateTime?
+  lastLoginAt     DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  sessions InstitutionSession[]
+
+  @@index([status])
+}
+
+model InstitutionSession {
+  id         String   @id @default(uuid())
+  userId     String
+  user       InstitutionUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
 enum ProcessStatus {
   received
   validated

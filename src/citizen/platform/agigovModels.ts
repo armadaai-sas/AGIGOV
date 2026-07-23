@@ -67,24 +67,24 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'El Estado ejecuta presupuesto con opacidad: pagos sin hito, sobrecostos no detectados y cierres trimestrales manuales propensos a discrepancia.',
     purpose:
-      'Reconciliar baseline presupuestario vs gasto trazado en ledger, calcular el ahorro Δ y repartirlo bajo reglas publicadas (re-inversión, mérito, fee del operador).',
+      'Reconciliar baseline presupuestario vs gasto trazado en ledger, calcular el ahorro verificado y repartirlo bajo reglas publicadas (re-inversión, mérito, fee del operador).',
     whyVital:
-      'Permite defender ante contraloría y ciudadanía que cada unidad monetaria ahorrada es auditable — sin fee si no hay Δ real. Alinea incentivos del operador con eficiencia, no con gasto.',
+      'Permite defender ante contraloría y ciudadanía que cada unidad monetaria ahorrada es auditable — sin fee si no hay ahorro real. Alinea incentivos del operador con eficiencia, no con gasto.',
     benefits: [
       'Cierre trimestral automático con centinela',
       'Smart Escrow ligado a hitos verificables',
-      'Reparto configurable sobre Δ (ej. 70/20/10)',
+      'Reparto configurable sobre ahorro verificado (ej. 70/20/10)',
       'Congelamiento humano ante discrepancia',
     ],
     howItWorks: [
       'Acta baseline multi-sig fija el techo presupuestario',
       'Logístico registra ejecución e hitos en escrow',
       'Centinela reconcilia antes del Q-Close',
-      'Comunicador publica Δ y reparto en dashboard',
+      'Comunicador publica ahorro y reparto en dashboard',
     ],
     businessModel: {
       payer: 'Entidad pública (tesorería / ministerio)',
-      mechanism: 'Success fee sobre ahorro Δ certificado — típico 5–15% del delta',
+      mechanism: 'Success fee sobre ahorro certificado — típico 5–15% del ahorro',
       metric: 'Ahorro neto verificable vs baseline firmada',
     },
     operationalModel: {

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { LifeBuoy, ArrowRight, Compass, Landmark, Users, X } from 'lucide-react';
 
 import { usePlatform, type OnboardingPersona } from '../context/PlatformContext.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 const PATHS: Array<{
   persona: OnboardingPersona;
@@ -28,8 +29,8 @@ const PATHS: Array<{
     persona: 'government',
     icon: Landmark,
     title: 'Represento un gobierno',
-    text: 'Concierge institucional: carta, despliegue territorial y adopción del modelo.',
-    to: '/institucional#concierge',
+    text: 'Registro institucional y piloto fiscal EGS: perfil de entidad, sandbox y baseline multi-sig.',
+    to: INSTITUTION_ROUTES.register,
   },
 ];
 

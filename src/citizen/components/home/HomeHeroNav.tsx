@@ -1,37 +1,42 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
+import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { useSovereignConfig } from '../../context/PlatformContext.js';
+import { InstitutionAccountNav } from '../institutional/InstitutionAccountNav.js';
 
-/** Barra superior — landing y navegación global AGIGOV. */
+/** Nav — sombra al scroll, CTA de conversión. */
 export function HomeHeroNav() {
+  const [scrolled, setScrolled] = useState(false);
+  const copy = useLandingCopy();
+  const { t } = useSovereignConfig();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#030508]/75 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 md:px-8">
-        <Link to="/" className="shrink-0 no-underline" aria-label="AGIGOV — Inicio">
-          <AgigovLogo size="sm" showWordmark />
+    <header className={`hero-trust-nav hero-trust-nav--light ${scrolled ? 'is-scrolled' : ''}`}>
+      <div className="hero-trust-nav-inner">
+        <Link to="/" className="shrink-0 no-underline" aria-label={t('nav.home')}>
+          <AgigovLogo size="sm" showWordmark variant="light" />
         </Link>
 
-        <nav className="flex items-center gap-2 sm:gap-4" aria-label="Navegación principal">
-          <Link
-            to="/modelos"
-            className="hidden text-sm font-medium text-slate-400 no-underline hover:text-white sm:inline"
-          >
-            Modelos
+        <nav className="flex items-center gap-1 sm:gap-3" aria-label={t('nav.main')}>
+          <Link to="/#gobernanza-2" className="hero-trust-nav-ghost hidden sm:inline">
+            {t('nav.governance2')}
           </Link>
-          <Link
-            to="/institucional"
-            className="hidden text-sm font-medium text-slate-400 no-underline hover:text-white md:inline"
-          >
-            Institucional
+          <Link to="/institucional" className="hero-trust-nav-ghost hidden md:inline">
+            {t('nav.institutional')}
           </Link>
-          <Link
-            to="/modelos"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white no-underline ring-1 ring-white/10 hover:bg-white/15"
-          >
-            Catálogo
-            <ArrowRight className="h-4 w-4" />
+          <Link to={copy.HERO_CTA_SECONDARY.path} className="hero-trust-nav-ghost hidden sm:inline">
+            {copy.HERO_CTA_SECONDARY.label}
           </Link>
+          <InstitutionAccountNav variant="hero" />
         </nav>
       </div>
     </header>

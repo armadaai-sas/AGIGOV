@@ -1,0 +1,20 @@
+{
+  "corrida": "2-sbx-reproducibilidad",
+  "operador": "B (equipo interno — distinto de corrida 1)",
+  "scenario": "MPPI · rubro vial · re-seed completo",
+  "variante": "Contrato C02 exportado (vs C01 en corrida 1); gestión verificada en /proyectos?tab=salud",
+  "fiscalYear": 2026,
+  "quarter": 2,
+  "status": "DELTA_CALCULATED",
+  "calculo_ahorro_final_ves": "180000.0000",
+  "contratos": 10,
+  "hitos": 50,
+  "discrepancies": [],
+  "tiempo_seed_seg": 3.7,
+  "tiempo_qclose_seg": 1.9,
+  "tiempo_total_tecnico_seg": 5.6,
+  "corrida_1_tiempo_sesion_min": 40,
+  "delta_tiempo_vs_corrida1": "-86% (infra ya lista)",
+  "generatedAt": "2026-07-06T02:57:37Z",
+  "disclaimer": "Acta demo SBX — reproducibilidad operativa, no acta ministerial."
+}

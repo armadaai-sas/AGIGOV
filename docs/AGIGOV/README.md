@@ -13,6 +13,7 @@
 | [AGIGOV-SBX.md](./AGIGOV-SBX.md) | Sandbox interop (ISO SBX + VEN) |
 | **[CARTA-AGIGOV-SBX.md](./CARTA-AGIGOV-SBX.md)** | **Carta sandbox adhesión red** |
 | [ONBOARDING-GOBIERNOS.md](./ONBOARDING-GOBIERNOS.md) | Registro y conexión de gobiernos |
+| [../SOVEREIGN-CONFIG.md](../SOVEREIGN-CONFIG.md) | País, moneda, idioma (VEN/COL) |
 | [POLITICA-2.0.md](./POLITICA-2.0.md) | Política tradicional vs Política AGI 2.0 |
 | **[POLITICA-PARTICIPACION.md](./POLITICA-PARTICIPACION.md)** | **Uso de propuestas, aportes y campañas (piloto)** |
 | [ECONOMIA-DAO.md](./ECONOMIA-DAO.md) | Tokens, DAO, prosperidad compartida |

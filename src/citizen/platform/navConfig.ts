@@ -25,6 +25,7 @@ import {
 
 import type { ImplementationId } from './implementations.js';
 import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from './agigovModels.js';
+import { INSTITUTION_ROUTES } from './institutionalRoutes.js';
 
 export type NavItem = {
   to: string;
@@ -40,7 +41,7 @@ export type NavGroup = {
 };
 
 export type NavSection = {
-  id: 'modelo' | 'ven' | 'ven-funnel' | 'ven-more' | 'resources';
+  id: 'modelo' | 'ven' | 'ven-funnel' | 'ven-more' | 'resources' | 'institutional';
   label: string;
   subtitle: string;
   items?: readonly NavItem[];
@@ -64,11 +65,44 @@ export const NAV_SECTION_MODELO: NavSection = {
     { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API · OpenAPI · integradores', icon: Code2 },
   ],
   cta: {
-    to: '/institucional#desplegar',
-    label: 'Desplegar AGIGOV',
-    hint: 'Implementar en tu jurisdicción',
+    to: INSTITUTION_ROUTES.register,
+    label: 'Probar el modelo',
+    hint: 'Registro institucional · piloto EGS',
     icon: Rocket,
   },
+} as const;
+
+/** Acceso institucional — registro, login, piloto. */
+export const NAV_SECTION_INSTITUTIONAL: NavSection = {
+  id: 'institutional',
+  label: 'Institucional',
+  subtitle: 'Gobierno · piloto fiscal',
+  items: [
+    {
+      to: INSTITUTION_ROUTES.register,
+      label: 'Registro',
+      hint: 'Perfil de entidad · sandbox',
+      icon: Landmark,
+    },
+    {
+      to: INSTITUTION_ROUTES.login,
+      label: 'Acceso',
+      hint: 'Inicio de sesión institucional',
+      icon: ShieldCheck,
+    },
+    {
+      to: INSTITUTION_ROUTES.pilot,
+      label: 'Piloto EGS',
+      hint: 'Wizard fiscal 7 pasos',
+      icon: Rocket,
+    },
+    {
+      to: INSTITUTION_ROUTES.hub,
+      label: 'Hub institucional',
+      hint: 'Carta · protocolo · concierge',
+      icon: ScrollText,
+    },
+  ],
 } as const;
 
 /** Operación — modelos y consolas. */
@@ -164,7 +198,7 @@ export function usesFunnelNav(_implementationId: ImplementationId): boolean {
 }
 
 export function getNavSidebarSections(_implementationId: ImplementationId): readonly NavSection[] {
-  return [NAV_SECTION_SERVICES, NAV_SECTION_VEN_MORE];
+  return [NAV_SECTION_INSTITUTIONAL, NAV_SECTION_SERVICES, NAV_SECTION_VEN_MORE];
 }
 
 /** @deprecated Usar getNavSidebarSections */
@@ -250,6 +284,12 @@ export function isNavActive(
   }
   if (path === '/contratos') {
     return pathname === '/contratos' || pathname.startsWith('/proyectos/contrato/');
+  }
+  if (path === '/institucional') {
+    return pathname === '/institucional';
+  }
+  if (path.startsWith('/institucional/')) {
+    return pathname === path || pathname.startsWith(`${path}/`);
   }
 
   return pathname === path || pathname.startsWith(`${path}/`);

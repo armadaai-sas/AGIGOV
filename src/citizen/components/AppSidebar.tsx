@@ -6,6 +6,7 @@ import { ChevronDown, PanelLeftClose, PanelLeft, Moon, Sun } from 'lucide-react'
 import { AgigovLogo } from './AgigovLogo.js';
 import { CommandPaletteButton } from './CommandPalette.js';
 import { ImplementationSelector } from './ImplementationSelector.js';
+import { SovereignSettingsPanel } from './SovereignSettingsPanel.js';
 import {
   getNavSidebarSections,
   isNavActive,
@@ -57,7 +58,14 @@ export function AppSidebar() {
       </nav>
 
       <div className="app-sidebar-foot">
-        {!collapsed ? <ImplementationSelector compact /> : null}
+        {!collapsed ? (
+          <>
+            <ImplementationSelector compact />
+            <SovereignSettingsPanel />
+          </>
+        ) : (
+          <SovereignSettingsPanel compact />
+        )}
         <div className="app-sidebar-foot-actions">
           <CommandPaletteButton />
           <button

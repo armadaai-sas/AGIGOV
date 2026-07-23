@@ -1,0 +1,13 @@
+[PanicDrill] Resultado: 7 OK, 0 FAIL
+
+Checks ejecutados:
+  ✓ assertLedgerWritable bloquea mutaciones (PANIC_MODE=true)
+  ✓ FREEZE status permitido durante pánico
+  ✓ IAP bloquea validate-request
+  ✓ IAP bloquea validation-result
+  ✓ DID revocado: did:armada:core:logistico
+  ✓ ledger writable tras desactivar PANIC_MODE
+  ✓ whitepaper 6 secciones, conformidad=0.29
+
+Comando: npm run panic:drill
+Fecha: 2026-07-06T02:57:57Z

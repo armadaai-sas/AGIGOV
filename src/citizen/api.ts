@@ -79,6 +79,7 @@ export interface ProjectsResponse {
 }
 
 const API_BASE = import.meta.env.VITE_PUBLIC_API_URL ?? '';
+const INSTITUTION_SESSION_TOKEN_KEY = 'agigov-institution-session-token-v1';
 
 async function fetchPublic<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -86,6 +87,41 @@ async function fetchPublic<T>(path: string): Promise<T> {
   });
   if (!res.ok) throw new Error(`API ${path} → ${res.status}`);
   return res.json() as Promise<T>;
+}
+
+function getOpsAuthHeaders(extra?: HeadersInit): HeadersInit {
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem(INSTITUTION_SESSION_TOKEN_KEY) : null;
+  return {
+    ...(extra ?? {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
+
+export type PublicConfigResponse = {
+  updatedAt: string;
+  iso: string;
+  jurisdictionCode: string;
+  label: string;
+  currency: string;
+  locale: string;
+  timezone: string;
+  territoryCode: string;
+  supportedJurisdictions: Array<{
+    iso: string;
+    jurisdictionCode: string;
+    label: string;
+    currency: string;
+    locale: string;
+    status: string;
+  }>;
+  supportedLocales: string[];
+  supportedCurrencies: string[];
+  note: string;
+};
+
+export function fetchPublicConfig() {
+  return fetchPublic<PublicConfigResponse>('/api/public/config');
 }
 
 export function fetchDashboard() {
@@ -389,6 +425,7 @@ export interface MinistryHealthResponse {
   baselineTrimestral: string;
   gastosVerificados: string;
   calculoAhorroFinal: string;
+  currency: string;
   executionPct: number;
   escrowExecutionPct: number;
   split: {
@@ -446,4 +483,180 @@ export function fetchEgsContractDetail(escrowProcessId: string) {
   return fetchPublic<EgsContractDetailResponse>(
     `/api/public/egs/contracts/${encodeURIComponent(escrowProcessId)}`,
   );
+}
+
+export type PilotDefaultsResponse = {
+  iso: string;
+  jurisdictionCode: string;
+  currency: string;
+  slug: string;
+  ministryCode: string;
+  budgetCode: string;
+  displayName: string;
+  programName: string;
+  territoryCode: string;
+  fiscalYear: number;
+  quarter: number;
+};
+
+export function fetchPilotDefaults(iso: string) {
+  return fetchPublic<PilotDefaultsResponse>(`/api/public/pilot/defaults?iso=${encodeURIComponent(iso)}`);
+}
+
+export type PilotTenantSummary = {
+  slug: string;
+  ministry: string;
+  budgetCode: string;
+  displayName: string;
+  status: string;
+  fiscalYear: number;
+  quarter: number;
+  onboardingStatus: string;
+  provisionedAt: string;
+};
+
+export function fetchPilotTenants() {
+  return fetch(`${API_BASE}/api/ops/tenants`, {
+    headers: getOpsAuthHeaders({ Accept: 'application/json' }),
+  }).then(async (res) => {
+    const json = (await res.json()) as { tenants: PilotTenantSummary[]; count: number; error?: string };
+    if (!res.ok) throw new Error(json.error ?? `ops tenants → ${res.status}`);
+    return json;
+  });
+}
+
+export type ProvisionPilotResponse = {
+  slug: string;
+  ministryCode: string;
+  budgetCode: string;
+  currency: string;
+  firstEscrowRef: string;
+  consoleUrl: string;
+  ingestUrl: string;
+  healthUrl: string;
+  ingestToken: string;
+  credentialsPath: string;
+};
+
+export async function provisionPilotFromProfile(body: {
+  iso: string;
+  slug: string;
+  ministryCode: string;
+  budgetCode: string;
+  displayName: string;
+  programName: string;
+  territoryCode: string;
+  fiscalYear: number;
+  quarter: number;
+}): Promise<ProvisionPilotResponse> {
+  const res = await fetch(`${API_BASE}/api/ops/tenants/provision`, {
+    method: 'POST',
+    headers: getOpsAuthHeaders({ 'Content-Type': 'application/json', Accept: 'application/json' }),
+    body: JSON.stringify(body),
+  });
+  const json = (await res.json()) as ProvisionPilotResponse & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `provision → ${res.status}`);
+  return json;
+}
+
+export type TenantOnboardingStatus = {
+  slug: string;
+  ministryCode: string;
+  onboardingStatus: string;
+  baselineActaProcessId: string | null;
+  institutionSigners: string[] | null;
+  multisigThreshold: number;
+};
+
+export function fetchTenantOnboarding(slug: string) {
+  return fetch(`${API_BASE}/api/ops/tenants/${encodeURIComponent(slug)}/onboarding`, {
+    headers: getOpsAuthHeaders({ Accept: 'application/json' }),
+  }).then(async (res) => {
+    const json = (await res.json()) as TenantOnboardingStatus & { error?: string };
+    if (!res.ok) throw new Error(json.error ?? `ops onboarding → ${res.status}`);
+    return json;
+  });
+}
+
+async function postOpsJson<T>(path: string, body?: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers: getOpsAuthHeaders({ 'Content-Type': 'application/json', Accept: 'application/json' }),
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+  const json = (await res.json()) as T & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `${path} → ${res.status}`);
+  return json;
+}
+
+export type OnboardPilotResponse = {
+  slug: string;
+  ministryCode: string;
+  institutionSigners: string[];
+  onboardingStatus: string;
+};
+
+export function onboardPilotTenant(slug: string) {
+  return postOpsJson<OnboardPilotResponse>(`/api/ops/tenants/${encodeURIComponent(slug)}/onboard`);
+}
+
+export type RatifyBaselineResponse = {
+  ratified: boolean;
+  onboardingStatus: string;
+};
+
+export function ratifyPilotBaseline(slug: string) {
+  return postOpsJson<RatifyBaselineResponse>(
+    `/api/ops/tenants/${encodeURIComponent(slug)}/baseline/ratify`,
+  );
+}
+
+export type IngestPilotResponse = {
+  accepted: number;
+  skipped: number;
+  centinela?: {
+    reconcileOk: boolean;
+    status: string;
+    calculoAhorroFinal: number;
+    discrepancies: string[];
+  };
+};
+
+export async function ingestPilotMilestones(
+  slug: string,
+  ingestToken: string,
+  rows: Array<{
+    contractRef: string;
+    milestoneIndex: number;
+    amount: string;
+    evidenceRef?: string;
+  }>,
+): Promise<IngestPilotResponse> {
+  const res = await fetch(`${API_BASE}/api/ops/ingest/${encodeURIComponent(slug)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${ingestToken}`,
+    },
+    body: JSON.stringify({ rows }),
+  });
+  const json = (await res.json()) as IngestPilotResponse & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `ingest → ${res.status}`);
+  return json;
+}
+
+export type QClosePilotResponse = {
+  ok: boolean;
+  status: string;
+  reconcileOk: boolean;
+  discrepancies: string[];
+  calculoAhorroFinal: number;
+  published: boolean;
+};
+
+export function runPilotQClose(slug: string, publish: boolean) {
+  return postOpsJson<QClosePilotResponse>(`/api/ops/tenants/${encodeURIComponent(slug)}/q-close`, {
+    publish,
+  });
 }

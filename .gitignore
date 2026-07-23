@@ -56,6 +56,9 @@ temp/
 data/*.db
 data/did-registry.json
 data/edge.db
+data/pilot-tenants/*.credentials.json
+data/pilot-tenants/*.institution-keys.json
+data/email-outbox.jsonl
 prisma-edge/data/
 src/generated/
 infra/wireguard/config/

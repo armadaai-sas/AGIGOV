@@ -1,30 +1,36 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-import { LANDING_CTA_LEAD, LANDING_CTA_TITLE } from '../../hero/landingCopy.js';
+import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
-/** CTA final landing — catálogo + EGS ganar-ganar. */
+/** CTA final — misma jerarquía de botones que el hero. */
 export function LandingCtaSection() {
+  const copy = useLandingCopy();
+
   return (
-    <section
-      className="landing-section landing-section--cta"
-      aria-labelledby="landing-cta-title"
-    >
-      <div className="landing-section-inner landing-section-inner--cta">
-        <h3 id="landing-cta-title" className="landing-section-cta-title">
-          {LANDING_CTA_TITLE}
-        </h3>
-        <p className="landing-section-lead landing-section-lead--light mt-4 max-w-xl text-center">
-          {LANDING_CTA_LEAD}
-        </p>
-        <div className="landing-section-cta-actions">
-          <Link to="/modelos" className="ui-btn-primary ui-btn-lg">
-            Explorar modelos
-            <ArrowRight className="h-5 w-5" aria-hidden />
-          </Link>
-          <Link to="/modelos/egs" className="ui-btn-secondary ui-btn-lg">
-            Ver Efficiency Gain Share
-          </Link>
+    <section className="landing-section landing-section--cta" aria-labelledby="landing-cta-title">
+      <div className="landing-section-cta-panel">
+        <div className="landing-section-inner landing-section-inner--cta">
+          <p className="hero-brand-kicker">{copy.LANDING_CTA_ACTION}</p>
+          <h3 id="landing-cta-title" className="landing-display-title landing-section-cta-title">
+            {copy.LANDING_CTA_TITLE}
+          </h3>
+          <p className="landing-lead landing-section-lead--light mt-4 max-w-lg text-center">
+            {copy.LANDING_CTA_LEAD}
+          </p>
+          <p className="landing-cta-micro">{copy.LANDING_CTA_MICRO}</p>
+          <div className="landing-section-cta-actions">
+            <Link to={copy.HERO_CTA_PRIMARY.path} className="hero-brand-btn hero-brand-btn--primary">
+              {copy.HERO_CTA_PRIMARY.label}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link to={copy.HERO_CTA_SECONDARY.path} className="hero-brand-btn hero-brand-btn--outline">
+              {copy.HERO_CTA_SECONDARY.label}
+            </Link>
+            <Link to="/institucional" className="hero-brand-btn hero-brand-btn--ghost">
+              {copy.LANDING_CTA_CONTACT}
+            </Link>
+          </div>
         </div>
       </div>
     </section>

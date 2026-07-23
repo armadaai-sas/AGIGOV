@@ -61,6 +61,9 @@ Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/pro
 | Ventas, one-pagers, mercadeo modelos | **`agigov-gtm`** + agente **`comercial-agigov`** |
 | CSO / Cuadro modelos / success fee / micro-tx | **`agigov-strategic-analysis`** + **`agigov-cso-deliverable`** + agente **`cso-monetizacion`** |
 | País, PIB, geopolítica, proyectos estatales | **`macro-intelligence-governance`** |
+| Geopolítica profunda, sanciones, escenarios macro/FX | **`geopolitics-macro-expert`** |
+| Sistemas complejos (Estado/global), incentivos, cascadas | **`complex-systems-governance`** |
+| Qué falta para prod / gate staging / GTM listo | **`production-readiness-orchestrator`** |
 
 ## Convenciones
 
