@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { disconnectCoreDb } from '../src/db/client.js';
 import {
   initPilotActa,
-  ratifyPilotWithDemoKeys,
+  ratifyPilotWithRegistryKeys,
   verifyPilotClosure,
   PILOT_PROCESS_ID,
   PILOT_SIGNERS,
@@ -24,9 +24,9 @@ async function main(): Promise<void> {
   }
 
   if (cmd === 'ratify') {
-    const result = await ratifyPilotWithDemoKeys(ORIGIN);
+    const result = await ratifyPilotWithRegistryKeys(ORIGIN);
     console.log('[Pilot] Ratificación:', result.ratified ? 'OK' : 'PENDIENTE');
-    console.log('[Pilot] Firmas:', Object.keys(result.signatures).length);
+    console.log('[Pilot] Firmas válidas:', result.validCount, '/', result.threshold);
     return;
   }
 

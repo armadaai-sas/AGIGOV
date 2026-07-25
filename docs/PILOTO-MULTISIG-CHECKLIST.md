@@ -31,15 +31,19 @@ Signatarios requeridos (`PILOT_THRESHOLD=3`):
 
 ```bash
 npm run pilot:init      # borrador + escrow PENDING
-npm run pilot:ratify    # demo Ed25519 + acta committed + checkpoint published
-npm run pilot:verify    # verificación automática
+npm run pilot:ratify    # claves durables + verify DidRegistry → committed / LOCKED
+npm run pilot:verify    # incluye check crypto multisigVerified
 ```
+
+Claves: `data/pilot-tenants/nacional.core-keys.json` (gitignore) o env  
+`NODE_ED25519_SECRET_KEY_B64_{SOBERANO|CENTINELA|COMUNICADOR}`.
 
 ### Producción real
 
-- [ ] Cada signatario firma `contentHash` del acta con clave Ed25519 del DID (no demo keys)
-- [ ] Escrow pasa a `LOCKED` solo con ≥3 firmas válidas verificadas
-- [ ] Ninguna clave privada en repo ni en logs
+- [x] Firmas Ed25519 ligadas a DID + verificación vs DidRegistry antes de `LOCKED`
+- [x] Escrow `LOCKED` solo con ≥ threshold firmas válidas
+- [x] Claves privadas fuera de repo (`*.core-keys.json` gitignore)
+- [ ] Ceremonia humana / HSM por signatario (fuera de auto-sign local) — siguiente fase
 
 ## Fase D — Integridad ledger ↔ dashboard
 

@@ -6,6 +6,12 @@ import { sendActivationEmailOnly, sendRegistrationEmails } from './email/index.j
 const SESSION_TTL_MS = 1000 * 60 * 60 * 12;
 const MAGIC_LINK_TTL_MS = 1000 * 60 * 20;
 
+export type InstitutionVerificationStatus =
+  | 'unverified'
+  | 'pending_verification'
+  | 'verified'
+  | 'rejected';
+
 type PublicInstitutionUser = {
   id: string;
   email: string;
@@ -15,6 +21,12 @@ type PublicInstitutionUser = {
   contactName: string | null;
   contactRole: string | null;
   status: string;
+  iso: string | null;
+  regionCode: string | null;
+  entityCatalogId: string | null;
+  phone: string | null;
+  phoneCountryCode: string | null;
+  verificationStatus: InstitutionVerificationStatus;
 };
 
 type SessionBundle = {
@@ -31,6 +43,11 @@ type RegisterInput = {
   officialCode?: string;
   contactName?: string;
   contactRole?: string;
+  iso?: string;
+  regionCode?: string;
+  entityCatalogId?: string;
+  phone?: string;
+  phoneCountryCode?: string;
 };
 
 function sha256(value: string): string {
@@ -47,6 +64,13 @@ function toPublicUser(user: InstitutionUser): PublicInstitutionUser {
     contactName: user.contactName,
     contactRole: user.contactRole,
     status: user.status,
+    iso: user.iso ?? null,
+    regionCode: user.regionCode ?? null,
+    entityCatalogId: user.entityCatalogId ?? null,
+    phone: user.phone ?? null,
+    phoneCountryCode: user.phoneCountryCode ?? null,
+    verificationStatus: (user.verificationStatus ??
+      'pending_verification') as InstitutionVerificationStatus,
   };
 }
 
@@ -116,6 +140,9 @@ export async function registerInstitutionUser(input: RegisterInput): Promise<Ses
   const magicToken = randomBytes(24).toString('hex');
   const magicExpiry = new Date(Date.now() + MAGIC_LINK_TTL_MS);
 
+  const catalogId = input.entityCatalogId?.trim() || null;
+  const isOther = !catalogId || catalogId === '__other__';
+
   const user = await db.institutionUser.create({
     data: {
       email,
@@ -126,12 +153,20 @@ export async function registerInstitutionUser(input: RegisterInput): Promise<Ses
       contactRole: input.contactRole?.trim() || null,
       passwordSalt: salt,
       passwordHash,
+      iso: input.iso?.trim().toUpperCase() || null,
+      regionCode: input.regionCode?.trim() || null,
+      entityCatalogId: catalogId,
+      phone: input.phone?.trim() || null,
+      phoneCountryCode: input.phoneCountryCode?.trim() || null,
+      verificationStatus: 'pending_verification',
+      verificationNotes: isOther
+        ? 'Entity not in curated catalog — requires stricter public-channel review'
+        : null,
       magicLinkHash: sha256(magicToken),
       magicLinkExpiry: magicExpiry,
     },
   });
 
-  // Correos transaccionales: no deben tumbar el registro si el outbox falla.
   void sendRegistrationEmails({
     institutionName: user.institutionName,
     email: user.email,
@@ -226,7 +261,6 @@ export async function requestInstitutionMagicLink(emailRaw: string): Promise<{ o
     console.error('[auth] activation email failed:', err);
   });
 
-  // Sandbox mode: allow returning token for local testing.
   if (process.env.AGIGOV_MAGIC_LINK_DEBUG === '1') {
     return { ok: true, debugToken: token };
   }
@@ -266,4 +300,32 @@ export function toSessionResponse(session: InstitutionSession & { user: Institut
     sessionExpiresAt: session.expiresAt.toISOString(),
     user: toPublicUser(session.user),
   };
+}
+
+/** Ops: actualizar verificación institucional tras revisión humana. */
+export async function setInstitutionVerificationStatus(input: {
+  email: string;
+  status: InstitutionVerificationStatus;
+  notes?: string;
+}): Promise<PublicInstitutionUser> {
+  const email = normalizeEmail(input.email);
+  const allowed: InstitutionVerificationStatus[] = [
+    'unverified',
+    'pending_verification',
+    'verified',
+    'rejected',
+  ];
+  if (!allowed.includes(input.status)) {
+    throw new Error('invalid_verification_status');
+  }
+
+  const db = getCoreDb();
+  const user = await db.institutionUser.update({
+    where: { email },
+    data: {
+      verificationStatus: input.status,
+      verificationNotes: input.notes?.trim() || null,
+    },
+  });
+  return toPublicUser(user);
 }

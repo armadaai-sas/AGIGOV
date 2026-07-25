@@ -16,6 +16,8 @@ export type InstitutionProfileDraft = {
   quarter: number;
   contactName: string;
   contactEmail: string;
+  /** Partida anual estimada (editable; default = escala sandbox de la jurisdicción). */
+  annualBaselineEstimate: number;
   updatedAt: string;
 };
 
@@ -38,6 +40,7 @@ export function profileFromIso(iso: JurisdictionIso): InstitutionProfileDraft {
     quarter: 2,
     contactName: '',
     contactEmail: '',
+    annualBaselineEstimate: pilot.egsScale.annualBaseline,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -48,8 +51,22 @@ export function loadInstitutionProfile(iso: JurisdictionIso): InstitutionProfile
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return profileFromIso(iso);
     const parsed = JSON.parse(raw) as InstitutionProfileDraft;
-    if (parsed.iso !== iso) return { ...profileFromIso(iso), contactName: parsed.contactName, contactEmail: parsed.contactEmail };
-    return parsed;
+    if (parsed.iso !== iso) {
+      return {
+        ...profileFromIso(iso),
+        contactName: parsed.contactName,
+        contactEmail: parsed.contactEmail,
+      };
+    }
+    const defaults = profileFromIso(iso);
+    return {
+      ...defaults,
+      ...parsed,
+      annualBaselineEstimate:
+        typeof parsed.annualBaselineEstimate === 'number' && parsed.annualBaselineEstimate > 0
+          ? parsed.annualBaselineEstimate
+          : defaults.annualBaselineEstimate,
+    };
   } catch {
     return profileFromIso(iso);
   }

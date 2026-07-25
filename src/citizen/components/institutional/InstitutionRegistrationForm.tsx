@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Building2, Landmark, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,8 +6,12 @@ import { JURISDICTIONS, type JurisdictionIso } from '../../../config/sovereign/j
 import type { MessageKey } from '../../../i18n/index.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import {
-  registerInstitutionAuth,
-} from '../../institutional/institutionAuth.js';
+  defaultPhoneCountryCode,
+  ENTITY_CATALOG_OTHER_ID,
+  findCatalogEntity,
+  getRegionsForType,
+} from '../../institutional/entity-catalog/index.js';
+import { registerInstitutionAuth } from '../../institutional/institutionAuth.js';
 import {
   isInstitutionRegistrationComplete,
   loadInstitutionRegistration,
@@ -15,8 +19,11 @@ import {
   type InstitutionEntityType,
   type InstitutionRegistration,
 } from '../../institutional/institutionRegistration.js';
-import { profileFromIso, slugifyInstitution } from '../../institutional/institutionProfile.js';
-import { saveInstitutionProfile } from '../../institutional/institutionProfile.js';
+import {
+  profileFromIso,
+  saveInstitutionProfile,
+  slugifyInstitution,
+} from '../../institutional/institutionProfile.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
@@ -37,7 +44,7 @@ type Props = {
   onComplete?: () => void;
 };
 
-/** Registro institucional — acceso tipo exchange/KYC para gobierno. */
+/** Registro institucional — catálogo por jurisdicción + verificación async. */
 export function InstitutionRegistrationForm({ onComplete }: Props) {
   const { t, sovereign, setSovereignPref } = useSovereignConfig();
   const navigate = useNavigate();
@@ -45,12 +52,31 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
   const [form, setForm] = useState<InstitutionRegistration>(() => loadInstitutionRegistration());
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [iso, setIso] = useState<JurisdictionIso>(sovereign.iso);
+  const initialIso: JurisdictionIso = (() => {
+    const fromForm = form.iso as JurisdictionIso | undefined;
+    if (fromForm && ['VEN', 'COL', 'USA'].includes(fromForm)) return fromForm;
+    if (['VEN', 'COL', 'USA'].includes(sovereign.iso)) return sovereign.iso as JurisdictionIso;
+    return 'VEN';
+  })();
+  const [iso, setIso] = useState<JurisdictionIso>(initialIso);
+  const [regionCode, setRegionCode] = useState(form.regionCode ?? '');
+  const [entityCatalogId, setEntityCatalogId] = useState(form.entityCatalogId ?? '');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const isGovernmentTier =
     form.entityType === 'ministry' || form.entityType === 'governorship';
+
+  const regions = useMemo(
+    () => getRegionsForType(iso, form.entityType),
+    [iso, form.entityType],
+  );
+  const entities = useMemo(
+    () => regions.find((r) => r.code === regionCode)?.entities ?? [],
+    [regions, regionCode],
+  );
+  const isOtherEntity = entityCatalogId === ENTITY_CATALOG_OTHER_ID || form.entityType === 'other';
+  const phoneCode = form.phoneCountryCode || defaultPhoneCountryCode(iso);
 
   useEffect(() => {
     if (isInstitutionRegistrationComplete()) onComplete?.();
@@ -64,6 +90,51 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
   function onCountryChange(nextIso: JurisdictionIso) {
     setIso(nextIso);
     setSovereignPref({ iso: nextIso });
+    setRegionCode('');
+    setEntityCatalogId('');
+    patch({
+      iso: nextIso,
+      regionCode: '',
+      entityCatalogId: '',
+      phoneCountryCode: defaultPhoneCountryCode(nextIso),
+      legalName: '',
+      officialCode: '',
+    });
+  }
+
+  function onEntityTypeChange(id: InstitutionEntityType) {
+    setRegionCode('');
+    setEntityCatalogId('');
+    patch({
+      entityType: id,
+      regionCode: '',
+      entityCatalogId: '',
+      legalName: id === 'other' ? form.legalName : '',
+      officialCode: '',
+    });
+  }
+
+  function onRegionChange(code: string) {
+    setRegionCode(code);
+    setEntityCatalogId('');
+    patch({ regionCode: code, entityCatalogId: '', legalName: '', officialCode: '' });
+  }
+
+  function onEntityChange(id: string) {
+    setEntityCatalogId(id);
+    if (id === ENTITY_CATALOG_OTHER_ID) {
+      patch({ entityCatalogId: id, legalName: '', officialCode: '' });
+      return;
+    }
+    const hit = findCatalogEntity(iso, form.entityType, id);
+    if (hit) {
+      patch({
+        entityCatalogId: id,
+        legalName: hit.entity.name,
+        officialCode: hit.entity.officialCode ?? '',
+        regionCode: hit.region.code,
+      });
+    }
   }
 
   async function submit(e: React.FormEvent) {
@@ -88,6 +159,10 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
       setError(t('reg.error.terms'));
       return;
     }
+    if (!isOtherEntity && regions.length > 0 && !entityCatalogId) {
+      setError(t('reg.error.entityRequired'));
+      return;
+    }
 
     setBusy(true);
     try {
@@ -99,6 +174,11 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
         officialCode: form.officialCode,
         contactName: form.contactName,
         contactRole: form.contactRole,
+        iso,
+        regionCode: regionCode || undefined,
+        entityCatalogId: entityCatalogId || undefined,
+        phone: form.phone?.trim() || undefined,
+        phoneCountryCode: phoneCode,
       });
       if (authResult.ok === false) {
         if (authResult.error === 'email_already_registered') {
@@ -111,7 +191,15 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
         return;
       }
 
-      saveInstitutionRegistration({ ...form, passwordHash: 'server-managed' });
+      saveInstitutionRegistration({
+        ...form,
+        iso,
+        regionCode,
+        entityCatalogId,
+        phoneCountryCode: phoneCode,
+        passwordHash: 'server-managed',
+        verificationStatus: 'pending_verification',
+      });
 
       const profile = profileFromIso(iso);
       const ministryPrefix =
@@ -122,7 +210,8 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             : form.entityType === 'governorship'
               ? 'GOB'
               : 'AGY';
-      const code = slugifyInstitution(form.legalName).slice(0, 8).toUpperCase().replace(/-/g, '') || 'PILOT';
+      const code =
+        slugifyInstitution(form.legalName).slice(0, 8).toUpperCase().replace(/-/g, '') || 'PILOT';
       const ministryCode = `${ministryPrefix}${code}`.slice(0, 12);
 
       saveInstitutionProfile({
@@ -168,7 +257,11 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
         ) : null}
       </div>
 
-      <form className="agigov-card inst-reg-form" onSubmit={submit}>
+      <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
+        <p className="mb-4 rounded-lg border border-sky-500/25 bg-sky-500/10 px-3 py-2 text-xs text-sky-100/90">
+          {t('reg.verificationNotice')}
+        </p>
+
         <fieldset>
           <legend className="text-sm font-semibold text-agigov-text">{t('reg.entityType')}</legend>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -182,7 +275,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
                   name="entityType"
                   className="sr-only"
                   checked={form.entityType === id}
-                  onChange={() => patch({ entityType: id })}
+                  onChange={() => onEntityTypeChange(id)}
                 />
                 <Icon className="h-5 w-5 text-sky-400" aria-hidden />
                 <span className="font-medium text-agigov-text">{t(labelKey)}</span>
@@ -193,17 +286,6 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
         </fieldset>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <label className="block text-sm sm:col-span-2">
-            <span className="text-agigov-text-muted">{t('reg.legalName')}</span>
-            <input
-              required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
-              value={form.legalName}
-              onChange={(e) => patch({ legalName: e.target.value })}
-              placeholder={t('reg.legalNamePlaceholder')}
-            />
-          </label>
-
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.jurisdiction')}</span>
             <select
@@ -219,6 +301,57 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             </select>
           </label>
 
+          {regions.length > 0 && form.entityType !== 'other' ? (
+            <label className="block text-sm">
+              <span className="text-agigov-text-muted">{t('reg.region')}</span>
+              <select
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                value={regionCode}
+                onChange={(e) => onRegionChange(e.target.value)}
+                required
+              >
+                <option value="">{t('reg.regionPlaceholder')}</option>
+                {regions.map((r) => (
+                  <option key={r.code} value={r.code}>
+                    {r.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {regionCode && form.entityType !== 'other' ? (
+            <label className="block text-sm sm:col-span-2">
+              <span className="text-agigov-text-muted">{t('reg.catalogEntity')}</span>
+              <select
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                value={entityCatalogId}
+                onChange={(e) => onEntityChange(e.target.value)}
+                required
+              >
+                <option value="">{t('reg.catalogEntityPlaceholder')}</option>
+                {entities.map((ent) => (
+                  <option key={ent.id} value={ent.id}>
+                    {ent.name}
+                  </option>
+                ))}
+                <option value={ENTITY_CATALOG_OTHER_ID}>{t('reg.catalogOther')}</option>
+              </select>
+            </label>
+          ) : null}
+
+          <label className="block text-sm sm:col-span-2">
+            <span className="text-agigov-text-muted">{t('reg.legalName')}</span>
+            <input
+              required
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              value={form.legalName}
+              onChange={(e) => patch({ legalName: e.target.value })}
+              placeholder={t('reg.legalNamePlaceholder')}
+              readOnly={!isOtherEntity && Boolean(entityCatalogId)}
+            />
+          </label>
+
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.officialCode')}</span>
             <input
@@ -227,6 +360,25 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
               onChange={(e) => patch({ officialCode: e.target.value })}
               placeholder="RIF / código rubro"
             />
+          </label>
+
+          <label className="block text-sm">
+            <span className="text-agigov-text-muted">{t('reg.phone')}</span>
+            <div className="mt-1 flex gap-2">
+              <input
+                className="w-20 rounded-xl border border-agigov-border bg-white/[0.03] px-2 py-2.5 font-mono text-sm text-agigov-text"
+                value={phoneCode}
+                onChange={(e) => patch({ phoneCountryCode: e.target.value })}
+                aria-label={t('reg.phoneCode')}
+              />
+              <input
+                type="tel"
+                className="min-w-0 flex-1 rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                value={form.phone ?? ''}
+                onChange={(e) => patch({ phone: e.target.value })}
+                placeholder={t('reg.phonePlaceholder')}
+              />
+            </div>
           </label>
 
           <label className="block text-sm sm:col-span-2">

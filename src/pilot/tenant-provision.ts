@@ -25,6 +25,8 @@ export type ProvisionPilotInput = {
   quarter?: number;
   originNodeId?: string;
   skipMultisigInit?: boolean;
+  /** Override de partida anual (baseline) para seed. */
+  annualBaseline?: number;
 };
 
 export type ProvisionPilotResult = {
@@ -77,6 +79,10 @@ export async function provisionPilotTenant(
     fiscalYear: input.fiscalYear ?? 2026,
     quarter: input.quarter ?? 2,
     originNodeId,
+    egsScale:
+      typeof input.annualBaseline === 'number' && input.annualBaseline > 0
+        ? { ...profile.egsScale, annualBaseline: input.annualBaseline }
+        : undefined,
   };
 
   const tenant = await db.pilotTenant.upsert({

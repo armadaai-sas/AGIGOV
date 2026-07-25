@@ -548,6 +548,7 @@ export async function provisionPilotFromProfile(body: {
   territoryCode: string;
   fiscalYear: number;
   quarter: number;
+  annualBaseline?: number;
 }): Promise<ProvisionPilotResponse> {
   const res = await fetch(`${API_BASE}/api/ops/tenants/provision`, {
     method: 'POST',

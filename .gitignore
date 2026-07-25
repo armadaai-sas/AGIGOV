@@ -58,6 +58,7 @@ data/did-registry.json
 data/edge.db
 data/pilot-tenants/*.credentials.json
 data/pilot-tenants/*.institution-keys.json
+data/pilot-tenants/*.core-keys.json
 data/email-outbox.jsonl
 prisma-edge/data/
 src/generated/

@@ -52,6 +52,7 @@
     "pilot:q-close": "tsx scripts/pilot-q-close.ts",
     "pilot:phase-bc": "bash scripts/pilot-phase-bc.sh",
     "email:test": "tsx scripts/email-send-test.ts",
+    "institution:verify": "tsx scripts/institution-set-verification.ts",
     "innovation:loop": "bash scripts/innovation-loop.sh",
     "carta:init": "tsx scripts/carta-multisig-run.ts init",
     "carta:ratify": "tsx scripts/carta-multisig-run.ts ratify",

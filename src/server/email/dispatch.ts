@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 
 import type { RenderedEmail } from './types.js';
 
-export type DispatchChannel = 'outbox' | 'resend' | 'resend_failed' | 'log';
+export type DispatchChannel = 'outbox' | 'resend' | 'resend_failed' | 'blocked' | 'log';
 
 export type DispatchResult = {
   ok: boolean;
@@ -11,6 +11,7 @@ export type DispatchResult = {
   path?: string;
   providerId?: string;
   error?: string;
+  attempts?: number;
 };
 
 function outboxPath(): string {
@@ -34,6 +35,51 @@ function fromAddress(): string {
 function replyToAddress(): string | undefined {
   const v = process.env.AGIGOV_EMAIL_REPLY_TO?.trim();
   return v || undefined;
+}
+
+/** off | warn | enforce — default warn in non-prod, enforce if AGIGOV_EMAIL_ALLOWLIST_MODE set */
+function allowlistMode(): 'off' | 'warn' | 'enforce' {
+  const raw = (process.env.AGIGOV_EMAIL_ALLOWLIST_MODE ?? '').trim().toLowerCase();
+  if (raw === 'off' || raw === 'warn' || raw === 'enforce') return raw;
+  return 'warn';
+}
+
+function allowlistDomains(): string[] {
+  const raw = process.env.AGIGOV_EMAIL_ALLOWLIST?.trim();
+  if (!raw) {
+    // Defaults for pre-prod / gov-style tests
+    return [
+      'bold-street.com',
+      'armadaai.co',
+      'gob.ve',
+      'gob.co',
+      'gov.co',
+      'gov.ve',
+      'edu.ve',
+      'edu.co',
+    ];
+  }
+  return raw
+    .split(',')
+    .map((d) => d.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function emailDomain(email: string): string {
+  const at = email.lastIndexOf('@');
+  return at >= 0 ? email.slice(at + 1).toLowerCase() : '';
+}
+
+/** Domain matches exact entry or is a subdomain of an allowed suffix (e.g. alcaldia.gob.ve). */
+export function isEmailDomainAllowed(email: string): boolean {
+  const domain = emailDomain(email);
+  if (!domain) return false;
+  const allowed = allowlistDomains();
+  return allowed.some((entry) => domain === entry || domain.endsWith(`.${entry}`));
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 function appendOutbox(
@@ -63,7 +109,7 @@ async function sendViaResend(email: RenderedEmail): Promise<{
   error?: string;
 }> {
   const apiKey = process.env.AGIGOV_RESEND_API_KEY?.trim();
-  if (!apiKey) {
+  if (!apiKey || apiKey === 're_xxx') {
     return { ok: false, error: 'AGIGOV_RESEND_API_KEY missing' };
   }
 
@@ -103,8 +149,8 @@ async function sendViaResend(email: RenderedEmail): Promise<{
 }
 
 /**
- * Outbox siempre (auditoría). Si AGIGOV_EMAIL_MODE=resend → envío real.
- * Nunca incluye password ni tokens de ingest (plantillas ya lo evitan).
+ * Outbox siempre (auditoría).
+ * Allowlist + reintentos Resend (1m / 5m backoff corto en proceso: 0.5s / 1.5s / 3s).
  */
 export async function dispatchEmail(email: RenderedEmail): Promise<DispatchResult> {
   try {
@@ -112,21 +158,59 @@ export async function dispatchEmail(email: RenderedEmail): Promise<DispatchResul
       console.log(`[email:${email.kind}] → ${email.to} · ${email.subject}`);
     }
 
+    const modeAllow = allowlistMode();
+    const allowed = isEmailDomainAllowed(email.to);
+    if (!allowed) {
+      if (modeAllow === 'enforce') {
+        const path = appendOutbox(email, {
+          channel: 'blocked',
+          error: 'domain_not_allowlisted',
+        });
+        console.warn(`[email] blocked (allowlist): ${emailDomain(email.to)}`);
+        return { ok: false, channel: 'blocked', path, error: 'domain_not_allowlisted' };
+      }
+      if (modeAllow === 'warn') {
+        console.warn(`[email] allowlist warn: ${emailDomain(email.to)} not in list`);
+      }
+    }
+
     const mode = emailMode();
     if (mode === 'resend') {
-      const sent = await sendViaResend(email);
-      const path = appendOutbox(email, {
-        channel: sent.ok ? 'resend' : 'resend_failed',
-        providerId: sent.id,
-        error: sent.error,
-      });
-
-      if (!sent.ok) {
-        console.error('[email] Resend failed:', sent.error);
-        return { ok: false, channel: 'resend_failed', path, error: sent.error };
+      const delaysMs = [0, 500, 1500, 3000];
+      let lastError = 'resend_unknown';
+      for (let i = 0; i < delaysMs.length; i++) {
+        if (delaysMs[i]! > 0) await sleep(delaysMs[i]!);
+        const sent = await sendViaResend(email);
+        if (sent.ok) {
+          const path = appendOutbox(email, {
+            channel: 'resend',
+            providerId: sent.id,
+            attempts: i + 1,
+          });
+          return {
+            ok: true,
+            channel: 'resend',
+            path,
+            providerId: sent.id,
+            attempts: i + 1,
+          };
+        }
+        lastError = sent.error ?? 'resend_failed';
+        console.error(`[email] Resend attempt ${i + 1} failed:`, lastError);
       }
 
-      return { ok: true, channel: 'resend', path, providerId: sent.id };
+      const path = appendOutbox(email, {
+        channel: 'resend_failed',
+        error: lastError,
+        attempts: delaysMs.length,
+      });
+      return {
+        ok: false,
+        channel: 'resend_failed',
+        path,
+        error: lastError,
+        attempts: delaysMs.length,
+      };
     }
 
     const path = appendOutbox(email, { channel: 'outbox' });

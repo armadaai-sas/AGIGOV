@@ -10,9 +10,9 @@ import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 /** Registro institucional — paso 1 para probar el modelo. */
 export default function InstitutionRegisterPage() {
   const { t } = useSovereignConfig();
-  const { isRegistered, isAuthenticated } = useInstitutionAuth();
+  const { isAuthenticated } = useInstitutionAuth();
 
-  if (isRegistered && isAuthenticated) {
+  if (isAuthenticated) {
     return <Navigate to={INSTITUTION_ROUTES.pilot} replace />;
   }
 

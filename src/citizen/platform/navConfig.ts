@@ -80,14 +80,14 @@ export const NAV_SECTION_INSTITUTIONAL: NavSection = {
   items: [
     {
       to: INSTITUTION_ROUTES.register,
-      label: 'Registro',
-      hint: 'Perfil de entidad · sandbox',
+      label: 'Crear cuenta',
+      hint: 'Alta institucional · catálogo · verificación',
       icon: Landmark,
     },
     {
       to: INSTITUTION_ROUTES.login,
-      label: 'Acceso',
-      hint: 'Inicio de sesión institucional',
+      label: 'Iniciar sesión',
+      hint: 'Correo + contraseña → piloto EGS',
       icon: ShieldCheck,
     },
     {

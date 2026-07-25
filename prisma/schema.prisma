@@ -58,25 +58,40 @@ model PilotTenant {
 }
 
 model InstitutionUser {
-  id              String                @id @default(uuid())
-  email           String                @unique
-  institutionName String
-  entityType      String
-  officialCode    String?
-  contactName     String?
-  contactRole     String?
-  passwordSalt    String
-  passwordHash    String
-  status          InstitutionUserStatus @default(active)
-  magicLinkHash   String?
-  magicLinkExpiry DateTime?
-  lastLoginAt     DateTime?
-  createdAt       DateTime              @default(now())
-  updatedAt       DateTime              @updatedAt
+  id                   String                       @id @default(uuid())
+  email                String                       @unique
+  institutionName      String
+  entityType           String
+  officialCode         String?
+  contactName          String?
+  contactRole          String?
+  passwordSalt         String
+  passwordHash         String
+  status               InstitutionUserStatus        @default(active)
+  iso                  String?
+  regionCode           String?
+  entityCatalogId      String?
+  phone                String?
+  phoneCountryCode     String?
+  verificationStatus   InstitutionVerificationStatus @default(pending_verification)
+  verificationNotes    String?
+  magicLinkHash        String?
+  magicLinkExpiry      DateTime?
+  lastLoginAt          DateTime?
+  createdAt            DateTime                     @default(now())
+  updatedAt            DateTime                     @updatedAt
 
   sessions InstitutionSession[]
 
   @@index([status])
+  @@index([verificationStatus])
+}
+
+enum InstitutionVerificationStatus {
+  unverified
+  pending_verification
+  verified
+  rejected
 }
 
 model InstitutionSession {

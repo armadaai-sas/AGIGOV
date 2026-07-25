@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, LogIn } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useSovereignConfig } from '../../context/PlatformContext.js';
@@ -7,19 +7,17 @@ import {
   loginInstitution,
   verifyInstitutionMagicLinkToken,
 } from '../../institutional/institutionAuth.js';
-import { loadInstitutionRegistration } from '../../institutional/institutionRegistration.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
-/** Inicio de sesión institucional — post-registro o retorno. */
+/** Inicio de sesión institucional — solo correo + contraseña (sin hero engañoso). */
 export function InstitutionLoginForm() {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { refresh, isRegistered } = useInstitutionAuth();
-  const savedEmail = loadInstitutionRegistration().officialEmail.trim();
-  const [email, setEmail] = useState(savedEmail);
+  const { refresh } = useInstitutionAuth();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<string | null>(null);
@@ -60,16 +58,12 @@ export function InstitutionLoginForm() {
       const result = await loginInstitution(email, password);
       switch (result.ok) {
         case true:
-          void refresh();
+          await refresh();
           navigate(redirectTo, { replace: true });
           break;
         case false:
           setErrorCode(result.error);
-          if (result.error === 'invalid_credentials') {
-            setError(t('auth.error.badPassword'));
-          } else {
-            setError(t('auth.error.badPassword'));
-          }
+          setError(t('auth.error.badPassword'));
           break;
       }
     } finally {
@@ -79,92 +73,74 @@ export function InstitutionLoginForm() {
 
   if (magicBusy) {
     return (
-      <div className="inst-reg-shell">
-        <div className="agigov-card p-6 text-sm text-agigov-text-muted">
-          {t('auth.redirecting')}
-        </div>
+      <div className="mx-auto max-w-md">
+        <div className="agigov-card p-6 text-sm text-agigov-text-muted">{t('auth.redirecting')}</div>
       </div>
     );
   }
 
   return (
-    <div className="inst-reg-shell">
-      <div className="inst-reg-hero agigov-card">
-        <div className="inst-reg-hero-badge">
-          <LogIn className="h-5 w-5 text-sky-400" aria-hidden />
-          <span>{t('auth.badge')}</span>
-        </div>
-        <h2 className="mt-4 font-display text-2xl font-bold text-agigov-text">{t('auth.title')}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-agigov-text-muted">{t('auth.lead')}</p>
-        <ol className="mt-4 space-y-1 text-xs text-agigov-text-muted">
-          <li>1. {t('auth.step.register')}</li>
-          <li>2. {t('auth.step.login')}</li>
-          <li>3. {t('auth.step.pilot')}</li>
-        </ol>
-      </div>
-
-      <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
+    <div className="mx-auto w-full max-w-md">
+      <form className="agigov-card space-y-5 p-6 sm:p-8" onSubmit={(e) => void submit(e)}>
         {loggedOut ? (
-          <p className="mb-4 rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100/90">
+          <p className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-800 dark:text-sky-100/90">
             {t('auth.loggedOut')}
           </p>
         ) : null}
 
-        {!isRegistered ? (
-          <p className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-100/90">
-            {t('auth.needRegister')}{' '}
-            <Link to={INSTITUTION_ROUTES.register} className="text-sky-300 underline-offset-2 hover:underline">
-              {t('auth.goRegister')}
-            </Link>
-          </p>
-        ) : null}
-
         <label className="block text-sm">
-          <span className="text-agigov-text-muted">{t('reg.officialEmail')}</span>
+          <span className="font-medium text-agigov-text">{t('reg.officialEmail')}</span>
           <input
             type="email"
             required
             autoComplete="username"
-            className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+            autoFocus
+            className="mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-sky-500/40 focus:ring-2"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="finanzas@alcaldia.gob.ve"
           />
         </label>
 
-        <label className="mt-4 block text-sm">
-          <span className="text-agigov-text-muted">{t('auth.password')}</span>
+        <label className="block text-sm">
+          <span className="font-medium text-agigov-text">{t('auth.password')}</span>
           <input
             type="password"
             required
             autoComplete="current-password"
             minLength={8}
-            className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+            className="mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-sky-500/40 focus:ring-2"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
 
-        {error ? <p className="mt-4 text-sm text-red-500">{error}</p> : null}
+        {error ? <p className="text-sm text-red-600">{error}</p> : null}
         {errorCode === 'password_not_set' ? (
-          <p className="mt-2">
-            <Link to={INSTITUTION_ROUTES.register} className="text-sm text-sky-400 underline-offset-2 hover:underline">
+          <p>
+            <Link
+              to={INSTITUTION_ROUTES.register}
+              className="text-sm text-sky-600 underline-offset-2 hover:underline"
+            >
               {t('auth.goRegister')}
             </Link>
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <button type="submit" className="ds-btn-app" disabled={busy}>
-            {t('auth.submit')}
-            <ArrowRight className="h-4 w-4" />
-          </button>
+        <button type="submit" className="ds-btn-app w-full justify-center" disabled={busy}>
+          {busy ? t('auth.redirecting') : t('auth.submit')}
+          <ArrowRight className="h-4 w-4" aria-hidden />
+        </button>
+
+        <p className="text-center text-sm text-agigov-text-muted">
+          {t('auth.needRegister')}{' '}
           <Link
             to={INSTITUTION_ROUTES.register}
-            className="text-sm text-agigov-text-muted no-underline hover:text-sky-500"
+            className="font-medium text-sky-600 underline-offset-2 hover:underline"
           >
-            {t('auth.createAccount')}
+            {t('auth.goRegister')}
           </Link>
-        </div>
+        </p>
       </form>
     </div>
   );

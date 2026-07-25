@@ -64,6 +64,7 @@ export function InstitutionProfileStep() {
         territoryCode: profile.territoryCode,
         fiscalYear: profile.fiscalYear,
         quarter: profile.quarter,
+        annualBaseline: profile.annualBaselineEstimate,
       });
       setMessage(t('pilot.profile.provisionOk'));
       setTokenHint(result.ingestToken);
@@ -121,8 +122,6 @@ export function InstitutionProfileStep() {
       setResumeBusy(null);
     }
   }
-
-  const annualDemo = profile.iso === 'COL' ? 4_000_000_000 : profile.iso === 'USA' ? 2_400_000 : 4_000_000;
 
   return (
     <div className="agigov-card inst-pilot-profile">
@@ -247,6 +246,25 @@ export function InstitutionProfileStep() {
               />
             </label>
           </div>
+
+          <label className="block text-sm">
+            <span className="text-agigov-text-muted">{t('pilot.profile.annualBaseline')}</span>
+            <input
+              type="number"
+              min={1}
+              step={1}
+              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-agigov-text"
+              value={profile.annualBaselineEstimate}
+              onChange={(e) =>
+                patch({
+                  annualBaselineEstimate: Math.max(1, Number(e.target.value) || 0),
+                })
+              }
+            />
+            <span className="mt-1 block text-xs text-agigov-text-muted">
+              {t('pilot.profile.annualBaselineHint')}
+            </span>
+          </label>
         </div>
 
         <aside className="inst-pilot-preview">
@@ -260,8 +278,10 @@ export function InstitutionProfileStep() {
               <dd className="font-mono text-agigov-text">{profile.currency}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-agigov-text-muted">EGS baseline (demo)</dt>
-              <dd className="font-mono text-emerald-400">{formatMoney(annualDemo, { showCode: true })}</dd>
+              <dt className="text-agigov-text-muted">{t('pilot.profile.annualBaseline')}</dt>
+              <dd className="font-mono text-emerald-400">
+                {formatMoney(profile.annualBaselineEstimate, { showCode: true })}
+              </dd>
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-agigov-text-muted">{t('pilot.profile.ministry')}</dt>

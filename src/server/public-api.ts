@@ -55,6 +55,7 @@ import {
   requestInstitutionMagicLink,
   resolveInstitutionSession,
   revokeInstitutionSession,
+  setInstitutionVerificationStatus,
   toSessionResponse,
   verifyInstitutionMagicLink,
 } from './institution-auth.js';
@@ -134,6 +135,11 @@ app.post('/api/ops/auth/register', async (req, res) => {
       officialCode?: string;
       contactName?: string;
       contactRole?: string;
+      iso?: string;
+      regionCode?: string;
+      entityCatalogId?: string;
+      phone?: string;
+      phoneCountryCode?: string;
     };
     const session = await registerInstitutionUser({
       email: body.email ?? '',
@@ -143,6 +149,11 @@ app.post('/api/ops/auth/register', async (req, res) => {
       officialCode: body.officialCode,
       contactName: body.contactName,
       contactRole: body.contactRole,
+      iso: body.iso,
+      regionCode: body.regionCode,
+      entityCatalogId: body.entityCatalogId,
+      phone: body.phone,
+      phoneCountryCode: body.phoneCountryCode,
     });
     res.status(201).json(session);
   } catch (error) {
@@ -160,6 +171,31 @@ app.post('/api/ops/auth/login', async (req, res) => {
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'auth_login_error';
     const status = msg === 'invalid_credentials' ? 401 : 400;
+    res.status(status).json({ error: msg });
+  }
+});
+
+/** Ops: marcar verificación institucional tras revisión humana de canales públicos. */
+app.post('/api/ops/auth/verification', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: auth suspendida' });
+    return;
+  }
+  try {
+    const body = req.body as {
+      email?: string;
+      status?: 'unverified' | 'pending_verification' | 'verified' | 'rejected';
+      notes?: string;
+    };
+    const user = await setInstitutionVerificationStatus({
+      email: body.email ?? '',
+      status: body.status ?? 'pending_verification',
+      notes: body.notes,
+    });
+    res.json({ ok: true, user });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'verification_error';
+    const status = msg === 'invalid_verification_status' ? 400 : 404;
     res.status(status).json({ error: msg });
   }
 });
@@ -879,6 +915,7 @@ app.post('/api/ops/tenants/provision', async (req, res) => {
     territoryCode?: string;
     fiscalYear?: number;
     quarter?: number;
+    annualBaseline?: number;
   };
 
   const iso = (body.iso?.trim() || 'VEN').toUpperCase();
@@ -895,6 +932,10 @@ app.post('/api/ops/tenants/provision', async (req, res) => {
       territoryCode: body.territoryCode?.trim() || profile.territoryCode,
       fiscalYear: body.fiscalYear ?? 2026,
       quarter: body.quarter ?? 2,
+      annualBaseline:
+        typeof body.annualBaseline === 'number' && body.annualBaseline > 0
+          ? body.annualBaseline
+          : undefined,
     });
 
     res.status(201).json({

@@ -10,29 +10,30 @@ import { InstitutionPilotProvider } from '../institutional/InstitutionPilotConte
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
-/** Piloto institucional EGS — requiere registro + sesión activa. */
+/** Piloto institucional EGS — requiere sesión server activa. */
 export default function InstitutionPilotPage() {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
-  const { isRegistered, isAuthenticated } = useInstitutionAuth();
+  const { isAuthenticated, session } = useInstitutionAuth();
 
   useEffect(() => {
-    if (!isRegistered) {
-      navigate(INSTITUTION_ROUTES.register, { replace: true });
-      return;
-    }
     if (!isAuthenticated) {
-      navigate(INSTITUTION_ROUTES.login, { replace: true, state: { from: INSTITUTION_ROUTES.pilot } });
+      navigate(INSTITUTION_ROUTES.login, {
+        replace: true,
+        state: { from: INSTITUTION_ROUTES.pilot },
+      });
     }
-  }, [isRegistered, isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate]);
 
-  if (!isRegistered || !isAuthenticated) {
+  if (!isAuthenticated) {
     return (
       <PageShell narrow={false}>
         <LoadingState label={t('auth.redirecting')} />
       </PageShell>
     );
   }
+
+  const verification = session?.verificationStatus ?? 'pending_verification';
 
   return (
     <PageShell narrow={false} breadcrumbs={breadcrumbsForPath('/institucional/piloto')}>
@@ -42,6 +43,21 @@ export default function InstitutionPilotPage() {
         lead={t('pilot.wizard.lead')}
         helpTopic="institucional"
       />
+      {verification === 'pending_verification' || verification === 'unverified' ? (
+        <p className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90">
+          {t('pilot.verify.banner')}
+        </p>
+      ) : null}
+      {verification === 'verified' ? (
+        <p className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100/90">
+          {t('pilot.verify.verified')}
+        </p>
+      ) : null}
+      {verification === 'rejected' ? (
+        <p className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100/90">
+          {t('pilot.verify.rejected')}
+        </p>
+      ) : null}
       <InstitutionPilotProvider>
         <InstitutionPilotErrorBoundary>
           <InstitutionPilotWizard />

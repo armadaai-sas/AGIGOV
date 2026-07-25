@@ -1,3 +1,5 @@
+import { syncRegistrationFromSession } from './institutionRegistration.js';
+
 const SESSION_KEY = 'agigov-institution-session-v1';
 const SESSION_TOKEN_KEY = 'agigov-institution-session-token-v1';
 const API_BASE = import.meta.env.VITE_PUBLIC_API_URL ?? '';
@@ -12,11 +14,18 @@ export type InstitutionSession = {
   contactRole: string | null;
   issuedAt: string;
   expiresAt: string;
+  iso?: string | null;
+  regionCode?: string | null;
+  entityCatalogId?: string | null;
+  phone?: string | null;
+  phoneCountryCode?: string | null;
+  verificationStatus?: string | null;
 };
 
 function persistSession(token: string, session: InstitutionSession): void {
   localStorage.setItem(SESSION_TOKEN_KEY, token);
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  syncRegistrationFromSession(session);
 }
 
 function clearPersistedSession(): void {
@@ -61,6 +70,12 @@ function buildSessionFromApi(payload: {
   officialCode: string | null;
   contactName: string | null;
   contactRole: string | null;
+  iso?: string | null;
+  regionCode?: string | null;
+  entityCatalogId?: string | null;
+  phone?: string | null;
+  phoneCountryCode?: string | null;
+  verificationStatus?: string | null;
 }, expiresAt: string): InstitutionSession {
   return {
     userId: payload.id,
@@ -72,6 +87,12 @@ function buildSessionFromApi(payload: {
     contactRole: payload.contactRole,
     issuedAt: new Date().toISOString(),
     expiresAt,
+    iso: payload.iso ?? null,
+    regionCode: payload.regionCode ?? null,
+    entityCatalogId: payload.entityCatalogId ?? null,
+    phone: payload.phone ?? null,
+    phoneCountryCode: payload.phoneCountryCode ?? null,
+    verificationStatus: payload.verificationStatus ?? null,
   };
 }
 
@@ -129,6 +150,11 @@ export async function registerInstitutionAuth(input: {
   officialCode?: string;
   contactName?: string;
   contactRole?: string;
+  iso?: string;
+  regionCode?: string;
+  entityCatalogId?: string;
+  phone?: string;
+  phoneCountryCode?: string;
 }): Promise<{ ok: true; session: InstitutionSession } | { ok: false; error: 'email_already_registered' | 'invalid_registration_payload' | 'password_too_short' | 'server_error' }> {
   const res = await fetch(`${API_BASE}/api/ops/auth/register`, {
     method: 'POST',
@@ -140,15 +166,7 @@ export async function registerInstitutionAuth(input: {
     error?: string;
     sessionToken?: string;
     expiresAt?: string;
-    user?: {
-      id: string;
-      email: string;
-      institutionName: string;
-      entityType: string;
-      officialCode: string | null;
-      contactName: string | null;
-      contactRole: string | null;
-    };
+    user?: Parameters<typeof buildSessionFromApi>[0];
   };
 
   if (!res.ok || !json.sessionToken || !json.user || !json.expiresAt) {
@@ -201,6 +219,7 @@ export async function refreshInstitutionSessionFromServer(): Promise<Institution
 
   const session = buildSessionFromApi(json.user, json.sessionExpiresAt);
   saveInstitutionSession(session);
+  syncRegistrationFromSession(session);
   return session;
 }
 

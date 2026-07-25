@@ -101,7 +101,7 @@ export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
       </Link>
       <Link to={INSTITUTION_ROUTES.register} className="app-topbar-auth app-topbar-auth--secondary">
         <UserPlus className="h-4 w-4" aria-hidden />
-        <span className="hidden sm:inline">{t('nav.register')}</span>
+        <span>{t('nav.register')}</span>
       </Link>
     </div>
   );

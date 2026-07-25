@@ -5,6 +5,10 @@ import { getCoreDb } from '../db/client.js';
 import { registerActa } from '../db/ledger/index.js';
 import { payloadHash } from '../db/sync/conflicts.js';
 import { bytesToBase64, base64ToBytes } from '../protocol/encoding.js';
+import {
+  ensurePilotCoreKeys,
+  loadPilotDidRegistry,
+} from './pilot-core-keys.js';
 
 export const PILOT_PROCESS_ID =
   process.env.PILOT_ACTA_ID?.trim() ?? 'acta-piloto-nacional-2026';
@@ -112,22 +116,38 @@ export interface PilotRatificationResult {
   ratified: boolean;
   signatures: Record<string, string>;
   threshold: number;
+  validCount: number;
 }
 
-/** Registra firmas demo y ratifica acta cuando se alcanza threshold. */
-export async function ratifyPilotWithDemoKeys(
+/**
+ * Firma con claves durables (archivo gitignored o env por rol) y verifica
+ * cada firma contra DidRegistry antes de LOCKED / committed.
+ */
+export async function ratifyPilotWithRegistryKeys(
   originNodeId: string,
 ): Promise<PilotRatificationResult> {
   const draft = buildPilotDraft();
   const db = getCoreDb();
+  const keysFile = ensurePilotCoreKeys(PILOT_PROCESS_ID, PILOT_SIGNERS);
+  const registry = loadPilotDidRegistry();
   const signatures: Record<string, string> = {};
+  let validCount = 0;
 
-  for (const did of PILOT_SIGNERS) {
-    const keys = ed25519.keygen();
-    signatures[did] = signPilotContent(draft.contentHash, keys.secretKey);
+  for (const signer of keysFile.signers) {
+    if (!PILOT_SIGNERS.includes(signer.did)) continue;
+    const pubFromRegistry = registry.resolveEd25519PublicKey(signer.did);
+    const pubKey =
+      pubFromRegistry ?? base64ToBytes(signer.ed25519PublicKeyB64);
+    const sig = signPilotContent(
+      draft.contentHash,
+      base64ToBytes(signer.ed25519SecretKeyB64),
+    );
+    if (verifyPilotSignature(draft.contentHash, sig, pubKey)) {
+      signatures[signer.did] = sig;
+      validCount++;
+    }
   }
 
-  const validCount = PILOT_SIGNERS.length;
   const ratified = validCount >= PILOT_THRESHOLD;
 
   if (ratified) {
@@ -149,11 +169,13 @@ export async function ratifyPilotWithDemoKeys(
         agentId: 'comunicador',
         evidenceBundle: {
           pilotRatification: true,
+          signaturesVerified: true,
           signatures,
           threshold: PILOT_THRESHOLD,
+          validCount,
           publicMetrics: {
             processId: PILOT_PROCESS_ID,
-            factCount: PILOT_THRESHOLD,
+            factCount: validCount,
             hashCount: 1,
             publishedAt: new Date().toISOString(),
           },
@@ -165,11 +187,13 @@ export async function ratifyPilotWithDemoKeys(
         agentId: 'comunicador',
         evidenceBundle: {
           pilotRatification: true,
+          signaturesVerified: true,
           signatures,
           threshold: PILOT_THRESHOLD,
+          validCount,
           publicMetrics: {
             processId: PILOT_PROCESS_ID,
-            factCount: PILOT_THRESHOLD,
+            factCount: validCount,
             hashCount: 1,
             publishedAt: new Date().toISOString(),
           },
@@ -178,21 +202,28 @@ export async function ratifyPilotWithDemoKeys(
     });
   }
 
-  return { ratified, signatures, threshold: PILOT_THRESHOLD };
+  return { ratified, signatures, threshold: PILOT_THRESHOLD, validCount };
 }
 
+/** @deprecated Use ratifyPilotWithRegistryKeys — alias kept for scripts. */
+export async function ratifyPilotWithDemoKeys(
+  originNodeId: string,
+): Promise<PilotRatificationResult> {
+  return ratifyPilotWithRegistryKeys(originNodeId);
+}
 export interface PilotVerification {
   ok: boolean;
   checks: Record<string, boolean>;
   detail: Record<string, unknown>;
 }
 
-/** Verifica cierre: acta committed + checkpoint published + API alineada. */
+/** Verifica cierre: acta + checkpoint + API + firmas vs DidRegistry. */
 export async function verifyPilotClosure(
   apiBase = process.env.CORE_HEALTH_URL?.replace('/api/public/health', '') ??
     'http://127.0.0.1:3001',
 ): Promise<PilotVerification> {
   const db = getCoreDb();
+  const draft = buildPilotDraft();
   const acta = await db.acta.findUnique({ where: { processId: PILOT_PROCESS_ID } });
   const checkpoint = await db.processCheckpoint.findUnique({
     where: { processId: PILOT_PROCESS_ID },
@@ -210,11 +241,26 @@ export async function verifyPilotClosure(
     apiLedgerCount = -1;
   }
 
+  const bundle = (checkpoint?.evidenceBundle ?? {}) as {
+    signatures?: Record<string, string>;
+  };
+  const signatures = bundle.signatures ?? {};
+  const registry = loadPilotDidRegistry();
+  let verifiedSigs = 0;
+  for (const did of PILOT_SIGNERS) {
+    const sig = signatures[did];
+    const pub = registry.resolveEd25519PublicKey(did);
+    if (sig && pub && verifyPilotSignature(draft.contentHash, sig, pub)) {
+      verifiedSigs++;
+    }
+  }
+
   const checks = {
     actaCommitted: acta?.status === 'committed' || acta?.status === 'published',
     checkpointPublished: checkpoint?.status === 'published',
     dashboardReachable: apiLedgerCount >= 0,
     ledgerAligned: apiLedgerCount === ledgerCount,
+    multisigVerified: verifiedSigs >= PILOT_THRESHOLD,
   };
 
   return {
@@ -225,6 +271,8 @@ export async function verifyPilotClosure(
       checkpointStatus: checkpoint?.status ?? 'missing',
       ledgerCount,
       apiLedgerCount,
+      verifiedSigs,
+      threshold: PILOT_THRESHOLD,
     },
   };
 }
