@@ -60,6 +60,8 @@ data/pilot-tenants/*.credentials.json
 data/pilot-tenants/*.institution-keys.json
 data/pilot-tenants/*.core-keys.json
 data/email-outbox.jsonl
+data/panic-drill-log.jsonl
+data/federation-inbox.jsonl
 prisma-edge/data/
 src/generated/
 infra/wireguard/config/
