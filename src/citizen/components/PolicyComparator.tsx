@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import {
+  fetchComunicadorReport,
   fetchDashboard,
   fetchHealth,
   fetchProjects,
@@ -10,14 +11,27 @@ import { useCachedFetch } from '../hooks/useCitizenData.js';
 
 type Row = { label: string; v1: string; v2: string };
 
-/** Comparador Política 1.0 vs 2.0 (Paso 11). */
+/** Comparador Política 1.0 vs 2.0 — métricas vivas + informe comunicador (P6). */
 export function PolicyComparator() {
+  const { data: comunicador } = useCachedFetch(
+    'policy-comunicador',
+    fetchComunicadorReport,
+    30_000,
+  );
   const { data: dashboard } = useCachedFetch('policy-dashboard', fetchDashboard, 30_000);
   const { data: projects } = useCachedFetch('policy-projects', fetchProjects, 30_000);
   const { data: proposals } = useCachedFetch('policy-proposals', fetchProposals, 30_000);
   const { data: health } = useCachedFetch('policy-health', fetchHealth, 30_000);
 
   const rows: Row[] = useMemo(() => {
+    if (comunicador?.policy20?.length) {
+      return comunicador.policy20.map((r) => ({
+        label: r.label,
+        v1: r.traditional,
+        v2: r.agigov,
+      }));
+    }
+
     const ledger = dashboard?.ledgerEntries ?? 0;
     const reports = dashboard?.reports.length ?? 0;
     const contributions = projects?.summary.totalContributions ?? 0;
@@ -48,7 +62,11 @@ export function PolicyComparator() {
       {
         label: 'Respuesta ante anomalías',
         v1: 'Manual, tardía',
-        v2: health?.panicMode ? 'FREEZE activo (centinela)' : platformOk ? 'Centinela operativo' : 'Revisar API',
+        v2: health?.panicMode
+          ? 'FREEZE activo (centinela)'
+          : platformOk
+            ? 'Centinela operativo'
+            : 'Revisar API',
       },
       {
         label: 'Tiempo publicación → ciudadano',
@@ -56,7 +74,7 @@ export function PolicyComparator() {
         v2: '< 5 min (pipeline demo)',
       },
     ];
-  }, [dashboard, projects, proposals, health]);
+  }, [comunicador, dashboard, projects, proposals, health]);
 
   return (
     <section id="comparador" className="agigov-card mb-10 scroll-mt-28">
@@ -64,8 +82,12 @@ export function PolicyComparator() {
         Política 1.0 vs Gobernanza 2.0
       </h2>
       <p className="agigov-lead mt-2">
-        Métricas lado a lado — modelo tradicional vs AGIGOV verificable (datos vivos cuando la API está activa).
+        {comunicador?.citizenSummary ??
+          'Métricas lado a lado — modelo tradicional vs AGIGOV verificable (datos vivos cuando la API está activa).'}
       </p>
+      {comunicador?.headline ? (
+        <p className="mt-2 text-sm font-medium text-sky-200/90">{comunicador.headline}</p>
+      ) : null}
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-white/[0.06]">
         <table className="agigov-dev-table">
@@ -87,6 +109,10 @@ export function PolicyComparator() {
           </tbody>
         </table>
       </div>
+      <p className="mt-3 text-xs text-agigov-text-muted">
+        Marco: docs/AGIGOV/POLITICA-2.0.md · informe:{' '}
+        <code>/api/public/comunicador/report</code>
+      </p>
     </section>
   );
 }

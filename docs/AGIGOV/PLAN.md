@@ -110,12 +110,15 @@ Runbook: [`docs/P5-RED-AGIGOV-GLOBAL.md`](../P5-RED-AGIGOV-GLOBAL.md)
 
 **Objetivo:** Confianza sostenida.
 
-- [ ] PQC en nodos críticos (`docs/PQC-GUARDIAN-CUANTICO.md`)
-- [ ] Drills pánico trimestrales
-- [ ] Informes comunicador → dashboard ciudadano
-- [ ] Comparativa pública Política 2.0 vs tradicional (métricas)
+- [x] PQC inventario + guardian readiness (`docs/PQC-GUARDIAN-CUANTICO.md`, `npm run pqc:inventory`)
+- [x] Drills pánico trimestrales (`npm run panic:quarterly` + log)
+- [x] Informes comunicador → dashboard / institucional (`/api/public/comunicador/report`)
+- [x] Comparativa pública Política 2.0 vs tradicional (métricas vivas)
+- [ ] IAP v2 híbrido ML-DSA/ML-KEM en nodo piloto (Fase B PQC)
 
----
+**Criterio P6 código:** `npm run p6:verify` OK · sin claim PQC productivo falso.
+
+Runbook: [`docs/P6-LEGITIMIDAD-SEGURIDAD.md`](../P6-LEGITIMIDAD-SEGURIDAD.md)
 
 ## Métricas norte (KPIs AGIGOV)
 

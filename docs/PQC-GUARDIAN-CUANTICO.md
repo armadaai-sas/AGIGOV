@@ -32,15 +32,17 @@ Implementación: **documentada en pre-prod**; agente runtime en piloto Fase 6+.
 
 ## Fases de migración
 
-### Fase A — Inventario (actual)
+### Fase A — Inventario (P6)
 
 - [x] Documentar superficie criptográfica
-- [ ] Dependencia `@noble/post-quantum` evaluada en nodo piloto
+- [x] CLI `npm run pqc:inventory` + `assessPqcReadiness` (sin claim híbrido)
+- [ ] Dependencia `@noble/post-quantum` evaluada en nodo piloto (Fase B)
 
 ### Fase B — Piloto territorial (1 nodo)
 
 - Nodo `MAR_NORTH_01` acepta envelopes IAP v2 híbridos
 - Rollback: revertir a v1-only en gateway
+- Activar solo con `AGIGOV_PQC_MODE=hybrid-pilot` **después** de impl real
 
 ### Fase C — Core nacional
 
@@ -58,3 +60,4 @@ Implementación: **documentada en pre-prod**; agente runtime en piloto Fase 6+.
 - NIST FIPS 204 (ML-DSA), FIPS 203 (ML-KEM)
 - Skill: `.cursor/skills/applied-cryptography`
 - Skill: `.cursor/skills/tactical-cybersecurity` (guardian-cuantico en incidente)
+- Runbook P6: `docs/P6-LEGITIMIDAD-SEGURIDAD.md`

@@ -75,6 +75,8 @@ import {
   toSessionResponse,
   verifyInstitutionMagicLink,
 } from './institution-auth.js';
+import { buildComunicadorReport } from '../pilot/comunicador-report.js';
+import { assessPqcReadiness } from '../security/pqc-guardian.js';
 import { sendBaselineReadyEmail } from './email/index.js';
 
 const app = express();
@@ -304,6 +306,23 @@ app.get('/api/public/dashboard', async (_req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'No se pudo cargar el dashboard' });
   }
+});
+
+/** P6 — informe comunicador (lenguaje ciudadano + métricas Política 2.0). */
+app.get('/api/public/comunicador/report', async (_req, res) => {
+  try {
+    const report = await buildComunicadorReport();
+    res.json(report);
+  } catch {
+    res.status(500).json({ error: 'No se pudo generar informe comunicador' });
+  }
+});
+
+app.get('/api/public/security/pqc', (_req, res) => {
+  res.json({
+    updatedAt: new Date().toISOString(),
+    ...assessPqcReadiness(),
+  });
 });
 
 app.get('/api/public/proposals', async (_req, res) => {
@@ -830,6 +849,10 @@ app.get('/api/public/openapi.json', (_req, res) => {
         post: { summary: 'Espejar outbox peer en inbox local' },
       },
       '/api/public/dashboard': { get: { summary: 'Telemetría gestión' } },
+      '/api/public/comunicador/report': {
+        get: { summary: 'Informe ciudadano + métricas Política 2.0 (P6)' },
+      },
+      '/api/public/security/pqc': { get: { summary: 'Inventario PQC readiness (sin claim falso)' } },
       '/api/public/projects': { get: { summary: 'Proyectos DAO' } },
       '/api/public/projects/{id}': { get: { summary: 'Detalle proyecto' } },
       '/api/public/proposals': { get: { summary: 'Propuestas' }, post: { summary: 'Enviar propuesta' } },
@@ -1149,6 +1172,7 @@ app.get('/api/ops/health', async (_req, res) => {
     honeypotAlerts,
     plan: resolvePlan(),
     billingFreeze: getBillingFreeze(),
+    pqc: assessPqcReadiness(),
     checkedAt: new Date().toISOString(),
   });
 });

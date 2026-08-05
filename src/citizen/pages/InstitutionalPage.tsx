@@ -214,7 +214,7 @@ export default function InstitutionalPage() {
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DocLink icon={FileCheck} title="Carta institucional" note="Marco genérico — v0.1" />
-          <DocLink icon={ScrollText} title="Política de participación" note="Pipeline ciudadano" />
+          <DocLink icon={ScrollText} title="Política 2.0" note="docs/AGIGOV/POLITICA-2.0.md" />
           <DocLink icon={Network} title="Red AGIGOV-SBX" note="Sandbox interop entre jurisdicciones" />
         </div>
       </section>

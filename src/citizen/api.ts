@@ -129,6 +129,28 @@ export function fetchDashboard() {
   return fetchPublic<DashboardResponse>('/api/public/dashboard');
 }
 
+export type ComunicadorReport = {
+  updatedAt: string;
+  headline: string;
+  citizenSummary: string;
+  metrics: {
+    publishedReports: number;
+    ledgerEntries: number;
+    publicProjects: number;
+    totalContributions: number;
+    federationMirrors: number;
+    panicMode: boolean;
+    billingFrozen: boolean;
+    pqcMode: string;
+  };
+  recent: Array<{ processId: string; summary: string; updatedAt: string }>;
+  policy20: Array<{ label: string; traditional: string; agigov: string }>;
+};
+
+export function fetchComunicadorReport() {
+  return fetchPublic<ComunicadorReport>('/api/public/comunicador/report');
+}
+
 export function fetchProposals() {
   return fetchPublic<ProposalsResponse>('/api/public/proposals');
 }
