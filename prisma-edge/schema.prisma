@@ -1,7 +1,8 @@
 // Edge node — SQLite (sync offline-first)
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/edge"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/edge"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {

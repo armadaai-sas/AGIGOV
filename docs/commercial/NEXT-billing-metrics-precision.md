@@ -22,4 +22,6 @@ BYO hosting · email outbox (o Resend BYO) · IA off · caps · kill vía freeze
 - [x] Free costo-cero
 - [x] Fórmula Δ EGS 10%
 - [x] FREEZE factura
-- [ ] P1: metering ↔ ProcessCheckpoint rows
+- [x] P1: metering ↔ ProcessCheckpoint rows
+- [x] P1: seats SaaS (PilotTenant + `/api/ops/tenants/:slug/seats`)
+- [ ] P2 nacional: restore test / reconcile / soak (ver `docs/P2-FASE6-NACIONAL.md`)

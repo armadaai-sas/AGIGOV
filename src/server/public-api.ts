@@ -1047,6 +1047,8 @@ app.get('/api/ops/health', async (_req, res) => {
     ledgerEntries,
     publishedReports,
     honeypotAlerts,
+    plan: resolvePlan(),
+    billingFreeze: getBillingFreeze(),
     checkedAt: new Date().toISOString(),
   });
 });

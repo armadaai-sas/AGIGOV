@@ -61,8 +61,9 @@ Si `reconcileMeteringWithLedger` detecta hashes duplicados → escribe `data/bil
 - [x] Free costo-cero (plan + hosting + email)
 - [x] EGS 10% formal (reusa EGS_SPLIT)
 - [x] FREEZE factura metering
-- [ ] P1: enlazar metering a ProcessCheckpoint real (no solo hash evento)
-- [ ] P1: seats SaaS en DB tenant
+- [x] P1: enlazar metering a ProcessCheckpoint real (no solo hash evento)
+- [x] P1: seats SaaS en DB tenant
+- [ ] P2: backup restore test + dashboard↔ledger (ver `docs/P2-FASE6-NACIONAL.md`)
 
 ---
 

@@ -87,14 +87,17 @@ npm run pilot:verify
 
 ## Validaciones finales (cierre Fase 6)
 
-1. Soak 72h offline en VM edge (Oracle/GCP)
+Runbook P2: **[P2-FASE6-NACIONAL.md](P2-FASE6-NACIONAL.md)**
+
+1. Soak 72h offline en VM edge (Oracle/GCP) — sim: `npm run test:offline-72h`
 2. LoRaWAN RF E2E con gateway físico
-3. Backup rclone restore test
+3. Backup rclone restore test — local: `npm run backup:restore-test`
 4. Centinela post-sync nodo periférico
 5. WireGuard MQTT E2E (Fase 1)
 6. Multi-sig acta piloto nacional (checklist + `pilot:verify`)
-7. Dashboard público vs ledger sin discrepancias
+7. Dashboard público vs ledger sin discrepancias — `npm run reconcile:dashboard-ledger`
 8. Lighthouse PWA ≥ 90 Slow 4G
+9. Tests billing automatizados — `npm run test:billing`
 
 ## Criterio de cierre nacional
 

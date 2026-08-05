@@ -1,7 +1,8 @@
 // Core ledger — PostgreSQL (fuente de verdad transaccional)
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/core"
+  provider      = "prisma-client-js"
+  output        = "../src/generated/core"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
