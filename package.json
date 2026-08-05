@@ -67,6 +67,8 @@
     "panic:quarterly": "tsx scripts/panic-drill-quarterly.ts",
     "pqc:inventory": "tsx scripts/pqc-inventory.ts",
     "p6:verify": "tsx scripts/p6-verify-legitimacy.ts",
+    "audit:run": "bash scripts/audit-run.sh",
+    "doctor": "tsx scripts/agigov-doctor.ts",
     "test:smoke": "tsx scripts/smoke-preprod.ts",
     "test:billing": "tsx scripts/test-billing-p2.ts",
     "test:webhook": "tsx scripts/test-webhook-p3.ts",

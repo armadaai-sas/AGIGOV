@@ -120,6 +120,24 @@ Runbook: [`docs/P5-RED-AGIGOV-GLOBAL.md`](../P5-RED-AGIGOV-GLOBAL.md)
 
 Runbook: [`docs/P6-LEGITIMIDAD-SEGURIDAD.md`](../P6-LEGITIMIDAD-SEGURIDAD.md)
 
+---
+
+## P7 — Audit gate (cierre pre piloto #4)
+
+**Objetivo:** Suite reproducible + doctor tras P0–P6.
+
+- [x] `npm run audit:run` (lint → smoke → billing → webhook → pqc → panic → p5 → p6 → build)
+- [x] `npm run doctor` (plan, freeGuard, PQC, docs, probe APIs)
+- [x] Runbook `docs/P7-AUDIT-GATE.md`
+- [ ] CI con Postgres + handshake (opcional endurecimiento)
+- [ ] Trust Pack Operador B firmado (humano)
+
+**Criterio:** `audit:run` + `doctor` PASS en máquina de release.
+
+Runbook: [`docs/P7-AUDIT-GATE.md`](../P7-AUDIT-GATE.md)
+
+---
+
 ## Métricas norte (KPIs AGIGOV)
 
 | KPI | Meta piloto |
