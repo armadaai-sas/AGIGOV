@@ -69,6 +69,8 @@
     "p6:verify": "tsx scripts/p6-verify-legitimacy.ts",
     "audit:run": "bash scripts/audit-run.sh",
     "doctor": "tsx scripts/agigov-doctor.ts",
+    "p8:verify": "tsx scripts/p8-verify-ops.ts",
+    "p9:go": "tsx scripts/p9-go-pack.ts",
     "test:smoke": "tsx scripts/smoke-preprod.ts",
     "test:billing": "tsx scripts/test-billing-p2.ts",
     "test:webhook": "tsx scripts/test-webhook-p3.ts",

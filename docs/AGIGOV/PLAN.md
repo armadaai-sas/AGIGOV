@@ -13,6 +13,9 @@ Plan breve para convertir la visión AGIGOV en producto institucional funcional,
 | **P4** | Economía DAO | 8 sem | Token gobernanza + escrow proyectos |
 | **P5** | Red multi-gobierno | 12 sem | AGIGOV genérico + onboarding Estados |
 | **P6** | Legitimidad nacional | continuo | Acta multi-sig, auditoría centinela |
+| **P7** | Audit gate | 1–2 d | `audit:run` + doctor |
+| **P8** | Ops CI + handshake | 1–2 d | CI expandido + VEN↔SBX vivo |
+| **P9** | Release GO | 1 d | Dictamen GO-CONDICIONADO + preflight Operador B |
 
 > Las fases técnicas Armada (0–6 en `PLAN-EJECUCION-FASES.md`) corren **en paralelo** como infraestructura; este plan es la **capa producto e institucional AGIGOV**.
 
@@ -129,12 +132,43 @@ Runbook: [`docs/P6-LEGITIMIDAD-SEGURIDAD.md`](../P6-LEGITIMIDAD-SEGURIDAD.md)
 - [x] `npm run audit:run` (lint → smoke → billing → webhook → pqc → panic → p5 → p6 → build)
 - [x] `npm run doctor` (plan, freeGuard, PQC, docs, probe APIs)
 - [x] Runbook `docs/P7-AUDIT-GATE.md`
-- [ ] CI con Postgres + handshake (opcional endurecimiento)
-- [ ] Trust Pack Operador B firmado (humano)
+- [x] CI expandido (P8) — Postgres estricto sigue residual
+- [ ] Trust Pack Operador B firmado (humano → P9)
 
 **Criterio:** `audit:run` + `doctor` PASS en máquina de release.
 
 Runbook: [`docs/P7-AUDIT-GATE.md`](../P7-AUDIT-GATE.md)
+
+---
+
+## P8 — Ops CI + handshake vivo
+
+**Objetivo:** Gate reproducible en GitHub Actions + verificación viva VEN↔SBX.
+
+- [x] `.github/workflows/ci.yml` con billing, webhook, pqc, p5, p6, doctor, p9
+- [x] `npm run p8:verify` (spawnea APIs si hace falta + handshake)
+- [x] Health público: `ok` = proceso sirviendo; `postgres` advisory
+- [x] Runbook `docs/P8-OPS-CI.md`
+
+**Criterio:** `npm run p8:verify` PASS.
+
+Runbook: [`docs/P8-OPS-CI.md`](../P8-OPS-CI.md)
+
+---
+
+## P9 — Release GO (cierre roadmap código)
+
+**Objetivo:** Dictamen **GO-CONDICIONADO** + preflight Operador B (CLI).
+
+- [x] `npm run p9:go` (rutas, scripts piloto, Trust Pack dir, dictamen)
+- [x] `docs/commercial/case-studies/prueba-real-1/00-GO-DICTAMEN.md`
+- [x] Runbook `docs/P9-RELEASE-GO.md`
+- [ ] Corrida humana Operador B + Trust Pack screenshots
+- [ ] Deploy health staging/prod-light firmado
+
+**Criterio código:** `p8:verify` + `p9:go` PASS · residuales listados en dictamen.
+
+Runbook: [`docs/P9-RELEASE-GO.md`](../P9-RELEASE-GO.md)
 
 ---
 
@@ -152,8 +186,8 @@ Runbook: [`docs/P7-AUDIT-GATE.md`](../P7-AUDIT-GATE.md)
 
 ## Próximos 30 días (acción inmediata)
 
-1. UI institucional AGIGOV-VEN en PWA
-2. Ratificar borrador carta AGIGOV-VEN
-3. Abrir `/participar` como MVP
-4. Publicar `POLITICA-2.0.md` en `/institucional`
+1. Corrida Operador B + Trust Pack humano (`docs/PILOTO-PRUEBA-REAL.md`)
+2. Redeploy nodo con código P3–P9 + health check
+3. Ratificar carta AGIGOV-VEN (multi-sig)
+4. CI + Postgres service (endurecer p4 E2E)
 5. Piloto multi-sig MAR_NORTH_01 (ver innovation brief)

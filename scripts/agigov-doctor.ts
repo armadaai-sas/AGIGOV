@@ -68,6 +68,8 @@ async function main(): Promise<void> {
   add('cartaBase', existsSync('docs/AGIGOV/CARTA-AGIGOV-BASE.md'), 'carta base');
   add('politica20', existsSync('docs/AGIGOV/POLITICA-2.0.md'), 'POLITICA-2.0');
   add('runbookP7', existsSync('docs/P7-AUDIT-GATE.md'), 'P7 runbook');
+  add('runbookP8', existsSync('docs/P8-OPS-CI.md'), 'P8 runbook');
+  add('runbookP9', existsSync('docs/P9-RELEASE-GO.md'), 'P9 runbook');
 
   add('jurisdictions', Object.keys(JURISDICTIONS).length >= 4, `${Object.keys(JURISDICTIONS).join(',')}`);
 

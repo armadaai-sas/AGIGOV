@@ -24,4 +24,18 @@ jobs:
 
       - run: npm run test:smoke
 
+      - run: npm run test:billing
+
+      - run: npm run test:webhook
+
+      - run: npm run pqc:inventory
+
       - run: npm run panic:drill
+
+      - run: npm run p5:verify-network
+
+      - run: npm run p6:verify
+
+      - run: npm run doctor
+
+      - run: npm run p9:go

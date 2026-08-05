@@ -94,8 +94,9 @@ export async function buildPublicHealth(input: {
   const peer = input.skipPeer ? undefined : await probePeerHealth(peerUrl);
   const crossHealthOk = Boolean(peer?.ok && peer.jurisdiction);
 
+  // Public surface: ok = process serving (not panic). Postgres is advisory for peers/ops.
   return {
-    ok: (input.postgres ?? true) && !(input.panicMode ?? false),
+    ok: !(input.panicMode ?? false),
     service: input.node.service,
     node: input.node,
     postgres: input.postgres,

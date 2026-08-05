@@ -9,7 +9,8 @@
 | Lint/build/smoke/billing/webhook | `npm run audit:run` | **obligatorio** |
 | PQC + panic + P5 + P6 | incluido en `audit:run` | **obligatorio** |
 | Doctor config | `npm run doctor` | **obligatorio** (APIs soft) |
-| Handshake VEN↔SBX | `api:public` + `api:sandbox` + `sbx:handshake` | **recomendado** |
+| Handshake VEN↔SBX | `npm run p8:verify` (o APIs + `sbx:handshake`) | **P8 obligatorio** |
+| Release GO | `npm run p9:go` | **P9 obligatorio** |
 | p4 finance E2E | Postgres + seed | **opcional** offline |
 
 ## Run (2026-08-05)

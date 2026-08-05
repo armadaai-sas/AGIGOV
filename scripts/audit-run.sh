@@ -19,7 +19,7 @@ run() {
   fi
 }
 
-echo "[AuditRun] AGIGOV gate P0–P6 · $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+echo "[AuditRun] AGIGOV gate P0–P9 · $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 run lint npm run lint
 run smoke npm run test:smoke
@@ -39,6 +39,16 @@ if npm run p4:finance-e2e; then
 else
   echo "SKIP/FAIL optional:p4 (Postgres?) — no bloquea gate offline"
 fi
+
+# P8 live puede ser lento; omitir con AUDIT_SKIP_P8=1
+if [ "${AUDIT_SKIP_P8:-0}" != "1" ]; then
+  run p8 npm run p8:verify
+else
+  echo ""
+  echo "── p8 SKIP (AUDIT_SKIP_P8=1) ──"
+fi
+
+run p9 npm run p9:go
 
 echo ""
 if [ "$FAIL" -eq 0 ]; then
