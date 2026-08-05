@@ -264,33 +264,62 @@ export async function registerContribution(
   const currency = input.currency ?? 'VES';
   const raised = parseFloat(String(meta.raisedAmount ?? '0')) + input.amount;
   const contributions = Number(meta.contributions ?? 0) + 1;
+  const target = parseFloat(String(meta.targetAmount ?? '0')) || 0;
+  const funded = target > 0 && raised >= target;
 
+  const previousFundedAt =
+    typeof meta.fundedAt === 'string' ? meta.fundedAt : undefined;
   const updatedProject = {
     ...meta,
     raisedAmount: raised.toFixed(4),
     contributions,
     lastContributionAt: committedAt,
+    fundedAt: funded ? (previousFundedAt ?? committedAt) : previousFundedAt,
   };
 
-  await db.processCheckpoint.update({
-    where: { processId: input.projectId },
-    data: {
-      evidenceBundle: {
-        ...bundle,
-        publicProject: updatedProject,
-      },
-    },
+  const escrowProcessId = String(meta.escrowProcessId ?? input.projectId);
+  const existingEscrow = await db.escrow.findUnique({
+    where: { processId: escrowProcessId },
   });
 
-  await db.ledgerEntry.create({
-    data: {
-      entryType: 'ESCROW',
-      entityId: receiptId,
-      entityHash: payloadHash({ receiptId, projectId: input.projectId }),
-      processId: input.projectId,
-      agentId: 'logistico',
-      evidenceRef: `contrib-pilot-${territoryCode}`,
-    },
+  await db.$transaction(async (tx) => {
+    await tx.processCheckpoint.update({
+      where: { processId: input.projectId },
+      data: {
+        evidenceBundle: {
+          ...bundle,
+          publicProject: updatedProject,
+        },
+      },
+    });
+
+    await tx.ledgerEntry.create({
+      data: {
+        entryType: 'ESCROW',
+        entityId: receiptId,
+        entityHash: payloadHash({ receiptId, projectId: input.projectId }),
+        processId: input.projectId,
+        agentId: 'logistico',
+        evidenceRef: `contrib-pilot-${territoryCode}`,
+      },
+    });
+
+    if (existingEscrow) {
+      const nextAmount = Number(existingEscrow.amount) + input.amount;
+      const nextStatus = funded
+        ? 'RELEASED'
+        : existingEscrow.status === 'PENDING'
+          ? 'LOCKED'
+          : existingEscrow.status;
+      await tx.escrow.update({
+        where: { processId: escrowProcessId },
+        data: {
+          amount: nextAmount,
+          currency,
+          status: nextStatus === 'FROZEN' ? 'FROZEN' : nextStatus,
+        },
+      });
+    }
   });
 
   const receipt: ContributionReceipt = {

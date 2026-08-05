@@ -18,6 +18,8 @@ export interface PublicProject {
   currency: string;
   contributions: number;
   daoApproved: boolean;
+  /** Meta alcanzada (raised ≥ target) — trazable en ledger. */
+  funded: boolean;
   milestones: Array<{ label: string; done: boolean }>;
   escrow: PublicProjectEscrow | null;
   updatedAt: string;
@@ -53,6 +55,11 @@ async function mapCheckpoint(row: {
     currency: String(meta.currency ?? 'VES'),
     contributions: Number(meta.contributions ?? 0),
     daoApproved: Boolean(meta.daoApproved),
+    funded:
+      Boolean(meta.fundedAt) ||
+      (parseFloat(String(meta.targetAmount ?? '0')) > 0 &&
+        parseFloat(String(meta.raisedAmount ?? '0')) >=
+          parseFloat(String(meta.targetAmount ?? '0'))),
     milestones: (meta.milestones as Array<{ label: string; done: boolean }>) ?? [],
     escrow: escrow
       ? {

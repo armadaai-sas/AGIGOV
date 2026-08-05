@@ -58,9 +58,12 @@ Propuesta (ciudadano/sector)
 
 ## Estado en repositorio
 
-- Escrow en Prisma (`Escrow` model) — **implementado demo**
-- Token contracts — **roadmap P4**
-- DAO UI `/proyectos` — **pendiente**
+- Escrow en Prisma (`Escrow` model) — **implementado** (aporte → LOCKED / meta → RELEASED)
+- DAO UI `/proyectos` + aporte ciudadano — **implementado** (piloto VES)
+- Webhook pagos — **HMAC listo**; proveedor fiat real pendiente
+- Token contracts — **roadmap** (no mainnet sin dictamen soberano + legal)
+
+Detalle P4: [`docs/P4-ECONOMIA-DAO.md`](../P4-ECONOMIA-DAO.md)
 
 ## Legal Venezuela
 

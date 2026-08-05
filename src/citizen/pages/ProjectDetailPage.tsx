@@ -107,6 +107,9 @@ function ProjectDetail({
               {project.daoApproved ? (
                 <span className="agigov-badge bg-emerald-500/15 text-emerald-200">DAO aprobado</span>
               ) : null}
+              {project.funded ? (
+                <span className="agigov-badge bg-sky-500/15 text-sky-200">Meta financiada</span>
+              ) : null}
               <span className="agigov-mono-id">{project.id}</span>
             </div>
           </div>
@@ -207,7 +210,11 @@ function ContributeForm({
 
   return (
     <form onSubmit={(e) => void handleContribute(e)} className="mt-8 border-t border-white/5 pt-6">
-      <p className="text-sm font-medium text-agigov-text">Aportar al proyecto (demo)</p>
+      <p className="text-sm font-medium text-agigov-text">Aportar al proyecto</p>
+      <p className="mt-1 text-xs text-agigov-text-muted">
+        Registro en ledger (piloto). Pasarela fiat real = HMAC listo · proveedor pendiente. Token
+        gobernanza = roadmap (no mainnet).
+      </p>
       <div className="mt-3 flex flex-col gap-3 sm:flex-row">
         <input
           type="number"

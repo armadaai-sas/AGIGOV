@@ -78,10 +78,14 @@ Plan breve para convertir la visión AGIGOV en producto institucional funcional,
 
 - [x] UI `/proyectos` + API `/api/public/projects`
 - [x] Seed 3 proyectos demo con escrow e hitos
-- [ ] Token gobernanza AGIGOV-VEN (mainnet)
-- [ ] Pasarela aportes VES real
+- [x] Aporte E2E → ledger + escrow LOCKED/RELEASED (`npm run p4:finance-e2e`)
+- [x] Webhook VES con HMAC (piloto; proveedor real pendiente)
+- [ ] Token gobernanza AGIGOV-VEN (mainnet) — dictamen soberano + legal
+- [ ] Pasarela aportes VES con proveedor fiat contratado
 
-**Criterio:** 1 proyecto financiado end-to-end con trazabilidad pública.
+**Criterio:** 1 proyecto financiado end-to-end con trazabilidad pública — **cumplido en piloto/ledger** (no mainnet token).
+
+Runbook: [`docs/P4-ECONOMIA-DAO.md`](../P4-ECONOMIA-DAO.md)
 
 ---
 

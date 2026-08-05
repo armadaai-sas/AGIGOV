@@ -62,6 +62,7 @@ export interface ProjectItem {
   currency: string;
   contributions: number;
   daoApproved: boolean;
+  funded?: boolean;
   milestones: ProjectMilestone[];
   escrow: ProjectEscrow | null;
   updatedAt: string;

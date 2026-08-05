@@ -16,6 +16,9 @@ export function applyContributionOptimistic(
       ...project,
       raisedAmount: raised.toFixed(4),
       contributions: project.contributions + 1,
+      funded:
+        project.funded ||
+        raised >= (parseFloat(project.targetAmount) || Number.POSITIVE_INFINITY),
     };
   });
 
