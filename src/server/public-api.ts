@@ -18,7 +18,12 @@ import {
   getUsageSummary,
   reconcileMeteringWithLedger,
   seedDemoMeteringIfEmpty,
+  estimateIaauInvoiceUsd,
 } from '../billing/metering.js';
+import { buildChargeCatalog } from '../billing/catalog.js';
+import { assertFreeCostZero, resolvePlan } from '../billing/plan.js';
+import { getBillingFreeze, clearBillingFreeze } from '../billing/freeze.js';
+import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
 import { getDatasetById, getPublishedDatasets, runAggregationPipeline } from '../data-trust/aggregation.js';
 import { processVesPaymentWebhook } from '../pilot/payment-webhook.js';
 import { verifyPilotClosure, PILOT_PROCESS_ID } from '../pilot/multisig-acta.js';
@@ -556,7 +561,7 @@ app.post('/api/public/cne/vote', (req, res) => {
   }
 });
 
-/** IaaU metering demo (M6). */
+/** IaaU metering + catálogo cobro P0. */
 app.get('/api/public/billing/usage', (req, res) => {
   try {
     seedDemoMeteringIfEmpty();
@@ -564,16 +569,94 @@ app.get('/api/public/billing/usage', (req, res) => {
       typeof req.query.jurisdictionId === 'string' ? req.query.jurisdictionId : undefined;
     const period = typeof req.query.period === 'string' ? req.query.period : undefined;
     const summary = getUsageSummary(jurisdictionId, period);
-    const reconciliation = reconcileMeteringWithLedger();
+    const reconciliation = reconcileMeteringWithLedger({ freezeOnFail: true });
+    const invoice = estimateIaauInvoiceUsd(jurisdictionId, period);
+    const freeGuard = assertFreeCostZero();
     res.json({
       updatedAt: new Date().toISOString(),
+      plan: resolvePlan(),
       summary,
       reconciliation,
-      disclaimer: 'Demo metering — no factura vinculante',
+      invoice,
+      freeGuard: {
+        ok: freeGuard.ok,
+        violations: freeGuard.violations,
+        caps: freeGuard.caps,
+        hosting: freeGuard.hosting,
+      },
+      billingFreeze: getBillingFreeze(),
+      disclaimer:
+        resolvePlan() === 'free'
+          ? 'Plan free — IaaU/EGS no facturables; BYO infra'
+          : reconciliation.billable
+            ? 'Estimación IaaU — conciliar antes de factura vinculante'
+            : 'Facturación no billable (freeze o reconcile)',
     });
   } catch {
     res.status(500).json({ error: 'No se pudo cargar uso IaaU' });
   }
+});
+
+app.get('/api/public/billing/catalog', (_req, res) => {
+  try {
+    const catalog = buildChargeCatalog();
+    const freeGuard = assertFreeCostZero();
+    res.json({
+      updatedAt: new Date().toISOString(),
+      ...catalog,
+      freeGuard,
+      egsSplit: { reinversion: 0.7, meritPool: 0.2, agigovFee: 0.1 },
+    });
+  } catch {
+    res.status(500).json({ error: 'No se pudo cargar catálogo de cobro' });
+  }
+});
+
+app.post('/api/public/billing/egs-preview', (req, res) => {
+  try {
+    const body = req.body as {
+      baselineTrimestral?: number;
+      gastosVerificados?: number;
+      ajustesFuerzaMayor?: number;
+      currency?: string;
+    };
+    const baseline = Number(body.baselineTrimestral);
+    const gastos = Number(body.gastosVerificados);
+    if (!Number.isFinite(baseline) || !Number.isFinite(gastos)) {
+      res.status(400).json({ error: 'baselineTrimestral y gastosVerificados requeridos' });
+      return;
+    }
+    const invoice = computeEgsFeeInvoice({
+      baselineTrimestral: baseline,
+      gastosVerificados: gastos,
+      ajustesFuerzaMayor: Number(body.ajustesFuerzaMayor) || 0,
+      currency: body.currency,
+      egsAddonEnabled: (process.env.AGIGOV_EGS_ADDON ?? '1').trim() !== '0',
+    });
+    res.json({
+      updatedAt: new Date().toISOString(),
+      plan: resolvePlan(),
+      ...invoice,
+    });
+  } catch (e) {
+    res.status(400).json({
+      error: e instanceof Error ? e.message : 'EGS preview inválido',
+    });
+  }
+});
+
+/** Ops: levantar FREEZE de facturación tras auditoría humana. */
+app.post('/api/ops/billing/unfreeze', (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE' });
+    return;
+  }
+  const key = process.env.AGIGOV_OPS_API_KEY?.trim();
+  if (key && req.header('X-Ops-Key') !== key) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+  res.json({ ok: true, billingFreeze: clearBillingFreeze() });
 });
 
 /** Data Trust — catálogo agregados k-anonymized (P2 demo). */
@@ -654,7 +737,9 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/reports/irregularity': { post: { summary: 'Reporte centinela ciudadano' } },
       '/api/public/cne/consultation': { get: { summary: 'Consulta CNE-1' } },
       '/api/public/cne/vote': { post: { summary: 'Voto SET demo cifrado' } },
-      '/api/public/billing/usage': { get: { summary: 'Uso IaaU metering demo' } },
+      '/api/public/billing/usage': { get: { summary: 'Uso IaaU + invoice + freeGuard + freeze' } },
+      '/api/public/billing/catalog': { get: { summary: 'Catálogo cobro P0' } },
+      '/api/public/billing/egs-preview': { post: { summary: 'Preview fee EGS 10% Δ' } },
       '/api/public/data-trust/datasets': { get: { summary: 'Catálogo Data Trust k-anonymized' } },
       '/api/public/payments/webhook': { post: { summary: 'Webhook pasarela VES (stub)' } },
       '/api/public/pilot': { get: { summary: 'Estado piloto nacional' } },

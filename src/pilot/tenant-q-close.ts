@@ -6,6 +6,8 @@ import {
 } from '../db/egs/quarter-close.js';
 import { payloadHash } from '../db/sync/conflicts.js';
 import { getPilotTenantBySlug } from './tenant-provision.js';
+import { recordMeterEvent } from '../billing/metering.js';
+import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
 
 export type QuarterClosePipelineResult = {
   ok: boolean;
@@ -14,6 +16,9 @@ export type QuarterClosePipelineResult = {
   reconcileOk: boolean;
   discrepancies: string[];
   calculoAhorroFinal: number;
+  agigovFeeAmount: number;
+  egsFeeBillable: boolean;
+  egsFeeReason: string;
   published: boolean;
   ledgerProcessId: string | null;
 };
@@ -47,6 +52,9 @@ export async function runTenantQuarterClosePipeline(
       reconcileOk: false,
       discrepancies: reconcile.discrepancies,
       calculoAhorroFinal: reconcile.calculoAhorroFinal,
+      agigovFeeAmount: 0,
+      egsFeeBillable: false,
+      egsFeeReason: 'Q-close reconcile failed',
       published: false,
       ledgerProcessId: qc.ledgerProcessId,
     };
@@ -125,7 +133,22 @@ export async function runTenantQuarterClosePipeline(
       where: { id: tenant.id },
       data: { onboardingStatus: 'ingest_ready' },
     });
+    recordMeterEvent({
+      unit: 'milestone-validated',
+      quantity: 1,
+      jurisdictionId: slug,
+      processId: ledgerProcessId,
+      tier: 'M5',
+    });
   }
+
+  const egsInvoice = computeEgsFeeInvoice({
+    baselineTrimestral: baseline,
+    gastosVerificados: reconcile.gastosVerificados,
+    ajustesFuerzaMayor: ajustes,
+    currency: refreshed.currency,
+    egsAddonEnabled: (process.env.AGIGOV_EGS_ADDON ?? '1').trim() !== '0',
+  });
 
   return {
     ok: true,
@@ -134,6 +157,9 @@ export async function runTenantQuarterClosePipeline(
     reconcileOk: true,
     discrepancies: [],
     calculoAhorroFinal: computed.calculoAhorroFinal,
+    agigovFeeAmount: egsInvoice.feeAmount,
+    egsFeeBillable: Boolean(options.publish && egsInvoice.billable),
+    egsFeeReason: egsInvoice.reason,
     published: Boolean(options.publish),
     ledgerProcessId,
   };

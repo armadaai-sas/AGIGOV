@@ -25,6 +25,9 @@ Generados por el agente **comercial-agigov** (skill `agigov-gtm`).
 | Documento | Descripción |
 |-----------|-------------|
 | [trust-pilot-fiscal-b2g.md](./one-pagers/trust-pilot-fiscal-b2g.md) | One-pager diferenciación vs tradicional + champion |
+| [pricing-moat-research-v0.md](./pricing-moat-research-v0.md) | Investigación precios: Free→SaaS+uso+add-ons · moat valor/costo |
+| [evidence-outsourcing-spend.md](./evidence-outsourcing-spend.md) | **Evidencia citada** outsourcing/procurement OCDE + consultores UK NAO |
+| [billing-p0-catalog.md](./billing-p0-catalog.md) | Cobro P0: Free $0 costo · IaaU · EGS 10% Δ · FREEZE |
 | [trust-pilot-sbx-checklist.md](./trust-pilot-sbx-checklist.md) | 3 corridas internas SBX (día 0 → 90, pass/fail) |
 | [ministerio-hosting-privacidad.md](./faq/ministerio-hosting-privacidad.md) | Hosting, privacidad, resultados, errores |
 | [corrida-1-sbx/](./case-studies/corrida-1-sbx/) | Trust Pack corrida 1 (happy path) — **PASS** |

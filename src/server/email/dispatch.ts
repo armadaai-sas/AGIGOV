@@ -22,7 +22,14 @@ function outboxPath(): string {
 }
 
 function emailMode(): string {
-  return (process.env.AGIGOV_EMAIL_MODE ?? 'outbox').trim().toLowerCase();
+  const mode = (process.env.AGIGOV_EMAIL_MODE ?? 'outbox').trim().toLowerCase();
+  const plan = (process.env.AGIGOV_PLAN ?? 'free').trim().toLowerCase();
+  const emailByo = (process.env.AGIGOV_EMAIL_BYO ?? '0').trim() === '1';
+  // Free sin BYO: nunca usar Resend de la compañía (costo ≈ $0)
+  if (plan === 'free' && mode === 'resend' && !emailByo) {
+    return 'outbox';
+  }
+  return mode;
 }
 
 function fromAddress(): string {

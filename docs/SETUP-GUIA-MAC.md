@@ -339,7 +339,16 @@ npm run infra:down
 6. Verificar  →  npm run block-b:verify -- --api
 ```
 
-Cuando Oracle Free Tier esté listo, el siguiente paso será `./scripts/prod-up-light.sh` en la VM (guía en `docs/SERVER-SIZING.md`).
+Cuando Oracle Free Tier esté listo, desplegar **prod-light en la VM** (este Mac solo como cliente):
+
+```bash
+export OCI_HOST="<IP_PUBLICA_ORACLE>"
+./scripts/oci-prod-light-deploy.sh          # rsync + Docker ARM + prod-up-light + health
+./scripts/oci-cloudflare-tunnel.sh         # HTTPS sin abrir :3001 en OCI
+```
+
+Guía completa: [`infra/deploy/oracle-always-free.md`](../infra/deploy/oracle-always-free.md) · sizing: [`docs/SERVER-SIZING.md`](SERVER-SIZING.md).  
+**Sync default = rsync Mac→VM** (no requiere push a GitHub).
 
 ---
 
@@ -385,4 +394,4 @@ npm run block-b:verify -- --native --api
 | `brew install` muy lento | Normal en Mac viejo; deja correr 15–30 min |
 | Puerto 5432 ocupado | `lsof -i :5432` y detén el proceso |
 | Postgres no arranca | `brew services restart postgresql@16` |
-| Alternativa en la nube | Oracle Free Tier + `prod-up-light.sh` (Mac solo como cliente) |
+| Alternativa en la nube | `OCI_HOST=… ./scripts/oci-prod-light-deploy.sh` + Cloudflare Tunnel (ver `infra/deploy/oracle-always-free.md`) |

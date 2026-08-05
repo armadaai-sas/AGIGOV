@@ -1,10 +1,14 @@
 /**
- * IaaU metering demo — eventos por unidad verificada, conciliación vs ledger stub.
+ * IaaU metering — eventos por unidad verificada + conciliación.
+ * Facturación IaaU bloqueada si BILLING_FROZEN o plan free.
  */
 import { existsSync, mkdirSync, readFileSync, appendFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { payloadHash } from '../db/sync/conflicts.js';
+import { IAAU_RATES_USD } from './catalog.js';
+import { freezeBilling, getBillingFreeze } from './freeze.js';
+import { resolvePlan } from './plan.js';
 
 const DATA_DIR = join(process.cwd(), 'data');
 const EVENTS_PATH = join(DATA_DIR, 'metering-events.jsonl');
@@ -37,13 +41,7 @@ export interface UsageSummary {
   estimatedUsdDemo: number;
 }
 
-const UNIT_DEMO_RATE_USD: Record<MeterUnit, number> = {
-  'iap-envelope': 0.002,
-  'ledger-commit': 0.005,
-  'api-call': 0.001,
-  'sync-node': 0.05,
-  'milestone-validated': 0.02,
-};
+const UNIT_DEMO_RATE_USD = IAAU_RATES_USD;
 
 function ensureDataDir() {
   if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
@@ -121,11 +119,19 @@ export function getUsageSummary(
   };
 }
 
-/** Conciliación demo: cada evento debe tener ledgerHash único. */
-export function reconcileMeteringWithLedger(): {
+/**
+ * Conciliación: hashes únicos + freeze de factura si falla.
+ * P0: integridad de eventos; P1 enlazará commits reales de ProcessCheckpoint.
+ */
+export function reconcileMeteringWithLedger(options?: {
+  freezeOnFail?: boolean;
+}): {
   ok: boolean;
   eventCount: number;
   duplicateHashes: string[];
+  billingFrozen: boolean;
+  billable: boolean;
+  plan: string;
 } {
   const events = readEvents();
   const seen = new Set<string>();
@@ -134,10 +140,40 @@ export function reconcileMeteringWithLedger(): {
     if (seen.has(e.ledgerHash)) duplicateHashes.push(e.ledgerHash);
     seen.add(e.ledgerHash);
   }
+  const ok = duplicateHashes.length === 0;
+  if (!ok && options?.freezeOnFail !== false) {
+    freezeBilling(`metering_duplicate_hashes:${duplicateHashes.slice(0, 3).join(',')}`);
+  }
+  const plan = resolvePlan();
+  const freeze = getBillingFreeze();
   return {
-    ok: duplicateHashes.length === 0,
+    ok,
     eventCount: events.length,
     duplicateHashes,
+    billingFrozen: freeze.frozen,
+    billable: ok && !freeze.frozen && plan !== 'free',
+    plan,
+  };
+}
+
+/** Estimación factura IaaU del periodo (0 si free o frozen). */
+export function estimateIaauInvoiceUsd(
+  jurisdictionId = 'demo-jurisdiction',
+  period?: string,
+): { billable: boolean; amountUsd: number; reason: string } {
+  const plan = resolvePlan();
+  if (plan === 'free') {
+    return { billable: false, amountUsd: 0, reason: 'plan=free (IaaU off)' };
+  }
+  const freeze = getBillingFreeze();
+  if (freeze.frozen) {
+    return { billable: false, amountUsd: 0, reason: `BILLING_FROZEN:${freeze.reason}` };
+  }
+  const summary = getUsageSummary(jurisdictionId, period);
+  return {
+    billable: summary.estimatedUsdDemo > 0,
+    amountUsd: summary.estimatedUsdDemo,
+    reason: 'iaau_usage',
   };
 }
 

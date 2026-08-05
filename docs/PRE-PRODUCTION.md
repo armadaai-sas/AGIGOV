@@ -18,11 +18,17 @@ Checklist y runbooks para pasar de implementación a **piloto nacional** despleg
 
 ## Despliegue recomendado (servidor pequeño)
 
-**~1 GB RAM** — Oracle/GCP e2-micro:
+**~1 GB RAM** — Oracle Always Free / GCP e2-micro:
 
 ```bash
+# En la VM (con Docker):
 ./scripts/prod-up-light.sh
 # Con honeypot: HONEYPOT=1 ./scripts/prod-up-light.sh
+
+# Desde Mac (rsync + bootstrap + health) — requiere OCI_HOST:
+# export OCI_HOST=<IP>; npm run oci:deploy
+# Túnel HTTPS: npm run oci:tunnel
+# Guía: infra/deploy/oracle-always-free.md
 ```
 
 | Stack | Comando | RAM |
