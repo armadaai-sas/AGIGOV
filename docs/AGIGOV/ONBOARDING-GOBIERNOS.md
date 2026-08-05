@@ -6,9 +6,12 @@ Herramientas para que **Estados miembros** se conecten, registren y adapten AGIG
 
 | País | Código | ISO | Carta |
 |------|--------|-----|-------|
-| Venezuela | `AGIGOV-VEN` | `VEN` | `CARTA-AGIGOV-VEN.md` |
+| Venezuela | `AGIGOV-VEN` | `VEN` | `CARTA-AGIGOV-VEN.md` (anexo a base) |
 | Sandbox interop | `AGIGOV-SBX` | `SBX` | `CARTA-AGIGOV-SBX.md` |
-| (futuro) | `AGIGOV-[ISO3166-1 alpha-3]` | ISO real | Carta local anexa |
+| Colombia (piloto) | `AGIGOV-COL` | `COL` | `ANEXO-AGIGOV-COL.md` |
+| (nuevo) | `AGIGOV-[ISO3166-1 alpha-3]` | ISO real | `ANEXO-LOCAL-TEMPLATE.md` + `CARTA-AGIGOV-BASE.md` |
+
+Carta núcleo: [`CARTA-AGIGOV-BASE.md`](./CARTA-AGIGOV-BASE.md) · Guía ministro/TI: [`GUIA-MINISTRO-INNOVACION-TI.md`](./GUIA-MINISTRO-INNOVACION-TI.md)
 
 ## Proceso de registro (MVP)
 
@@ -27,7 +30,9 @@ Herramientas para que **Estados miembros** se conecten, registren y adapten AGIG
 | Endpoint | Función |
 |----------|---------|
 | `GET /api/public/health` | Salud del nodo + handshake peer |
-| `GET /api/public/gov` | Jurisdicciones registradas (VEN + SBX piloto) |
+| `GET /api/public/gov` | Jurisdicciones registradas (VEN + SBX + perfiles) |
+| `GET /api/public/federation/outbox` | Hashes published (interop thin) |
+| `POST /api/public/federation/pull` | SBX: espeja outbox del embajador |
 | `GET /api/public/dashboard` | Telemetría gestión |
 | `GET /api/public/projects` | Proyectos DAO |
 | `GET /api/ops/health` | Ops centinela (sin PII) |

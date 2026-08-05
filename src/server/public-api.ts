@@ -47,6 +47,11 @@ import {
 } from '../pilot/tenant-onboarding.js';
 import { runTenantQuarterClosePipeline } from '../pilot/tenant-q-close.js';
 import {
+  listFederationOutbox,
+  mirrorFederationOutbox,
+  readFederationInbox,
+} from '../pilot/federation-inbox.js';
+import {
   SBX_PROCESS_ID,
   SBX_PEER_JURISDICTION,
 } from '../pilot/sandbox-adhesion.js';
@@ -817,6 +822,13 @@ app.get('/api/public/openapi.json', (_req, res) => {
     servers: [{ url: 'http://127.0.0.1:3001' }],
     paths: {
       '/api/public/health': { get: { summary: 'Salud plataforma' } },
+      '/api/public/gov': { get: { summary: 'Jurisdicciones AGIGOV-[ISO] en red' } },
+      '/api/public/federation/outbox': {
+        get: { summary: 'Hashes published para peer mirror (P5)' },
+      },
+      '/api/public/federation/mirror': {
+        post: { summary: 'Espejar outbox peer en inbox local' },
+      },
       '/api/public/dashboard': { get: { summary: 'Telemetría gestión' } },
       '/api/public/projects': { get: { summary: 'Proyectos DAO' } },
       '/api/public/projects/{id}': { get: { summary: 'Detalle proyecto' } },
@@ -1003,43 +1015,104 @@ app.get('/api/public/gov', async (_req, res) => {
     res.json({
       updatedAt: new Date().toISOString(),
       crossHealthOk: health.crossHealthOk,
+      cartaBase: 'docs/AGIGOV/CARTA-AGIGOV-BASE.md',
       jurisdictions: [
         {
           code: 'AGIGOV-VEN',
           iso: 'VEN',
-          documentRef: 'docs/AGIGOV/CARTA-AGIGOV-VEN.md',
+          status: JURISDICTIONS.VEN.status,
+          documentRef: JURISDICTIONS.VEN.documentRef,
           ratified: cartaBundle.cartaRatification === true,
           checkpointStatus: cartaCheckpoint?.status ?? 'missing',
         },
         {
           code: 'AGIGOV-COL',
           iso: 'COL',
-          documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+          status: JURISDICTIONS.COL.status,
+          documentRef: JURISDICTIONS.COL.documentRef,
           ratified: false,
-          checkpointStatus: 'pilot',
+          checkpointStatus: 'pilot-profile-only',
           currency: 'COP',
+          note: 'Perfil UX + anexo; sin adhesión multi-sig aún',
         },
         {
           code: 'AGIGOV-USA',
           iso: 'USA',
-          documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+          status: JURISDICTIONS.USA.status,
+          documentRef: JURISDICTIONS.USA.documentRef,
           ratified: false,
-          checkpointStatus: 'pilot',
+          checkpointStatus: 'pilot-profile-only',
           currency: 'USD',
+          note: 'Perfil UX; usar ANEXO-LOCAL-TEMPLATE',
         },
         {
           code: 'AGIGOV-SBX',
           iso: 'SBX',
-          documentRef: 'docs/AGIGOV/CARTA-AGIGOV-SBX.md',
+          status: JURISDICTIONS.SBX.status,
+          documentRef: JURISDICTIONS.SBX.documentRef,
           peerOf: SBX_PEER_JURISDICTION,
           adhesion: sbxBundle.sandboxAdhesion === true,
           checkpointStatus: sbxCheckpoint?.status ?? 'missing',
         },
       ],
       peer: health.peer,
+      federationInboxCount: readFederationInbox().length,
     });
   } catch {
     res.status(500).json({ error: 'No se pudo cargar registro de gobiernos' });
+  }
+});
+
+/** P5 — outbox de hashes published (interop thin, sin PII). */
+app.get('/api/public/federation/outbox', async (req, res) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 50, 200);
+    const items = await listFederationOutbox(limit);
+    res.json({
+      updatedAt: new Date().toISOString(),
+      jurisdiction: process.env.AGIGOV_JURISDICTION?.trim() || 'AGIGOV-VEN',
+      count: items.length,
+      items,
+    });
+  } catch {
+    res.status(500).json({ error: 'No se pudo cargar federation outbox' });
+  }
+});
+
+/** P5 — espejo local del outbox de un peer (SBX u otro). */
+app.post('/api/public/federation/mirror', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE' });
+    return;
+  }
+  try {
+    const body = req.body as {
+      sourceJurisdiction?: string;
+      items?: Array<{
+        processId: string;
+        status: string;
+        originNodeId: string;
+        contentHash: string;
+        updatedAt: string;
+      }>;
+    };
+    const source = body.sourceJurisdiction?.trim() || 'AGIGOV-PEER';
+    const items = Array.isArray(body.items) ? body.items : [];
+    if (items.length === 0) {
+      res.status(400).json({ error: 'items[] requerido' });
+      return;
+    }
+    const written = mirrorFederationOutbox(items, source);
+    res.status(201).json({
+      ok: true,
+      mirrored: written.length,
+      inboxTotal: readFederationInbox().length,
+      receipts: written,
+    });
+  } catch (e) {
+    res.status(400).json({
+      error: e instanceof Error ? e.message : 'mirror inválido',
+    });
   }
 });
 

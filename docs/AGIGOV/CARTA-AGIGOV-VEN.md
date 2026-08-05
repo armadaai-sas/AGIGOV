@@ -4,7 +4,8 @@
 
 Versión: **0.1 borrador institucional**  
 Estado: Pendiente ratificación multi-sig  
-Índice normativo del agente **Soberano**
+Índice normativo del agente **Soberano**  
+Hereda Título I de [`CARTA-AGIGOV-BASE.md`](./CARTA-AGIGOV-BASE.md).
 
 ---
 

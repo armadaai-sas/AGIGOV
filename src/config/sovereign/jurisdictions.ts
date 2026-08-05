@@ -48,7 +48,7 @@ export const JURISDICTIONS: Record<JurisdictionIso, JurisdictionProfile> = {
     territoryCode: 'COL_PILOT_01',
     ministryCode: 'MINTRANS',
     implementationId: 'col',
-    documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+    documentRef: 'docs/AGIGOV/ANEXO-AGIGOV-COL.md',
     status: 'pilot',
   },
   USA: {
@@ -62,7 +62,7 @@ export const JURISDICTIONS: Record<JurisdictionIso, JurisdictionProfile> = {
     territoryCode: 'USA_PILOT_01',
     ministryCode: 'USDOT',
     implementationId: 'usa',
-    documentRef: 'docs/AGIGOV/ONBOARDING-GOBIERNOS.md',
+    documentRef: 'docs/AGIGOV/ANEXO-LOCAL-TEMPLATE.md',
     status: 'pilot',
   },
   SBX: {
@@ -90,6 +90,7 @@ export const JURISDICTIONS: Record<JurisdictionIso, JurisdictionProfile> = {
     territoryCode: 'GLOBAL',
     ministryCode: 'DEMO',
     implementationId: 'generic',
+    documentRef: 'docs/AGIGOV/CARTA-AGIGOV-BASE.md',
     status: 'generic',
   },
 };

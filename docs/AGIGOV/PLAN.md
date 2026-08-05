@@ -93,12 +93,16 @@ Runbook: [`docs/P4-ECONOMIA-DAO.md`](../P4-ECONOMIA-DAO.md)
 
 **Objetivo:** Cualquier gobierno se conecta y adapta.
 
-- [ ] Protocolo onboarding `AGIGOV-[ISO]`
-- [ ] Interoperabilidad ledger entre nodos estatales
-- [ ] Carta base + anexos locales
-- [ ] Documentación para ministros de innovación / TI
+- [x] Protocolo onboarding `AGIGOV-[ISO]` (carta base + anexos + catálogo)
+- [x] Interoperabilidad thin: federation outbox/inbox de hashes published
+- [x] Carta base + anexos locales (VEN/SBX/COL + plantilla)
+- [x] Documentación para ministros de innovación / TI
+- [ ] Sync ledger completo entre Postgres estatales (post-P5)
+- [ ] Adhesión multi-sig COL/USA (hoy: perfil piloto)
 
-**Criterio:** Segundo Estado en sandbox conectado a la red.
+**Criterio:** Segundo Estado en sandbox conectado a la red — **cumplido** (`AGIGOV-SBX` + handshake + federation pull).
+
+Runbook: [`docs/P5-RED-AGIGOV-GLOBAL.md`](../P5-RED-AGIGOV-GLOBAL.md)
 
 ---
 

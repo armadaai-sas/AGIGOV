@@ -68,6 +68,7 @@
     "test:billing": "tsx scripts/test-billing-p2.ts",
     "test:webhook": "tsx scripts/test-webhook-p3.ts",
     "p4:finance-e2e": "tsx scripts/p4-finance-project-e2e.ts",
+    "p5:verify-network": "tsx scripts/p5-verify-network.ts",
     "reconcile:dashboard-ledger": "tsx scripts/reconcile-dashboard-ledger.ts",
     "reconcile:dashboard-ledger:sql": "bash scripts/reconcile-dashboard-ledger-sql.sh",
     "backup:restore-test": "bash scripts/backup-prod-light-restore-test.sh",
