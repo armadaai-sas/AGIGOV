@@ -17,6 +17,7 @@ import { castCneVote, getCneConsultation } from '../pilot/cne-consulta.js';
 import {
   getUsageSummary,
   reconcileMeteringWithLedger,
+  reconcileMeteringWithCheckpoints,
   seedDemoMeteringIfEmpty,
   estimateIaauInvoiceUsd,
 } from '../billing/metering.js';
@@ -24,6 +25,8 @@ import { buildChargeCatalog } from '../billing/catalog.js';
 import { assertFreeCostZero, resolvePlan } from '../billing/plan.js';
 import { getBillingFreeze, clearBillingFreeze } from '../billing/freeze.js';
 import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
+import { claimTenantSeat, getTenantSeats, setTenantSaasPlan } from '../billing/seats.js';
+import type { AgigovPlan } from '../billing/plan.js';
 import { getDatasetById, getPublishedDatasets, runAggregationPipeline } from '../data-trust/aggregation.js';
 import { processVesPaymentWebhook } from '../pilot/payment-webhook.js';
 import { verifyPilotClosure, PILOT_PROCESS_ID } from '../pilot/multisig-acta.js';
@@ -561,15 +564,22 @@ app.post('/api/public/cne/vote', (req, res) => {
   }
 });
 
-/** IaaU metering + catálogo cobro P0. */
-app.get('/api/public/billing/usage', (req, res) => {
+/** IaaU metering + catálogo cobro P0/P1. */
+app.get('/api/public/billing/usage', async (req, res) => {
   try {
     seedDemoMeteringIfEmpty();
     const jurisdictionId =
       typeof req.query.jurisdictionId === 'string' ? req.query.jurisdictionId : undefined;
     const period = typeof req.query.period === 'string' ? req.query.period : undefined;
     const summary = getUsageSummary(jurisdictionId, period);
-    const reconciliation = reconcileMeteringWithLedger({ freezeOnFail: true });
+    let reconciliation;
+    try {
+      reconciliation = await reconcileMeteringWithCheckpoints(getCoreDb(), {
+        freezeOnFail: true,
+      });
+    } catch {
+      reconciliation = reconcileMeteringWithLedger({ freezeOnFail: true });
+    }
     const invoice = estimateIaauInvoiceUsd(jurisdictionId, period);
     const freeGuard = assertFreeCostZero();
     res.json({
@@ -659,6 +669,59 @@ app.post('/api/ops/billing/unfreeze', (req, res) => {
   res.json({ ok: true, billingFreeze: clearBillingFreeze() });
 });
 
+/** P1: seats SaaS por tenant. */
+app.get('/api/ops/tenants/:slug/seats', async (req, res) => {
+  try {
+    const seats = await getTenantSeats(getCoreDb(), req.params.slug);
+    if (!seats) {
+      res.status(404).json({ error: 'Tenant no encontrado' });
+      return;
+    }
+    res.json({ updatedAt: new Date().toISOString(), ...seats });
+  } catch (e) {
+    res.status(500).json({ error: e instanceof Error ? e.message : 'seats error' });
+  }
+});
+
+app.post('/api/ops/tenants/:slug/seats/claim', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE' });
+    return;
+  }
+  try {
+    const email = typeof req.body?.email === 'string' ? req.body.email : '';
+    const seats = await claimTenantSeat(getCoreDb(), req.params.slug, email);
+    res.json({ ok: true, ...seats });
+  } catch (e) {
+    res.status(400).json({ error: e instanceof Error ? e.message : 'claim inválido' });
+  }
+});
+
+app.post('/api/ops/tenants/:slug/saas-plan', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE' });
+    return;
+  }
+  const key = process.env.AGIGOV_OPS_API_KEY?.trim();
+  if (key && req.header('X-Ops-Key') !== key) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+  try {
+    const plan = String(req.body?.plan ?? '') as AgigovPlan;
+    if (!['free', 'saas', 'sovereign'].includes(plan)) {
+      res.status(400).json({ error: 'plan debe ser free|saas|sovereign' });
+      return;
+    }
+    const seatLimit =
+      typeof req.body?.seatLimit === 'number' ? req.body.seatLimit : undefined;
+    const seats = await setTenantSaasPlan(getCoreDb(), req.params.slug, plan, seatLimit);
+    res.json({ ok: true, ...seats });
+  } catch (e) {
+    res.status(400).json({ error: e instanceof Error ? e.message : 'saas-plan inválido' });
+  }
+});
+
 /** Data Trust — catálogo agregados k-anonymized (P2 demo). */
 app.get('/api/public/data-trust/datasets', (_req, res) => {
   try {
@@ -737,9 +800,14 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/reports/irregularity': { post: { summary: 'Reporte centinela ciudadano' } },
       '/api/public/cne/consultation': { get: { summary: 'Consulta CNE-1' } },
       '/api/public/cne/vote': { post: { summary: 'Voto SET demo cifrado' } },
-      '/api/public/billing/usage': { get: { summary: 'Uso IaaU + invoice + freeGuard + freeze' } },
-      '/api/public/billing/catalog': { get: { summary: 'Catálogo cobro P0' } },
+      '/api/public/billing/usage': {
+        get: { summary: 'Uso IaaU + invoice + freeGuard + freeze + checkpoint reconcile P1' },
+      },
+      '/api/public/billing/catalog': { get: { summary: 'Catálogo cobro P0/P1 (seats SaaS)' } },
       '/api/public/billing/egs-preview': { post: { summary: 'Preview fee EGS 10% Δ' } },
+      '/api/ops/tenants/{slug}/seats': { get: { summary: 'Cupo seats SaaS del tenant' } },
+      '/api/ops/tenants/{slug}/seats/claim': { post: { summary: 'Claim seat operador' } },
+      '/api/ops/tenants/{slug}/saas-plan': { post: { summary: 'Set plan SaaS del tenant (ops key)' } },
       '/api/public/data-trust/datasets': { get: { summary: 'Catálogo Data Trust k-anonymized' } },
       '/api/public/payments/webhook': { post: { summary: 'Webhook pasarela VES (stub)' } },
       '/api/public/pilot': { get: { summary: 'Estado piloto nacional' } },

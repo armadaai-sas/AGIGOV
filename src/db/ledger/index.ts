@@ -7,6 +7,7 @@ import {
 } from '../client.js';
 import { ConflictError } from '../sync/conflicts.js';
 import { assertLedgerWritable } from '../../security/panic.js';
+import { recordMeterEvent } from '../../billing/metering.js';
 
 export interface RegisterVoteInput {
   payloadHash: string;
@@ -289,6 +290,16 @@ export async function upsertProcessCheckpoint(input: {
       },
     });
 
+    return checkpoint;
+  }).then((checkpoint) => {
+    if (input.status === 'committed' || input.status === 'published') {
+      recordMeterEvent({
+        unit: 'ledger-commit',
+        quantity: 1,
+        jurisdictionId: input.originNodeId,
+        processId: input.processId,
+      });
+    }
     return checkpoint;
   });
 }

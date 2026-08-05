@@ -1,0 +1,4 @@
+-- P1: SaaS plan + seats on PilotTenant
+ALTER TABLE "PilotTenant" ADD COLUMN IF NOT EXISTS "saasPlan" TEXT NOT NULL DEFAULT 'free';
+ALTER TABLE "PilotTenant" ADD COLUMN IF NOT EXISTS "seatLimit" INTEGER NOT NULL DEFAULT 5;
+ALTER TABLE "PilotTenant" ADD COLUMN IF NOT EXISTS "activeSeatEmails" JSONB;

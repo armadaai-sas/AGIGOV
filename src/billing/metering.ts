@@ -119,20 +119,23 @@ export function getUsageSummary(
   };
 }
 
-/**
- * Conciliación: hashes únicos + freeze de factura si falla.
- * P0: integridad de eventos; P1 enlazará commits reales de ProcessCheckpoint.
- */
-export function reconcileMeteringWithLedger(options?: {
-  freezeOnFail?: boolean;
-}): {
+export type MeterReconcileResult = {
   ok: boolean;
   eventCount: number;
   duplicateHashes: string[];
+  missingCheckpoints: string[];
+  checkpointLinked: number;
   billingFrozen: boolean;
   billable: boolean;
   plan: string;
-} {
+};
+
+/**
+ * Conciliación P0: hashes únicos + freeze si falla.
+ */
+export function reconcileMeteringWithLedger(options?: {
+  freezeOnFail?: boolean;
+}): MeterReconcileResult {
   const events = readEvents();
   const seen = new Set<string>();
   const duplicateHashes: string[] = [];
@@ -150,6 +153,64 @@ export function reconcileMeteringWithLedger(options?: {
     ok,
     eventCount: events.length,
     duplicateHashes,
+    missingCheckpoints: [],
+    checkpointLinked: 0,
+    billingFrozen: freeze.frozen,
+    billable: ok && !freeze.frozen && plan !== 'free',
+    plan,
+  };
+}
+
+/**
+ * Conciliación P1: hashes únicos + ProcessCheckpoint para unidades billables con processId.
+ */
+export async function reconcileMeteringWithCheckpoints(
+  db: {
+    processCheckpoint: {
+      findMany: (args: {
+        where: { processId: { in: string[] } };
+        select: { processId: true };
+      }) => Promise<{ processId: string }[]>;
+    };
+  },
+  options?: { freezeOnFail?: boolean },
+): Promise<MeterReconcileResult> {
+  const base = reconcileMeteringWithLedger({ freezeOnFail: false });
+  const events = readEvents();
+  const linkedUnits: MeterUnit[] = ['ledger-commit', 'milestone-validated'];
+  const processIds = [
+    ...new Set(
+      events
+        .filter((e) => linkedUnits.includes(e.unit) && typeof e.processId === 'string' && e.processId.length > 0)
+        .map((e) => e.processId as string),
+    ),
+  ];
+  let missingCheckpoints: string[] = [];
+  let checkpointLinked = 0;
+  if (processIds.length > 0) {
+    const found = await db.processCheckpoint.findMany({
+      where: { processId: { in: processIds } },
+      select: { processId: true },
+    });
+    const foundSet = new Set(found.map((r) => r.processId));
+    missingCheckpoints = processIds.filter((id) => !foundSet.has(id));
+    checkpointLinked = foundSet.size;
+  }
+  const ok = base.duplicateHashes.length === 0 && missingCheckpoints.length === 0;
+  if (!ok && options?.freezeOnFail !== false) {
+    const reason =
+      base.duplicateHashes.length > 0
+        ? `metering_duplicate_hashes:${base.duplicateHashes.slice(0, 3).join(',')}`
+        : `metering_missing_checkpoint:${missingCheckpoints.slice(0, 3).join(',')}`;
+    freezeBilling(reason);
+  }
+  const freeze = getBillingFreeze();
+  const plan = resolvePlan();
+  return {
+    ...base,
+    ok,
+    missingCheckpoints,
+    checkpointLinked,
     billingFrozen: freeze.frozen,
     billable: ok && !freeze.frozen && plan !== 'free',
     plan,

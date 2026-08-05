@@ -67,6 +67,22 @@ export function buildChargeCatalog(plan: AgigovPlan = resolvePlan()): {
       billable: plan !== 'free',
     },
     {
+      id: 'saas-seat',
+      layer: 'saas',
+      unit: 'operator-seat',
+      priceUsd: plan === 'free' ? 0 : plan === 'sovereign' ? 0 : 120,
+      priceNote:
+        plan === 'free'
+          ? '1 seat incluido · claim vía /api/ops/tenants/:slug/seats'
+          : plan === 'sovereign'
+            ? 'Seats incluidos en licencia sovereign'
+            : 'Seat adicional / año · cupo en PilotTenant.seatLimit',
+      ledgerSource: 'PilotTenant.activeSeatEmails',
+      payer: 'tenant_state',
+      invoiceWhen: 'on_seat_claim if over included + annual',
+      billable: plan === 'saas',
+    },
+    {
       id: 'iaau-milestone',
       layer: 'iaau',
       unit: IAAU_PRIMARY_UNIT,
