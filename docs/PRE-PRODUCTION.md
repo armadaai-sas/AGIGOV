@@ -36,7 +36,7 @@ Checklist y runbooks para pasar de implementación a **piloto nacional** despleg
 | **Ligero** (recomendado) | `./scripts/prod-up-light.sh` | ~900 MB–1.2 GB |
 | Completo (5 agentes) | `npm run infra:up:prod` | ~2.5–3.5 GB |
 
-Sizing: **[SERVER-SIZING.md](SERVER-SIZING.md)**
+Sizing: **[SERVER-SIZING.md](SERVER-SIZING.md)** · Limpieza P3: **[P3-CLEANUP.md](P3-CLEANUP.md)** · P2 nacional: **[P2-FASE6-NACIONAL.md](P2-FASE6-NACIONAL.md)**
 
 ## Piloto multi-sig
 

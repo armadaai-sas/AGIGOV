@@ -28,7 +28,10 @@ import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
 import { claimTenantSeat, getTenantSeats, setTenantSaasPlan } from '../billing/seats.js';
 import type { AgigovPlan } from '../billing/plan.js';
 import { getDatasetById, getPublishedDatasets, runAggregationPipeline } from '../data-trust/aggregation.js';
-import { processVesPaymentWebhook } from '../pilot/payment-webhook.js';
+import {
+  processVesPaymentWebhook,
+  WebhookAuthError,
+} from '../pilot/payment-webhook.js';
 import { verifyPilotClosure, PILOT_PROCESS_ID } from '../pilot/multisig-acta.js';
 import {
   authenticateTenantIngest,
@@ -73,7 +76,19 @@ const app = express();
 const port = Number(process.env.PUBLIC_API_PORT ?? 3001);
 const NODE: NodeIdentity = nodeIdentityFromEnv();
 
-app.use(express.json({ limit: '32kb' }));
+type RequestWithRawBody = Request & { rawBody?: string };
+
+app.use(
+  express.json({
+    limit: '32kb',
+    verify: (req, _res, buf) => {
+      const url = req.url ?? '';
+      if (url.includes('/payments/webhook')) {
+        (req as RequestWithRawBody).rawBody = buf.toString('utf8');
+      }
+    },
+  }),
+);
 app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -510,7 +525,7 @@ app.post('/api/public/reports/irregularity', async (req, res) => {
   }
 });
 
-/** Pasarela VES — webhook stub (Paso 7). 👤 Firmar con secreto proveedor en producción. */
+/** Pasarela VES — webhook con HMAC (`X-Agigov-Signature`). */
 app.post('/api/public/payments/webhook', async (req, res) => {
   if (isPanicMode()) {
     res.status(503).json({ error: 'Sistema en FREEZE — pagos suspendidos' });
@@ -519,9 +534,19 @@ app.post('/api/public/payments/webhook', async (req, res) => {
 
   try {
     const origin = process.env.ORIGIN_NODE_ID?.trim() ?? 'node-mar-north-01';
-    const result = await processVesPaymentWebhook(req.body, origin);
+    const withRaw = req as RequestWithRawBody;
+    const rawBody = withRaw.rawBody ?? JSON.stringify(req.body ?? {});
+    const result = await processVesPaymentWebhook(req.body, origin, {
+      rawBody,
+      signatureHeader:
+        (req.header('X-Agigov-Signature') ?? req.header('x-agigov-signature')) || undefined,
+    });
     res.status(result.ok ? 201 : 422).json(result);
   } catch (error) {
+    if (error instanceof WebhookAuthError) {
+      res.status(401).json({ error: error.message });
+      return;
+    }
     const msg = error instanceof Error ? error.message : 'Webhook inválido';
     res.status(400).json({ error: msg });
   }
@@ -809,7 +834,9 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/ops/tenants/{slug}/seats/claim': { post: { summary: 'Claim seat operador' } },
       '/api/ops/tenants/{slug}/saas-plan': { post: { summary: 'Set plan SaaS del tenant (ops key)' } },
       '/api/public/data-trust/datasets': { get: { summary: 'Catálogo Data Trust k-anonymized' } },
-      '/api/public/payments/webhook': { post: { summary: 'Webhook pasarela VES (stub)' } },
+      '/api/public/payments/webhook': {
+        post: { summary: 'Webhook pasarela VES (HMAC X-Agigov-Signature)' },
+      },
       '/api/public/pilot': { get: { summary: 'Estado piloto nacional' } },
     },
   });

@@ -43,7 +43,8 @@ export function useInstitutionAuth() {
   return {
     session,
     isAuthenticated: session !== null,
-    isRegistered: registered,
+    /** Perfil local espejo; auth real = isAuthenticated (server session). */
+    isRegistered: session !== null || registered,
     refresh,
     logout,
   };

@@ -1,4 +1,5 @@
 # Workflow Dify — Pipeline logístico (Fase 3 stub)
+# P3: referencia solamente — runtime = src/agents/ · ver workflows/README.md
 # Exportar a Dify v1.x; conectar tools HTTP → src/agents handlers
 
 name: armada-logistico-v1

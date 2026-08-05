@@ -14,7 +14,7 @@ const ENDPOINTS = [
   { method: 'POST', path: '/api/public/reports/irregularity', desc: 'Reporte centinela ciudadano' },
   { method: 'GET', path: '/api/public/cne/consultation', desc: 'Consulta ciudadana verificable (demo)' },
   { method: 'POST', path: '/api/public/cne/vote', desc: 'Voto agregado consulta demo' },
-  { method: 'POST', path: '/api/public/payments/webhook', desc: 'Webhook pasarela demo (stub)' },
+  { method: 'POST', path: '/api/public/payments/webhook', desc: 'Webhook pasarela VES (HMAC)' },
   { method: 'GET', path: '/api/public/pilot', desc: 'Estado multi-sig del despliegue demo' },
   { method: 'GET', path: '/api/public/openapi.json', desc: 'OpenAPI stub' },
 ] as const;
@@ -94,8 +94,9 @@ curl -s http://127.0.0.1:3001/api/public/health | jq .`}</pre>
           <Wallet className="h-6 w-6 text-amber-300" aria-hidden />
           <h2 className="mt-3 font-display text-lg font-semibold">Pasarela VES (Paso 7)</h2>
           <p className="agigov-lead mt-2">
-            Webhook stub <code>POST /api/public/payments/webhook</code> — convierte pago{' '}
-            <code>paid</code> en aporte ledger. 👤 Requiere proveedor real + HMAC en producción.
+            <code>POST /api/public/payments/webhook</code> — pago <code>paid</code> → aporte ledger.
+            Firma: header <code>X-Agigov-Signature: sha256=&lt;hmac-hex&gt;</code> con secreto{' '}
+            <code>AGIGOV_PAYMENT_WEBHOOK_SECRET</code> (obligatorio en production).
           </p>
           <pre className="agigov-dev-code mt-3 text-xs">{`{
   "externalRef": "pay-001",

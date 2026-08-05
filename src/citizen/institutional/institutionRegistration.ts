@@ -78,13 +78,11 @@ export function saveInstitutionRegistration(data: InstitutionRegistration): void
 
 export function isInstitutionRegistrationComplete(): boolean {
   const r = loadInstitutionRegistration();
-  return Boolean(
-    r.legalName.trim() &&
-      r.officialEmail.trim() &&
-      r.passwordHash &&
-      r.acceptedTerms &&
-      r.registeredAt,
+  // passwordHash local ya no es prueba de auth — solo espejo de perfil post-sesión.
+  const profileOk = Boolean(
+    r.legalName.trim() && r.officialEmail.trim() && r.acceptedTerms && r.registeredAt,
   );
+  return profileOk && (r.passwordHash === 'server-managed' || Boolean(r.passwordHash));
 }
 
 export function clearInstitutionRegistration(): void {

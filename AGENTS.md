@@ -125,7 +125,7 @@ npm run agents:flow    # demo pipeline local
 npm run bus:worker     # worker con handler de AGENT_ROLE
 ```
 
-Código: `src/agents/` · Workflows Dify stub: `workflows/`
+Código: `src/agents/` · Stubs Dify (referencia, no runtime): `workflows/` — ver `workflows/README.md`
 
 ## Interfaz ciudadana (Fase 4)
 

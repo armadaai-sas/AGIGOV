@@ -1,4 +1,5 @@
 # Workflow Dify — Validación centinela (Fase 3 stub)
+# P3: referencia solamente — runtime = src/agents/ · ver workflows/README.md
 
 name: armada-centinela-v1
 version: "1.0.0"

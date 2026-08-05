@@ -100,13 +100,9 @@ export function isInstitutionAuthenticated(): boolean {
   return loadInstitutionSession() !== null;
 }
 
-export async function hashInstitutionPassword(password: string): Promise<string> {
-  // Mantener compatibilidad con el flujo previo que guarda draft local de registro.
-  const data = new TextEncoder().encode(`${password}:agigov-institution-sandbox`);
-  const buf = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(buf))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
+/** @deprecated No hashear passwords en cliente — el server usa scrypt. */
+export async function hashInstitutionPassword(_password: string): Promise<string> {
+  return 'server-managed';
 }
 
 export async function loginInstitution(

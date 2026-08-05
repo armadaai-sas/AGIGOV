@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "agigov-armada",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -66,6 +66,7 @@
     "panic:drill": "tsx scripts/panic-drill.ts",
     "test:smoke": "tsx scripts/smoke-preprod.ts",
     "test:billing": "tsx scripts/test-billing-p2.ts",
+    "test:webhook": "tsx scripts/test-webhook-p3.ts",
     "reconcile:dashboard-ledger": "tsx scripts/reconcile-dashboard-ledger.ts",
     "reconcile:dashboard-ledger:sql": "bash scripts/reconcile-dashboard-ledger-sql.sh",
     "backup:restore-test": "bash scripts/backup-prod-light-restore-test.sh",
