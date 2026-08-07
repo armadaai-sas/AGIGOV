@@ -31,13 +31,28 @@ function section(name: string) {
 }
 
 {
-  const bad = assertFreeCostZero({
+  const badHost = assertFreeCostZero({
     AGIGOV_PLAN: 'free',
     AGIGOV_HOSTING: 'agigov',
   });
-  assert.equal(bad.ok, false);
-  assert.ok(bad.violations.length >= 1);
+  assert.equal(badHost.ok, false);
+  assert.ok(badHost.violations.length >= 1);
   section('free + agigov hosting violates');
+}
+
+{
+  const coerced = assertFreeCostZero({
+    AGIGOV_PLAN: 'free',
+    AGIGOV_HOSTING: 'byo',
+    AGIGOV_EMAIL_MODE: 'resend',
+    AGIGOV_RESEND_API_KEY: 're_test',
+    AGIGOV_EMAIL_BYO: '0',
+    AGIGOV_AI_ENABLED: '0',
+  });
+  assert.equal(coerced.ok, true);
+  assert.equal(coerced.effectiveEmailMode, 'outbox');
+  assert.ok(coerced.warnings.length >= 1);
+  section('free + resend without BYO coerces to outbox (warning only)');
 }
 
 // catalog seats line

@@ -85,6 +85,7 @@ const INSTITUTION_SESSION_TOKEN_KEY = 'agigov-institution-session-token-v1';
 async function fetchPublic<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { Accept: 'application/json' },
+    credentials: 'include',
   });
   if (!res.ok) throw new Error(`API ${path} → ${res.status}`);
   return res.json() as Promise<T>;
@@ -97,6 +98,14 @@ function getOpsAuthHeaders(extra?: HeadersInit): HeadersInit {
     ...(extra ?? {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
+}
+
+async function fetchOps<T>(path: string, init?: RequestInit): Promise<Response> {
+  return fetch(`${API_BASE}${path}`, {
+    ...init,
+    credentials: 'include',
+    headers: getOpsAuthHeaders(init?.headers),
+  });
 }
 
 export type PublicConfigResponse = {
@@ -539,8 +548,8 @@ export type PilotTenantSummary = {
 };
 
 export function fetchPilotTenants() {
-  return fetch(`${API_BASE}/api/ops/tenants`, {
-    headers: getOpsAuthHeaders({ Accept: 'application/json' }),
+  return fetchOps('/api/ops/tenants', {
+    headers: { Accept: 'application/json' },
   }).then(async (res) => {
     const json = (await res.json()) as { tenants: PilotTenantSummary[]; count: number; error?: string };
     if (!res.ok) throw new Error(json.error ?? `ops tenants → ${res.status}`);
@@ -573,9 +582,9 @@ export async function provisionPilotFromProfile(body: {
   quarter: number;
   annualBaseline?: number;
 }): Promise<ProvisionPilotResponse> {
-  const res = await fetch(`${API_BASE}/api/ops/tenants/provision`, {
+  const res = await fetchOps('/api/ops/tenants/provision', {
     method: 'POST',
-    headers: getOpsAuthHeaders({ 'Content-Type': 'application/json', Accept: 'application/json' }),
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify(body),
   });
   const json = (await res.json()) as ProvisionPilotResponse & { error?: string };
@@ -593,8 +602,8 @@ export type TenantOnboardingStatus = {
 };
 
 export function fetchTenantOnboarding(slug: string) {
-  return fetch(`${API_BASE}/api/ops/tenants/${encodeURIComponent(slug)}/onboarding`, {
-    headers: getOpsAuthHeaders({ Accept: 'application/json' }),
+  return fetchOps(`/api/ops/tenants/${encodeURIComponent(slug)}/onboarding`, {
+    headers: { Accept: 'application/json' },
   }).then(async (res) => {
     const json = (await res.json()) as TenantOnboardingStatus & { error?: string };
     if (!res.ok) throw new Error(json.error ?? `ops onboarding → ${res.status}`);
@@ -603,9 +612,9 @@ export function fetchTenantOnboarding(slug: string) {
 }
 
 async function postOpsJson<T>(path: string, body?: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetchOps(path, {
     method: 'POST',
-    headers: getOpsAuthHeaders({ 'Content-Type': 'application/json', Accept: 'application/json' }),
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
   const json = (await res.json()) as T & { error?: string };

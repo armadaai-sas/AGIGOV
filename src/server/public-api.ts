@@ -75,6 +75,11 @@ import {
   toSessionResponse,
   verifyInstitutionMagicLink,
 } from './institution-auth.js';
+import {
+  buildInstitutionSessionCookie,
+  clearInstitutionSessionCookie,
+  resolveCorsAllowOrigin,
+} from './session-cookie.js';
 import { buildComunicadorReport } from '../pilot/comunicador-report.js';
 import { assessPqcReadiness } from '../security/pqc-guardian.js';
 import { sendBaselineReadyEmail } from './email/index.js';
@@ -97,9 +102,19 @@ app.use(
   }),
 );
 app.use((_req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowed = resolveCorsAllowOrigin(_req.headers.origin);
+  if (allowed) {
+    res.setHeader('Access-Control-Allow-Origin', allowed);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Vary', 'Origin');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Accept, Authorization, X-Ops-Key, X-Agigov-Signature',
+  );
   next();
 });
 
@@ -116,6 +131,16 @@ function isOpsAuthExcluded(path: string): boolean {
     path === '/api/ops/health' ||
     path.startsWith('/api/ops/auth/') ||
     path.startsWith('/api/ops/ingest/')
+  );
+}
+
+function setSessionCookie(
+  res: Response,
+  bundle: { sessionToken: string; expiresAt: string },
+): void {
+  res.setHeader(
+    'Set-Cookie',
+    buildInstitutionSessionCookie(bundle.sessionToken, new Date(bundle.expiresAt)),
   );
 }
 
@@ -136,7 +161,10 @@ async function requireOpsAuth(req: OpsAuthRequest, res: Response, next: NextFunc
     return;
   }
 
-  const session = await resolveInstitutionSession(req.headers.authorization);
+  const session = await resolveInstitutionSession(
+    req.headers.authorization,
+    req.headers.cookie,
+  );
   if (!session) {
     res.status(401).json({ error: 'ops_auth_required' });
     return;
@@ -185,6 +213,7 @@ app.post('/api/ops/auth/register', async (req, res) => {
       phone: body.phone,
       phoneCountryCode: body.phoneCountryCode,
     });
+    setSessionCookie(res, session);
     res.status(201).json(session);
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'auth_register_error';
@@ -197,6 +226,7 @@ app.post('/api/ops/auth/login', async (req, res) => {
   try {
     const body = req.body as { email?: string; password?: string };
     const session = await loginInstitutionUser(body.email ?? '', body.password ?? '');
+    setSessionCookie(res, session);
     res.json(session);
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'auth_login_error';
@@ -231,7 +261,10 @@ app.post('/api/ops/auth/verification', async (req, res) => {
 });
 
 app.get('/api/ops/auth/session', async (req, res) => {
-  const session = await resolveInstitutionSession(req.headers.authorization);
+  const session = await resolveInstitutionSession(
+    req.headers.authorization,
+    req.headers.cookie,
+  );
   if (!session) {
     res.status(401).json({ error: 'invalid_session' });
     return;
@@ -240,7 +273,8 @@ app.get('/api/ops/auth/session', async (req, res) => {
 });
 
 app.post('/api/ops/auth/logout', async (req, res) => {
-  await revokeInstitutionSession(req.headers.authorization);
+  await revokeInstitutionSession(req.headers.authorization, req.headers.cookie);
+  res.setHeader('Set-Cookie', clearInstitutionSessionCookie());
   res.status(204).end();
 });
 
@@ -259,6 +293,7 @@ app.post('/api/ops/auth/magic-link/verify', async (req, res) => {
   const body = req.body as { token?: string };
   try {
     const session = await verifyInstitutionMagicLink(body.token ?? '');
+    setSessionCookie(res, session);
     res.json(session);
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'magic_link_verify_error';

@@ -2,6 +2,7 @@ import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypt
 
 import { getCoreDb, type InstitutionSession, type InstitutionUser } from '../db/client.js';
 import { sendActivationEmailOnly, sendRegistrationEmails } from './email/index.js';
+import { readInstitutionSessionTokenFromCookie } from './session-cookie.js';
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 12;
 const MAGIC_LINK_TTL_MS = 1000 * 60 * 20;
@@ -203,8 +204,10 @@ function parseBearerToken(authorization?: string): string | null {
 
 export async function resolveInstitutionSession(
   authorization?: string,
+  cookieHeader?: string,
 ): Promise<(InstitutionSession & { user: InstitutionUser }) | null> {
-  const token = parseBearerToken(authorization);
+  const token =
+    parseBearerToken(authorization) ?? readInstitutionSessionTokenFromCookie(cookieHeader);
   if (!token) return null;
 
   const db = getCoreDb();
@@ -223,8 +226,12 @@ export async function resolveInstitutionSession(
   return session;
 }
 
-export async function revokeInstitutionSession(authorization?: string): Promise<void> {
-  const token = parseBearerToken(authorization);
+export async function revokeInstitutionSession(
+  authorization?: string,
+  cookieHeader?: string,
+): Promise<void> {
+  const token =
+    parseBearerToken(authorization) ?? readInstitutionSessionTokenFromCookie(cookieHeader);
   if (!token) return;
   const db = getCoreDb();
   await db.institutionSession.updateMany({

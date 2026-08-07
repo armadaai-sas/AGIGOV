@@ -51,12 +51,14 @@ async function main(): Promise<void> {
   if (freeHard) {
     add('freeGuard', free.ok, free.ok ? 'cost-zero ok' : free.violations.join('; '));
   } else {
+    const warnNote =
+      free.warnings.length > 0 ? ` · warn: ${free.warnings[0]}` : '';
     add(
       'freeGuard',
-      true,
+      free.ok,
       free.ok
-        ? 'cost-zero ok'
-        : `WARN (soft): ${free.violations.join('; ')} — fijar outbox/BYO en Free`,
+        ? `cost-zero ok · emailEffective=${free.effectiveEmailMode}${warnNote}`
+        : free.violations.join('; '),
     );
   }
 
@@ -73,16 +75,17 @@ async function main(): Promise<void> {
 
   add('jurisdictions', Object.keys(JURISDICTIONS).length >= 4, `${Object.keys(JURISDICTIONS).join(',')}`);
 
-  const api = process.env.CORE_HEALTH_URL?.trim() || 'http://127.0.0.1:3001/api/ops/health';
+  const opsHealth =
+    process.env.OPS_HEALTH_URL?.trim() || 'http://127.0.0.1:3001/api/ops/health';
   const publicHealth =
     process.env.PUBLIC_HEALTH_URL?.trim() || 'http://127.0.0.1:3001/api/public/health';
   const sbx = process.env.SBX_HEALTH_URL?.trim() || 'http://127.0.0.1:3002/api/public/health';
 
-  const apiUp = await probe(api);
+  const apiUp = await probe(opsHealth);
   const pubUp = await probe(`${publicHealth}${publicHealth.includes('?') ? '&' : '?'}peer=0`);
   const sbxUp = await probe(`${sbx}${sbx.includes('?') ? '&' : '?'}peer=0`);
 
-  add('api.ops', apiUp, apiUp ? api : `${api} down — npm run api:public`);
+  add('api.ops', apiUp, apiUp ? opsHealth : `${opsHealth} down — npm run api:public`);
   add('api.public', pubUp, pubUp ? 'public health' : 'public API down');
   add('api.sandbox', sbxUp, sbxUp ? 'SBX up' : 'SBX down — npm run api:sandbox (opcional)');
 

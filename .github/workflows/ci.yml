@@ -8,6 +8,29 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: armada
+          POSTGRES_PASSWORD: armada
+          POSTGRES_DB: armada_core
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U armada -d armada_core"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://armada:armada@127.0.0.1:5432/armada_core?schema=public
+      AGIGOV_PLAN: free
+      AGIGOV_HOSTING: byo
+      AGIGOV_EMAIL_MODE: outbox
+      AGIGOV_AI_ENABLED: '0'
+      ORIGIN_NODE_ID: node-ci-01
+
     steps:
       - uses: actions/checkout@v4
 
@@ -17,6 +40,10 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - run: npx prisma generate --schema prisma/schema.prisma
+
+      - run: npx prisma migrate deploy --schema prisma/schema.prisma
 
       - run: npm run lint
 
@@ -37,5 +64,9 @@ jobs:
       - run: npm run p6:verify
 
       - run: npm run doctor
+
+      - run: npm run db:seed
+
+      - run: npm run p4:finance-e2e
 
       - run: npm run p9:go

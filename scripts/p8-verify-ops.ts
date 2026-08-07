@@ -67,6 +67,8 @@ async function main(): Promise<void> {
   assert('CI runs p5 verify', ci.includes('p5:verify-network'));
   assert('CI runs p6 verify', ci.includes('p6:verify'));
   assert('CI runs doctor', ci.includes('npm run doctor'));
+  assert('CI runs p4 finance E2E', ci.includes('p4:finance-e2e'));
+  assert('CI has Postgres service', ci.includes('postgres:'));
   assert('P8 runbook exists', existsSync(join(process.cwd(), 'docs/P8-OPS-CI.md')));
   assert('audit:run script exists', existsSync(join(process.cwd(), 'scripts/audit-run.sh')));
 

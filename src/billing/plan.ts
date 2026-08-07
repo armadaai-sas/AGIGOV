@@ -27,6 +27,10 @@ export type FreeGuardResult = {
   plan: AgigovPlan;
   hosting: HostingMode;
   violations: string[];
+  /** Misconfig que el runtime corrige (p. ej. Resend → outbox en Free). */
+  warnings: string[];
+  /** Modo de email efectivo tras coerción Free. */
+  effectiveEmailMode: 'outbox' | 'resend' | string;
   caps: {
     maxDays: number;
     maxTenants: number;
@@ -37,18 +41,29 @@ export type FreeGuardResult = {
   };
 };
 
+/** Mismo criterio que `src/server/email/dispatch.ts` — Free sin BYO nunca usa Resend compañía. */
+export function resolveEffectiveEmailMode(env: NodeJS.ProcessEnv = process.env): string {
+  const mode = (env.AGIGOV_EMAIL_MODE ?? 'outbox').trim().toLowerCase();
+  const plan = resolvePlan(env);
+  const emailByo = (env.AGIGOV_EMAIL_BYO ?? '0').trim() === '1';
+  if (plan === 'free' && mode === 'resend' && !emailByo) return 'outbox';
+  return mode || 'outbox';
+}
+
 /**
  * Free en hosting AGIGOV de pago = violación (costo para la compañía).
- * Free + Resend con key AGIGOV (sin BYO) = violación.
+ * Free + Resend sin BYO = warning (runtime coacciona a outbox; no falla el gate).
  */
 export function assertFreeCostZero(env: NodeJS.ProcessEnv = process.env): FreeGuardResult {
   const plan = resolvePlan(env);
   const hosting = resolveHosting(env);
   const violations: string[] = [];
+  const warnings: string[] = [];
 
   const emailMode = (env.AGIGOV_EMAIL_MODE ?? 'outbox').trim().toLowerCase();
   const emailByo = (env.AGIGOV_EMAIL_BYO ?? '0').trim() === '1';
   const hasResendKey = Boolean(env.AGIGOV_RESEND_API_KEY?.trim());
+  const effectiveEmailMode = resolveEffectiveEmailMode(env);
 
   if (plan === 'free' && hosting === 'agigov') {
     violations.push(
@@ -57,8 +72,8 @@ export function assertFreeCostZero(env: NodeJS.ProcessEnv = process.env): FreeGu
   }
 
   if (plan === 'free' && emailMode === 'resend' && hasResendKey && !emailByo) {
-    violations.push(
-      'Free + Resend requiere AGIGOV_EMAIL_BYO=1 (API key del cliente). Sin BYO, usar outbox/console.',
+    warnings.push(
+      'Free + Resend sin AGIGOV_EMAIL_BYO=1 → runtime usa outbox (sin costo compañía). Fijar MODE=outbox o BYO=1.',
     );
   }
 
@@ -71,6 +86,8 @@ export function assertFreeCostZero(env: NodeJS.ProcessEnv = process.env): FreeGu
     plan,
     hosting,
     violations,
+    warnings,
+    effectiveEmailMode,
     caps: {
       maxDays: FREE_MAX_DAYS,
       maxTenants: FREE_MAX_TENANTS,

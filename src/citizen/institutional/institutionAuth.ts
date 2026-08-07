@@ -1,6 +1,7 @@
 import { syncRegistrationFromSession } from './institutionRegistration.js';
 
 const SESSION_KEY = 'agigov-institution-session-v1';
+/** @deprecated Token vive en cookie httpOnly; se limpia si queda residual. */
 const SESSION_TOKEN_KEY = 'agigov-institution-session-token-v1';
 const API_BASE = import.meta.env.VITE_PUBLIC_API_URL ?? '';
 
@@ -22,14 +23,22 @@ export type InstitutionSession = {
   verificationStatus?: string | null;
 };
 
-function persistSession(token: string, session: InstitutionSession): void {
-  localStorage.setItem(SESSION_TOKEN_KEY, token);
+function clearLegacyTokenCache(): void {
+  try {
+    localStorage.removeItem(SESSION_TOKEN_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+function persistSession(session: InstitutionSession): void {
+  clearLegacyTokenCache();
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   syncRegistrationFromSession(session);
 }
 
 function clearPersistedSession(): void {
-  localStorage.removeItem(SESSION_TOKEN_KEY);
+  clearLegacyTokenCache();
   localStorage.removeItem(SESSION_KEY);
 }
 
@@ -51,12 +60,14 @@ export function loadInstitutionSession(): InstitutionSession | null {
 
 export function saveInstitutionSession(session: InstitutionSession): void {
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  clearLegacyTokenCache();
 }
 
 export function clearInstitutionSession(): void {
   clearPersistedSession();
 }
 
+/** @deprecated Prefer cookie httpOnly; Bearer residual solo si existe (migración). */
 export function getInstitutionSessionToken(): string | null {
   if (typeof window === 'undefined') return null;
   return localStorage.getItem(SESSION_TOKEN_KEY);
@@ -105,13 +116,18 @@ export async function hashInstitutionPassword(_password: string): Promise<string
   return 'server-managed';
 }
 
+const authFetchInit: RequestInit = {
+  credentials: 'include',
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+};
+
 export async function loginInstitution(
   email: string,
   password: string,
 ): Promise<{ ok: true; session: InstitutionSession } | { ok: false; error: 'invalid_credentials' | 'server_error' }> {
   const res = await fetch(`${API_BASE}/api/ops/auth/login`, {
+    ...authFetchInit,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({ email, password }),
   });
   const json = (await res.json().catch(() => ({}))) as {
@@ -129,12 +145,12 @@ export async function loginInstitution(
     };
   };
 
-  if (!res.ok || !json.sessionToken || !json.user || !json.expiresAt) {
+  if (!res.ok || !json.user || !json.expiresAt) {
     return { ok: false, error: json.error === 'invalid_credentials' ? 'invalid_credentials' : 'server_error' };
   }
 
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(json.sessionToken, session);
+  persistSession(session);
   return { ok: true, session };
 }
 
@@ -153,8 +169,8 @@ export async function registerInstitutionAuth(input: {
   phoneCountryCode?: string;
 }): Promise<{ ok: true; session: InstitutionSession } | { ok: false; error: 'email_already_registered' | 'invalid_registration_payload' | 'password_too_short' | 'server_error' }> {
   const res = await fetch(`${API_BASE}/api/ops/auth/register`, {
+    ...authFetchInit,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify(input),
   });
 
@@ -165,7 +181,7 @@ export async function registerInstitutionAuth(input: {
     user?: Parameters<typeof buildSessionFromApi>[0];
   };
 
-  if (!res.ok || !json.sessionToken || !json.user || !json.expiresAt) {
+  if (!res.ok || !json.user || !json.expiresAt) {
     const err = json.error;
     if (
       err === 'email_already_registered' ||
@@ -178,22 +194,18 @@ export async function registerInstitutionAuth(input: {
   }
 
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(json.sessionToken, session);
+  persistSession(session);
   return { ok: true, session };
 }
 
 export async function refreshInstitutionSessionFromServer(): Promise<InstitutionSession | null> {
-  const token = getInstitutionSessionToken();
-  if (!token) {
-    clearPersistedSession();
-    return null;
-  }
+  const headers: HeadersInit = { Accept: 'application/json' };
+  const legacy = getInstitutionSessionToken();
+  if (legacy) headers.Authorization = `Bearer ${legacy}`;
 
   const res = await fetch(`${API_BASE}/api/ops/auth/session`, {
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: 'include',
+    headers,
   });
   if (!res.ok) {
     clearPersistedSession();
@@ -214,7 +226,7 @@ export async function refreshInstitutionSessionFromServer(): Promise<Institution
   };
 
   const session = buildSessionFromApi(json.user, json.sessionExpiresAt);
-  saveInstitutionSession(session);
+  persistSession(session);
   syncRegistrationFromSession(session);
   return session;
 }
@@ -226,23 +238,24 @@ export async function bootstrapInstitutionSessionAfterRegister(
 }
 
 export async function logoutInstitution(): Promise<void> {
-  const token = getInstitutionSessionToken();
-  if (token) {
-    await fetch(`${API_BASE}/api/ops/auth/logout`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    }).catch(() => undefined);
-  }
+  const headers: HeadersInit = {};
+  const legacy = getInstitutionSessionToken();
+  if (legacy) headers.Authorization = `Bearer ${legacy}`;
+  await fetch(`${API_BASE}/api/ops/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+  }).catch(() => undefined);
   clearPersistedSession();
 }
 
-/** Consume magic link from email (?magic=) → sesión server-side. */
+/** Consume magic link from email (?magic=) → sesión server-side (cookie httpOnly). */
 export async function verifyInstitutionMagicLinkToken(
   magicToken: string,
 ): Promise<{ ok: true; session: InstitutionSession } | { ok: false; error: string }> {
   const res = await fetch(`${API_BASE}/api/ops/auth/magic-link/verify`, {
+    ...authFetchInit,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({ token: magicToken }),
   });
   const json = (await res.json().catch(() => ({}))) as {
@@ -259,10 +272,10 @@ export async function verifyInstitutionMagicLinkToken(
       contactRole: string | null;
     };
   };
-  if (!res.ok || !json.sessionToken || !json.user || !json.expiresAt) {
+  if (!res.ok || !json.user || !json.expiresAt) {
     return { ok: false, error: json.error ?? 'invalid_magic_link' };
   }
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(json.sessionToken, session);
+  persistSession(session);
   return { ok: true, session };
 }

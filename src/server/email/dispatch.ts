@@ -1,6 +1,7 @@
 import { appendFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+import { resolveEffectiveEmailMode } from '../../billing/plan.js';
 import type { RenderedEmail } from './types.js';
 
 export type DispatchChannel = 'outbox' | 'resend' | 'resend_failed' | 'blocked' | 'log';
@@ -22,14 +23,7 @@ function outboxPath(): string {
 }
 
 function emailMode(): string {
-  const mode = (process.env.AGIGOV_EMAIL_MODE ?? 'outbox').trim().toLowerCase();
-  const plan = (process.env.AGIGOV_PLAN ?? 'free').trim().toLowerCase();
-  const emailByo = (process.env.AGIGOV_EMAIL_BYO ?? '0').trim() === '1';
-  // Free sin BYO: nunca usar Resend de la compañía (costo ≈ $0)
-  if (plan === 'free' && mode === 'resend' && !emailByo) {
-    return 'outbox';
-  }
-  return mode;
+  return resolveEffectiveEmailMode();
 }
 
 function fromAddress(): string {

@@ -13,15 +13,16 @@
 | 5 | Auth localStorage | Sesión = cache de token server; quitar hash local de password | hecho |
 | 6 | Docs Developers | Copy webhook HMAC | hecho |
 
-## Auth — modelo post-P3
+## Auth — modelo post-fix cookie
 
 ```
-Browser: sessionToken en localStorage (cache UX)
-    → Authorization: Bearer … en /api/ops/*
+Browser: perfil en localStorage (cache UX, sin token)
+    → Cookie httpOnly `agigov_institution_session` en /api/ops/*
+    → Bearer residual solo migración / clientes API
 Server: InstitutionSession en DB (fuente de verdad)
 ```
 
-- Login/register/magic-link **siempre** server-side.
+- Login/register/magic-link **siempre** server-side + `Set-Cookie`.
 - Blob `agigov-institution-registration-v1` solo espejo de perfil (sin password real).
 - `passwordHash: 'server-managed'` en cliente.
 

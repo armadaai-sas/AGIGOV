@@ -14,7 +14,7 @@ const ENDPOINTS = [
   { method: 'POST', path: '/api/public/reports/irregularity', desc: 'Reporte centinela ciudadano' },
   { method: 'GET', path: '/api/public/cne/consultation', desc: 'Consulta ciudadana verificable (demo)' },
   { method: 'POST', path: '/api/public/cne/vote', desc: 'Voto agregado consulta demo' },
-  { method: 'POST', path: '/api/public/payments/webhook', desc: 'Webhook pasarela VES (HMAC)' },
+  { method: 'POST', path: '/api/public/payments/webhook', desc: 'Webhook HMAC (pasarela pendiente — no es cobro bancario en prod)' },
   { method: 'GET', path: '/api/public/pilot', desc: 'Estado multi-sig del despliegue demo' },
   { method: 'GET', path: '/api/public/openapi.json', desc: 'OpenAPI stub' },
 ] as const;

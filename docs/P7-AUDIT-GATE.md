@@ -44,7 +44,7 @@ npm run doctor
 | IAP v2 PQC híbrido | P6 residual | Sin claim productivo |
 | WireGuard / LoRaWAN / Lighthouse | P2 | Hardware / wall-clock |
 | Proveedor fiat real | P3 residual | HMAC listo |
-| Free + Resend sin BYO en `.env` local | Soft en doctor | Usar `AGIGOV_EMAIL_MODE=outbox` o `AGIGOV_EMAIL_BYO=1` |
+| Free + Resend sin BYO en `.env` local | Soft warn | Runtime coacciona a outbox; doctor reporta `emailEffective` |
 
 ## Dictamen
 

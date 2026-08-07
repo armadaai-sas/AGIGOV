@@ -59,9 +59,11 @@ data/edge.db
 data/pilot-tenants/*.credentials.json
 data/pilot-tenants/*.institution-keys.json
 data/pilot-tenants/*.core-keys.json
+data/*.jsonl
 data/email-outbox.jsonl
 data/panic-drill-log.jsonl
 data/federation-inbox.jsonl
+data/billing-freeze.json
 prisma-edge/data/
 src/generated/
 infra/wireguard/config/
