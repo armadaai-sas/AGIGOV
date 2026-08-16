@@ -1,0 +1,100 @@
+name: Deploy prod-light (DigitalOcean)
+
+# Deploy cloud-only: GitHub Actions → Droplet. No PC required after SSH deploy key is on the droplet.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.cursor/**'
+
+concurrency:
+  group: deploy-prod-light
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+      DROPLET_USER: ${{ secrets.DROPLET_USER }}
+      DROPLET_DIR: ${{ secrets.DROPLET_DIR }}
+
+    steps:
+      - name: Require deploy secrets
+        run: |
+          missing=0
+          for v in DROPLET_HOST DROPLET_USER DROPLET_SSH_KEY; do
+            if [ -z "${!v:-}" ] && [ "$v" != "DROPLET_SSH_KEY" ]; then
+              echo "Missing secret: $v"
+              missing=1
+            fi
+          done
+          if [ -z "${{ secrets.DROPLET_SSH_KEY }}" ]; then
+            echo "Missing secret: DROPLET_SSH_KEY"
+            missing=1
+          fi
+          if [ -z "$DROPLET_HOST" ] || [ -z "$DROPLET_USER" ]; then
+            missing=1
+          fi
+          if [ "$missing" = "1" ]; then
+            echo "Configure repo secrets: DROPLET_HOST, DROPLET_USER, DROPLET_SSH_KEY (optional DROPLET_DIR=/opt/armada)"
+            exit 1
+          fi
+          echo "DROPLET_DIR=${DROPLET_DIR:-/opt/armada}" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH deploy key
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.DROPLET_SSH_KEY }}" > ~/.ssh/do_deploy
+          chmod 600 ~/.ssh/do_deploy
+          ssh-keyscan -H "$DROPLET_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Sync code to Droplet (preserve secrets/data)
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes" \
+            --exclude 'node_modules/' \
+            --exclude '.git/' \
+            --exclude '.env' \
+            --exclude 'infra/.env' \
+            --exclude 'infra/.env.prod' \
+            --exclude 'data/*.db' \
+            --exclude 'data/*.db-*' \
+            --exclude 'data/*-keys.json' \
+            --exclude 'data/*.core-keys.json' \
+            --exclude 'data/*.institution-keys.json' \
+            --exclude 'data/email-outbox.jsonl' \
+            --exclude 'data/metering-events.jsonl' \
+            --exclude 'dist/' \
+            --exclude '.vite/' \
+            --exclude 'coverage/' \
+            --exclude '.DS_Store' \
+            ./ "${DROPLET_USER}@${DROPLET_HOST}:${DROPLET_DIR}/"
+
+      - name: Restart prod-light + health
+        run: |
+          ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes \
+            "${DROPLET_USER}@${DROPLET_HOST}" bash -s <<EOF
+          set -euo pipefail
+          cd "${DROPLET_DIR}"
+          chmod +x scripts/prod-up-light.sh || true
+          ./scripts/prod-up-light.sh
+          echo "--- health ---"
+          curl -sf "http://127.0.0.1:3001/api/ops/health"
+          echo
+          echo "--- containers ---"
+          docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+          EOF
+
+      - name: Public health check
+        run: |
+          curl -sf "http://${DROPLET_HOST}:3001/api/ops/health"
+          echo
