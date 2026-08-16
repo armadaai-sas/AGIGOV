@@ -171,6 +171,12 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   const [heroChoreographyPhase, setHeroChoreographyPhaseState] = useState(0);
 
   useEffect(() => {
+    if (skinId === 'legacy') {
+      void import('../theme/legacy-dark.css');
+    }
+  }, [skinId]);
+
+  useEffect(() => {
     let cancelled = false;
     fetchPublicConfig()
       .then((cfg) => {
@@ -239,6 +245,9 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
     setSkinIdState(id);
     localStorage.setItem(SKIN_KEY, id);
     applySkin(id);
+    if (id === 'legacy') {
+      void import('../theme/legacy-dark.css');
+    }
   }, []);
 
   const setImplementationId = useCallback((id: ImplementationId) => {

@@ -1,11 +1,24 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
-import { LandingCtaSection } from '../components/landing/LandingCtaSection.js';
-import { LandingGovernanceCompareSection } from '../components/landing/LandingGovernanceCompareSection.js';
-import { LandingModelsInteractiveSection } from '../components/landing/LandingModelsInteractiveSection.js';
 
-/** Landing AGIGOV — hero + comparativo + catálogo + CTA. */
+const LandingGovernanceCompareSection = lazy(() =>
+  import('../components/landing/LandingGovernanceCompareSection.js').then((m) => ({
+    default: m.LandingGovernanceCompareSection,
+  })),
+);
+const LandingModelsInteractiveSection = lazy(() =>
+  import('../components/landing/LandingModelsInteractiveSection.js').then((m) => ({
+    default: m.LandingModelsInteractiveSection,
+  })),
+);
+const LandingCtaSection = lazy(() =>
+  import('../components/landing/LandingCtaSection.js').then((m) => ({
+    default: m.LandingCtaSection,
+  })),
+);
+
+/** Landing AGIGOV — hero eager; below-fold lazy for LCP. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -15,9 +28,11 @@ export default function HomePage() {
   return (
     <div className="landing-manifest bg-[#f9fafb]">
       <HeroOrchestrator />
-      <LandingGovernanceCompareSection />
-      <LandingModelsInteractiveSection />
-      <LandingCtaSection />
+      <Suspense fallback={null}>
+        <LandingGovernanceCompareSection />
+        <LandingModelsInteractiveSection />
+        <LandingCtaSection />
+      </Suspense>
     </div>
   );
 }
