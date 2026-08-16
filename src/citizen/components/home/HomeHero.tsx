@@ -1,24 +1,16 @@
-import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { usePlatform } from '../../context/PlatformContext.js';
+import { HomeHeroCtaStage } from './HomeHeroCtaStage.js';
+import { HomeHeroFloatingConsole } from './HomeHeroFloatingConsole.js';
 import { HomeHeroMobileCta } from './HomeHeroMobileCta.js';
 import { HomeHeroProgress } from './HomeHeroProgress.js';
+import { HomeHeroRouteStage } from './HomeHeroRouteStage.js';
 
-const HomeHeroFloatingConsole = lazy(() =>
-  import('./HomeHeroFloatingConsole.js').then((m) => ({ default: m.HomeHeroFloatingConsole })),
-);
-const HomeHeroRouteStage = lazy(() =>
-  import('./HomeHeroRouteStage.js').then((m) => ({ default: m.HomeHeroRouteStage })),
-);
-const HomeHeroCtaStage = lazy(() =>
-  import('./HomeHeroCtaStage.js').then((m) => ({ default: m.HomeHeroCtaStage })),
-);
-
-/** Hero producción — brand/CTA eager; demos motion lazy. */
+/** Hero producción — 3 pantallas, progreso, CTA móvil. */
 export function HomeHero() {
   const copy = useLandingCopy();
   const { t } = usePlatform();
@@ -42,9 +34,7 @@ export function HomeHero() {
           </h1>
           <p className="hero-cinematic-subline">{copy.HERO_CINEMATIC_SUBLINE}</p>
 
-          <Suspense fallback={<div className="hero-console-slot" aria-hidden />}>
-            <HomeHeroFloatingConsole />
-          </Suspense>
+          <HomeHeroFloatingConsole />
 
           <div className="hero-cinematic-actions">
             <Link to={copy.HERO_CTA_PRIMARY.path} className="hero-brand-btn hero-brand-btn--primary">
@@ -65,10 +55,8 @@ export function HomeHero() {
         </a>
       </div>
 
-      <Suspense fallback={null}>
-        <HomeHeroRouteStage />
-        <HomeHeroCtaStage />
-      </Suspense>
+      <HomeHeroRouteStage />
+      <HomeHeroCtaStage />
     </section>
   );
 }
