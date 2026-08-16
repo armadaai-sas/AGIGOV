@@ -5,10 +5,10 @@ Sistema operativo soberano para reconstrucción nacional: agentes institucionale
 ## Stack
 
 - **Frontend:** React 19, Vite, Tailwind CSS v4 (`src/`)
-- **Skills:** `.cursor/skills/` (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación, producto soberano, **legal-político**, **UX institucional**)
+- **Skills:** `.cursor/skills/` (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación, producto soberano, **legal-político**, **UX institucional**, **world-market-adviser**)
 - **Protocolo IAP:** `src/protocol/` (envelopes cifrados/firmados entre agentes)
-- **Agentes:** `.cursor/agents/` (centinela, logistico, soberano, conciliador, comunicador, **artesano-ui**, **comercial-agigov**, modelo-guardian, cso-monetizacion)
-- **Reglas:** `.cursor/rules/` (soberanía, ejecución por evidencia, enjambre)
+- **Agentes:** `.cursor/agents/` (centinela, logistico, soberano, conciliador, comunicador, **artesano-ui**, **comercial-agigov**, modelo-guardian, cso-monetizacion, **product-market-adviser**)
+- **Reglas:** `.cursor/rules/` (soberanía, ejecución por evidencia, enjambre, **world-market-adviser**)
 
 ## Comandos
 
@@ -39,6 +39,7 @@ Disputas: **conciliador** (grafo de confianza). Incidentes: **centinela** FREEZE
 | **modelo-guardian** | Calidad catálogo | Audita 3 etapas · `npm run models:audit` |
 | **artesano-ui** | Craft visual producto | Fase I catálogo · 6 h/día · design system |
 | **comercial-agigov** | Ventas y GTM | One-pagers, decks, FAQ · ganar-ganar honesto |
+| **product-market-adviser** | Producto → mercado mundial | Terminar producto · pruebas 100% reales · GTM |
 | Innovador | Innovación y prosperidad | Monetización, macro, roadmap 24/7 |
 | CSO Monetización | Estrategia comercial | Cuadro modelos, auditoría ingresos |
 
@@ -64,6 +65,7 @@ Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/pro
 | Geopolítica profunda, sanciones, escenarios macro/FX | **`geopolitics-macro-expert`** |
 | Sistemas complejos (Estado/global), incentivos, cascadas | **`complex-systems-governance`** |
 | Qué falta para prod / gate staging / GTM listo | **`production-readiness-orchestrator`** |
+| Terminar producto · pruebas reales · mercado mundial | **`agigov-world-market-adviser`** + agente **`product-market-adviser`** |
 
 ## Convenciones
 

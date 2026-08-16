@@ -11,29 +11,32 @@ La seguridad es **condición de éxito**, no un anexo. AGIGOV opera bajo adversa
 | Ataque cibernético | FREEZE, honeypots, panic drill |
 | Censura / apagón | Nodos edge offline 72h+ |
 | Compromiso de claves | Rotación DID + human-in-the-loop |
-| Computación cuántica | PQC en nodos críticos |
+| Computación cuántica | **Roadmap** PQC (inventario hoy; híbrido no productivo) |
 | Desinformación | Comunicador + datos publicados verificables |
 
 ## Capas de defensa
 
 ```
 1. Perimetral     — WireGuard, MQTT solo VPN, honeypots
-2. Protocolo      — IAP: Ed25519 + X25519 + anti-replay
+2. Protocolo      — IAP: Ed25519 + X25519 + anti-replay (clásico)
 3. Aplicación     — PANIC_MODE, validación centinela
 4. Datos          — Postgres core + SQLite edge, sync conflict rules
-5. Post-cuántico  — ML-KEM / ML-DSA en guardian (roadmap)
+5. Post-cuántico  — ML-KEM / ML-DSA en guardian (**roadmap / inventario**; sin claim productivo)
 6. Operacional    — Runbooks, drills, auditoría continua
 ```
 
 ## PQC (Post-Quantum Cryptography)
 
-Ver `docs/PQC-GUARDIAN-CUANTICO.md` para implementación.
+Ver `docs/PQC-GUARDIAN-CUANTICO.md` y `docs/P6-LEGITIMIDAD-SEGURIDAD.md` (honestidad PQC).
 
-| Nodo | Algoritmo objetivo | Estado |
-|------|-------------------|--------|
-| Core ledger | ML-DSA firmas | Piloto |
-| CNE | ML-KEM + ML-DSA | Roadmap P3 |
-| Edge | Híbrido clásico+PQC | Fase 5 |
+**Estado live (prod-light):** inventario clásico; `hybridClaimAllowed=false`.  
+**No vender** “seguridad cuántica ya” ni “quantum-safe”.
+
+| Nodo | Algoritmo objetivo | Estado real |
+|------|-------------------|-------------|
+| Core ledger | ML-DSA firmas | Inventario · clásico Ed25519 en prod |
+| CNE | ML-KEM + ML-DSA | Roadmap |
+| Edge | Híbrido clásico+PQC | Documentado · no desplegado |
 | Bus IAP | Agility: negociación suite | Diseño |
 
 ## Reglas operativas
@@ -43,6 +46,7 @@ Ver `docs/PQC-GUARDIAN-CUANTICO.md` para implementación.
 3. **FREEZE** ante anomalía; des-congelar solo human-in-the-loop
 4. **Drill trimestral** — `npm run panic:drill`
 5. **API pública** — sin PII, rate limit, logs centinela
+6. **Claims PQC** — solo si `assessPqcReadiness().hybridClaimAllowed === true`
 
 ## Seguridad del token y DAO
 
@@ -60,9 +64,9 @@ Ver `docs/PQC-GUARDIAN-CUANTICO.md` para implementación.
 
 ## Éxito medible
 
-| Métrica | Meta |
-|---------|------|
-| Drills panic | 100% exitosos |
-| Tiempo respuesta FREEZE | < 60 s |
-| Incidentes no detectados | 0 en piloto |
-| Cobertura PQC nodos críticos | 100% en P6 |
+| Métrica | Meta | Estado 2026-08-16 |
+|---------|------|-------------------|
+| Drills panic | 100% exitosos | Suite local / CI |
+| Tiempo respuesta FREEZE | < 60 s | Runbook + drill |
+| Incidentes no detectados | 0 en piloto | Medición piloto |
+| Cobertura PQC nodos críticos | Inventario 100% · híbrido 0% en prod | **Inventario OK · sin claim híbrido** |
