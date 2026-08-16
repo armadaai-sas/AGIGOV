@@ -23,9 +23,17 @@ if ! grep -q 'NODE_ED25519_SECRET_KEY_B64_CENTINELA' "$ENV_FILE" 2>/dev/null; th
 fi
 
 # Perfil honeypot opcional: HONEYPOT=1 ./scripts/prod-up-light.sh
+# HTTPS quick tunnel: TUNNEL=1 ./scripts/prod-up-light.sh  (URL en logs: docker logs armada-tunnel-light)
+# Named CF tunnel: TUNNEL_NAMED=1 + CLOUDFLARE_TUNNEL_TOKEN in .env.prod
 PROFILES=""
 if [ "${HONEYPOT:-0}" = "1" ]; then
-  PROFILES="--profile honeypot"
+  PROFILES="$PROFILES --profile honeypot"
+fi
+if [ "${TUNNEL:-0}" = "1" ]; then
+  PROFILES="$PROFILES --profile tunnel"
+fi
+if [ "${TUNNEL_NAMED:-0}" = "1" ]; then
+  PROFILES="$PROFILES --profile tunnel-named"
 fi
 
 echo "[ProdLight] Levantando stack ligero..."
@@ -45,4 +53,10 @@ echo "  Dashboard:  http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/public/dashboa
 echo "  Piloto:     npm run pilot:verify"
 if [ "${HONEYPOT:-0}" = "1" ]; then
   echo "  Honeypot:   http://127.0.0.1:8088/admin"
+fi
+if [ "${TUNNEL:-0}" = "1" ]; then
+  echo "  HTTPS:      docker logs armada-tunnel-light 2>&1 | grep trycloudflare"
+fi
+if [ "${TUNNEL_NAMED:-0}" = "1" ]; then
+  echo "  HTTPS:      named Cloudflare tunnel (CLOUDFLARE_TUNNEL_TOKEN)"
 fi

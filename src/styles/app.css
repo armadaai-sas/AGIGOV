@@ -843,111 +843,59 @@
     }
   }
 
-.hero-screen-progress {
-    @apply pointer-events-none fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block;
-  }
 
-.hero-screen-progress ol {
-    @apply flex flex-col gap-3;
-  }
 
-.hero-screen-progress li {
-    @apply list-none;
-  }
 
-.hero-screen-progress-link {
-    @apply pointer-events-auto flex items-center gap-2 no-underline;
-  }
 
-.hero-screen-progress-dot {
-    @apply block h-2 w-2 rounded-full bg-slate-300 transition-all duration-300;
-  }
 
-.hero-screen-progress-link.is-active .hero-screen-progress-dot {
-    @apply h-2.5 w-2.5 bg-slate-900 ring-4 ring-slate-900/10;
-  }
 
-.hero-screen-progress-link.is-done .hero-screen-progress-dot {
-    @apply bg-slate-500;
-  }
 
-.hero-screen-progress-label {
-    @apply text-[10px] font-semibold uppercase tracking-wider text-slate-400 opacity-0 transition-opacity duration-200;
-  }
 
-.hero-screen-progress-link.is-active .hero-screen-progress-label,
-  .hero-screen-progress-link:hover .hero-screen-progress-label {
-    @apply opacity-100;
-  }
 
-.hero-screen-progress-link.is-active .hero-screen-progress-label {
-    @apply text-slate-800;
-  }
 
-.hero-story-visual-grid {
-    @apply mt-12 grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-10;
-  }
+
+
+
+
+
+
+
+
+
+
+
 
 .hero-story-compare-block {
     @apply min-w-0;
   }
 
-.hero-evidence-demo {
-    @apply relative;
-  }
 
-.hero-evidence-demo-glow {
-    @apply pointer-events-none absolute -inset-4 rounded-3xl;
-    background: radial-gradient(ellipse, rgba(3, 105, 161, 0.1), transparent 70%);
-  }
 
-.hero-evidence-demo-card {
-    @apply relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-900 to-[#0a1018] p-5 shadow-[0_24px_48px_-28px_rgba(15,23,42,0.55)] ring-1 ring-slate-900/5;
-  }
 
-.hero-evidence-demo-kicker {
-    @apply text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-400/90;
-  }
 
-.hero-evidence-demo-steps {
-    @apply mt-4 space-y-2;
-  }
 
-.hero-evidence-demo-step {
-    @apply relative flex list-none items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 transition-colors duration-300;
-  }
 
-.hero-evidence-demo-step.is-done {
-    @apply border-emerald-500/25 bg-emerald-500/10;
-  }
 
-.hero-evidence-demo-step.is-active {
-    @apply border-sky-500/35 bg-sky-500/10;
-  }
 
-.hero-evidence-demo-step-mark {
-    @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-black/40 font-mono text-[10px] text-slate-400;
-  }
 
-.hero-evidence-demo-step.is-done .hero-evidence-demo-step-mark {
-    @apply bg-emerald-500/20 text-emerald-300;
-  }
 
-.hero-evidence-demo-step.is-active .hero-evidence-demo-step-mark {
-    @apply bg-sky-500/20 text-sky-300;
-  }
 
-.hero-evidence-demo-step-label {
-    @apply text-sm font-medium text-slate-200;
-  }
 
-.hero-evidence-demo-step-pulse {
-    @apply absolute inset-0 rounded-xl ring-2 ring-sky-400/40;
-  }
 
-.hero-evidence-demo-caption {
-    @apply mt-4 text-xs leading-relaxed text-slate-400;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .hero-story-scroll {
     @apply border-slate-200 bg-white/90 text-slate-500 hover:border-slate-300 hover:text-slate-700;

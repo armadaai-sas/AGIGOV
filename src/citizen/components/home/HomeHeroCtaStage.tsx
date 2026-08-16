@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { HomeHeroModelCard } from './HomeHeroModelCard.js';
+import './hero-console.css';
 
 /** Pantalla 3 — título + CTA + tarjeta flotante. */
 export function HomeHeroCtaStage() {

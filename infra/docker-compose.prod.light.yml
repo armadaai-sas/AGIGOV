@@ -122,6 +122,36 @@ services:
         reservations:
           memory: 16M
 
+  # HTTPS via Cloudflare quick tunnel (ephemeral *.trycloudflare.com)
+  # Named tunnel: set CLOUDFLARE_TUNNEL_TOKEN and use profile tunnel-named
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: armada-tunnel-light
+    restart: always
+    command: tunnel --no-autoupdate --url http://web:80
+    depends_on:
+      - web
+    profiles: ['tunnel']
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+  tunnel-named:
+    image: cloudflare/cloudflared:latest
+    container_name: armada-tunnel-named
+    restart: always
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    command: tunnel --no-autoupdate run
+    depends_on:
+      - web
+    profiles: ['tunnel-named']
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
   honeypot:
     build:
       context: ..

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import '../../../styles/landing-below.css';
 
 /** CTA final — misma jerarquía de botones que el hero. */
 export function LandingCtaSection() {

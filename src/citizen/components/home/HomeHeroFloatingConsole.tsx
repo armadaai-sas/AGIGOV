@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { useHeroEgsData } from '../../hooks/useHeroEgsData.js';
 import { HomeHeroConsoleDemo } from './HomeHeroConsoleDemo.js';
+import './hero-console.css';
 
 /** Consola EGS flotante — datos y copy por jurisdicción. */
 export function HomeHeroFloatingConsole() {

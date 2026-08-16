@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle2, ChevronDown, Layers, LayoutGrid, TrendingDown
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { usePlatform } from '../../context/PlatformContext.js';
+import './hero-console.css';
 
 const ICONS = [Layers, LayoutGrid, TrendingDown, CheckCircle2] as const;
 const STEP_MS = 3200;

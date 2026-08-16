@@ -4,6 +4,7 @@ import { useInView } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import '../../../styles/landing-below.css';
 
 const ROTATE_MS = 4500;
 

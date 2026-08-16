@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { ModelStatusBadge } from '../models/ModelStatusBadge.js';
+import '../../../styles/landing-below.css';
 
 const FEATURED = AGIGOV_MODELS.filter((m) => m.audience === 'gubernamental').slice(0, 3);
 
