@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { HERO_FILM, shouldLoadHeroVideo } from '../hero/heroFilmConfig.js';
+import '../theme/hero-archive.css';
 
 export { useHeroStoryBeat } from '../hero/useHeroStoryBeat.js';
 

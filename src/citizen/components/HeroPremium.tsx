@@ -3,6 +3,7 @@ import { ArrowRight, ChevronRight, Activity } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import type { DashboardResponse } from '../api.js';
+import '../theme/hero-archive.css';
 
 const AGENTS = [
   { id: 'centinela', label: 'Centinela', role: 'Integridad' },

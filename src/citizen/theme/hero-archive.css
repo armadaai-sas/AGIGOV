@@ -1,0 +1,84 @@
+/* Unused film/premium hero styles */
+@layer components {
+.hero-premium {
+    @apply relative overflow-hidden rounded-[1.75rem] border border-white/[0.07];
+    background: linear-gradient(
+      145deg,
+      rgba(12, 18, 32, 0.95) 0%,
+      rgba(3, 5, 8, 0.98) 50%,
+      rgba(8, 14, 28, 0.95) 100%
+    );
+    box-shadow:
+      0 0 0 1px rgba(34, 211, 238, 0.06),
+      0 24px 80px -20px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+.hero-backdrop {
+    @apply pointer-events-none absolute inset-0 overflow-hidden opacity-80;
+  }
+
+.hero-constellation {
+    @apply h-full w-full object-cover;
+  }
+
+.hero-node {
+    animation: hero-node-pulse 4s ease-in-out infinite;
+  }
+
+.hero-premium-inner {
+    @apply relative z-10 grid gap-10 p-6 md:grid-cols-[1fr_minmax(280px,360px)] md:gap-8 md:p-10 lg:gap-12 lg:p-12;
+  }
+
+.hero-film {
+    @apply absolute inset-0 z-0 overflow-hidden bg-[#60a5fa];
+    background-size: cover;
+    background-position: center 42%;
+    background-repeat: no-repeat;
+  }
+
+.hero-film-gradient-fallback {
+    @apply absolute inset-0 z-[1];
+    background: linear-gradient(180deg, #1e3a5f 0%, #60a5fa 35%, #fde68a 70%, #fef3c7 100%);
+  }
+
+.hero-film-poster {
+    @apply absolute inset-0 z-[1] h-full w-full object-cover;
+    object-position: center 42%;
+    transition: opacity 0.8s ease;
+  }
+
+.hero-film-poster--motion {
+    animation: hero-film-kenburns 28s ease-in-out infinite alternate;
+  }
+
+.hero-film-poster--hidden {
+    opacity: 0;
+  }
+
+.hero-film-video {
+    @apply absolute inset-0 z-[2] h-full w-full object-cover object-bottom;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+
+.hero-film-video--visible {
+    opacity: 1;
+  }
+
+.hero-film-vignette {
+    @apply pointer-events-none absolute inset-0 z-[3];
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        transparent 30%,
+        transparent 62%,
+        rgba(15, 23, 42, 0.25) 100%
+      );
+  }
+
+@keyframes hero-film-kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+}

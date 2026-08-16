@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { PlatformProvider } from './context/PlatformContext.js';
@@ -10,7 +10,7 @@ import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
 import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
 import { usesAppShell } from './platform/navConfig.js';
-import HomePage from './pages/HomePage.js';
+const HomePage = lazy(() => import('./pages/HomePage.js'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage.js'));
 const ProposalsPage = lazy(() => import('./pages/ProposalsPage.js'));
 const SupplyPage = lazy(() => import('./pages/SupplyPage.js'));
@@ -97,6 +97,14 @@ export default function CitizenApp() {
 }
 
 function CitizenAppInner() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      void import('../styles/app.css');
+    }
+  }, [pathname]);
+
   return (
     <div className="min-h-screen bg-agigov-void text-agigov-text">
       <PanicBanner />

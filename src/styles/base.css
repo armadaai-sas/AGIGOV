@@ -1,0 +1,949 @@
+/* Critical theme + preflight — every route */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "../citizen/theme/trust-light.css";
+@import "../citizen/theme/hero-trust.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-hero: "Outfit", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Escala tipográfica fija (Fase D2) */
+  --text-agigov-xs: 0.75rem;
+  --text-agigov-sm: 0.875rem;
+  --text-agigov-md: 1.0625rem;
+  --text-agigov-lg: 1.5rem;
+  --text-agigov-xl: 2rem;
+  --text-agigov-2xl: 2.5rem;
+
+  --color-agigov-navy: #0b1220;
+  --color-agigov-navy-light: #111827;
+  --color-agigov-surface: #1a2332;
+  --color-agigov-surface-elevated: #243044;
+  --color-agigov-primary: #0369a1;
+  --color-agigov-primary-hover: #0284c7;
+  --color-agigov-primary-soft: #0ea5e9;
+  --color-agigov-accent: #b45309;
+  --color-agigov-accent-soft: #eab308;
+  --color-agigov-success: #059669;
+  --color-agigov-danger: #dc2626;
+  --color-agigov-text: #f8fafc;
+  --color-agigov-text-muted: #94a3b8;
+  --color-agigov-border: rgba(255, 255, 255, 0.08);
+  --color-agigov-void: #030508;
+  --color-agigov-orbit: #22d3ee;
+  --color-agigov-signal: #fcd34d;
+  --color-agigov-data: #34d399;
+  --color-agigov-glass: rgba(8, 12, 22, 0.82);
+  --color-agigov-console: rgba(6, 10, 18, 0.92);
+
+  --color-tactical-amber: #b45309;
+  --color-tactical-cyan: #0284c7;
+  --color-tactical-red: #dc2626;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  body {
+    @apply bg-agigov-void text-agigov-text antialiased;
+    background-color: var(--color-agigov-void);
+    font-size: var(--text-agigov-sm);
+    line-height: 1.5;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  /* Tema claro opcional — inspirado gov.uk (Fase D5) */
+  [data-agigov-theme="light"] {
+    --color-agigov-void: #f3f2f1;
+    --color-agigov-navy: #ffffff;
+    --color-agigov-navy-light: #f8f8f8;
+    --color-agigov-surface: #ffffff;
+    --color-agigov-surface-elevated: #f3f2f1;
+    --color-agigov-text: #0b0c0c;
+    --color-agigov-text-muted: #505a5f;
+    --color-agigov-border: rgba(11, 12, 12, 0.12);
+    --color-agigov-glass: rgba(255, 255, 255, 0.92);
+    --color-agigov-console: rgba(255, 255, 255, 0.98);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-agigov-primary) 45%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+
+@layer components {
+.agigov-institutional-bar {
+    @apply h-[3px] w-full bg-gradient-to-r from-agigov-accent via-agigov-accent-soft to-agigov-accent;
+  }
+
+.agigov-shell {
+    @apply mx-auto w-full max-w-5xl px-4 pb-24 pt-6 md:pb-10 md:pt-8;
+  }
+
+.agigov-shell-narrow {
+    @apply mx-auto w-full max-w-3xl px-4 pb-24 pt-6 md:pb-10 md:pt-8;
+  }
+
+.agigov-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/90;
+  }
+
+.agigov-page-title {
+    font-size: var(--text-agigov-xl);
+    @apply font-display font-bold tracking-tight text-agigov-text md:text-[2rem];
+  }
+
+.agigov-lead {
+    font-size: var(--text-agigov-md);
+    @apply leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-text-xs {
+    font-size: var(--text-agigov-xs);
+  }
+
+.agigov-text-sm {
+    font-size: var(--text-agigov-sm);
+  }
+
+.agigov-text-md {
+    font-size: var(--text-agigov-md);
+  }
+
+.agigov-text-lg {
+    font-size: var(--text-agigov-lg);
+  }
+
+.agigov-text-xl {
+    font-size: var(--text-agigov-xl);
+  }
+
+.agigov-text-2xl {
+    font-size: var(--text-agigov-2xl);
+  }
+
+.agigov-card {
+    @apply rounded-2xl border border-white/[0.08] bg-agigov-surface/90 p-5 shadow-lg shadow-black/10 backdrop-blur-sm md:p-6;
+  }
+
+.agigov-card-interactive {
+    @apply rounded-2xl border border-white/[0.08] bg-agigov-surface/90 p-5 shadow-lg shadow-black/10 backdrop-blur-sm transition-all duration-200 hover:border-sky-500/30 hover:bg-agigov-surface-elevated/80 hover:shadow-sky-950/20 md:p-6;
+  }
+
+.agigov-stat {
+    @apply rounded-2xl border border-white/[0.08] bg-agigov-surface/70 p-4;
+  }
+
+.agigov-btn-primary {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-agigov-primary px-5 py-3 text-sm font-semibold text-white shadow-md shadow-sky-950/30 transition-all hover:bg-agigov-primary-hover hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void disabled:pointer-events-none disabled:opacity-50;
+  }
+
+.agigov-btn-secondary {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/[0.14] bg-white/[0.04] px-5 py-3 text-sm font-medium text-agigov-text transition-all hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
+  }
+
+.agigov-btn-accent {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-agigov-accent to-amber-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/25 transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-accent-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
+  }
+
+.agigov-input {
+    @apply min-h-[48px] w-full rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-3 text-base text-agigov-text placeholder:text-agigov-text-muted/50 focus-visible:border-sky-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary/50;
+  }
+
+.agigov-link {
+    @apply font-medium text-sky-400 underline-offset-4 transition-colors hover:text-sky-300 hover:underline;
+  }
+
+.agigov-mono-id {
+    @apply font-mono text-[11px] text-sky-400/75;
+  }
+
+.agigov-badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide;
+  }
+
+.agigov-badge-ven {
+    @apply inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-amber-200;
+  }
+
+.agigov-badge-global {
+    @apply inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sky-200;
+  }
+
+.agigov-hero {
+    @apply relative overflow-hidden rounded-3xl border border-white/[0.1] bg-gradient-to-br from-agigov-surface via-agigov-navy-light to-agigov-navy p-6 shadow-2xl shadow-black/30 md:p-10;
+  }
+
+.agigov-hero-glow {
+    @apply pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl;
+  }
+
+.agigov-hero-glow-gold {
+    @apply pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl;
+  }
+
+.agigov-pillar-icon {
+    @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-agigov-primary/20 to-sky-400/5 text-sky-300 ring-1 ring-sky-500/20;
+  }
+
+.agigov-nav-active {
+    @apply bg-agigov-primary/15 text-sky-100 ring-1 ring-sky-500/25;
+  }
+
+.agigov-skeleton {
+    @apply animate-pulse rounded-xl bg-white/5;
+  }
+
+.agigov-page-state {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+  }
+
+.agigov-page-state--compact {
+    @apply p-4 md:p-5;
+  }
+
+.agigov-page-state--start {
+    @apply text-left;
+  }
+
+.agigov-page-state--error {
+    @apply border-red-500/20 bg-red-500/[0.04];
+  }
+
+.agigov-page-state-icon {
+    @apply mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400/90;
+  }
+
+.agigov-page-state--start .agigov-page-state-icon {
+    @apply mx-0;
+  }
+
+.agigov-page-state--error .agigov-page-state-icon {
+    @apply bg-red-500/10 text-red-400;
+  }
+
+.agigov-page-state-kicker {
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
+  }
+
+.agigov-page-state-hint {
+    @apply mx-auto mt-4 max-w-sm text-xs text-agigov-text-muted;
+  }
+
+.agigov-empty-state {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-center shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+  }
+
+.agigov-empty-state-kicker {
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
+  }
+
+.agigov-empty-state-hint {
+    @apply mx-auto mt-4 max-w-sm text-xs text-agigov-text-muted;
+  }
+
+.agigov-loading-state {
+    @apply space-y-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-left shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+  }
+
+.agigov-loading-state > svg:first-child {
+    @apply mb-1;
+  }
+
+.agigov-glass {
+    @apply border border-white/[0.08] bg-agigov-glass backdrop-blur-xl backdrop-saturate-150;
+  }
+
+.agigov-mission-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
+  }
+
+.agigov-display-hero {
+    @apply font-display text-[clamp(2rem,5vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-white;
+  }
+
+.agigov-orbit-grid {
+    background-image:
+      linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, black 20%, transparent 100%);
+  }
+
+.agigov-stat-mission {
+    @apply rounded-2xl border border-white/[0.06] bg-white/[0.02] px-5 py-4;
+  }
+
+.agigov-protocol-step {
+    @apply relative flex flex-col gap-1 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4;
+  }
+
+.agigov-dictamen {
+    @apply inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest;
+  }
+
+.agigov-dictamen--conforme {
+    @apply bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-500/30;
+  }
+
+.agigov-dictamen--revisar {
+    @apply bg-amber-500/15 text-amber-200 ring-1 ring-amber-500/30;
+  }
+
+.agigov-micro-lesson {
+    @apply relative inline-flex items-center align-middle;
+  }
+
+.agigov-micro-lesson-trigger {
+    @apply ml-1 inline-flex rounded-full p-0.5 text-agigov-text-muted transition-colors hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50;
+  }
+
+.agigov-micro-lesson-panel {
+    @apply pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 hidden w-56 -translate-x-1/2 rounded-xl border border-white/10 bg-agigov-surface-elevated p-3 text-left shadow-xl;
+  }
+
+.agigov-micro-lesson-term {
+    @apply mb-1 block text-[11px] font-semibold uppercase tracking-wide text-sky-300;
+  }
+
+.agigov-micro-lesson-body {
+    @apply block text-xs leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-micro-lesson:hover .agigov-micro-lesson-panel,
+  .agigov-micro-lesson:focus-within .agigov-micro-lesson-panel {
+    @apply block;
+  }
+
+.agigov-panic-banner {
+    @apply flex items-start gap-3 border-b border-red-800/50 bg-red-950/90 px-4 py-3 text-red-50;
+  }
+
+.agigov-panic-banner-title {
+    @apply text-sm font-semibold uppercase tracking-wide;
+  }
+
+.agigov-panic-banner-lead {
+    @apply mt-0.5 text-sm text-red-100/90;
+  }
+
+.agigov-glossary-example {
+    @apply mt-3 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 text-sm text-agigov-text-muted;
+  }
+
+.agigov-onboarding {
+    @apply fixed inset-0 z-[100] flex items-end justify-center p-4 sm:items-center;
+  }
+
+.agigov-onboarding-backdrop {
+    @apply absolute inset-0 bg-black/70 backdrop-blur-sm;
+  }
+
+.agigov-onboarding-panel {
+    @apply relative z-10 w-full max-w-3xl rounded-2xl border border-white/10 bg-agigov-surface p-6 shadow-2xl md:p-8;
+  }
+
+.agigov-onboarding-head {
+    @apply flex items-start justify-between gap-4;
+  }
+
+.agigov-onboarding-kicker {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80;
+  }
+
+.agigov-onboarding-title {
+    @apply mt-2 font-display text-2xl font-semibold text-white;
+  }
+
+.agigov-onboarding-lead {
+    @apply mt-2 text-sm leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-onboarding-close {
+    @apply rounded-lg p-2 text-agigov-text-muted transition-colors hover:bg-white/5 hover:text-white;
+  }
+
+.agigov-onboarding-grid {
+    @apply mt-6 grid gap-3 sm:grid-cols-3;
+  }
+
+.agigov-onboarding-card {
+    @apply flex flex-col rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left transition-colors hover:border-sky-500/30 hover:bg-white/[0.05];
+  }
+
+.agigov-onboarding-icon {
+    @apply mb-3 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-300;
+  }
+
+.agigov-onboarding-card-title {
+    @apply font-display text-base font-semibold text-agigov-text;
+  }
+
+.agigov-onboarding-card-text {
+    @apply mt-2 flex-1 text-sm leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-onboarding-card-cta {
+    @apply mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-300;
+  }
+
+.agigov-onboarding-skip {
+    @apply mt-5 w-full text-center text-sm text-agigov-text-muted transition-colors hover:text-white;
+  }
+
+.agigov-kbd {
+    @apply rounded border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-agigov-text-muted;
+  }
+
+.agigov-palette-trigger {
+    @apply items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-agigov-text-muted transition-colors hover:border-white/20 hover:text-white;
+  }
+
+.agigov-palette {
+    @apply fixed inset-0 z-[110] flex items-start justify-center px-4 pt-[12vh];
+  }
+
+.agigov-palette-backdrop {
+    @apply absolute inset-0 bg-black/60 backdrop-blur-sm;
+  }
+
+.agigov-palette-panel {
+    @apply relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-agigov-surface shadow-2xl;
+  }
+
+.agigov-palette-search {
+    @apply flex items-center gap-2 border-b border-white/[0.08] px-4 py-3;
+  }
+
+.agigov-palette-input {
+    @apply min-w-0 flex-1 bg-transparent text-sm text-agigov-text outline-none placeholder:text-agigov-text-muted;
+  }
+
+.agigov-palette-close {
+    @apply rounded-lg p-1.5 text-agigov-text-muted hover:bg-white/5 hover:text-white;
+  }
+
+.agigov-palette-results {
+    @apply max-h-[min(50vh,360px)] overflow-y-auto p-2;
+  }
+
+.agigov-palette-empty {
+    @apply px-3 py-6 text-center text-sm text-agigov-text-muted;
+  }
+
+.agigov-palette-group-label {
+    @apply px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-agigov-text-muted;
+  }
+
+.agigov-palette-item {
+    @apply flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-agigov-text transition-colors hover:bg-white/[0.05];
+  }
+
+.agigov-palette-item--active {
+    @apply bg-sky-500/15 text-sky-100;
+  }
+
+.agigov-palette-item-path {
+    @apply shrink-0 font-mono text-[10px] text-agigov-text-muted;
+  }
+
+.agigov-palette-foot {
+    @apply border-t border-white/[0.06] px-4 py-2.5 text-center text-xs text-agigov-text-muted;
+  }
+
+.agigov-impl-select {
+    @apply relative;
+  }
+
+.agigov-impl-select-trigger {
+    @apply inline-flex max-w-[11rem] items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-2 text-left text-xs text-agigov-text-muted transition-colors hover:border-white/20 hover:text-white;
+  }
+
+.agigov-impl-select-label {
+    @apply flex min-w-0 flex-col leading-tight;
+  }
+
+.agigov-impl-select-territory {
+    @apply font-mono text-[10px] uppercase tracking-wide text-sky-400/80;
+  }
+
+.agigov-impl-select-menu {
+    @apply absolute right-0 top-full z-50 mt-2 w-72 rounded-xl border border-white/10 bg-agigov-surface p-1.5 shadow-xl;
+  }
+
+.agigov-impl-select-item {
+    @apply flex w-full flex-col rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-white/[0.05];
+  }
+
+.agigov-impl-select-item--active {
+    @apply bg-sky-500/10 ring-1 ring-sky-500/20;
+  }
+
+.agigov-impl-select-item-title {
+    @apply text-sm font-medium text-agigov-text;
+  }
+
+.agigov-impl-select-item-meta {
+    @apply font-mono text-[10px] uppercase tracking-wide text-sky-400/70;
+  }
+
+.agigov-impl-select-item-desc {
+    @apply mt-1 text-xs leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-impl-select-foot {
+    @apply mt-1 block rounded-lg border-t border-white/[0.06] px-3 py-2.5 text-center text-xs text-sky-300 hover:bg-white/[0.03];
+  }
+
+.agigov-sovereign-settings {
+    @apply mt-2 space-y-2 rounded-xl border border-white/[0.08] bg-white/[0.02] p-3;
+  }
+
+.agigov-sovereign-settings-head {
+    @apply flex items-center gap-2 text-xs font-medium text-agigov-text-muted;
+  }
+
+.agigov-sovereign-settings-title {
+    @apply flex-1;
+  }
+
+.agigov-sovereign-settings-close {
+    @apply text-lg leading-none opacity-60 hover:opacity-100;
+  }
+
+.agigov-sovereign-field {
+    @apply flex flex-col gap-1 text-xs text-agigov-text-muted;
+  }
+
+.agigov-sovereign-field select {
+    @apply rounded-lg border border-white/[0.1] bg-slate-950/40 px-2 py-1.5 text-sm text-white;
+  }
+
+.agigov-sovereign-hint {
+    @apply text-[10px] leading-relaxed text-agigov-text-muted/80;
+  }
+
+.agigov-help-intro {
+    @apply flex gap-4 border-sky-500/20 bg-sky-950/10;
+  }
+
+.agigov-help-category-title {
+    @apply font-display text-xl font-semibold text-agigov-text;
+  }
+
+.agigov-help-category-desc {
+    @apply mt-1 text-sm text-agigov-text-muted;
+  }
+
+.agigov-help-grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+.agigov-help-card {
+    @apply flex h-full flex-col rounded-2xl border border-white/[0.08] bg-agigov-surface/80 p-5 transition-colors hover:border-sky-500/25 hover:bg-agigov-surface-elevated/80;
+  }
+
+.agigov-help-card-icon {
+    @apply inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-300;
+  }
+
+.agigov-help-card-title {
+    @apply mt-4 font-display text-base font-semibold text-agigov-text;
+  }
+
+.agigov-help-card-tagline {
+    @apply mt-2 flex-1 text-sm leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-help-card-cta {
+    @apply mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-300;
+  }
+
+.agigov-help-back {
+    @apply mb-4 inline-flex items-center gap-2 text-sm text-agigov-text-muted transition-colors hover:text-sky-300;
+  }
+
+.agigov-help-list {
+    @apply space-y-2 text-sm leading-relaxed text-agigov-text-muted;
+  }
+
+.agigov-help-list li {
+    @apply relative pl-5 before:absolute before:left-0 before:text-sky-400 before:content-['•'];
+  }
+
+.agigov-help-steps {
+    @apply space-y-4;
+  }
+
+.agigov-help-steps li {
+    @apply flex gap-4;
+  }
+
+.agigov-help-step-num {
+    @apply font-mono text-xs font-bold text-sky-400/80;
+  }
+
+.agigov-help-topic-link {
+    @apply inline-flex items-center gap-1.5 text-sm font-medium text-sky-400/90 transition-colors hover:text-sky-300;
+  }
+
+.agigov-dev-table {
+    @apply w-full min-w-[32rem] text-left text-sm;
+  }
+
+.agigov-dev-table th {
+    @apply bg-white/5 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-agigov-text-muted;
+  }
+
+.agigov-dev-table td {
+    @apply border-t border-white/[0.06] px-4 py-3 text-agigov-text-muted;
+  }
+
+.agigov-dev-table code {
+    @apply font-mono text-xs text-sky-300/90;
+  }
+
+.agigov-dev-code {
+    @apply overflow-x-auto rounded-xl border border-white/[0.08] bg-black/30 p-4 font-mono text-xs leading-relaxed text-sky-100/90;
+  }
+
+.agigov-dev-method {
+    @apply inline-flex rounded-md px-2 py-0.5 font-mono text-[10px] font-bold uppercase;
+  }
+
+.agigov-dev-method--get {
+    @apply bg-emerald-500/15 text-emerald-200;
+  }
+
+.agigov-dev-method--post {
+    @apply bg-sky-500/15 text-sky-200;
+  }
+
+.agigov-centinela-trigger {
+    @apply inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-red-500/25 bg-red-950/20 px-4 py-3 text-sm font-medium text-red-100 transition-all duration-300 hover:border-red-400/40 hover:bg-red-950/35 hover:shadow-lg hover:shadow-red-950/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/50;
+  }
+
+@keyframes agigov-enter-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+@keyframes agigov-page-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+@keyframes agigov-panel-open {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.99);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+.agigov-enter-up {
+    animation: agigov-enter-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+.agigov-page-transition {
+    animation: agigov-page-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+.agigov-page-content {
+    @apply space-y-0;
+  }
+
+.agigov-panel-expand {
+    animation: agigov-panel-open 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+.agigov-stagger-list > * {
+    animation: agigov-enter-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+.agigov-stagger-list > *:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+.agigov-stagger-list > *:nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+.agigov-stagger-list > *:nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+.agigov-stagger-list > *:nth-child(4) {
+    animation-delay: 180ms;
+  }
+
+.agigov-stagger-list > *:nth-child(n + 5) {
+    animation-delay: 220ms;
+  }
+
+.agigov-card-interactive {
+    @apply transition-all duration-300 hover:border-sky-500/25 hover:shadow-lg hover:shadow-sky-950/15;
+  }
+
+.agigov-link-hover {
+    @apply transition-colors duration-200 hover:text-sky-300;
+  }
+
+.agigov-progress-track {
+    @apply h-2.5 overflow-hidden rounded-full bg-white/10;
+  }
+
+.agigov-progress-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-sky-700 via-sky-500 to-sky-400/80;
+    transition: width 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+.agigov-progress-fill--vote {
+    @apply from-sky-800 via-sky-500 to-sky-300/90;
+  }
+
+.agigov-vote-option {
+    @apply rounded-xl border border-white/[0.06] p-4 transition-colors duration-200 hover:border-sky-500/20 hover:bg-white/[0.02];
+  }
+
+.agigov-action-receipt {
+    @apply flex items-start gap-3 rounded-2xl border p-4 shadow-lg;
+  }
+
+.agigov-action-receipt--success {
+    @apply border-emerald-800/50 bg-emerald-950/35 shadow-emerald-950/20;
+  }
+
+.agigov-action-receipt--warning {
+    @apply border-amber-800/50 bg-amber-950/30 shadow-amber-950/20;
+  }
+
+.agigov-action-receipt--info {
+    @apply border-sky-800/50 bg-sky-950/30 shadow-sky-950/20;
+  }
+
+.agigov-action-receipt-icon {
+    @apply mt-0.5 h-5 w-5 shrink-0 text-emerald-400;
+  }
+
+.agigov-action-receipt--warning .agigov-action-receipt-icon {
+    @apply text-amber-400;
+  }
+
+.agigov-action-receipt--info .agigov-action-receipt-icon {
+    @apply text-sky-400;
+  }
+
+.agigov-action-receipt-title {
+    @apply font-medium text-emerald-100;
+  }
+
+.agigov-action-receipt--warning .agigov-action-receipt-title {
+    @apply text-amber-100;
+  }
+
+.agigov-action-receipt--info .agigov-action-receipt-title {
+    @apply text-sky-100;
+  }
+
+.agigov-action-receipt-body {
+    @apply mt-2 text-sm leading-relaxed text-emerald-100/85;
+  }
+
+.agigov-action-receipt--warning .agigov-action-receipt-body {
+    @apply text-amber-100/85;
+  }
+
+.agigov-action-receipt--info .agigov-action-receipt-body {
+    @apply text-sky-100/85;
+  }
+
+.agigov-action-receipt-dismiss {
+    @apply shrink-0 rounded-lg p-1.5 text-emerald-200/60 transition-colors hover:bg-white/5 hover:text-emerald-100;
+  }
+
+[data-agigov-skin='legacy'] .app-sidebar-section--ven .app-sidebar-section-title {
+    @apply text-amber-300;
+  }
+
+.app-shell-content .agigov-shell,
+  .app-shell-content .agigov-shell-narrow {
+    @apply mx-auto max-w-4xl pb-16 pt-6;
+  }
+
+.app-shell-content--catalog-dock .agigov-shell,
+  .app-shell-content--catalog-dock .agigov-shell-narrow {
+    @apply pb-28;
+  }
+
+.agigov-alert {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+
+.agigov-alert--banner {
+    @apply rounded-none border-x-0 border-t-0 px-4 py-2.5 text-center;
+  }
+
+.agigov-alert-icon {
+    @apply mt-0.5;
+  }
+
+.agigov-alert-title {
+    @apply font-semibold text-agigov-text;
+  }
+
+.agigov-alert-body {
+    @apply mt-1 text-agigov-text-muted;
+  }
+
+.agigov-alert-hint {
+    @apply mt-3 text-xs text-agigov-text-muted;
+  }
+
+.agigov-alert-hint code {
+    @apply text-sky-400;
+  }
+
+.agigov-alert-action {
+    @apply mt-4;
+  }
+
+.agigov-alert-banner-meta {
+    @apply ml-2 font-normal opacity-80;
+  }
+
+.agigov-alert--info {
+    @apply border-sky-500/25 bg-sky-500/10;
+  }
+
+.agigov-alert--info .agigov-alert-icon {
+    @apply text-sky-400;
+  }
+
+.agigov-alert--warning {
+    @apply border-amber-500/25 bg-amber-500/10;
+  }
+
+.agigov-alert--warning .agigov-alert-icon {
+    @apply text-amber-500;
+  }
+
+.agigov-alert--error {
+    @apply border-red-500/25 bg-red-500/10;
+  }
+
+.agigov-alert--error .agigov-alert-icon {
+    @apply text-red-400;
+  }
+
+.agigov-alert--offline {
+    @apply border-amber-500/25 bg-amber-500/10;
+  }
+
+.agigov-alert--offline .agigov-alert-icon {
+    @apply text-amber-500;
+  }
+
+.agigov-alert--success {
+    @apply border-emerald-500/25 bg-emerald-500/10;
+  }
+
+.agigov-alert--success .agigov-alert-icon {
+    @apply text-emerald-400;
+  }
+
+.agigov-alert--banner.agigov-alert--info {
+    @apply border-sky-500/20 bg-sky-500/[0.08] text-agigov-text;
+  }
+
+.agigov-alert--banner.agigov-alert--warning,
+  .agigov-alert--banner.agigov-alert--offline {
+    @apply border-amber-500/20 bg-amber-500/[0.08] text-agigov-text;
+  }
+
+.agigov-alert--banner.agigov-alert--error {
+    @apply border-red-500/20 bg-red-500/[0.08] text-agigov-text;
+  }
+
+.agigov-alert--banner.agigov-alert--success {
+    @apply border-emerald-500/20 bg-emerald-500/[0.08] text-agigov-text;
+  }
+
+[data-agigov-skin='legacy'] .hero-narrative-line {
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
+  }
+
+[data-agigov-skin='legacy'] .cinematic-vision {
+    @apply bg-agigov-navy-light;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-brand-mark {
+    @apply text-white;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-narrative-card {
+    @apply border-white/15 bg-slate-950/90;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-narrative-act {
+    @apply text-sky-300;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-narrative-line {
+    @apply text-white;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-scroll-cta {
+    @apply border-white/20 bg-slate-900/90 text-white hover:bg-slate-800;
+  }
+
+[data-agigov-skin='legacy'] .cinematic-hero-glass {
+    @apply border-white/10 bg-slate-900/75;
+  }
+
+[data-agigov-mode='funnel'] .ds-btn-app,
+  [data-agigov-mode='funnel'] .agigov-btn-primary {
+    @apply rounded-lg shadow-none;
+  }
+
+[data-agigov-mode='funnel'] .ds-btn-secondary,
+  [data-agigov-mode='funnel'] .agigov-btn-secondary {
+    @apply rounded-lg shadow-none;
+  }
+}

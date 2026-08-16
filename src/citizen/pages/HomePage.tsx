@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
+import '../../styles/landing.css';
 
 const LandingGovernanceCompareSection = lazy(() =>
   import('../components/landing/LandingGovernanceCompareSection.js').then((m) => ({
