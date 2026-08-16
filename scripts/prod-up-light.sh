@@ -39,6 +39,7 @@ sleep 3
 curl -sf "http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/ops/health" | head -c 500 || true
 echo ""
 echo "[ProdLight] Listo."
+echo "  AGIGOV UI:  http://127.0.0.1:${WEB_PORT:-80}/"
 echo "  API ops:    http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/ops/health"
 echo "  Dashboard:  http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/public/dashboard"
 echo "  Piloto:     npm run pilot:verify"

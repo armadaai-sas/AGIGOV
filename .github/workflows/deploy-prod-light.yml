@@ -94,7 +94,10 @@ jobs:
           docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
           EOF
 
-      - name: Public health check
+      - name: Public health + PWA check
         run: |
           curl -sf "http://${DROPLET_HOST}:3001/api/ops/health"
           echo
+          curl -sf "http://${DROPLET_HOST}/api/ops/health"
+          echo
+          curl -sfI "http://${DROPLET_HOST}/" | head -n 5
