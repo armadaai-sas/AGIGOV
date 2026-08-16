@@ -56,6 +56,14 @@ if [ "${HONEYPOT:-0}" = "1" ]; then
 fi
 if [ "${TUNNEL:-0}" = "1" ]; then
   echo "  HTTPS:      docker logs armada-tunnel-light 2>&1 | grep trycloudflare"
+  for _i in $(seq 1 20); do
+    _url="$(docker logs armada-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)"
+    if [ -n "${_url}" ]; then
+      echo "  HTTPS_URL=${_url}"
+      break
+    fi
+    sleep 1
+  done
 fi
 if [ "${TUNNEL_NAMED:-0}" = "1" ]; then
   echo "  HTTPS:      named Cloudflare tunnel (CLOUDFLARE_TUNNEL_TOKEN)"
