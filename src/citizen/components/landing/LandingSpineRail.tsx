@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 const SECTIONS = [
   { id: 'hero-demo', label: 'Producto' },
   { id: 'gobernanza-2', label: 'Por qué' },
-  { id: 'modelo', label: 'Modelos' },
+  { id: 'flujo', label: 'Flujo' },
+  { id: 'conectate', label: 'Conéctate' },
+  { id: 'modelo', label: 'Aplícalo' },
   { id: 'landing-cta', label: 'Acción' },
 ] as const;
 

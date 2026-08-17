@@ -16,8 +16,7 @@ export function SiteFooter() {
         <div className="site-footer-brand">
           <AgigovLogo size="sm" showWordmark />
           <p className="site-footer-tagline">
-            Organización oficial AGIGOV. Modelo genérico e implementaciones nacionales para
-            Estado, política y economía verificables.
+            Evidencia publicada. Decisiones trazables.
           </p>
         </div>
 

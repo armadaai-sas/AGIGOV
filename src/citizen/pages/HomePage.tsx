@@ -10,6 +10,16 @@ const LandingGovernanceCompareSection = lazy(() =>
     default: m.LandingGovernanceCompareSection,
   })),
 );
+const LandingFlowSection = lazy(() =>
+  import('../components/landing/LandingFlowSection.js').then((m) => ({
+    default: m.LandingFlowSection,
+  })),
+);
+const LandingConnectSection = lazy(() =>
+  import('../components/landing/LandingConnectSection.js').then((m) => ({
+    default: m.LandingConnectSection,
+  })),
+);
 const LandingModelsInteractiveSection = lazy(() =>
   import('../components/landing/LandingModelsInteractiveSection.js').then((m) => ({
     default: m.LandingModelsInteractiveSection,
@@ -21,7 +31,7 @@ const LandingCtaSection = lazy(() =>
   })),
 );
 
-/** Landing AGIGOV — dark navy visual-first; spine Railway; hero eager. */
+/** Landing AGIGOV — storyboard producto; spine Railway; hero eager. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -34,6 +44,8 @@ export default function HomePage() {
       <HeroOrchestrator />
       <Suspense fallback={null}>
         <LandingGovernanceCompareSection />
+        <LandingFlowSection />
+        <LandingConnectSection />
         <LandingModelsInteractiveSection />
         <LandingCtaSection />
       </Suspense>

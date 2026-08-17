@@ -508,7 +508,7 @@
   }
 
 .landing-compare-title {
-    @apply mt-3 max-w-2xl font-display text-[clamp(1.5rem,3.5vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em] text-white;
+    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
 .landing-compare-lead {
@@ -594,6 +594,86 @@
     }
   }
 
+.landing-section--flow {
+    @apply border-t border-white/[0.06] bg-[#030508] py-14 md:py-20;
+  }
+
+.landing-flow-inner {
+    @apply mx-auto max-w-5xl px-5 md:px-8;
+  }
+
+.landing-flow-title {
+    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+  }
+
+.landing-flow-lead {
+    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+  }
+
+.landing-flow-visual {
+    @apply mt-8;
+  }
+
+.landing-section--flow.is-inview .landing-flow-visual {
+    animation: landing-compare-in 0.55s ease-out both;
+  }
+
+.landing-section--connect {
+    @apply border-t border-white/[0.06] bg-[#0b1220] py-14 md:py-20;
+  }
+
+.landing-connect-inner {
+    @apply mx-auto max-w-5xl px-5 md:px-8;
+  }
+
+.landing-connect-title {
+    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+  }
+
+.landing-connect-lead {
+    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+  }
+
+.landing-connect-steps {
+    @apply mt-10 grid list-none gap-4 p-0 md:grid-cols-3 md:gap-5;
+  }
+
+.landing-connect-step {
+    @apply relative rounded-2xl border border-white/10 bg-[#111827]/80 p-5;
+  }
+
+.landing-connect-step-num {
+    @apply font-display text-xs font-semibold tracking-[0.2em] text-cyan-400/80;
+  }
+
+.landing-connect-step-icon {
+    @apply mt-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+  }
+
+.landing-connect-step-title {
+    @apply mt-4 font-display text-lg font-semibold tracking-[-0.02em] text-white;
+  }
+
+.landing-connect-step-body {
+    @apply mt-2 text-sm leading-relaxed text-slate-400;
+  }
+
+.landing-connect-cta {
+    @apply mt-10 inline-flex;
+  }
+
+.landing-section--connect.is-inview .landing-connect-step {
+    animation: landing-compare-in 0.5s ease-out both;
+  }
+
+.landing-section--connect.is-inview .landing-connect-step:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+.landing-section--connect.is-inview .landing-connect-step:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
 .landing-section--models {
     @apply border-t border-white/[0.06] bg-[#030508] py-14 md:py-20;
   }
@@ -603,7 +683,7 @@
   }
 
 .landing-models-title {
-    @apply mt-3 font-display text-[clamp(1.5rem,3.5vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em] text-white;
+    @apply mt-3 font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
 .landing-models-body {
@@ -854,7 +934,7 @@
   }
 
 .landing-section-cta-panel {
-    @apply mx-auto max-w-4xl rounded-3xl border border-sky-500/25 bg-gradient-to-br from-sky-950/60 via-[#0b1220] to-[#030508] px-6 py-12 shadow-[0_32px_64px_-36px_rgba(3,105,161,0.45)] md:px-12 md:py-14;
+    @apply mx-auto max-w-4xl rounded-3xl border border-cyan-400/25 bg-gradient-to-br from-cyan-950/40 via-[#0b1220] to-[#030508] px-6 py-12 shadow-[0_32px_64px_-36px_rgba(34,211,238,0.35)] md:px-12 md:py-14;
   }
 
 .landing-section-inner--cta {
@@ -862,11 +942,11 @@
   }
 
 .landing-section-cta-title {
-    @apply font-display text-2xl font-semibold tracking-[-0.02em] text-white md:text-3xl;
+    @apply font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold tracking-[-0.035em] text-white;
   }
 
 .landing-manifest .hero-brand-kicker {
-    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-400/90;
+    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-400/90;
   }
 
 .landing-manifest .landing-section-lead--light {

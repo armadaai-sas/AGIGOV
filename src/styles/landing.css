@@ -286,16 +286,16 @@
   }
 
   .hero-brand-btn {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl text-sm font-semibold no-underline transition-[background-color,color,border-color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030508];
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl text-sm font-semibold no-underline transition-[background-color,color,border-color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030508];
   }
 
   .hero-brand-btn--navy,
   .hero-brand-btn--primary.hero-brand-btn--navy {
-    @apply min-w-[11.5rem] bg-[#0284c7] px-6 text-white shadow-[0_1px_2px_rgba(0,0,0,0.25),0_14px_32px_-10px_rgba(2,132,199,0.55)] hover:-translate-y-px hover:bg-[#0ea5e9];
+    @apply min-w-[11.5rem] bg-[#22d3ee] px-6 text-[#0b1220] shadow-[0_1px_2px_rgba(0,0,0,0.25),0_14px_32px_-10px_rgba(34,211,238,0.45)] hover:-translate-y-px hover:bg-[#67e8f9];
   }
 
   .hero-brand-btn--ghost-navy {
-    @apply border border-white/15 bg-white/5 px-5 font-medium text-slate-100 backdrop-blur-sm hover:border-white/25 hover:bg-white/10;
+    @apply border border-white/20 bg-transparent px-5 font-medium text-slate-100 hover:border-white/30 hover:bg-white/10;
   }
 
   .hero-brand-btn--nav {
@@ -432,7 +432,7 @@
   }
 
   .hero-mobile-cta-btn {
-    @apply flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-sky-600 text-sm font-semibold text-white no-underline shadow-lg;
+    @apply flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#22d3ee] text-sm font-semibold text-[#0b1220] no-underline shadow-lg;
   }
 
   html.landing-snap-root {
