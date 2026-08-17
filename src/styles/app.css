@@ -400,8 +400,32 @@
     @apply border-t border-white/[0.06] bg-agigov-void px-5 pb-28 pt-14 md:pb-10;
   }
 
+.site-footer--institutional {
+    @apply bg-[#02040a];
+  }
+
+.site-footer-top {
+    @apply mx-auto mb-12 max-w-[1200px] text-center;
+  }
+
+.site-footer-brand-block {
+    @apply mx-auto flex max-w-md flex-col items-center;
+  }
+
+.site-footer-brand-block .flex {
+    @apply justify-center;
+  }
+
 .site-footer-inner {
     @apply mx-auto grid max-w-[1200px] gap-10 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+.site-footer-inner--cols {
+    @apply text-center sm:text-left;
+  }
+
+.site-footer-inner--cols .site-footer-col {
+    @apply flex flex-col items-center sm:items-start;
   }
 
 .site-footer-brand {
@@ -409,7 +433,15 @@
   }
 
 .site-footer-tagline {
-    @apply mt-4 max-w-xs text-sm leading-relaxed text-agigov-text-muted;
+    @apply mt-4 max-w-sm text-center text-sm leading-relaxed text-agigov-text-muted;
+  }
+
+.site-footer-social {
+    @apply mt-6 flex items-center justify-center gap-3;
+  }
+
+.site-footer-social-link {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-slate-300 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200;
   }
 
 .site-footer-heading {
@@ -425,7 +457,7 @@
   }
 
 .site-footer-bottom {
-    @apply mx-auto mt-10 max-w-[1200px] border-t border-white/[0.05] pt-6 text-center text-xs text-slate-600;
+    @apply mx-auto mt-12 max-w-[1200px] border-t border-white/[0.05] pt-6 text-center text-xs text-slate-600;
   }
 
 .app-breadcrumbs {

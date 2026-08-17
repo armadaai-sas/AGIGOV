@@ -504,19 +504,19 @@
   }
 
 .landing-compare-inner {
-    @apply mx-auto max-w-5xl px-5 md:px-8;
+    @apply mx-auto max-w-5xl px-5 text-center md:px-8;
   }
 
 .landing-compare-title {
-    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+    @apply mx-auto mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
 .landing-compare-lead {
-    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+    @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
 .landing-compare-layout {
-    @apply mt-8 grid gap-5 lg:grid-cols-[10rem_1fr] lg:gap-8;
+    @apply mt-8 grid gap-5 text-left lg:grid-cols-[10rem_1fr] lg:gap-8;
   }
 
 .landing-compare-nav {
@@ -572,7 +572,7 @@
   }
 
 .landing-compare-cta {
-    @apply mt-8 inline-flex;
+    @apply mx-auto mt-8 inline-flex;
   }
 
 .landing-cta-micro {
@@ -599,22 +599,46 @@
   }
 
 .landing-flow-inner {
-    @apply mx-auto max-w-5xl px-5 md:px-8;
+    @apply mx-auto max-w-5xl px-5 text-center md:px-8;
   }
 
 .landing-flow-title {
-    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+    @apply mx-auto mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
 .landing-flow-lead {
-    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+    @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
 .landing-flow-visual {
-    @apply mt-8;
+    @apply mx-auto mt-8 max-w-5xl text-left;
   }
 
 .landing-section--flow.is-inview .landing-flow-visual {
+    animation: landing-compare-in 0.55s ease-out both;
+  }
+
+.landing-section--console {
+    @apply border-t border-white/[0.06] bg-[#0b1220] py-14 md:py-20;
+  }
+
+.landing-console-inner {
+    @apply mx-auto max-w-5xl px-5 text-center md:px-8;
+  }
+
+.landing-console-title {
+    @apply mx-auto mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+  }
+
+.landing-console-lead {
+    @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+  }
+
+.landing-console-visual {
+    @apply mx-auto mt-8 max-w-5xl text-left;
+  }
+
+.landing-section--console.is-inview .landing-console-visual {
     animation: landing-compare-in 0.55s ease-out both;
   }
 
@@ -623,19 +647,19 @@
   }
 
 .landing-connect-inner {
-    @apply mx-auto max-w-5xl px-5 md:px-8;
+    @apply mx-auto max-w-5xl px-5 text-center md:px-8;
   }
 
 .landing-connect-title {
-    @apply mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+    @apply mx-auto mt-3 max-w-2xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
 .landing-connect-lead {
-    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+    @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
 .landing-connect-steps {
-    @apply mt-10 grid list-none gap-4 p-0 md:grid-cols-3 md:gap-5;
+    @apply mt-10 grid list-none gap-4 p-0 text-left md:grid-cols-3 md:gap-5;
   }
 
 .landing-connect-step {
@@ -659,7 +683,7 @@
   }
 
 .landing-connect-cta {
-    @apply mt-10 inline-flex;
+    @apply mx-auto mt-10 inline-flex;
   }
 
 .landing-section--connect.is-inview .landing-connect-step {
@@ -679,7 +703,11 @@
   }
 
 .landing-models-layout {
-    @apply mx-auto grid max-w-5xl items-start gap-8 px-5 md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12;
+    @apply mx-auto grid max-w-5xl items-start gap-8 px-5 text-center md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 lg:text-left;
+  }
+
+.landing-models-copy {
+    @apply mx-auto flex max-w-xl flex-col items-center lg:mx-0 lg:max-w-none lg:items-start;
   }
 
 .landing-models-title {

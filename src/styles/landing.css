@@ -11,12 +11,13 @@
 @source "../citizen/components/home/HomeHeroTitleAura.tsx";
 @source "../citizen/components/home/HomeHeroConsoleDemo.tsx";
 @source "../citizen/components/landing/LandingSpineRail.tsx";
+@source "../citizen/components/landing/LandingConsoleSection.tsx";
 @source "../citizen/components/AgigovLogo.tsx";
 @source "../citizen/components/SiteFooter.tsx";
 
 @layer components {
   .landing-manifest {
-    @apply bg-[#030508] text-slate-100;
+    @apply relative bg-[#030508] text-slate-100 lg:pl-12 xl:pl-20;
   }
 
   .landing-display-title {
@@ -29,7 +30,7 @@
   }
 
   .hero-title-stack {
-    @apply relative mx-auto flex w-full max-w-4xl items-center justify-center py-6 md:py-10;
+    @apply relative mx-auto flex w-full max-w-4xl flex-col items-center justify-center py-6 text-center md:py-10;
   }
 
   .hero-title-aura {
@@ -81,31 +82,47 @@
   }
 
   .landing-spine {
-    @apply pointer-events-none fixed left-3 top-1/2 z-40 hidden h-[min(52vh,28rem)] w-8 -translate-y-1/2 lg:block xl:left-6;
+    @apply pointer-events-none fixed left-2 top-1/2 z-40 hidden h-[min(70vh,36rem)] w-14 -translate-y-1/2 lg:block xl:left-5 xl:w-24;
   }
 
   .landing-spine-line {
-    @apply absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-sky-500/55 to-transparent;
+    @apply absolute left-[0.95rem] top-0 h-full w-px -translate-x-1/2 overflow-hidden bg-white/10 xl:left-[1.1rem];
+  }
+
+  .landing-spine-progress {
+    @apply w-full origin-top bg-gradient-to-b from-cyan-400/90 via-cyan-400/70 to-cyan-500/40 transition-[height] duration-500 ease-out;
   }
 
   .landing-spine-dots {
-    @apply relative z-[1] flex h-full list-none flex-col items-center justify-between py-1;
+    @apply relative z-[1] flex h-full list-none flex-col items-start justify-between py-1;
   }
 
   .landing-spine-hit {
-    @apply pointer-events-auto flex h-8 w-8 items-center justify-center;
+    @apply pointer-events-auto relative flex h-8 items-center gap-2 pl-1;
   }
 
   .landing-spine-orb {
-    @apply block h-2.5 w-2.5 rounded-full border border-sky-400/40 bg-[#0b1220] transition-all duration-300;
+    @apply block h-2.5 w-2.5 shrink-0 rounded-full border border-cyan-400/40 bg-[#0b1220] transition-all duration-300;
+  }
+
+  .landing-spine-label {
+    @apply hidden max-w-[5.5rem] truncate text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500 transition-colors xl:inline;
   }
 
   .landing-spine-dot.is-done .landing-spine-orb {
-    @apply border-sky-500/60 bg-sky-700/80;
+    @apply border-cyan-500/70 bg-cyan-600/90;
+  }
+
+  .landing-spine-dot.is-done .landing-spine-label {
+    @apply text-slate-400;
   }
 
   .landing-spine-dot.is-active .landing-spine-orb {
-    @apply h-3 w-3 border-sky-300 bg-sky-400 shadow-[0_0_16px_rgba(56,189,248,0.65)];
+    @apply h-3 w-3 border-cyan-200 bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.65)];
+  }
+
+  .landing-spine-dot.is-active .landing-spine-label {
+    @apply text-cyan-200;
   }
 
   .landing-lead {
@@ -151,11 +168,15 @@
   }
 
   .hero-cinematic-title--navy {
-    @apply max-w-[12ch] text-center text-white;
+    @apply mx-auto max-w-[14ch] text-center text-white;
+  }
+
+  .hero-cinematic-subline {
+    @apply mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-slate-400 md:text-base;
   }
 
   .hero-cinematic-actions {
-    @apply mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center;
+    @apply mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row;
   }
 
   .hero-sell-lead {
@@ -174,8 +195,12 @@
     @apply mt-10 flex w-full flex-col gap-8;
   }
 
+  .hero-product-stage--diagram {
+    @apply mx-auto mt-10 flex w-full max-w-5xl flex-col items-center;
+  }
+
   .hero-product-frame--full {
-    @apply mt-0 overflow-visible rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-sky-500/15;
+    @apply mx-auto mt-0 w-full max-w-5xl overflow-visible rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-cyan-500/15;
   }
 
   .hero-console-full {
@@ -187,7 +212,7 @@
   }
 
   .hero-os-diagram {
-    @apply w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220]/95 shadow-[0_28px_70px_-30px_rgba(0,0,0,0.8)] ring-1 ring-sky-500/10;
+    @apply mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220]/95 text-left shadow-[0_28px_70px_-30px_rgba(0,0,0,0.8)] ring-1 ring-cyan-500/10;
   }
 
   .hero-os-diagram-bar {
@@ -303,7 +328,7 @@
   }
 
   .hero-product-stage {
-    @apply mt-10 w-full text-left;
+    @apply mx-auto mt-10 w-full max-w-5xl text-center;
   }
 
   .hero-product-frame {
@@ -418,9 +443,9 @@
     @apply absolute bottom-5 left-1/2 z-10 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full border no-underline;
   }
 
+  .hero-trust-scroll-hint,
   .hero-cinematic-scroll--navy {
-    @apply border-white/15 bg-white/5 text-slate-300 hover:border-white/25 hover:text-white;
-    animation: cinematic-scroll-bounce 2.2s ease-in-out infinite;
+    @apply hidden;
   }
 
   .hero-mobile-cta {

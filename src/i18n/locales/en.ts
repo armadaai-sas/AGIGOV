@@ -25,6 +25,9 @@ const en = {
   'hero.cinematic.title': 'The institutional OS',
   'hero.cinematic.tagline': 'Governance 2.0',
   'hero.cinematic.subline': 'Data in. Verified flow. Published result.',
+  'landing.console.kicker': 'Live console',
+  'landing.console.title': 'See the OS decide in real time.',
+  'landing.console.lead': 'Savings, contracts, and reconcile — one institutional dashboard.',
   'hero.sell.lead':
     'AGIGOV is the operating system for one budget line: you load evidence, the OS runs custody, and you publish a close you can defend.',
   'hero.sell.point1': 'Operate: baseline multi-sig → milestones in escrow → sentinel gate',

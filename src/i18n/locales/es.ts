@@ -27,6 +27,9 @@ const es: Record<MessageKey, string> = {
   'hero.cinematic.title': 'El OS institucional',
   'hero.cinematic.tagline': 'Gobernanza 2.0',
   'hero.cinematic.subline': 'Data entra. Flujo verificado. Resultado publicado.',
+  'landing.console.kicker': 'Consola en vivo',
+  'landing.console.title': 'Mira al OS decidir en tiempo real.',
+  'landing.console.lead': 'Ahorro, contratos y reconcile — un solo dashboard institucional.',
   'hero.sell.lead':
     'AGIGOV es el sistema operativo de un rubro presupuestario: carga evidencia, el OS custodia el flujo y publica un cierre defendible.',
   'hero.sell.point1': 'Opera: baseline multi-sig → hitos en escrow → gate centinela',

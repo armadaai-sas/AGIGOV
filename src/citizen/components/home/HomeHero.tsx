@@ -1,23 +1,20 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
-import { usePlatform } from '../../context/PlatformContext.js';
 import { HomeHeroMobileCta } from './HomeHeroMobileCta.js';
 import { HomeHeroTitleAura } from './HomeHeroTitleAura.js';
 import { HomeHeroOsDiagram } from './HomeHeroOsDiagram.js';
-import { HomeHeroConsoleDemo } from './HomeHeroConsoleDemo.js';
 import './hero-console.css';
 
 /**
- * Hero Railway-calm: marca + título grande + aura interactiva + diagrama que vende + consola.
- * Sin muro de texto.
+ * Hero page 1: marca + título + subtítulo + diagrama centrado.
+ * Consola vive en #consola (segunda página).
  */
 export function HomeHero() {
   const copy = useLandingCopy();
-  const { t } = usePlatform();
   const reduceMotion = useReducedMotion();
 
   const enter = (delay: number) =>
@@ -50,6 +47,9 @@ export function HomeHero() {
             >
               {copy.HERO_CINEMATIC_TITLE}
             </motion.h1>
+            <motion.p className="hero-cinematic-subline" {...enter(0.08)}>
+              {copy.HERO_CINEMATIC_SUBLINE}
+            </motion.p>
           </div>
 
           <motion.div className="hero-cinematic-actions" {...enter(0.1)}>
@@ -62,21 +62,10 @@ export function HomeHero() {
             </Link>
           </motion.div>
 
-          <motion.div className="hero-product-stage hero-product-stage--sell" {...enter(0.14)}>
+          <motion.div className="hero-product-stage hero-product-stage--diagram" {...enter(0.14)}>
             <HomeHeroOsDiagram />
-            <div className="hero-product-frame hero-product-frame--full">
-              <HomeHeroConsoleDemo />
-            </div>
           </motion.div>
         </div>
-
-        <a
-          href="#gobernanza-2"
-          className="hero-trust-scroll-hint hero-cinematic-scroll hero-cinematic-scroll--navy"
-          aria-label={t('hero.scroll.next')}
-        >
-          <ChevronDown className="h-5 w-5" aria-hidden />
-        </a>
       </div>
     </section>
   );

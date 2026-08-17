@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 const SECTIONS = [
   { id: 'hero-demo', label: 'Producto' },
+  { id: 'consola', label: 'Consola' },
   { id: 'gobernanza-2', label: 'Por qué' },
   { id: 'flujo', label: 'Flujo' },
   { id: 'conectate', label: 'Conéctate' },
@@ -9,9 +10,11 @@ const SECTIONS = [
   { id: 'landing-cta', label: 'Acción' },
 ] as const;
 
-/** Línea vertical tipo Railway — organiza la landing a la izquierda. */
+/** Timeline vertical izquierda — avanza con el scroll como un cargador. */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
+  const last = SECTIONS.length - 1;
+  const progress = last <= 0 ? 0 : (active / last) * 100;
 
   useEffect(() => {
     const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
@@ -26,7 +29,7 @@ export function LandingSpineRail() {
         const idx = SECTIONS.findIndex((s) => s.id === visible.target.id);
         if (idx >= 0) setActive(idx);
       },
-      { threshold: [0.2, 0.45, 0.7], rootMargin: '-15% 0px -35% 0px' },
+      { threshold: [0.15, 0.35, 0.55, 0.75], rootMargin: '-12% 0px -40% 0px' },
     );
 
     els.forEach((el) => obs.observe(el));
@@ -34,13 +37,19 @@ export function LandingSpineRail() {
   }, []);
 
   return (
-    <aside className="landing-spine" aria-hidden>
-      <div className="landing-spine-line" />
+    <aside className="landing-spine" aria-label="Progreso de la página">
+      <div className="landing-spine-line" aria-hidden>
+        <div className="landing-spine-progress" style={{ height: `${progress}%` }} />
+      </div>
       <ol className="landing-spine-dots">
         {SECTIONS.map((s, i) => (
-          <li key={s.id} className={`landing-spine-dot ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}>
+          <li
+            key={s.id}
+            className={`landing-spine-dot ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
+          >
             <a href={`#${s.id}`} className="landing-spine-hit" title={s.label}>
               <span className="landing-spine-orb" />
+              <span className="landing-spine-label">{s.label}</span>
             </a>
           </li>
         ))}

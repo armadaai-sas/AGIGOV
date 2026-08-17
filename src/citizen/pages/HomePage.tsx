@@ -5,6 +5,11 @@ import { LandingSpineRail } from '../components/landing/LandingSpineRail.js';
 import { SiteFooter } from '../components/SiteFooter.js';
 import '../../styles/landing.css';
 
+const LandingConsoleSection = lazy(() =>
+  import('../components/landing/LandingConsoleSection.js').then((m) => ({
+    default: m.LandingConsoleSection,
+  })),
+);
 const LandingGovernanceCompareSection = lazy(() =>
   import('../components/landing/LandingGovernanceCompareSection.js').then((m) => ({
     default: m.LandingGovernanceCompareSection,
@@ -31,7 +36,7 @@ const LandingCtaSection = lazy(() =>
   })),
 );
 
-/** Landing AGIGOV — storyboard producto; spine Railway; hero eager. */
+/** Landing AGIGOV — storyboard producto; spine timeline; hero eager. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -43,6 +48,7 @@ export default function HomePage() {
       <LandingSpineRail />
       <HeroOrchestrator />
       <Suspense fallback={null}>
+        <LandingConsoleSection />
         <LandingGovernanceCompareSection />
         <LandingFlowSection />
         <LandingConnectSection />
