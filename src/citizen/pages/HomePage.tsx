@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
+import { LandingSpineRail } from '../components/landing/LandingSpineRail.js';
 import { SiteFooter } from '../components/SiteFooter.js';
 import '../../styles/landing.css';
 
@@ -20,7 +21,7 @@ const LandingCtaSection = lazy(() =>
   })),
 );
 
-/** Landing AGIGOV — dark navy visual-first; hero eager; below-fold lazy. */
+/** Landing AGIGOV — dark navy visual-first; spine Railway; hero eager. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -29,6 +30,7 @@ export default function HomePage() {
 
   return (
     <div className="landing-manifest">
+      <LandingSpineRail />
       <HeroOrchestrator />
       <Suspense fallback={null}>
         <LandingGovernanceCompareSection />

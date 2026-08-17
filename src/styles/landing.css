@@ -8,7 +8,9 @@
 @source "../citizen/components/home/HomeHeroProgress.tsx";
 @source "../citizen/components/home/HomeHeroMobileCta.tsx";
 @source "../citizen/components/home/HomeHeroOsDiagram.tsx";
+@source "../citizen/components/home/HomeHeroTitleAura.tsx";
 @source "../citizen/components/home/HomeHeroConsoleDemo.tsx";
+@source "../citizen/components/landing/LandingSpineRail.tsx";
 @source "../citizen/components/AgigovLogo.tsx";
 @source "../citizen/components/SiteFooter.tsx";
 
@@ -18,8 +20,92 @@
   }
 
   .landing-display-title {
-    @apply font-display font-semibold leading-[1.05] tracking-[-0.04em] text-white;
-    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    @apply font-display font-semibold leading-[1.02] tracking-[-0.045em] text-white;
+    font-size: clamp(2.5rem, 7.5vw, 4.5rem);
+  }
+
+  .hero-cinematic-title--xl {
+    @apply relative z-[2] max-w-[12ch];
+  }
+
+  .hero-title-stack {
+    @apply relative mx-auto flex w-full max-w-4xl items-center justify-center py-6 md:py-10;
+  }
+
+  .hero-title-aura {
+    @apply pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-90;
+  }
+
+  .hero-title-aura-svg {
+    @apply h-full w-full max-h-[15rem];
+  }
+
+  .hero-title-aura-path {
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .hero-title-aura.is-alive .hero-title-aura-path {
+    stroke-dasharray: 8 10;
+    animation: hero-aura-flow 6s linear infinite;
+  }
+
+  .hero-title-aura.is-alive .hero-title-aura-path--delay {
+    animation-duration: 8s;
+    animation-direction: reverse;
+  }
+
+  .hero-title-aura-node {
+    fill: #38bdf8;
+    opacity: 0.85;
+  }
+
+  .hero-title-aura.is-alive .hero-title-aura-node {
+    animation: hero-aura-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes hero-aura-flow {
+    to {
+      stroke-dashoffset: -120;
+    }
+  }
+
+  @keyframes hero-aura-pulse {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .landing-spine {
+    @apply pointer-events-none fixed left-3 top-1/2 z-40 hidden h-[min(52vh,28rem)] w-8 -translate-y-1/2 lg:block xl:left-6;
+  }
+
+  .landing-spine-line {
+    @apply absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-sky-500/55 to-transparent;
+  }
+
+  .landing-spine-dots {
+    @apply relative z-[1] flex h-full list-none flex-col items-center justify-between py-1;
+  }
+
+  .landing-spine-hit {
+    @apply pointer-events-auto flex h-8 w-8 items-center justify-center;
+  }
+
+  .landing-spine-orb {
+    @apply block h-2.5 w-2.5 rounded-full border border-sky-400/40 bg-[#0b1220] transition-all duration-300;
+  }
+
+  .landing-spine-dot.is-done .landing-spine-orb {
+    @apply border-sky-500/60 bg-sky-700/80;
+  }
+
+  .landing-spine-dot.is-active .landing-spine-orb {
+    @apply h-3 w-3 border-sky-300 bg-sky-400 shadow-[0_0_16px_rgba(56,189,248,0.65)];
   }
 
   .landing-lead {
@@ -65,7 +151,11 @@
   }
 
   .hero-cinematic-title--navy {
-    @apply max-w-[22ch] text-center text-white;
+    @apply max-w-[12ch] text-center text-white;
+  }
+
+  .hero-cinematic-actions {
+    @apply mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center;
   }
 
   .hero-sell-lead {
@@ -201,7 +291,7 @@
 
   .hero-brand-btn--navy,
   .hero-brand-btn--primary.hero-brand-btn--navy {
-    @apply min-w-[11.5rem] bg-sky-600 px-6 text-white shadow-[0_1px_2px_rgba(0,0,0,0.2),0_12px_28px_-10px_rgba(3,105,161,0.55)] hover:-translate-y-px hover:bg-sky-500;
+    @apply min-w-[11.5rem] bg-[#0284c7] px-6 text-white shadow-[0_1px_2px_rgba(0,0,0,0.25),0_14px_32px_-10px_rgba(2,132,199,0.55)] hover:-translate-y-px hover:bg-[#0ea5e9];
   }
 
   .hero-brand-btn--ghost-navy {
@@ -386,6 +476,12 @@
 
   @media (prefers-reduced-motion: reduce) {
     .hero-cinematic-scroll--navy {
+      animation: none;
+    }
+
+    .hero-title-aura.is-alive .hero-title-aura-path,
+    .hero-title-aura.is-alive .hero-title-aura-node,
+    .hero-os-edge.is-alive {
       animation: none;
     }
   }

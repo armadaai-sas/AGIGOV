@@ -6,11 +6,15 @@ import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { usePlatform } from '../../context/PlatformContext.js';
 import { HomeHeroMobileCta } from './HomeHeroMobileCta.js';
+import { HomeHeroTitleAura } from './HomeHeroTitleAura.js';
 import { HomeHeroOsDiagram } from './HomeHeroOsDiagram.js';
 import { HomeHeroConsoleDemo } from './HomeHeroConsoleDemo.js';
 import './hero-console.css';
 
-/** Hero AGIGOV — venta operativa + diagrama que vende + consola grande completa. */
+/**
+ * Hero Railway-calm: marca + título grande + aura interactiva + diagrama que vende + consola.
+ * Sin muro de texto.
+ */
 export function HomeHero() {
   const copy = useLandingCopy();
   const { t } = usePlatform();
@@ -20,9 +24,9 @@ export function HomeHero() {
     reduceMotion
       ? undefined
       : {
-          initial: { opacity: 0, y: 14 },
+          initial: { opacity: 0, y: 12 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] as const },
+          transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const },
         };
 
   return (
@@ -37,27 +41,18 @@ export function HomeHero() {
             <AgigovLogo size="lg" showWordmark tagline={copy.HERO_CINEMATIC_TAGLINE} variant="dark" />
           </motion.div>
 
-          <motion.h1
-            id="home-hero-title"
-            className="landing-display-title hero-cinematic-title hero-cinematic-title--navy"
-            {...enter(0.05)}
-          >
-            {copy.HERO_CINEMATIC_TITLE}
-          </motion.h1>
+          <div className="hero-title-stack">
+            <HomeHeroTitleAura />
+            <motion.h1
+              id="home-hero-title"
+              className="landing-display-title hero-cinematic-title hero-cinematic-title--navy hero-cinematic-title--xl"
+              {...enter(0.05)}
+            >
+              {copy.HERO_CINEMATIC_TITLE}
+            </motion.h1>
+          </div>
 
-          <motion.p className="hero-sell-lead" {...enter(0.09)}>
-            {copy.HERO_SELL_LEAD}
-          </motion.p>
-
-          <motion.ul className="hero-sell-points" {...enter(0.12)}>
-            {copy.HERO_SELL_POINTS.map((point) => (
-              <li key={point} className="hero-sell-point">
-                {point}
-              </li>
-            ))}
-          </motion.ul>
-
-          <motion.div className="hero-cinematic-actions" {...enter(0.15)}>
+          <motion.div className="hero-cinematic-actions" {...enter(0.1)}>
             <Link to={copy.HERO_CTA_PRIMARY.path} className="hero-brand-btn hero-brand-btn--primary hero-brand-btn--navy">
               {copy.HERO_CTA_PRIMARY.label}
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -67,23 +62,12 @@ export function HomeHero() {
             </Link>
           </motion.div>
 
-          <motion.div className="hero-product-stage hero-product-stage--sell" {...enter(0.2)}>
+          <motion.div className="hero-product-stage hero-product-stage--sell" {...enter(0.14)}>
             <HomeHeroOsDiagram />
-
-            <div className="hero-console-full">
-              <p className="hero-console-full-label">
-                <span className="hero-cinematic-live-dot hero-cinematic-live-dot--on" aria-hidden />
-                {copy.HERO_CINEMATIC_LIVE_CAPTION}
-              </p>
-              <div className="hero-product-frame hero-product-frame--full">
-                <HomeHeroConsoleDemo />
-              </div>
+            <div className="hero-product-frame hero-product-frame--full">
+              <HomeHeroConsoleDemo />
             </div>
           </motion.div>
-
-          <motion.p className="hero-cinematic-trust hero-cinematic-trust--navy" {...enter(0.26)}>
-            {copy.HERO_TRUST_LINE}
-          </motion.p>
         </div>
 
         <a

@@ -10,7 +10,7 @@ export function LandingCtaSection() {
 
   return (
     <section className="landing-section landing-section--cta" aria-labelledby="landing-cta-title">
-      <div className="landing-section-cta-panel">
+      <div className="landing-section-cta-panel" id="landing-cta">
         <div className="landing-section-inner landing-section-inner--cta">
           <p className="hero-brand-kicker">{copy.LANDING_CTA_ACTION}</p>
           <h3 id="landing-cta-title" className="landing-section-cta-title">

@@ -83,7 +83,7 @@ export function AgigovLogo({
           <div className="flex flex-wrap items-center gap-2">
             <p
               className={`font-display text-lg font-semibold tracking-[-0.03em] md:text-xl ${
-                variant === 'light' ? 'text-slate-900' : 'text-agigov-text'
+                variant === 'light' ? 'text-slate-900' : 'text-white'
               }`}
             >
               AGIGOV
@@ -93,7 +93,7 @@ export function AgigovLogo({
           {tagline ? (
             <p
               className={`mt-0.5 text-[11px] font-medium uppercase tracking-[0.18em] ${
-                variant === 'light' ? 'text-slate-500' : 'text-slate-500'
+                variant === 'light' ? 'text-slate-500' : 'text-sky-300/90'
               }`}
             >
               {tagline}
