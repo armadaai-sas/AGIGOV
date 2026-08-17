@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
+import { SiteFooter } from '../components/SiteFooter.js';
 import '../../styles/landing.css';
 
 const LandingGovernanceCompareSection = lazy(() =>
@@ -19,7 +20,7 @@ const LandingCtaSection = lazy(() =>
   })),
 );
 
-/** Landing AGIGOV — hero eager; below-fold lazy for LCP. */
+/** Landing AGIGOV — dark navy visual-first; hero eager; below-fold lazy. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -27,13 +28,14 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="landing-manifest bg-[#f9fafb]">
+    <div className="landing-manifest">
       <HeroOrchestrator />
       <Suspense fallback={null}>
         <LandingGovernanceCompareSection />
         <LandingModelsInteractiveSection />
         <LandingCtaSection />
       </Suspense>
+      <SiteFooter />
     </div>
   );
 }

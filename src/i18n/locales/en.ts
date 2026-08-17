@@ -24,10 +24,9 @@ const en = {
   'hero.screen.pilot': 'Pilot',
   'hero.cinematic.title': 'Govern with evidence you can follow',
   'hero.cinematic.tagline': 'Governance 2.0',
-  'hero.cinematic.subline':
-    'Data enters. The OS runs the flow. The result is published. Learn the model by watching it — then run your pilot.',
+  'hero.cinematic.subline': 'Data in. Verified flow. Published result.',
   'hero.cinematic.liveCaption': 'Live console · {jurisdiction} sandbox',
-  'hero.cinematic.micro': 'Input → process → gate → result · human-in-the-loop when it matters',
+  'hero.cinematic.micro': 'Input → process → gate → result',
   'hero.cinematic.trust': 'Ed25519 · sentinel · fee only on certified savings',
   'hero.cta.primary': 'Open institutional pilot',
   'hero.cta.secondary': 'See Governance 2.0',
@@ -209,9 +208,8 @@ const en = {
   'model.card.viewBrief': 'View brief',
 
   'compare.kicker': 'Why Governance 2.0',
-  'compare.title': 'The same institution. Better information to decide.',
-  'compare.lead':
-    'Same teams, same laws — an evidence layer that reduces friction, increases legitimacy, and protects management.',
+  'compare.title': 'Same institution. Better evidence to decide.',
+  'compare.lead': 'Same teams, same laws — a shared truth layer.',
   'compare.traditional': 'Traditional',
   'compare.governance2': 'Governance 2.0',
   'compare.dim.efficiency': 'Efficiency',
@@ -229,12 +227,10 @@ const en = {
   'compare.cta': 'Explore the fiscal pilot',
 
   'landing.models.kicker': 'Modular models',
-  'landing.models.title': 'One engine. Different state functions.',
-  'landing.models.body':
-    'Start with the fiscal pilot; the catalog grows with institutional acts, not promises.',
-  'landing.cta.title': 'See the fiscal close at your own pace',
-  'landing.cta.lead':
-    'Open the console, browse the catalog, or schedule a conversation about a specific line item.',
+  'landing.models.title': 'One engine. State functions that ship.',
+  'landing.models.body': 'Start with the fiscal pilot. Grow with institutional acts.',
+  'landing.cta.title': 'Run the fiscal close in sandbox',
+  'landing.cta.lead': 'Open the console. Prove the model on one budget line.',
   'landing.cta.micro': 'No institutional commitment to explore the sandbox',
   'landing.cta.action': 'Action',
   'landing.cta.contact': 'Talk to the team',

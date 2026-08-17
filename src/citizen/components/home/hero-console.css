@@ -1165,8 +1165,8 @@
 .hero-cinematic-scrim {
     @apply pointer-events-none absolute inset-0 z-[1];
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 22%, transparent 55%, rgba(15, 23, 42, 0.45) 100%),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.08) 0%, transparent 18%, transparent 82%, rgba(15, 23, 42, 0.08) 100%);
+      linear-gradient(180deg, rgba(3, 5, 8, 0.55) 0%, rgba(11, 18, 32, 0.35) 40%, rgba(3, 5, 8, 0.75) 100%),
+      radial-gradient(ellipse 50% 40% at 50% 30%, rgba(3, 105, 161, 0.22), transparent 70%);
   }
 
 .hero-cinematic-progress {

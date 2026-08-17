@@ -500,7 +500,7 @@
   }
 
 .landing-section--compare {
-    @apply border-t border-slate-200 bg-white py-16 md:py-24;
+    @apply border-t border-white/[0.06] bg-[#0b1220] py-14 md:py-20;
   }
 
 .landing-compare-inner {
@@ -508,75 +508,71 @@
   }
 
 .landing-compare-title {
-    @apply mt-4 max-w-2xl font-display text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold leading-tight tracking-[-0.03em] text-slate-900;
+    @apply mt-3 max-w-2xl font-display text-[clamp(1.5rem,3.5vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em] text-white;
   }
 
 .landing-compare-lead {
-    @apply mt-4 max-w-2xl text-base leading-relaxed text-slate-600;
+    @apply mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
 .landing-compare-layout {
-    @apply mt-10 grid gap-6 lg:grid-cols-[11rem_1fr] lg:gap-10;
+    @apply mt-8 grid gap-5 lg:grid-cols-[10rem_1fr] lg:gap-8;
   }
 
 .landing-compare-nav {
     @apply flex flex-row flex-wrap gap-2 lg:flex-col;
   }
 
-.landing-compare-nav-btn {
-    @apply rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm font-medium text-slate-600 transition hover:border-slate-300;
+.landing-compare-tab {
+    @apply rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-left text-sm font-medium text-slate-300 transition hover:border-white/20;
   }
 
-.landing-compare-nav-btn.is-active {
-    @apply border-slate-900 bg-slate-900 text-white;
+.landing-compare-tab.is-active {
+    @apply border-sky-500/40 bg-sky-500/15 text-sky-100;
   }
 
 .landing-compare-panels {
-    @apply grid gap-3 md:grid-cols-[1fr_auto_1fr] md:items-stretch;
+    @apply grid gap-3 md:grid-cols-2 md:items-stretch;
   }
 
 .landing-compare-panel {
-    @apply rounded-xl border p-5;
+    @apply rounded-2xl border p-5 min-h-[9rem];
   }
 
-.landing-compare-panel--legacy {
-    @apply border-slate-200 bg-slate-50;
+.landing-compare-panel--traditional {
+    @apply border-white/10 bg-[#111827];
   }
 
-.landing-compare-panel--next {
-    @apply border-slate-800/15 bg-slate-900 text-white;
+.landing-compare-panel--g2 {
+    @apply border-sky-500/30 bg-gradient-to-br from-sky-950/80 to-[#0b1220] ring-1 ring-sky-500/20;
   }
 
 .landing-compare-panel-label {
     @apply text-[10px] font-semibold uppercase tracking-[0.16em];
   }
 
-.landing-compare-panel--legacy .landing-compare-panel-label {
+.landing-compare-panel--traditional .landing-compare-panel-label {
     @apply text-slate-500;
   }
 
-.landing-compare-panel--next .landing-compare-panel-label {
-    @apply text-slate-400;
+.landing-compare-panel--g2 .landing-compare-panel-label {
+    @apply text-sky-300;
   }
 
 .landing-compare-panel-text {
-    @apply mt-3 text-sm leading-relaxed md:text-base;
+    @apply mt-3 text-sm leading-relaxed md:text-[15px];
   }
 
-.landing-compare-panel--legacy .landing-compare-panel-text {
-    @apply text-slate-700;
+.landing-compare-panel--traditional .landing-compare-panel-text {
+    @apply text-slate-400;
   }
 
-.landing-compare-panel--next .landing-compare-panel-text {
+.landing-compare-panel--g2 .landing-compare-panel-text {
     @apply text-slate-100;
   }
 
-.landing-compare-vs {
-    @apply hidden items-center justify-center text-xl text-slate-400 md:flex;
-  }
-
-.landing-compare-footer {
-    @apply mt-10 flex justify-center md:justify-start;
+.landing-compare-cta {
+    @apply mt-8 inline-flex;
   }
 
 .landing-cta-micro {
@@ -599,27 +595,51 @@
   }
 
 .landing-section--models {
-    @apply border-t border-slate-200 bg-[#f8fafc] py-16 md:py-24;
+    @apply border-t border-white/[0.06] bg-[#030508] py-14 md:py-20;
   }
 
 .landing-models-layout {
-    @apply mx-auto grid max-w-5xl items-start gap-10 px-5 md:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-14;
+    @apply mx-auto grid max-w-5xl items-start gap-8 px-5 md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12;
   }
 
 .landing-models-title {
-    @apply mt-4 font-display text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold leading-tight tracking-[-0.03em] text-slate-900;
+    @apply mt-3 font-display text-[clamp(1.5rem,3.5vw,2.35rem)] font-semibold leading-tight tracking-[-0.03em] text-white;
   }
 
 .landing-models-body {
-    @apply mt-4 text-base leading-relaxed text-slate-600;
+    @apply mt-3 text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
 .landing-models-catalog-link {
-    @apply mt-6 inline-flex;
+    @apply mt-5 inline-flex;
   }
 
 .landing-models-grid {
     @apply grid gap-3 sm:grid-cols-2 lg:grid-cols-1;
+  }
+
+.landing-models-card {
+    @apply block rounded-2xl border border-white/10 bg-[#0b1220] p-5 no-underline shadow-[0_16px_40px_-28px_rgba(0,0,0,0.8)] transition hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-[#111827];
+  }
+
+.landing-models-card-head {
+    @apply mb-3 flex items-center justify-between gap-2;
+  }
+
+.landing-models-card-icon {
+    @apply flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-300;
+  }
+
+.landing-models-card-title {
+    @apply font-display text-lg font-semibold text-white;
+  }
+
+.landing-models-card-desc {
+    @apply mt-1 text-sm leading-snug text-slate-400;
+  }
+
+.landing-models-card-cta {
+    @apply mt-4 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-sky-300;
   }
 
 .landing-model-tile {
@@ -830,11 +850,11 @@
   }
 
 .landing-section--cta {
-    @apply bg-[#f8fafc] py-4 md:py-8;
+    @apply border-t border-white/[0.06] bg-[#0b1220] py-10 md:py-14;
   }
 
 .landing-section-cta-panel {
-    @apply mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white px-6 py-14 shadow-[0_24px_48px_-32px_rgba(15,23,42,0.18)] md:px-12 md:py-16;
+    @apply mx-auto max-w-4xl rounded-3xl border border-sky-500/25 bg-gradient-to-br from-sky-950/60 via-[#0b1220] to-[#030508] px-6 py-12 shadow-[0_32px_64px_-36px_rgba(3,105,161,0.45)] md:px-12 md:py-14;
   }
 
 .landing-section-inner--cta {
@@ -842,7 +862,27 @@
   }
 
 .landing-section-cta-title {
-    @apply font-display text-2xl font-semibold tracking-[-0.02em] text-[#111827] md:text-3xl;
+    @apply font-display text-2xl font-semibold tracking-[-0.02em] text-white md:text-3xl;
+  }
+
+.landing-manifest .hero-brand-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-400/90;
+  }
+
+.landing-manifest .landing-section-lead--light {
+    @apply text-slate-300;
+  }
+
+.landing-manifest .hero-brand-btn--outline {
+    @apply border border-white/15 bg-transparent text-slate-100 hover:border-white/30 hover:bg-white/5;
+  }
+
+.landing-manifest .hero-brand-btn--ghost {
+    @apply text-slate-400 hover:text-white;
+  }
+
+.landing-manifest .site-footer {
+    @apply border-t border-white/[0.08] bg-[#02040a];
   }
 
 .landing-section-kicker {

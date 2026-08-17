@@ -26,10 +26,9 @@ const es: Record<MessageKey, string> = {
   'hero.screen.pilot': 'Piloto',
   'hero.cinematic.title': 'Gobierna con calma. Publica con evidencia.',
   'hero.cinematic.tagline': 'Gobernanza 2.0',
-  'hero.cinematic.subline':
-    'La data entra. El OS ejecuta el flujo. El resultado se publica. Ves el proceso — luego corres tu piloto.',
+  'hero.cinematic.subline': 'Data entra. Flujo verificado. Resultado publicado.',
   'hero.cinematic.liveCaption': 'Consola en vivo · sandbox {jurisdiction}',
-  'hero.cinematic.micro': 'Entrada → proceso → resultado · human-in-the-loop cuando importa',
+  'hero.cinematic.micro': 'Entrada → proceso → gate → resultado',
   'hero.cinematic.trust': 'Ed25519 · centinela · fee solo si hay ahorro certificado',
   'hero.cta.primary': 'Abrir piloto institucional',
   'hero.cta.secondary': 'Ver Gobernanza 2.0',
@@ -212,9 +211,8 @@ const es: Record<MessageKey, string> = {
   'model.card.viewBrief': 'Ver ficha',
 
   'compare.kicker': 'Por qué Gobernanza 2.0',
-  'compare.title': 'La misma institución. Mejor información para decidir.',
-  'compare.lead':
-    'Mismos equipos, mismas leyes — una capa de evidencia que reduce fricción, aumenta legitimidad y protege la gestión.',
+  'compare.title': 'La misma institución. Mejor evidencia para decidir.',
+  'compare.lead': 'Mismos equipos, mismas leyes — una verdad compartida.',
   'compare.traditional': 'Tradicional',
   'compare.governance2': 'Gobernanza 2.0',
   'compare.dim.efficiency': 'Eficiencia',
@@ -232,12 +230,10 @@ const es: Record<MessageKey, string> = {
   'compare.cta': 'Explorar el piloto fiscal',
 
   'landing.models.kicker': 'Modelos modulares',
-  'landing.models.title': 'Un motor. Distintas funciones del Estado.',
-  'landing.models.body':
-    'Empiece por el piloto fiscal; el catálogo crece con actas institucionales, no con promesas.',
-  'landing.cta.title': 'Vea el cierre fiscal en su propio ritmo',
-  'landing.cta.lead':
-    'Abra la consola, recorra el catálogo o agende una conversación sobre un rubro concreto.',
+  'landing.models.title': 'Un motor. Funciones del Estado que se entregan.',
+  'landing.models.body': 'Empiece por el piloto fiscal. Crezca con actas.',
+  'landing.cta.title': 'Corra el cierre fiscal en sandbox',
+  'landing.cta.lead': 'Abra la consola. Pruebe el modelo en un rubro.',
   'landing.cta.micro': 'Sin compromiso institucional para explorar el sandbox',
   'landing.cta.action': 'Acción',
   'landing.cta.contact': 'Hablar con el equipo',
