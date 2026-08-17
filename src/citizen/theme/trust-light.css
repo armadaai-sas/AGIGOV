@@ -222,3 +222,74 @@
 [data-agigov-skin='trust'] .agigov-alert--banner {
   color: var(--color-agigov-text);
 }
+
+/* Contrast: secondary/ghost buttons + chrome on light skin */
+[data-agigov-skin='trust'] .ds-btn-secondary,
+[data-agigov-skin='trust'] .ds-btn-secondary.ds-btn-app-shape,
+[data-agigov-skin='trust'] .ui-btn-secondary {
+  border-color: #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+}
+
+[data-agigov-skin='trust'] .ds-btn-secondary:hover,
+[data-agigov-skin='trust'] .ds-btn-secondary.ds-btn-app-shape:hover,
+[data-agigov-skin='trust'] .ui-btn-secondary:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+  color: #020617;
+}
+
+[data-agigov-skin='trust'] .ds-btn-ghost,
+[data-agigov-skin='trust'] .agigov-btn-ghost {
+  color: #334155;
+}
+
+[data-agigov-skin='trust'] .ds-btn-ghost:hover,
+[data-agigov-skin='trust'] .agigov-btn-ghost:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+}
+
+[data-agigov-skin='trust'] .inst-reg-hero-badge {
+  border-color: rgba(3, 105, 161, 0.35);
+  background: #e0f2fe;
+  color: #0c4a6e;
+}
+
+[data-agigov-skin='trust'] .inst-reg-entity {
+  background: #fff;
+  border-color: #cbd5e1;
+}
+
+[data-agigov-skin='trust'] .inst-reg-entity.is-selected {
+  border-color: #0284c7;
+  background: #f0f9ff;
+}
+
+[data-agigov-skin='trust'] .inst-reg-form input,
+[data-agigov-skin='trust'] .inst-reg-form select,
+[data-agigov-skin='trust'] .inst-reg-form textarea,
+[data-agigov-skin='trust'] .agigov-card input,
+[data-agigov-skin='trust'] .agigov-card select,
+[data-agigov-skin='trust'] .agigov-card textarea {
+  background: #fff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+[data-agigov-skin='trust'] .app-topbar-auth:hover {
+  color: #0369a1;
+}
+
+[data-agigov-skin='trust'] a.text-sky-300,
+[data-agigov-skin='trust'] .text-sky-300 {
+  color: #0369a1;
+}
+
+[data-agigov-skin='trust'] a.text-sky-200,
+[data-agigov-skin='trust'] .text-sky-200,
+[data-agigov-skin='trust'] a.text-sky-100,
+[data-agigov-skin='trust'] .text-sky-100 {
+  color: #0c4a6e;
+}

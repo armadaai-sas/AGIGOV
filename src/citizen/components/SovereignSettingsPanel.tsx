@@ -9,7 +9,7 @@ import {
   type SovereignLocale,
   type SupportedCurrency,
 } from '../../config/sovereign/index.js';
-import { useSovereignConfig } from '../context/PlatformContext.js';
+import { usePlatform, useSovereignConfig } from '../context/PlatformContext.js';
 
 const LOCALE_LABELS: Record<SovereignLocale, string> = {
   en: 'English',
@@ -19,9 +19,10 @@ const LOCALE_LABELS: Record<SovereignLocale, string> = {
   'es-CO': 'Español (Colombia)',
 };
 
-/** Panel compacto — país, moneda, idioma. */
+/** Panel — país, moneda, idioma, apariencia (claro/oscuro). */
 export function SovereignSettingsPanel({ compact = false }: { compact?: boolean }) {
   const { sovereign, setSovereignPref, t } = useSovereignConfig();
+  const { skinId, setSkinId } = usePlatform();
   const [open, setOpen] = useState(false);
 
   if (compact && !open) {
@@ -49,6 +50,17 @@ export function SovereignSettingsPanel({ compact = false }: { compact?: boolean 
           </button>
         ) : null}
       </div>
+
+      <label className="agigov-sovereign-field">
+        <span>{t('settings.appearance')}</span>
+        <select
+          value={skinId}
+          onChange={(e) => setSkinId(e.target.value === 'legacy' ? 'legacy' : 'trust')}
+        >
+          <option value="trust">{t('settings.theme.light')}</option>
+          <option value="legacy">{t('settings.theme.dark')}</option>
+        </select>
+      </label>
 
       <label className="agigov-sovereign-field">
         <span>{t('settings.country')}</span>

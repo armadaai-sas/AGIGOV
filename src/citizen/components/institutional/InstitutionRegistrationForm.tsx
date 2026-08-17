@@ -240,25 +240,23 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
     <div className="inst-reg-shell">
       <div className="inst-reg-hero agigov-card">
         <div className="inst-reg-hero-badge">
-          <ShieldCheck className="h-5 w-5 text-sky-400" aria-hidden />
+          <ShieldCheck className="h-5 w-5 text-sky-700" aria-hidden />
           <span>{t('reg.badge')}</span>
         </div>
-        <h2 className="mt-4 font-display text-2xl font-bold text-agigov-text">{t('reg.title')}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-agigov-text-muted">{t('reg.lead')}</p>
-        <ul className="mt-4 space-y-1 text-xs text-agigov-text-muted">
+        <ul className="mt-4 space-y-1 text-sm text-agigov-text-muted">
           <li>· {t('reg.point1')}</li>
           <li>· {t('reg.point2')}</li>
           <li>· {t('reg.point3')}</li>
         </ul>
         {isGovernmentTier ? (
-          <p className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-200/90">
+          <p className="mt-4 rounded-lg border border-amber-600/35 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950">
             {t('reg.governmentChannel')}
           </p>
         ) : null}
       </div>
 
       <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
-        <p className="mb-4 rounded-lg border border-sky-500/25 bg-sky-500/10 px-3 py-2 text-xs text-sky-100/90">
+        <p className="mb-4 rounded-lg border border-sky-600/30 bg-sky-50 px-3 py-2 text-xs font-medium text-sky-950">
           {t('reg.verificationNotice')}
         </p>
 
@@ -289,7 +287,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.jurisdiction')}</span>
             <select
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={iso}
               onChange={(e) => onCountryChange(e.target.value as JurisdictionIso)}
             >
@@ -305,7 +303,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <label className="block text-sm">
               <span className="text-agigov-text-muted">{t('reg.region')}</span>
               <select
-                className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
                 value={regionCode}
                 onChange={(e) => onRegionChange(e.target.value)}
                 required
@@ -324,7 +322,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <label className="block text-sm sm:col-span-2">
               <span className="text-agigov-text-muted">{t('reg.catalogEntity')}</span>
               <select
-                className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
                 value={entityCatalogId}
                 onChange={(e) => onEntityChange(e.target.value)}
                 required
@@ -344,7 +342,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <span className="text-agigov-text-muted">{t('reg.legalName')}</span>
             <input
               required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={form.legalName}
               onChange={(e) => patch({ legalName: e.target.value })}
               placeholder={t('reg.legalNamePlaceholder')}
@@ -355,7 +353,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.officialCode')}</span>
             <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 font-mono text-sm text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 font-mono text-sm text-agigov-text"
               value={form.officialCode}
               onChange={(e) => patch({ officialCode: e.target.value })}
               placeholder="RIF / código rubro"
@@ -366,14 +364,14 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <span className="text-agigov-text-muted">{t('reg.phone')}</span>
             <div className="mt-1 flex gap-2">
               <input
-                className="w-20 rounded-xl border border-agigov-border bg-white/[0.03] px-2 py-2.5 font-mono text-sm text-agigov-text"
+                className="w-20 rounded-xl border border-agigov-border bg-agigov-surface px-2 py-2.5 font-mono text-sm text-agigov-text"
                 value={phoneCode}
                 onChange={(e) => patch({ phoneCountryCode: e.target.value })}
                 aria-label={t('reg.phoneCode')}
               />
               <input
                 type="tel"
-                className="min-w-0 flex-1 rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+                className="min-w-0 flex-1 rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
                 value={form.phone ?? ''}
                 onChange={(e) => patch({ phone: e.target.value })}
                 placeholder={t('reg.phonePlaceholder')}
@@ -386,7 +384,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <input
               type="email"
               required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={form.officialEmail}
               onChange={(e) => patch({ officialEmail: e.target.value })}
               placeholder="finanzas@alcaldia.gob.ve"
@@ -396,7 +394,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.contactName')}</span>
             <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={form.contactName}
               onChange={(e) => patch({ contactName: e.target.value })}
             />
@@ -405,7 +403,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('reg.contactRole')}</span>
             <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={form.contactRole}
               onChange={(e) => patch({ contactRole: e.target.value })}
               placeholder={t('reg.contactRolePlaceholder')}
@@ -418,7 +416,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -431,7 +429,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-white/[0.03] px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />

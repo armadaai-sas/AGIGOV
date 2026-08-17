@@ -83,7 +83,7 @@ export function InstitutionLoginForm() {
     <div className="mx-auto w-full max-w-md">
       <form className="agigov-card space-y-5 p-6 sm:p-8" onSubmit={(e) => void submit(e)}>
         {loggedOut ? (
-          <p className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-800 dark:text-sky-100/90">
+          <p className="rounded-lg border border-sky-600/30 bg-sky-50 px-3 py-2 text-sm font-medium text-sky-950">
             {t('auth.loggedOut')}
           </p>
         ) : null}

@@ -27,11 +27,11 @@
 - IAP v2 ML-DSA/ML-KEM híbrido (piloto territorial) — **sin claim productivo** (`hybridClaimAllowed=false` en live)
 - WireGuard / LoRaWAN RF — **N/A** en Droplet actual (ver `06-residuales-p2-2026-08-16.md`)
 - Soak 72h wall-clock — **PENDING**
-- Lighthouse mobile (simulate Slow 4G) 2026-08-16 vs `http://137.184.66.163/` — **MEASURED**: perf **56** / a11y **96** / BP **74** / SEO **91** — meta perf≥90 **FAIL**
+- Lighthouse mobile (simulate Slow 4G) — baseline HTTP perf **56**; post-CSS HTTPS **63** (`prueba-real-2/07-lighthouse-g7.md`) — meta ≥90 **FAIL**
 - Proveedor fiat real (HMAC webhook listo)
-- Trust Pack Operador B humano firmado (screenshots UI) — **PENDING**
+- Trust Pack Operador B humano firmado (screenshots UI) — **PENDING** → checklist en `prueba-real-2/`
 - CI con Postgres service + p4:finance-e2e obligatorio
-- HTTPS / dominio — **PENDING** (HTTP IP only)
+- HTTPS / dominio — **PASS** quick tunnel (efímero) 2026-08-16; dominio fijo **PENDING** (ver `prueba-real-2/02-https-g2.md`)
 
 ## Evidencia cloud 2026-08-16
 

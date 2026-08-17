@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Activity,
   Building2,
+  Cloud,
   Coins,
   Database,
   FileText,
@@ -12,6 +13,7 @@ import {
   TrendingDown,
   Users,
   Vote,
+  Workflow,
 } from 'lucide-react';
 
 /** Audiencia principal del modelo AGIGOV. */
@@ -452,6 +454,84 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     productPath: `${BASE}/consulta-ciudadana`,
     consolePath: '/cne',
     keywords: 'consulta referendo participación territorial',
+  },
+  {
+    id: 'n8n',
+    name: 'Automatización N8N',
+    shortName: 'N8N',
+    audience: 'empresarial',
+    status: 'disponible',
+    icon: Workflow,
+    tagline: 'Workflows institucionales conectados al ledger AGIGOV',
+    problem:
+      'Integraciones manuales entre ERP, correo, mesas de ayuda y APIs estatales generan demora, error humano y cero evidencia auditables.',
+    purpose:
+      'Orquestar flujos N8N (aprobaciones, ingest de evidencia, alertas, sync) con handoffs firmados hacia el bus soberano y el piloto fiscal.',
+    whyVital:
+      'El cliente necesita automatizar operación sin perder trazabilidad: cada webhook y cada paso queda ligado a evidencia y roles humanos cuando corresponde.',
+    benefits: [
+      'Plantillas de flujo para onboard, ingest y notificaciones',
+      'Webhooks firmados hacia APIs AGIGOV',
+      'Human-in-the-loop en nodos críticos',
+      'Operación BYO o managed según plan',
+    ],
+    howItWorks: [
+      'Se provisiona instancia N8N (cliente o managed)',
+      'Flujos publican eventos a /api públicos con HMAC',
+      'Centinela / metering registran evidencia',
+      'Dashboards institucionales muestran estado',
+    ],
+    businessModel: {
+      payer: 'Institución o integrador',
+      mechanism: 'Setup + retainer mensual · o incluido en country pack',
+      metric: 'Flujos productivos sin intervención manual diaria',
+    },
+    operationalModel: {
+      agents: 'Logístico · Comunicador · integrador',
+      flow: 'Trigger → workflow → API AGIGOV → evidencia',
+      evidence: 'Hashes de payload + logs de ejecución',
+    },
+    productPath: `${BASE}/n8n`,
+    keywords: 'n8n automation workflow webhook integracion',
+  },
+  {
+    id: 'railway',
+    name: 'Deploy Railway',
+    shortName: 'Railway',
+    audience: 'empresarial',
+    status: 'disponible',
+    icon: Cloud,
+    tagline: 'Despliegue cloud listo para piloto AGIGOV',
+    problem:
+      'Levantar prod-light (API, PWA, Postgres, túnel) en infra propia retrasa el primer piloto y multiplica errores de ops.',
+    purpose:
+      'Empaquetar AGIGOV en Railway (o equivalente) con variables, health checks y ruta HTTPS para que el cliente vea el OS en minutos, no semanas.',
+    whyVital:
+      'Acelera time-to-pilot: el comprador valida producto real en URL pública antes de comprometer Droplet o cloud soberano.',
+    benefits: [
+      'Plantilla de servicios (web + API + DB)',
+      'Variables y secretos fuera del repo',
+      'HTTPS nativo del proveedor',
+      'Migración posterior a Droplet / VPC soberano',
+    ],
+    howItWorks: [
+      'Fork / deploy template Railway',
+      'Configurar env de plan free o saas',
+      'Health + PWA verificables',
+      'Opcional: tunnel named o dominio propio',
+    ],
+    businessModel: {
+      payer: 'Institución / startup / integrador',
+      mechanism: 'Fee de provisioning + hosting BYO Railway',
+      metric: 'Minutos hasta health ok:true en URL pública',
+    },
+    operationalModel: {
+      agents: 'Ops AGIGOV · cliente',
+      flow: 'Deploy → migrate → seed → smoke',
+      evidence: 'URL health + deploy logs',
+    },
+    productPath: `${BASE}/railway`,
+    keywords: 'railway deploy cloud hosting prod-light paas',
   },
 ] as const;
 

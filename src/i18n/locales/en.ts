@@ -12,6 +12,9 @@ const en = {
   'settings.country': 'Country / jurisdiction',
   'settings.currency': 'Currency',
   'settings.language': 'Language',
+  'settings.appearance': 'Appearance',
+  'settings.theme.light': 'Light (trust)',
+  'settings.theme.dark': 'Dark (legacy)',
   'settings.source': 'Source',
   'settings.source.geo': '· detected from timezone',
   'settings.source.node': '· institutional node',
@@ -22,7 +25,7 @@ const en = {
   'hero.cinematic.title': 'The operating system of the State',
   'hero.cinematic.tagline': 'Governance 2.0',
   'hero.cinematic.subline':
-    'Verifiable evidence for those who already govern — without replacing human judgment.',
+    'Fiscal OS, N8N automation, and Railway deploy — verifiable evidence for those who already govern.',
   'hero.cinematic.liveCaption': 'Live console · {jurisdiction} sandbox',
   'hero.cinematic.micro': 'Institutional signup · sandbox · pilot validated 3×',
   'hero.cinematic.trust': 'Ed25519 · human-in-the-loop · sentinel before publish',
@@ -165,6 +168,11 @@ const en = {
   'landing.cta.action': 'Action',
   'landing.cta.contact': 'Talk to the team',
   'landing.models.catalog': 'View full catalog',
+  'landing.services.kicker': 'Services',
+  'landing.services.title': 'What we deliver to your team',
+  'landing.services.body':
+    'Beyond the fiscal pilot: N8N workflows wired to the ledger, and Railway (or equivalent) deploy so you see AGIGOV live fast.',
+  'landing.services.cta': 'See service',
 
   'demo.program.ven': 'Road maintenance · Efficiency Gain Share',
   'demo.program.col': 'Road maintenance · Efficiency Gain Share',

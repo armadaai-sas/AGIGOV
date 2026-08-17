@@ -14,6 +14,9 @@ const es: Record<MessageKey, string> = {
   'settings.country': 'País / jurisdicción',
   'settings.currency': 'Moneda',
   'settings.language': 'Idioma',
+  'settings.appearance': 'Apariencia',
+  'settings.theme.light': 'Claro (confianza)',
+  'settings.theme.dark': 'Oscuro (legacy)',
   'settings.source': 'Fuente',
   'settings.source.geo': '· detectado por zona horaria',
   'settings.source.node': '· nodo institucional',
@@ -24,7 +27,7 @@ const es: Record<MessageKey, string> = {
   'hero.cinematic.title': 'El sistema operativo del Estado',
   'hero.cinematic.tagline': 'Gobernanza 2.0',
   'hero.cinematic.subline':
-    'Evidencia verificable para quienes ya gobiernan — sin sustituir al criterio humano.',
+    'OS fiscal, automatización N8N y deploy Railway — evidencia verificable para quienes ya gobiernan.',
   'hero.cinematic.liveCaption': 'Consola en vivo · sandbox {jurisdiction}',
   'hero.cinematic.micro': 'Registro institucional · sandbox · piloto validado 3×',
   'hero.cinematic.trust': 'Ed25519 · human-in-the-loop · centinela antes de publicar',
@@ -168,6 +171,11 @@ const es: Record<MessageKey, string> = {
   'landing.cta.action': 'Acción',
   'landing.cta.contact': 'Hablar con el equipo',
   'landing.models.catalog': 'Ver catálogo completo',
+  'landing.services.kicker': 'Servicios',
+  'landing.services.title': 'Lo que entregamos a su equipo',
+  'landing.services.body':
+    'Además del piloto fiscal: flujos N8N ligados al ledger, y deploy en Railway (u equivalente) para ver AGIGOV en vivo rápido.',
+  'landing.services.cta': 'Ver servicio',
 
   'demo.program.ven': 'Mantenimiento vial · Efficiency Gain Share',
   'demo.program.col': 'Mantenimiento vial · Efficiency Gain Share',

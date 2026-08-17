@@ -130,7 +130,7 @@ export function InstitutionProfileStep() {
           <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('pilot.profile.jurisdiction')}</span>
             <select
-              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+              className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
               value={profile.iso}
               onChange={(e) => onCountryChange(e.target.value as JurisdictionIso)}
             >
@@ -146,7 +146,7 @@ export function InstitutionProfileStep() {
             <span className="text-agigov-text-muted">{t('pilot.profile.displayName')}</span>
             <input
               type="text"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+              className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
               value={profile.displayName}
               onChange={(e) => patch({ displayName: e.target.value })}
             />
@@ -157,7 +157,7 @@ export function InstitutionProfileStep() {
               <span className="text-agigov-text-muted">{t('pilot.profile.ministry')}</span>
               <input
                 type="text"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 font-mono text-agigov-text"
                 value={profile.ministryCode}
                 onChange={(e) =>
                   patch({
@@ -171,7 +171,7 @@ export function InstitutionProfileStep() {
               <span className="text-agigov-text-muted">{t('pilot.profile.budgetCode')}</span>
               <input
                 type="text"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 font-mono text-agigov-text"
                 value={profile.budgetCode}
                 onChange={(e) => patch({ budgetCode: e.target.value })}
               />
@@ -182,7 +182,7 @@ export function InstitutionProfileStep() {
             <span className="text-agigov-text-muted">{t('pilot.profile.program')}</span>
             <input
               type="text"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+              className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
               value={profile.programName}
               onChange={(e) => patch({ programName: e.target.value })}
             />
@@ -192,7 +192,7 @@ export function InstitutionProfileStep() {
             <span className="text-agigov-text-muted">{t('pilot.profile.slug')}</span>
             <input
               type="text"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-sm text-agigov-text"
+              className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 font-mono text-sm text-agigov-text"
               value={profile.slug}
               onChange={(e) => patch({ slug: slugifyInstitution(e.target.value) })}
             />
@@ -205,7 +205,7 @@ export function InstitutionProfileStep() {
                 type="number"
                 min={2024}
                 max={2030}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
                 value={profile.fiscalYear}
                 onChange={(e) => patch({ fiscalYear: Number(e.target.value) || 2026 })}
               />
@@ -213,7 +213,7 @@ export function InstitutionProfileStep() {
             <label className="block text-sm">
               <span className="text-agigov-text-muted">{t('pilot.profile.quarter')}</span>
               <select
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
                 value={profile.quarter}
                 onChange={(e) => patch({ quarter: Number(e.target.value) })}
               >
@@ -231,7 +231,7 @@ export function InstitutionProfileStep() {
               <span className="text-agigov-text-muted">{t('pilot.profile.contactName')}</span>
               <input
                 type="text"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
                 value={profile.contactName}
                 onChange={(e) => patch({ contactName: e.target.value })}
               />
@@ -240,7 +240,7 @@ export function InstitutionProfileStep() {
               <span className="text-agigov-text-muted">{t('pilot.profile.contactEmail')}</span>
               <input
                 type="email"
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-agigov-text"
+                className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 text-agigov-text"
                 value={profile.contactEmail}
                 onChange={(e) => patch({ contactEmail: e.target.value })}
               />
@@ -253,7 +253,7 @@ export function InstitutionProfileStep() {
               type="number"
               min={1}
               step={1}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-agigov-text"
+              className="mt-1 w-full rounded-xl border bg-agigov-surface border-agigov-border px-3 py-2 font-mono text-agigov-text"
               value={profile.annualBaselineEstimate}
               onChange={(e) =>
                 patch({
