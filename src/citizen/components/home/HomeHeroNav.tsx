@@ -27,8 +27,8 @@ export function HomeHeroNav() {
         </Link>
 
         <nav className="flex items-center gap-1 sm:gap-3" aria-label={t('nav.main')}>
-          <Link to="/#servicios" className="hero-trust-nav-ghost hidden sm:inline">
-            {t('landing.services.kicker')}
+          <Link to="/#modelo" className="hero-trust-nav-ghost hidden sm:inline">
+            {t('landing.models.kicker')}
           </Link>
           <Link to="/institucional" className="hero-trust-nav-ghost hidden md:inline">
             {t('nav.institutional')}

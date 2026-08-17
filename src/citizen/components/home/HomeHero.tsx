@@ -7,11 +7,7 @@ import { usePlatform } from '../../context/PlatformContext.js';
 import { HomeHeroMobileCta } from './HomeHeroMobileCta.js';
 import { HomeHeroWorkflowDemo } from './HomeHeroWorkflowDemo.js';
 
-/**
- * Hero AGIGOV — síntesis propia:
- * Railway: headline corto + CTA + preview de producto
- * n8n: casos + nodos entrada→proceso→resultado (educa al vender)
- */
+/** Hero AGIGOV — layout calm + preview de producto; flujos solo institucionales. */
 export function HomeHero() {
   const copy = useLandingCopy();
   const { t } = usePlatform();
@@ -48,7 +44,7 @@ export function HomeHero() {
           <p className="hero-cinematic-trust">{copy.HERO_TRUST_LINE}</p>
         </div>
 
-        <a href="#servicios" className="hero-trust-scroll-hint hero-cinematic-scroll" aria-label={t('hero.scroll.next')}>
+        <a href="#gobernanza-2" className="hero-trust-scroll-hint hero-cinematic-scroll" aria-label={t('hero.scroll.next')}>
           <ChevronDown className="h-5 w-5" aria-hidden />
         </a>
       </div>

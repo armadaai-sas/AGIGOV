@@ -13,11 +13,6 @@ const LandingModelsInteractiveSection = lazy(() =>
     default: m.LandingModelsInteractiveSection,
   })),
 );
-const LandingServicesSection = lazy(() =>
-  import('../components/landing/LandingServicesSection.js').then((m) => ({
-    default: m.LandingServicesSection,
-  })),
-);
 const LandingCtaSection = lazy(() =>
   import('../components/landing/LandingCtaSection.js').then((m) => ({
     default: m.LandingCtaSection,
@@ -36,7 +31,6 @@ export default function HomePage() {
       <HeroOrchestrator />
       <Suspense fallback={null}>
         <LandingGovernanceCompareSection />
-        <LandingServicesSection />
         <LandingModelsInteractiveSection />
         <LandingCtaSection />
       </Suspense>

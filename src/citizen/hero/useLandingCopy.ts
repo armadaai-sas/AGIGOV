@@ -37,7 +37,7 @@ export function useLandingCopy() {
       HERO_CTA_MICRO: t('hero.cinematic.micro'),
       HERO_TRUST_LINE: t('hero.cinematic.trust'),
       HERO_CTA_PRIMARY: { label: t('hero.cta.primary'), path: TRY_MODEL_ENTRY },
-      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: '/#servicios' },
+      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: '/#gobernanza-2' },
       HERO_FLOW_EYEBROW: t('hero.flow.eyebrow'),
       HERO_FLOW_RESULT_LABEL: t('hero.flow.resultLabel'),
       HERO_FLOW_WINDOW_PATH: t('hero.flow.windowPath'),
@@ -47,7 +47,7 @@ export function useLandingCopy() {
         { id: 'gate', label: t('hero.flow.stage.gate') },
         { id: 'out', label: t('hero.flow.stage.out') },
       ] as const,
-      HERO_FLOW_SCENARIOS: (['treasury', 'audit', 'n8n', 'railway'] as const).map((id) => ({
+      HERO_FLOW_SCENARIOS: (['treasury', 'audit', 'escrow', 'citizen'] as const).map((id) => ({
         id,
         who: t(`hero.flow.${id}.who` as MessageKey),
         can: t(`hero.flow.${id}.can` as MessageKey),
@@ -114,10 +114,6 @@ export function useLandingCopy() {
       LANDING_CTA_ACTION: t('landing.cta.action'),
       LANDING_CTA_CONTACT: t('landing.cta.contact'),
       LANDING_MODELS_CATALOG: t('landing.models.catalog'),
-      LANDING_SERVICES_KICKER: t('landing.services.kicker'),
-      LANDING_SERVICES_TITLE: t('landing.services.title'),
-      LANDING_SERVICES_BODY: t('landing.services.body'),
-      LANDING_SERVICES_CTA: t('landing.services.cta'),
       LANDING_CHALLENGE_KICKER: t('landing.models.kicker'),
       LANDING_CHALLENGE_TITLE: t('landing.models.title'),
       LANDING_CHALLENGE_LEAD: t('landing.models.body'),

@@ -1,20 +1,21 @@
 import { useId, useState } from 'react';
 import {
-  Cloud,
   FileInput,
   GitBranch,
+  Landmark,
   Radio,
+  Scale,
   ShieldAlert,
   ShieldCheck,
   TrendingDown,
-  Workflow,
+  Users,
   type LucideIcon,
 } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
 type FlowNodeKind = 'in' | 'process' | 'gate' | 'out';
-type FlowScenarioId = 'treasury' | 'audit' | 'n8n' | 'railway';
+type FlowScenarioId = 'treasury' | 'audit' | 'escrow' | 'citizen';
 
 const SCENARIO_META: Record<FlowScenarioId, { icon: LucideIcon; nodeIcons: LucideIcon[] }> = {
   treasury: {
@@ -25,19 +26,19 @@ const SCENARIO_META: Record<FlowScenarioId, { icon: LucideIcon; nodeIcons: Lucid
     icon: ShieldAlert,
     nodeIcons: [FileInput, Radio, ShieldAlert, ShieldCheck],
   },
-  n8n: {
-    icon: Workflow,
-    nodeIcons: [Workflow, GitBranch, Radio, ShieldCheck],
+  escrow: {
+    icon: Landmark,
+    nodeIcons: [FileInput, Scale, ShieldCheck, Landmark],
   },
-  railway: {
-    icon: Cloud,
-    nodeIcons: [Cloud, Radio, FileInput, TrendingDown],
+  citizen: {
+    icon: Users,
+    nodeIcons: [FileInput, GitBranch, ShieldCheck, Users],
   },
 };
 
 const KIND_ORDER: FlowNodeKind[] = ['in', 'process', 'gate', 'out'];
 
-/** Product preview: lifecycle stages + case tabs + input→process→result nodes. */
+/** Product preview: AGIGOV cases only — entrada → proceso → gate → resultado. */
 export function HomeHeroWorkflowDemo() {
   const copy = useLandingCopy();
   const baseId = useId();
