@@ -13,16 +13,11 @@ Live: http://137.184.66.163/
 | G6 | P1 | Multi-sig | **BLOCKED** |
 | G7 | P1 | Lighthouse ≥90 | **FAIL** (~63–66) |
 | Dom | P1 | Dominio fijo | **PENDING** |
-| **G10** | P0 | Hero vende servicios (N8N, Railway) | **IN PROGRESS** |
-| **G11** | P0 | Registro + login UX/contraste | **IN PROGRESS** |
-| **G12** | P0 | Contraste OS + dark mode en settings | **IN PROGRESS** |
-
-## Orden de pasos (producto)
-
-1. **G10–G12** (esta tanda UI) → deploy  
-2. **G1** Operador B  
-3. G3 → G4 → Dom → G5/G6  
+| G10 | P0 | Servicios N8N / Railway en catálogo | **PASS** (deployed) |
+| G11 | P0 | Registro + login contraste | **PASS** (deployed) |
+| G12 | P0 | Dark mode en settings | **PASS** (deployed) |
+| **G13** | P0 | Hero original (flujo + product preview) | **FIXED** local — falta deploy |
 
 ## Next
 
-Cerrar código G10–G12, build, deploy; luego Operador B.
+`push` → ver `/` en vivo → G1 Operador B.

@@ -27,14 +27,14 @@ export function HomeHeroNav() {
         </Link>
 
         <nav className="flex items-center gap-1 sm:gap-3" aria-label={t('nav.main')}>
-          <Link to="/#gobernanza-2" className="hero-trust-nav-ghost hidden sm:inline">
-            {t('nav.governance2')}
+          <Link to="/#servicios" className="hero-trust-nav-ghost hidden sm:inline">
+            {t('landing.services.kicker')}
           </Link>
           <Link to="/institucional" className="hero-trust-nav-ghost hidden md:inline">
             {t('nav.institutional')}
           </Link>
-          <Link to={copy.HERO_CTA_SECONDARY.path} className="hero-trust-nav-ghost hidden sm:inline">
-            {copy.HERO_CTA_SECONDARY.label}
+          <Link to={copy.HERO_CTA_PRIMARY.path} className="hero-brand-btn hero-brand-btn--primary hero-brand-btn--nav">
+            {copy.HERO_CTA_PRIMARY.label}
           </Link>
           <InstitutionAccountNav variant="hero" />
         </nav>

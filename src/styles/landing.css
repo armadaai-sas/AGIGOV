@@ -7,6 +7,7 @@
 @source "../citizen/components/home/HomeHeroNav.tsx";
 @source "../citizen/components/home/HomeHeroProgress.tsx";
 @source "../citizen/components/home/HomeHeroMobileCta.tsx";
+@source "../citizen/components/home/HomeHeroWorkflowDemo.tsx";
 @source "../citizen/components/AgigovLogo.tsx";
 
 @layer components {
@@ -282,6 +283,178 @@ html.landing-snap-root {
 
 .hero-console-slot {
     @apply relative mt-8 min-h-[12rem] w-full max-w-[42rem];
+  }
+
+.hero-cinematic-stage--flow {
+    @apply justify-start pb-16 pt-28 md:pt-32;
+  }
+
+.hero-cinematic-inner--flow {
+    @apply max-w-5xl;
+  }
+
+.hero-cinematic-stage--flow .hero-cinematic-title {
+    @apply max-w-[18ch];
+  }
+
+.hero-cinematic-stage--flow .hero-cinematic-subline {
+    @apply max-w-xl;
+  }
+
+.hero-flow {
+    @apply mt-10 w-full text-left;
+  }
+
+.hero-flow-stages {
+    @apply mb-5 flex flex-wrap items-center justify-center gap-y-2;
+  }
+
+.hero-flow-stage {
+    @apply flex items-center gap-2 list-none;
+  }
+
+.hero-flow-stage-sep {
+    @apply mx-1 inline-block h-px w-6 bg-slate-300 sm:w-10;
+  }
+
+.hero-flow-stage-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500;
+  }
+
+.hero-flow-window {
+    @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_60px_-28px_rgba(15,23,42,0.35)] ring-1 ring-slate-900/5;
+  }
+
+.hero-flow-window-bar {
+    @apply flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-2.5;
+  }
+
+.hero-flow-window-dots {
+    @apply flex gap-1.5;
+  }
+
+.hero-flow-window-dots i {
+    @apply block h-2.5 w-2.5 rounded-full bg-slate-300;
+  }
+
+.hero-flow-window-path {
+    @apply font-mono text-[11px] text-slate-500;
+  }
+
+.hero-flow-window-body {
+    @apply p-4 md:p-5;
+  }
+
+.hero-flow-eyebrow {
+    @apply mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500;
+  }
+
+.hero-flow-tabs {
+    @apply grid gap-2 sm:grid-cols-2;
+  }
+
+.hero-flow-tab {
+    @apply flex w-full items-start gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3 text-left transition-colors hover:border-slate-300 hover:bg-white;
+  }
+
+.hero-flow-tab.is-active {
+    @apply border-sky-600/40 bg-sky-50 ring-1 ring-sky-600/20;
+  }
+
+.hero-flow-tab-icon {
+    @apply mt-0.5 h-4 w-4 shrink-0 text-slate-600;
+  }
+
+.hero-flow-tab.is-active .hero-flow-tab-icon {
+    @apply text-sky-800;
+  }
+
+.hero-flow-tab-copy {
+    @apply flex min-w-0 flex-col gap-0.5;
+  }
+
+.hero-flow-tab-who {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500;
+  }
+
+.hero-flow-tab.is-active .hero-flow-tab-who {
+    @apply text-sky-800;
+  }
+
+.hero-flow-tab-can {
+    @apply text-sm font-medium leading-snug text-slate-800;
+  }
+
+.hero-flow-canvas {
+    @apply mt-4 rounded-xl border border-slate-200 bg-[#f8fafc] p-4;
+  }
+
+.hero-flow-canvas-head {
+    @apply mb-4 flex items-center gap-2;
+  }
+
+.hero-flow-canvas-title {
+    @apply text-sm font-semibold text-slate-800;
+  }
+
+.hero-flow-rail {
+    @apply flex flex-col gap-0 md:flex-row md:items-stretch md:gap-0;
+  }
+
+.hero-flow-step {
+    @apply relative flex list-none flex-col md:min-w-0 md:flex-1;
+  }
+
+.hero-flow-edge {
+    @apply mx-auto my-1 block h-4 w-px bg-slate-300 md:absolute md:left-0 md:top-1/2 md:mx-0 md:my-0 md:h-px md:w-3 md:-translate-x-full md:-translate-y-1/2;
+  }
+
+.hero-flow-node {
+    @apply flex h-full flex-col rounded-xl border border-slate-200 bg-white p-3 shadow-sm;
+  }
+
+.hero-flow-node--in {
+    @apply border-sky-200;
+  }
+
+.hero-flow-node--process {
+    @apply border-slate-200;
+  }
+
+.hero-flow-node--gate {
+    @apply border-amber-300/80;
+  }
+
+.hero-flow-node--out {
+    @apply border-emerald-300/80;
+  }
+
+.hero-flow-node-phase {
+    @apply mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500;
+  }
+
+.hero-flow-node-body {
+    @apply flex items-start gap-2;
+  }
+
+.hero-flow-node-icon {
+    @apply mt-0.5 h-4 w-4 shrink-0 text-slate-700;
+  }
+
+.hero-flow-node-title {
+    @apply text-sm font-semibold text-slate-900;
+  }
+
+.hero-flow-node-detail {
+    @apply mt-0.5 text-xs leading-snug text-slate-600;
+  }
+
+.hero-flow-result {
+    @apply mt-4 rounded-lg border border-emerald-200 bg-emerald-50/80 px-3 py-2.5 text-sm leading-relaxed text-emerald-950;
+  }
+
+.hero-flow-result-label {
+    @apply mr-2 inline-block text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-800;
   }
 
 @keyframes cinematic-brand-fade {
