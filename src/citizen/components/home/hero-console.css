@@ -343,11 +343,11 @@
   }
 
 .hero-console-demo-body {
-    @apply relative min-h-[13.5rem] flex-1 p-3 sm:p-3.5;
+    @apply relative min-h-[22rem] flex-1 p-4 sm:min-h-[26rem] sm:p-5 md:min-h-[28rem];
   }
 
 .hero-console-demo-frame {
-    @apply flex min-h-0;
+    @apply flex min-h-[22rem] sm:min-h-[26rem] md:min-h-[28rem];
   }
 
 .hero-console-demo-rail {
@@ -599,7 +599,7 @@
   }
 
 .hero-console-demo-scene {
-    @apply min-h-[10rem];
+    @apply min-h-[20rem] sm:min-h-[24rem];
   }
 
 .hero-console-demo-header {

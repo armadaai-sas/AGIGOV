@@ -7,9 +7,8 @@
 @source "../citizen/components/home/HomeHeroNav.tsx";
 @source "../citizen/components/home/HomeHeroProgress.tsx";
 @source "../citizen/components/home/HomeHeroMobileCta.tsx";
-@source "../citizen/components/home/HomeHeroCaseRail.tsx";
+@source "../citizen/components/home/HomeHeroOsDiagram.tsx";
 @source "../citizen/components/home/HomeHeroConsoleDemo.tsx";
-@source "../citizen/components/HeroSlideRail.tsx";
 @source "../citizen/components/AgigovLogo.tsx";
 @source "../citizen/components/SiteFooter.tsx";
 
@@ -33,19 +32,20 @@
   }
 
   .hero-cinematic-stage--navy {
-    @apply relative flex min-h-[100svh] snap-start snap-always flex-col items-center justify-start overflow-hidden px-5 pb-16 pt-28 md:px-8 md:pt-32;
+    @apply relative flex min-h-[100svh] snap-start snap-always flex-col items-center justify-start overflow-x-hidden overflow-y-visible px-5 pb-20 pt-28 md:px-8 md:pt-32;
     background: #030508;
+  }
+
+  .hero-cinematic-stage--sell {
+    min-height: auto;
+    padding-bottom: 5rem;
   }
 
   .hero-cinematic-stage-scrim {
     @apply pointer-events-none absolute inset-0 z-[1];
     background:
-      linear-gradient(180deg, rgba(3, 5, 8, 0.72) 0%, rgba(11, 18, 32, 0.88) 45%, #030508 100%),
-      radial-gradient(ellipse 60% 50% at 50% 20%, rgba(3, 105, 161, 0.18), transparent 70%);
-  }
-
-  .hero-cinematic-inner--navy {
-    @apply relative z-10 flex w-full max-w-6xl flex-col items-center text-center;
+      radial-gradient(ellipse 55% 45% at 50% 18%, rgba(3, 105, 161, 0.2), transparent 70%),
+      linear-gradient(180deg, #030508 0%, #0b1220 40%, #030508 100%);
   }
 
   .hero-cinematic-brand {
@@ -56,12 +56,135 @@
     @apply text-xl text-white md:text-2xl;
   }
 
-  .hero-cinematic-title--navy {
-    @apply max-w-[16ch] text-center text-white;
+  .hero-cinematic-inner--navy {
+    @apply relative z-10 flex w-full max-w-6xl flex-col items-center text-center;
   }
 
-  .hero-cinematic-subline--navy {
-    @apply mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-slate-300 md:text-base;
+  .hero-cinematic-inner--sell {
+    @apply max-w-7xl;
+  }
+
+  .hero-cinematic-title--navy {
+    @apply max-w-[22ch] text-center text-white;
+  }
+
+  .hero-sell-lead {
+    @apply mx-auto mt-5 max-w-2xl text-center text-[15px] leading-relaxed text-slate-300 md:text-base;
+  }
+
+  .hero-sell-points {
+    @apply mx-auto mt-5 flex w-full max-w-2xl list-none flex-col gap-2 text-left;
+  }
+
+  .hero-sell-point {
+    @apply rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm leading-snug text-slate-200;
+  }
+
+  .hero-product-stage--sell {
+    @apply mt-10 flex w-full flex-col gap-8;
+  }
+
+  .hero-product-frame--full {
+    @apply mt-0 overflow-visible rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-sky-500/15;
+  }
+
+  .hero-console-full {
+    @apply w-full;
+  }
+
+  .hero-console-full-label {
+    @apply mb-3 flex items-center justify-center gap-2 text-center text-[11px] font-medium text-slate-400;
+  }
+
+  .hero-os-diagram {
+    @apply w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220]/95 shadow-[0_28px_70px_-30px_rgba(0,0,0,0.8)] ring-1 ring-sky-500/10;
+  }
+
+  .hero-os-diagram-bar {
+    @apply flex items-center gap-3 border-b border-white/10 bg-black/40 px-4 py-2.5;
+  }
+
+  .hero-os-diagram-dots {
+    @apply flex gap-1.5;
+  }
+
+  .hero-os-diagram-dots i {
+    @apply block h-2.5 w-2.5 rounded-full bg-slate-600;
+  }
+
+  .hero-os-diagram-dots i:nth-child(1) {
+    @apply bg-red-500/80;
+  }
+
+  .hero-os-diagram-dots i:nth-child(2) {
+    @apply bg-amber-400/80;
+  }
+
+  .hero-os-diagram-dots i:nth-child(3) {
+    @apply bg-emerald-400/80;
+  }
+
+  .hero-os-diagram-path {
+    @apply min-w-0 flex-1 truncate font-mono text-[11px] text-slate-400;
+  }
+
+  .hero-os-diagram-live {
+    @apply hidden items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-sky-300 sm:inline-flex;
+  }
+
+  .hero-os-diagram-canvas {
+    @apply relative h-[22rem] w-full sm:h-[26rem] md:h-[28rem];
+    background:
+      radial-gradient(ellipse 45% 40% at 42% 40%, rgba(3, 105, 161, 0.16), transparent 70%),
+      linear-gradient(180deg, #0b1220 0%, #030508 100%);
+  }
+
+  .hero-os-diagram-edges {
+    @apply pointer-events-none absolute inset-0 h-full w-full;
+  }
+
+  .hero-os-edge {
+    stroke: rgba(56, 189, 248, 0.35);
+    stroke-width: 0.35;
+  }
+
+  .hero-os-edge.is-alive {
+    stroke-dasharray: 2 1.5;
+    animation: hero-os-edge-flow 2.8s linear infinite;
+  }
+
+  .hero-os-hub {
+    @apply absolute z-10 flex w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-2xl border border-sky-400/40 bg-sky-950/90 px-3 py-3 text-center shadow-[0_0_40px_-8px_rgba(14,165,233,0.55)] sm:w-[11rem];
+  }
+
+  .hero-os-hub-icon {
+    @apply mb-1.5 h-5 w-5 text-sky-300;
+  }
+
+  .hero-os-hub-title {
+    @apply text-sm font-semibold text-white;
+  }
+
+  .hero-os-hub-sub {
+    @apply mt-0.5 text-[10px] leading-snug text-sky-200/80;
+  }
+
+  .hero-os-node {
+    @apply absolute z-[5] flex w-[7.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 rounded-xl border border-white/12 bg-[#111827]/95 px-2.5 py-2 text-center shadow-lg sm:w-[8.5rem];
+  }
+
+  .hero-os-node-icon {
+    @apply flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-sky-300;
+  }
+
+  .hero-os-node-label {
+    @apply text-[10px] font-semibold leading-tight text-slate-200 sm:text-[11px];
+  }
+
+  @keyframes hero-os-edge-flow {
+    to {
+      stroke-dashoffset: -14;
+    }
   }
 
   .hero-cinematic-trust--navy {
@@ -240,6 +363,10 @@
   }
 
   .landing-manifest > .hero-landing-track .hero-cinematic-stage {
+    min-height: auto;
+  }
+
+  .landing-manifest > .hero-landing-track .hero-cinematic-stage--navy:not(.hero-cinematic-stage--sell) {
     min-height: 100svh;
   }
 
