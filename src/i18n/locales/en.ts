@@ -29,9 +29,10 @@ const en = {
   'landing.console.title': 'See the OS decide in real time.',
   'landing.console.lead': 'Savings, contracts, and reconcile — one institutional dashboard.',
   'landing.how.kicker': 'How it runs',
-  'landing.how.title': 'Four steps. Three layers. Three roles.',
-  'landing.how.lead':
-    'From signed ceiling to citizen dashboard — custody, freeze, and publish in one institutional flow.',
+  'landing.how.title': 'From ceiling to close.',
+  'landing.how.lead': 'One flow. Four gates. No parallel theater.',
+  'landing.how.guard': 'Sign · Freeze · Leave a trail',
+  'landing.how.roles': 'Treasury · Audit · Procurement',
   'hero.sell.lead':
     'AGIGOV is the operating system for one budget line: you load evidence, the OS runs custody, and you publish a close you can defend.',
   'hero.sell.point1': 'Operate: baseline multi-sig → milestones in escrow → sentinel gate',
@@ -256,6 +257,7 @@ const en = {
   'landing.cta.micro': 'No production-treasury commitment to explore',
   'landing.cta.action': 'Sandbox',
   'landing.cta.contact': 'Talk to the team',
+  'landing.cta.seeConsole': 'See live console',
   'landing.models.catalog': 'View full catalog',
 
   'landing.services.kicker': 'Services',

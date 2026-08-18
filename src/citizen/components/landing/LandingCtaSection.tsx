@@ -23,7 +23,7 @@ export function LandingCtaSection() {
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <a href="#consola" className="ls-btn ls-btn--ghost">
-                {copy.HERO_CTA_SECONDARY.label}
+                {copy.LANDING_CTA_SEE_CONSOLE}
               </a>
               <Link to="/modelos" className="ls-btn ls-btn--ghost">
                 {copy.LANDING_MODELS_CATALOG}

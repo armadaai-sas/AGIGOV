@@ -31,9 +31,10 @@ const es: Record<MessageKey, string> = {
   'landing.console.title': 'Mira al OS decidir en tiempo real.',
   'landing.console.lead': 'Ahorro, contratos y reconcile — un solo dashboard institucional.',
   'landing.how.kicker': 'Cómo opera',
-  'landing.how.title': 'Cuatro pasos. Tres capas. Tres roles.',
-  'landing.how.lead':
-    'Del techo firmado al dashboard ciudadano — custodia, freeze y publicación en un solo flujo institucional.',
+  'landing.how.title': 'Del techo al cierre.',
+  'landing.how.lead': 'Un flujo. Cuatro puertas. Sin teatro paralelo.',
+  'landing.how.guard': 'Firma · Congela · Deja rastro',
+  'landing.how.roles': 'Tesorería · Auditoría · Compras',
   'hero.sell.lead':
     'AGIGOV es el sistema operativo de un rubro presupuestario: carga evidencia, el OS custodia el flujo y publica un cierre defendible.',
   'hero.sell.point1': 'Opera: baseline multi-sig → hitos en escrow → gate centinela',
@@ -259,6 +260,7 @@ const es: Record<MessageKey, string> = {
   'landing.cta.micro': 'Sin compromiso de tesorería productiva para explorar',
   'landing.cta.action': 'Sandbox',
   'landing.cta.contact': 'Hablar con el equipo',
+  'landing.cta.seeConsole': 'Ver consola en vivo',
   'landing.models.catalog': 'Ver catálogo completo',
 
   'landing.services.kicker': 'Servicios',
