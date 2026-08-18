@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 
 const SECTIONS = [
-  { id: 'hero-demo', label: 'Producto' },
+  { id: 'os', label: 'OS' },
   { id: 'consola', label: 'Consola' },
-  { id: 'gobernanza-2', label: 'Por qué' },
-  { id: 'flujo', label: 'Flujo' },
-  { id: 'conectate', label: 'Conéctate' },
-  { id: 'modelo', label: 'Aplícalo' },
-  { id: 'landing-cta', label: 'Acción' },
+  { id: 'modelos', label: 'Modelos' },
+  { id: 'servicios', label: 'Servicios' },
+  { id: 'seguridad', label: 'Seguridad' },
+  { id: 'aplicacion', label: 'Aplicación' },
+  { id: 'desarrolladores', label: 'Desarrolladores' },
+  { id: 'pruebalo', label: 'Pruébalo' },
+  { id: 'contacto', label: 'Contacto' },
 ] as const;
 
-/** Timeline vertical izquierda — avanza con el scroll como un cargador. */
+/** Timeline vertical izquierda — una entrada por diapositiva del landing. */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
   const last = SECTIONS.length - 1;

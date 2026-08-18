@@ -30,10 +30,10 @@ export function HomeHero() {
     <section className="hero-landing-track hero-landing-track--navy" aria-labelledby="home-hero-title">
       <HomeHeroMobileCta />
 
-      <div id="hero-demo" className="hero-cinematic-stage hero-cinematic-stage--navy hero-cinematic-stage--sell scroll-mt-0">
+      <div id="os" className="hero-cinematic-stage hero-cinematic-stage--navy hero-cinematic-stage--sell scroll-mt-0">
         <div className="hero-cinematic-stage-scrim" aria-hidden />
 
-        <div className="hero-cinematic-inner hero-cinematic-inner--navy hero-cinematic-inner--sell">
+        <div className="hero-cinematic-inner hero-cinematic-inner--navy hero-cinematic-inner--wide">
           <motion.div className="hero-cinematic-brand" {...enter(0)}>
             <AgigovLogo size="lg" showWordmark tagline={copy.HERO_CINEMATIC_TAGLINE} variant="dark" />
           </motion.div>
@@ -62,7 +62,7 @@ export function HomeHero() {
             </Link>
           </motion.div>
 
-          <motion.div className="hero-product-stage hero-product-stage--diagram" {...enter(0.14)}>
+          <motion.div className="landing-wide-stage" {...enter(0.14)}>
             <HomeHeroOsDiagram />
           </motion.div>
         </div>

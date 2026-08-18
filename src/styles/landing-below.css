@@ -623,7 +623,7 @@
   }
 
 .landing-console-inner {
-    @apply mx-auto max-w-5xl px-5 text-center md:px-8;
+    @apply mx-auto max-w-7xl px-5 text-center md:px-8;
   }
 
 .landing-console-title {
@@ -635,11 +635,111 @@
   }
 
 .landing-console-visual {
-    @apply mx-auto mt-8 max-w-5xl text-left;
+    @apply mx-auto mt-8 max-w-7xl text-left;
   }
 
-.landing-section--console.is-inview .landing-console-visual {
+.landing-section--console.is-inview .landing-console-visual,
+.landing-section--console.is-inview .landing-wide-stage {
     animation: landing-compare-in 0.55s ease-out both;
+  }
+
+.landing-section--slide {
+    @apply flex min-h-[100svh] flex-col justify-center border-t border-white/[0.06] py-16 md:py-24;
+  }
+
+.landing-slide-inner {
+    @apply mx-auto w-full max-w-7xl px-5 text-center md:px-8;
+  }
+
+.landing-slide-title {
+    @apply mx-auto mt-3 max-w-3xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+  }
+
+.landing-slide-lead {
+    @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
+  }
+
+.landing-services-grid,
+.landing-security-grid,
+.landing-application-grid {
+    @apply mt-10 grid list-none gap-4 p-0 text-left sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+.landing-security-grid,
+.landing-application-grid {
+    @apply lg:grid-cols-3;
+  }
+
+.landing-services-card,
+.landing-security-card,
+.landing-application-card {
+    @apply rounded-2xl border border-white/10 bg-[#111827]/80 p-5;
+  }
+
+.landing-services-icon,
+.landing-security-icon,
+.landing-application-icon {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+  }
+
+.landing-services-card-title,
+.landing-security-card-title,
+.landing-application-card-title {
+    @apply mt-4 font-display text-lg font-semibold tracking-[-0.02em] text-white;
+  }
+
+.landing-services-card-body,
+.landing-security-card-body,
+.landing-application-card-body {
+    @apply mt-2 text-sm leading-relaxed text-slate-400;
+  }
+
+.landing-section--services {
+    @apply bg-[#030508];
+  }
+
+.landing-section--security {
+    @apply bg-[#0b1220];
+  }
+
+.landing-section--application {
+    @apply bg-[#030508];
+  }
+
+.landing-section--developers {
+    @apply bg-[#0b1220];
+  }
+
+.landing-developers-card {
+    @apply mx-auto mt-10 max-w-2xl rounded-2xl border border-white/10 bg-[#111827]/90 p-6 text-left md:p-8;
+  }
+
+.landing-developers-card-head {
+    @apply flex items-start gap-4;
+  }
+
+.landing-developers-github-icon {
+    @apply inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+  }
+
+.landing-developers-repo {
+    @apply font-mono text-sm font-semibold text-white;
+  }
+
+.landing-developers-repo-desc {
+    @apply mt-1 text-sm leading-relaxed text-slate-400;
+  }
+
+.landing-developers-actions {
+    @apply mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center;
+  }
+
+.landing-section--contact {
+    @apply bg-[#030508];
+  }
+
+.landing-contact-actions {
+    @apply mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap;
   }
 
 .landing-section--connect {
@@ -703,7 +803,7 @@
   }
 
 .landing-models-layout {
-    @apply mx-auto grid max-w-5xl items-start gap-8 px-5 text-center md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 lg:text-left;
+    @apply mx-auto grid max-w-7xl items-start gap-8 px-5 text-center md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 lg:text-left;
   }
 
 .landing-models-copy {

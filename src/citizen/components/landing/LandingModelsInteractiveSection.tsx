@@ -16,8 +16,8 @@ export function LandingModelsInteractiveSection() {
 
   return (
     <section
-      id="modelo"
-      className="landing-section landing-section--models"
+      id="modelos"
+      className="landing-section landing-section--slide landing-section--models scroll-mt-24"
       aria-labelledby="landing-models-title"
     >
       <div className="landing-models-layout">

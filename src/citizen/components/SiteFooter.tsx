@@ -3,13 +3,6 @@ import { Github, Linkedin, Twitter, Youtube } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 
-const EXPLORE = [
-  { to: '/gestion', label: 'Gestión pública' },
-  { to: '/propuestas', label: 'Propuestas' },
-  { to: '/proyectos', label: 'Proyectos' },
-  { to: '/suministros', label: 'Suministros' },
-] as const;
-
 const SOCIAL = [
   { href: 'https://github.com/armadaai-sas', label: 'GitHub', Icon: Github },
   { href: 'https://www.linkedin.com/company/agigov', label: 'LinkedIn', Icon: Linkedin },
@@ -17,7 +10,7 @@ const SOCIAL = [
   { href: 'https://www.youtube.com/@agigov', label: 'YouTube', Icon: Youtube },
 ] as const;
 
-/** Footer institucional centrado — marca, redes y columnas de rutas. */
+/** Footer institucional — marca, redes, 3 columnas (sin Acceso). */
 export function SiteFooter() {
   return (
     <footer className="site-footer site-footer--institutional" aria-label="Pie de página">
@@ -42,59 +35,53 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="site-footer-inner site-footer-inner--cols">
+      <div className="site-footer-inner site-footer-inner--three">
         <div className="site-footer-col">
-          <p className="site-footer-heading">Modelo</p>
+          <p className="site-footer-heading">Producto</p>
           <ul>
             <li>
-              <Link to="/#modelo">Gobernanza 2.0</Link>
+              <Link to="/#os">OS</Link>
             </li>
             <li>
-              <Link to="/institucional#protocolo">Protocolo genérico</Link>
+              <Link to="/#consola">Consola</Link>
             </li>
             <li>
-              <Link to="/modelos">Catálogo de modelos</Link>
+              <Link to="/#modelos">Modelos</Link>
+            </li>
+            <li>
+              <Link to="/#pruebalo">Pruébalo</Link>
             </li>
           </ul>
         </div>
 
         <div className="site-footer-col">
-          <p className="site-footer-heading">Aprender</p>
+          <p className="site-footer-heading">Comunidad</p>
           <ul>
             <li>
-              <Link to="/#flujo">Cómo funciona</Link>
+              <Link to="/#desarrolladores">Desarrolladores</Link>
             </li>
+            <li>
+              <a href="https://github.com/armadaai-sas/Armada-VZLA" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <Link to="/institucional#protocolo">Documentación</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="site-footer-col">
+          <p className="site-footer-heading">Ayuda</p>
+          <ul>
             <li>
               <Link to="/ayuda">Centro de ayuda</Link>
             </li>
             <li>
               <Link to="/aprender/glosario">Glosario</Link>
             </li>
-          </ul>
-        </div>
-
-        <div className="site-footer-col">
-          <p className="site-footer-heading">Explorar</p>
-          <ul>
-            {EXPLORE.map(({ to, label }) => (
-              <li key={to}>
-                <Link to={to}>{label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="site-footer-col">
-          <p className="site-footer-heading">Acceso</p>
-          <ul>
             <li>
-              <Link to="/institucional/registro">Cuenta institucional</Link>
-            </li>
-            <li>
-              <Link to="/institucional#concierge">Concierge para gobiernos</Link>
-            </li>
-            <li>
-              <Link to="/institucional#protocolo">Documentación técnica</Link>
+              <Link to="/#contacto">Contacto</Link>
             </li>
           </ul>
         </div>

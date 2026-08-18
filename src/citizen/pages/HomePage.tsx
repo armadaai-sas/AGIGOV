@@ -10,24 +10,29 @@ const LandingConsoleSection = lazy(() =>
     default: m.LandingConsoleSection,
   })),
 );
-const LandingGovernanceCompareSection = lazy(() =>
-  import('../components/landing/LandingGovernanceCompareSection.js').then((m) => ({
-    default: m.LandingGovernanceCompareSection,
-  })),
-);
-const LandingFlowSection = lazy(() =>
-  import('../components/landing/LandingFlowSection.js').then((m) => ({
-    default: m.LandingFlowSection,
-  })),
-);
-const LandingConnectSection = lazy(() =>
-  import('../components/landing/LandingConnectSection.js').then((m) => ({
-    default: m.LandingConnectSection,
-  })),
-);
 const LandingModelsInteractiveSection = lazy(() =>
   import('../components/landing/LandingModelsInteractiveSection.js').then((m) => ({
     default: m.LandingModelsInteractiveSection,
+  })),
+);
+const LandingServicesSection = lazy(() =>
+  import('../components/landing/LandingServicesSection.js').then((m) => ({
+    default: m.LandingServicesSection,
+  })),
+);
+const LandingSecuritySection = lazy(() =>
+  import('../components/landing/LandingSecuritySection.js').then((m) => ({
+    default: m.LandingSecuritySection,
+  })),
+);
+const LandingApplicationSection = lazy(() =>
+  import('../components/landing/LandingApplicationSection.js').then((m) => ({
+    default: m.LandingApplicationSection,
+  })),
+);
+const LandingDevelopersSection = lazy(() =>
+  import('../components/landing/LandingDevelopersSection.js').then((m) => ({
+    default: m.LandingDevelopersSection,
   })),
 );
 const LandingCtaSection = lazy(() =>
@@ -35,8 +40,13 @@ const LandingCtaSection = lazy(() =>
     default: m.LandingCtaSection,
   })),
 );
+const LandingContactSection = lazy(() =>
+  import('../components/landing/LandingContactSection.js').then((m) => ({
+    default: m.LandingContactSection,
+  })),
+);
 
-/** Landing AGIGOV — storyboard producto; spine timeline; hero eager. */
+/** Landing AGIGOV — 9 diapositivas wide-open + spine timeline. */
 export default function HomePage() {
   useEffect(() => {
     document.documentElement.classList.add('landing-snap-root');
@@ -49,11 +59,13 @@ export default function HomePage() {
       <HeroOrchestrator />
       <Suspense fallback={null}>
         <LandingConsoleSection />
-        <LandingGovernanceCompareSection />
-        <LandingFlowSection />
-        <LandingConnectSection />
         <LandingModelsInteractiveSection />
+        <LandingServicesSection />
+        <LandingSecuritySection />
+        <LandingApplicationSection />
+        <LandingDevelopersSection />
         <LandingCtaSection />
+        <LandingContactSection />
       </Suspense>
       <SiteFooter />
     </div>
