@@ -14,7 +14,7 @@ import {
 
 type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;
 
-/** Módulos del landing — cada uno con identidad visual propia. */
+/** Módulos del landing — icono + nombre siempre visibles. */
 export const LANDING_MODULES = [
   { id: 'os', label: 'OS', Icon: Cpu },
   { id: 'consola', label: 'Consola', Icon: LayoutDashboard },
@@ -22,13 +22,13 @@ export const LANDING_MODULES = [
   { id: 'servicios', label: 'Servicios', Icon: Workflow },
   { id: 'seguridad', label: 'Seguridad', Icon: ShieldCheck },
   { id: 'aplicacion', label: 'Aplicación', Icon: Building2 },
-  { id: 'desarrolladores', label: 'Desarrolladores', Icon: Code2 },
+  { id: 'desarrolladores', label: 'Devs', Icon: Code2 },
   { id: 'sandbox', label: 'Sandbox', Icon: FlaskConical },
   { id: 'contacto', label: 'Contacto', Icon: Mail },
 ] as const satisfies ReadonlyArray<{ id: string; label: string; Icon: ModuleIcon }>;
 
 function activeModuleIndex(): number {
-  const mid = window.innerHeight * 0.35;
+  const mid = window.innerHeight * 0.32;
   let best = 0;
   let bestDist = Number.POSITIVE_INFINITY;
 
@@ -36,7 +36,7 @@ function activeModuleIndex(): number {
     const el = document.getElementById(LANDING_MODULES[i]!.id);
     if (!el) continue;
     const rect = el.getBoundingClientRect();
-    const center = rect.top + rect.height * 0.25;
+    const center = rect.top + rect.height * 0.2;
     const dist = Math.abs(center - mid);
     if (dist < bestDist) {
       bestDist = dist;
@@ -46,9 +46,7 @@ function activeModuleIndex(): number {
   return best;
 }
 
-/**
- * Rail de módulos — icono + label con identidad por sección.
- */
+/** Rail fijo: identidad por módulo (icono + label). */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -58,9 +56,7 @@ export function LandingSpineRail() {
   useEffect(() => {
     setMounted(true);
     let raf = 0;
-    const tick = () => {
-      setActive(activeModuleIndex());
-    };
+    const tick = () => setActive(activeModuleIndex());
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(tick);
@@ -97,7 +93,6 @@ export function LandingSpineRail() {
                 href={`#${mod.id}`}
                 className="landing-module-rail-link"
                 aria-current={i === active ? 'true' : undefined}
-                title={mod.label}
               >
                 <span className="landing-module-rail-icon" aria-hidden>
                   <Icon className="landing-module-rail-icon-svg" />

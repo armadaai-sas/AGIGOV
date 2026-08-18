@@ -22,7 +22,8 @@
 
   @media (min-width: 1280px) {
     .landing-manifest {
-      padding-left: 11.5rem;
+      /* Rail overlay — menos desplazamiento que 11.5rem. */
+      padding-left: 13rem;
     }
   }
 
@@ -88,12 +89,11 @@
   }
 
   .landing-module-rail {
-    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[13.5rem] xl:flex;
+    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[12.75rem] xl:flex;
   }
 
   .landing-module-rail-track {
-    /* Alineada al centro de los iconos (pl-5 + chip 2rem / 2). */
-    @apply absolute bottom-[14%] left-[1.95rem] top-[16%] w-px overflow-hidden bg-white/10;
+    @apply absolute bottom-[12%] left-[2.15rem] top-[14%] w-px overflow-hidden bg-white/10;
   }
 
   .landing-module-rail-progress {
@@ -101,7 +101,7 @@
   }
 
   .landing-module-rail-list {
-    @apply relative z-[1] m-0 flex h-full list-none flex-col justify-center gap-1.5 py-[14vh] pl-5 pr-3;
+    @apply relative z-[1] m-0 flex h-full list-none flex-col justify-center gap-1 py-[12vh] pl-4 pr-2;
   }
 
   .landing-module-rail-item {
@@ -109,12 +109,11 @@
   }
 
   .landing-module-rail-link {
-    @apply pointer-events-auto relative flex min-h-9 items-center gap-0 rounded-full py-1 no-underline transition-[transform,background-color,box-shadow,padding] duration-300 ease-out;
+    @apply pointer-events-auto relative flex min-h-9 items-center gap-2.5 rounded-full px-1.5 py-1 no-underline transition-[background-color,box-shadow,transform] duration-200 ease-out;
   }
 
-  /* Chip = misma familia visual que el GitHub del header. */
   .landing-module-rail-icon {
-    @apply relative z-[1] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-slate-400 transition-all duration-300;
+    @apply relative z-[1] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-slate-400 transition-all duration-200;
   }
 
   .landing-module-rail-icon-svg {
@@ -122,27 +121,27 @@
   }
 
   .landing-module-rail-label {
-    @apply max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-semibold tracking-[0.02em] text-transparent opacity-0 transition-all duration-300 ease-out;
+    @apply truncate text-[12px] font-semibold tracking-[0.02em] text-slate-500 transition-colors duration-200;
   }
 
   .landing-module-rail-item.is-done .landing-module-rail-icon {
-    @apply border-cyan-500/40 bg-cyan-500/10 text-cyan-300/90;
+    @apply border-cyan-500/35 bg-cyan-500/10 text-cyan-300/80;
+  }
+
+  .landing-module-rail-item.is-done .landing-module-rail-label {
+    @apply text-slate-400;
   }
 
   .landing-module-rail-item.is-active .landing-module-rail-link {
-    @apply translate-x-2 bg-white/[0.06] pr-3 shadow-[0_0_28px_-8px_rgba(34,211,238,0.55)];
+    @apply bg-white/[0.07] shadow-[0_0_24px_-8px_rgba(34,211,238,0.5)];
   }
 
   .landing-module-rail-item.is-active .landing-module-rail-icon {
-    @apply border-cyan-300/50 bg-cyan-400/15 text-cyan-200 shadow-[0_0_16px_rgba(34,211,238,0.45)];
+    @apply border-cyan-300/55 bg-cyan-400/15 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.4)];
   }
 
   .landing-module-rail-item.is-active .landing-module-rail-label {
-    @apply ml-2.5 max-w-[8rem] text-cyan-50 opacity-100;
-  }
-
-  .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover {
-    @apply translate-x-1;
+    @apply text-cyan-50;
   }
 
   .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover .landing-module-rail-icon {
@@ -150,7 +149,7 @@
   }
 
   .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover .landing-module-rail-label {
-    @apply ml-2.5 max-w-[8rem] text-slate-300 opacity-90;
+    @apply text-slate-300;
   }
 
   .hero-trust-nav-github {
@@ -215,20 +214,20 @@
   }
 
   .hero-cinematic-inner--navy {
-    @apply relative z-10 flex w-full max-w-6xl flex-col items-center text-center;
+    @apply relative z-10 flex w-full max-w-5xl flex-col items-center text-center;
   }
 
   .hero-cinematic-inner--sell,
   .hero-cinematic-inner--wide {
-    @apply mx-auto w-full max-w-6xl;
+    @apply mx-auto w-full max-w-5xl;
   }
 
   .landing-wide-stage {
-    @apply mx-auto mt-6 w-full max-w-5xl px-0 sm:mt-8 sm:px-2 md:mt-10;
+    @apply mx-auto mt-6 w-full max-w-5xl px-0 sm:mt-8 md:mt-10;
   }
 
   .hero-product-stage--diagram {
-    @apply mx-auto mt-10 flex w-full max-w-7xl flex-col items-center;
+    @apply mx-auto mt-8 flex w-full max-w-5xl flex-col items-center sm:mt-10;
   }
 
   .hero-product-frame--full {
@@ -308,7 +307,7 @@
   }
 
   .hero-os-diagram-canvas {
-    @apply relative mx-auto h-[17.5rem] w-full sm:h-[24rem] md:h-[28rem] lg:h-[30rem];
+    @apply relative mx-auto h-[18rem] w-full sm:h-[21rem] md:h-[23rem];
     background:
       radial-gradient(ellipse 38% 36% at 50% 38%, rgba(34, 211, 238, 0.14), transparent 72%),
       linear-gradient(180deg, #0b1220 0%, #030508 100%);

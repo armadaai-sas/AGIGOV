@@ -7,7 +7,7 @@ import '../../../styles/landing-below.css';
 
 const ICONS = [KeyRound, Snowflake, ShieldCheck] as const;
 
-/** Seguridad — capas en secuencia (firmar → congelar → publicar rastro). */
+/** Seguridad — cabecera centrada + capas en una columna (sin hueco lateral). */
 export function LandingSecuritySection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -20,14 +20,12 @@ export function LandingSecuritySection() {
       className={`landing-section landing-section--slide landing-section--security scroll-mt-24 ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-security-title"
     >
-      <div className="landing-slide-inner landing-slide-inner--security">
-        <div className="landing-security-copy">
-          <p className="hero-brand-kicker">{copy.LANDING_SECURITY_KICKER}</p>
-          <h2 id="landing-security-title" className="landing-slide-title landing-slide-title--left">
-            {copy.LANDING_SECURITY_TITLE}
-          </h2>
-          <p className="landing-slide-lead landing-slide-lead--left">{copy.LANDING_SECURITY_LEAD}</p>
-        </div>
+      <div className="landing-slide-inner">
+        <p className="hero-brand-kicker">{copy.LANDING_SECURITY_KICKER}</p>
+        <h2 id="landing-security-title" className="landing-slide-title">
+          {copy.LANDING_SECURITY_TITLE}
+        </h2>
+        <p className="landing-slide-lead">{copy.LANDING_SECURITY_LEAD}</p>
 
         <ol className="landing-defense-stack" aria-label={copy.LANDING_SECURITY_TITLE}>
           {copy.LANDING_SECURITY_ITEMS.map((item, i) => {

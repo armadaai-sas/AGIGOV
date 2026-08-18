@@ -9,7 +9,7 @@ import '../../../styles/landing-below.css';
 
 const FEATURED = AGIGOV_MODELS.filter((m) => m.audience === 'gubernamental').slice(0, 3);
 
-/** Catálogo visual denso — cards venden, copy corto. */
+/** Catálogo — cabecera centrada + cards en rejilla equilibrada. */
 export function LandingModelsInteractiveSection() {
   const copy = useLandingCopy();
   const { t } = usePlatform();
@@ -20,13 +20,13 @@ export function LandingModelsInteractiveSection() {
       className="landing-section landing-section--slide landing-section--models scroll-mt-24"
       aria-labelledby="landing-models-title"
     >
-      <div className="landing-models-layout">
-        <div className="landing-models-copy">
-          <p className="hero-brand-kicker">{copy.LANDING_MODELS_KICKER}</p>
-          <h2 id="landing-models-title" className="landing-models-title">
-            {copy.LANDING_MODELS_TITLE}
-          </h2>
-          <p className="landing-models-body">{copy.LANDING_MODELS_BODY}</p>
+      <div className="landing-slide-inner">
+        <p className="hero-brand-kicker">{copy.LANDING_MODELS_KICKER}</p>
+        <h2 id="landing-models-title" className="landing-slide-title">
+          {copy.LANDING_MODELS_TITLE}
+        </h2>
+        <p className="landing-slide-lead">{copy.LANDING_MODELS_BODY}</p>
+        <div className="landing-models-actions">
           <Link
             to="/modelos"
             className="hero-brand-btn hero-brand-btn--ghost-navy landing-models-catalog-link"
