@@ -20,12 +20,12 @@ type DiagramNode = {
   y: number;
 };
 
-/** Layout simétrico 2+2: columnas 18 / 50 / 82 · eje vertical en el hub. */
+/** Layout simétrico 2+2: columnas 20 / 50 / 80 · eje vertical en el hub. */
 const NODES: DiagramNode[] = [
-  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 18, y: 18 },
-  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 18, y: 58 },
-  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 82, y: 18 },
-  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 82, y: 58 },
+  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 20, y: 18 },
+  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 20, y: 58 },
+  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 80, y: 18 },
+  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 80, y: 58 },
   { id: 'sentinel', labelKey: 'sentinel', icon: Radio, x: 50, y: 66 },
   { id: 'publish', labelKey: 'publish', icon: LayoutDashboard, x: 50, y: 88 },
 ];

@@ -17,20 +17,26 @@
 
 @layer components {
   .landing-manifest {
-    @apply relative bg-[#030508] text-slate-100 lg:pl-[11.5rem];
+    @apply relative overflow-x-clip bg-[#030508] text-slate-100;
+  }
+
+  @media (min-width: 1280px) {
+    .landing-manifest {
+      padding-left: 11.5rem;
+    }
   }
 
   .landing-display-title {
-    @apply font-display font-semibold leading-[1.02] tracking-[-0.045em] text-white;
-    font-size: clamp(2.5rem, 7.5vw, 4.5rem);
+    @apply font-display font-semibold leading-[1.05] tracking-[-0.04em] text-white;
+    font-size: clamp(1.85rem, 6.5vw, 4.5rem);
   }
 
   .hero-cinematic-title--xl {
-    @apply relative z-[2] max-w-[12ch];
+    @apply relative z-[2] mx-auto max-w-[14ch] px-1;
   }
 
   .hero-title-stack {
-    @apply relative mx-auto flex w-full max-w-4xl flex-col items-center justify-center py-6 text-center md:py-10;
+    @apply relative mx-auto flex w-full max-w-4xl flex-col items-center justify-center py-4 text-center sm:py-6 md:py-8;
   }
 
   .hero-title-aura {
@@ -82,7 +88,7 @@
   }
 
   .landing-module-rail {
-    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[12.5rem] lg:flex;
+    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[12.5rem] xl:flex;
   }
 
   .landing-module-rail-track {
@@ -189,13 +195,20 @@
   }
 
   .hero-cinematic-stage--navy {
-    @apply relative flex min-h-[100svh] snap-start snap-always flex-col items-center justify-start overflow-x-hidden overflow-y-visible px-5 pb-20 pt-28 md:px-8 md:pt-32;
+    @apply relative flex min-h-[100svh] snap-start flex-col items-center justify-start overflow-x-clip px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 md:px-8 md:pt-32;
     background: #030508;
   }
 
   .hero-cinematic-stage--sell {
-    min-height: 100svh;
-    padding-bottom: 5rem;
+    min-height: auto;
+    padding-bottom: 3.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-cinematic-stage--sell {
+      min-height: 100svh;
+      padding-bottom: 5rem;
+    }
   }
 
   .hero-cinematic-stage-scrim {
@@ -214,16 +227,16 @@
   }
 
   .hero-cinematic-inner--navy {
-    @apply relative z-10 flex w-full max-w-7xl flex-col items-center text-center;
+    @apply relative z-10 flex w-full max-w-6xl flex-col items-center text-center;
   }
 
   .hero-cinematic-inner--sell,
   .hero-cinematic-inner--wide {
-    @apply mx-auto w-full max-w-7xl;
+    @apply mx-auto w-full max-w-6xl;
   }
 
   .landing-wide-stage {
-    @apply mx-auto mt-10 w-full max-w-6xl px-2 sm:px-4;
+    @apply mx-auto mt-6 w-full max-w-5xl px-0 sm:mt-8 sm:px-2 md:mt-10;
   }
 
   .hero-product-stage--diagram {
@@ -231,7 +244,7 @@
   }
 
   .hero-product-frame--full {
-    @apply mx-auto mt-0 w-full overflow-visible rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-cyan-500/15;
+    @apply mx-auto mt-0 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-cyan-500/15;
   }
 
   .hero-os-diagram {
@@ -307,7 +320,7 @@
   }
 
   .hero-os-diagram-canvas {
-    @apply relative mx-auto h-[22rem] w-full sm:h-[26rem] md:h-[30rem];
+    @apply relative mx-auto h-[17.5rem] w-full sm:h-[24rem] md:h-[28rem] lg:h-[30rem];
     background:
       radial-gradient(ellipse 38% 36% at 50% 38%, rgba(34, 211, 238, 0.14), transparent 72%),
       linear-gradient(180deg, #0b1220 0%, #030508 100%);
@@ -328,31 +341,35 @@
   }
 
   .hero-os-hub {
-    @apply absolute z-10 flex w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-2xl border border-sky-400/40 bg-sky-950/90 px-3 py-3 text-center shadow-[0_0_40px_-8px_rgba(14,165,233,0.55)] sm:w-[11rem];
+    @apply absolute z-10 flex w-[6.75rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-xl border border-sky-400/40 bg-sky-950/90 px-2 py-2 text-center shadow-[0_0_40px_-8px_rgba(14,165,233,0.55)] sm:w-[9.5rem] sm:rounded-2xl sm:px-3 sm:py-3 md:w-[11rem];
   }
 
   .hero-os-hub-icon {
-    @apply mb-1.5 h-5 w-5 text-sky-300;
+    @apply mb-1 h-4 w-4 text-sky-300 sm:mb-1.5 sm:h-5 sm:w-5;
   }
 
   .hero-os-hub-title {
-    @apply text-sm font-semibold text-white;
+    @apply text-[11px] font-semibold text-white sm:text-sm;
   }
 
   .hero-os-hub-sub {
-    @apply mt-0.5 text-[10px] leading-snug text-sky-200/80;
+    @apply mt-0.5 hidden text-[10px] leading-snug text-sky-200/80 sm:block;
   }
 
   .hero-os-node {
-    @apply absolute z-[5] flex w-[7.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 rounded-xl border border-white/12 bg-[#111827]/95 px-2.5 py-2 text-center shadow-lg sm:w-[8.5rem];
+    @apply absolute z-[5] flex w-[5.35rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-lg border border-white/12 bg-[#111827]/95 px-1.5 py-1.5 text-center shadow-lg sm:w-[7.5rem] sm:gap-1.5 sm:rounded-xl sm:px-2.5 sm:py-2 md:w-[8.5rem];
   }
 
   .hero-os-node-icon {
-    @apply flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-sky-300;
+    @apply flex h-6 w-6 items-center justify-center rounded-md bg-white/5 text-sky-300 sm:h-8 sm:w-8 sm:rounded-lg;
+  }
+
+  .hero-os-node-icon svg {
+    @apply h-3.5 w-3.5 sm:h-4 sm:w-4;
   }
 
   .hero-os-node-label {
-    @apply text-[10px] font-semibold leading-tight text-slate-200 sm:text-[11px];
+    @apply text-[8px] font-semibold leading-tight text-slate-200 sm:text-[10px] md:text-[11px];
   }
 
   @keyframes hero-os-edge-flow {
@@ -523,6 +540,7 @@ html.landing-snap-root {
     /* proximity: se puede llegar al footer; mandatory lo atrapaba en #contacto */
     scroll-snap-type: y proximity;
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
 .landing-manifest > .hero-landing-track {

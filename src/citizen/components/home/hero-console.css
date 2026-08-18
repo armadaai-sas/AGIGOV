@@ -343,11 +343,11 @@
   }
 
 .hero-console-demo-body {
-    @apply relative min-h-[22rem] flex-1 p-4 sm:min-h-[26rem] sm:p-5 md:min-h-[28rem];
+    @apply relative min-h-[18rem] flex-1 p-3 sm:min-h-[22rem] sm:p-4 md:min-h-[26rem] md:p-5;
   }
 
 .hero-console-demo-frame {
-    @apply flex min-h-[22rem] sm:min-h-[26rem] md:min-h-[28rem];
+    @apply flex min-h-[18rem] sm:min-h-[22rem] md:min-h-[26rem];
   }
 
 .hero-console-demo-rail {

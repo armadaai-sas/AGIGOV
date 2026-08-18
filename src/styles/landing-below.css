@@ -644,15 +644,15 @@
   }
 
 .landing-section--slide {
-    @apply flex min-h-[100svh] flex-col justify-center border-t border-white/[0.06] py-16 md:py-24;
+    @apply flex min-h-0 flex-col justify-center border-t border-white/[0.06] py-14 sm:py-16 md:min-h-[100svh] md:py-24;
   }
 
 .landing-slide-inner {
-    @apply mx-auto w-full max-w-7xl px-5 text-center md:px-8;
+    @apply mx-auto w-full max-w-6xl px-4 text-center sm:px-6 md:px-8;
   }
 
 .landing-slide-title {
-    @apply mx-auto mt-3 max-w-3xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
+    @apply mx-auto mt-3 max-w-3xl font-display text-[clamp(1.45rem,4.2vw,2.75rem)] font-semibold leading-[1.12] tracking-[-0.035em] text-white;
   }
 
 .landing-slide-title--left {
@@ -668,7 +668,7 @@
   }
 
 .landing-slide-inner--security {
-    @apply grid max-w-6xl items-start gap-10 text-left lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16;
+    @apply grid max-w-6xl items-start gap-8 text-left lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16;
   }
 
 .landing-security-copy {
@@ -677,7 +677,7 @@
 
 /* Servicios — flujo horizontal */
 .landing-flow-rail {
-    @apply mx-auto mt-12 flex list-none flex-col gap-8 p-0 text-left md:flex-row md:items-stretch md:gap-0;
+    @apply mx-auto mt-10 flex list-none flex-col gap-6 p-0 text-left sm:mt-12 md:flex-row md:items-stretch md:gap-0;
   }
 
 .landing-flow-step {
@@ -694,7 +694,7 @@
   }
 
 .landing-flow-step-head {
-    @apply mb-4 flex items-center gap-0;
+    @apply mb-3 flex items-center gap-0 sm:mb-4;
   }
 
 .landing-flow-index {
@@ -706,15 +706,15 @@
   }
 
 .landing-flow-icon {
-    @apply mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/[0.08] text-cyan-300;
+    @apply mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/[0.08] text-cyan-300 sm:h-11 sm:w-11;
   }
 
 .landing-flow-title {
-    @apply font-display text-lg font-semibold tracking-[-0.02em] text-white md:pr-4;
+    @apply font-display text-base font-semibold tracking-[-0.02em] text-white sm:text-lg md:pr-4;
   }
 
 .landing-flow-body {
-    @apply mt-2 max-w-[16rem] text-sm leading-relaxed text-slate-400 md:pr-4;
+    @apply mt-2 max-w-none text-sm leading-relaxed text-slate-400 md:max-w-[16rem] md:pr-4;
   }
 
 /* Seguridad — capas verticales */
@@ -723,7 +723,7 @@
   }
 
 .landing-defense-layer {
-    @apply relative flex gap-4 opacity-0;
+    @apply relative flex gap-3 opacity-0 sm:gap-4;
     transform: translateX(12px);
     transition:
       opacity 0.45s ease-out calc(var(--step, 0) * 110ms),
@@ -749,11 +749,11 @@
   }
 
 .landing-defense-body {
-    @apply mb-8 flex flex-1 gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5;
+    @apply mb-6 flex min-w-0 flex-1 gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 sm:mb-8 sm:gap-4 sm:p-5;
   }
 
 .landing-defense-icon {
-    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300 sm:h-10 sm:w-10;
   }
 
 .landing-defense-index {
@@ -761,7 +761,7 @@
   }
 
 .landing-defense-title {
-    @apply mt-1 font-display text-xl font-semibold tracking-[-0.02em] text-white;
+    @apply mt-1 font-display text-lg font-semibold tracking-[-0.02em] text-white sm:text-xl;
   }
 
 .landing-defense-text {
@@ -770,7 +770,7 @@
 
 /* Aplicación — roles */
 .landing-roles-grid {
-    @apply mx-auto mt-12 grid list-none gap-5 p-0 text-left sm:grid-cols-3;
+    @apply mx-auto mt-10 grid list-none gap-8 p-0 text-left sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3;
   }
 
 .landing-role-panel {
@@ -1178,7 +1178,7 @@
   }
 
 .landing-section-cta-panel {
-    @apply mx-auto max-w-4xl rounded-3xl border border-cyan-400/25 bg-gradient-to-br from-cyan-950/40 via-[#0b1220] to-[#030508] px-6 py-12 shadow-[0_32px_64px_-36px_rgba(34,211,238,0.35)] md:px-12 md:py-14;
+    @apply mx-auto max-w-4xl rounded-2xl border border-cyan-400/25 bg-gradient-to-br from-cyan-950/40 via-[#0b1220] to-[#030508] px-4 py-10 shadow-[0_32px_64px_-36px_rgba(34,211,238,0.35)] sm:rounded-3xl sm:px-6 sm:py-12 md:px-12 md:py-14;
   }
 
 .landing-section-inner--cta {

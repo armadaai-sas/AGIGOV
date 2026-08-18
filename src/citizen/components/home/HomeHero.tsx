@@ -1,17 +1,14 @@
-import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
-import { HomeHeroMobileCta } from './HomeHeroMobileCta.js';
 import { HomeHeroTitleAura } from './HomeHeroTitleAura.js';
 import { HomeHeroOsDiagram } from './HomeHeroOsDiagram.js';
 import './hero-console.css';
 
 /**
- * Hero page 1: marca + título + subtítulo + diagrama centrado.
- * Consola vive en #consola (segunda página).
+ * Hero page 1: marca + título + subtítulo + diagrama.
+ * CTAs viven en #sandbox / #consola — no en la primera vista.
  */
 export function HomeHero() {
   const copy = useLandingCopy();
@@ -28,8 +25,6 @@ export function HomeHero() {
 
   return (
     <section className="hero-landing-track hero-landing-track--navy" aria-labelledby="home-hero-title">
-      <HomeHeroMobileCta />
-
       <div id="os" className="hero-cinematic-stage hero-cinematic-stage--navy hero-cinematic-stage--sell scroll-mt-0">
         <div className="hero-cinematic-stage-scrim" aria-hidden />
 
@@ -52,17 +47,7 @@ export function HomeHero() {
             </motion.p>
           </div>
 
-          <motion.div className="hero-cinematic-actions" {...enter(0.1)}>
-            <Link to={copy.HERO_CTA_PRIMARY.path} className="hero-brand-btn hero-brand-btn--primary hero-brand-btn--navy">
-              {copy.HERO_CTA_PRIMARY.label}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-            <Link to={copy.HERO_CTA_SECONDARY.path} className="hero-brand-btn hero-brand-btn--ghost-navy">
-              {copy.HERO_CTA_SECONDARY.label}
-            </Link>
-          </motion.div>
-
-          <motion.div className="landing-wide-stage" {...enter(0.14)}>
+          <motion.div className="landing-wide-stage" {...enter(0.12)}>
             <HomeHeroOsDiagram />
           </motion.div>
         </div>

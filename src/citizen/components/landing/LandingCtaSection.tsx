@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import '../../../styles/landing-below.css';
 
-/** Diapositiva Sandbox — CTA de conversión. */
+/** Sandbox — CTAs de conversión (fuera del hero). */
 export function LandingCtaSection() {
   const copy = useLandingCopy();
 
@@ -28,6 +28,9 @@ export function LandingCtaSection() {
               {copy.HERO_CTA_PRIMARY.label}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
+            <a href="#consola" className="hero-brand-btn hero-brand-btn--ghost-navy">
+              {copy.HERO_CTA_SECONDARY.label}
+            </a>
             <Link to="/modelos" className="hero-brand-btn hero-brand-btn--ghost-navy">
               {copy.LANDING_MODELS_CATALOG}
             </Link>
