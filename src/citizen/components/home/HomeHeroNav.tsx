@@ -9,7 +9,7 @@ import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 const GITHUB_REPO = 'https://github.com/armadaai-sas/Armada-VZLA';
 
-/** Header fijo: logo · GitHub · Registro. */
+/** Header sticky in-flow: logo · GitHub · Registro. */
 export function HomeHeroNav() {
   const [scrolled, setScrolled] = useState(false);
   const { t } = useSovereignConfig();

@@ -27,9 +27,8 @@ export function LandingConsoleSection() {
           <p className="ls-lead">{copy.LANDING_CONSOLE_LEAD}</p>
         </header>
         <div className="ls-stage">
-          <div className="ls-frame">
-            <HomeHeroConsoleDemo />
-          </div>
+          {/* Shell del demo es el marco — evita doble borde / hueco visual */}
+          <HomeHeroConsoleDemo />
         </div>
       </div>
     </section>
