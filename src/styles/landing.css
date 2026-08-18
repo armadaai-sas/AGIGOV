@@ -191,20 +191,12 @@
   }
 
   .hero-cinematic-stage--navy {
-    @apply relative flex min-h-[100svh] snap-start flex-col items-center justify-start overflow-x-clip px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 md:px-8 md:pt-32;
+    @apply relative flex flex-col items-center justify-start overflow-x-clip px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 md:px-8 md:pb-16 md:pt-32;
     background: #030508;
   }
 
   .hero-cinematic-stage--sell {
     min-height: auto;
-    padding-bottom: 3.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .hero-cinematic-stage--sell {
-      min-height: 100svh;
-      padding-bottom: 5rem;
-    }
   }
 
   .hero-cinematic-stage-scrim {
@@ -533,8 +525,8 @@
   }
 
 html.landing-snap-root {
-    /* proximity: se puede llegar al footer; mandatory lo atrapaba en #contacto */
-    scroll-snap-type: y proximity;
+    /* Sin snap forzado: el ritmo lo marca el contenido, no el viewport. */
+    scroll-snap-type: none;
     scroll-behavior: smooth;
     overflow-x: clip;
   }
@@ -547,14 +539,13 @@ html.landing-snap-root {
 .landing-manifest > .hero-landing-track .hero-cinematic-stage,
   .landing-manifest > section.snap-start,
   .landing-manifest > .landing-section {
-    scroll-snap-align: start;
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
 
-  /* Destino de snap al pie — permite bajar completo */
   .landing-manifest > .site-footer {
-    scroll-snap-align: end;
-    scroll-snap-stop: always;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
     padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
   }
 
@@ -563,7 +554,7 @@ html.landing-snap-root {
   }
 
   .landing-manifest > .hero-landing-track .hero-cinematic-stage--navy:not(.hero-cinematic-stage--sell) {
-    min-height: 100svh;
+    min-height: auto;
   }
 
   .hero-trust-nav-inner {

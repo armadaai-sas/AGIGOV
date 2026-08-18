@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
 import { LandingSpineRail } from '../components/landing/LandingSpineRail.js';
 import { LandingConsoleSection } from '../components/landing/LandingConsoleSection.js';
@@ -14,13 +12,8 @@ import { SiteFooter } from '../components/SiteFooter.js';
 import '../../styles/landing.css';
 import '../../styles/landing-below.css';
 
-/** Landing AGIGOV — 9 diapositivas wide-open + spine timeline (eager: un solo paint). */
+/** Landing AGIGOV — secciones por contenido (sin forzar 100vh). */
 export default function HomePage() {
-  useEffect(() => {
-    document.documentElement.classList.add('landing-snap-root');
-    return () => document.documentElement.classList.remove('landing-snap-root');
-  }, []);
-
   return (
     <div className="landing-manifest">
       <LandingSpineRail />

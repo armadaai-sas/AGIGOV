@@ -644,7 +644,8 @@
   }
 
 .landing-section--slide {
-    @apply flex min-h-0 flex-col justify-center border-t border-white/[0.06] py-14 sm:py-16 md:min-h-[100svh] md:py-24;
+    /* Altura natural — el 100svh + justify-center creaba vacíos negros enormes. */
+    @apply flex flex-col justify-start border-t border-white/[0.06] py-14 sm:py-16 md:py-20;
   }
 
 .landing-slide-inner {
@@ -655,29 +656,29 @@
     @apply mx-auto mt-3 max-w-3xl font-display text-[clamp(1.45rem,4.2vw,2.75rem)] font-semibold leading-[1.12] tracking-[-0.035em] text-white;
   }
 
-.landing-slide-title--left {
-    @apply mx-0 text-left;
-  }
-
 .landing-slide-lead {
     @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
-.landing-slide-lead--left {
-    @apply mx-0 text-left;
-  }
-
 .landing-slide-inner--security {
-    @apply grid max-w-6xl items-start gap-8 text-left lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16;
+    @apply mx-auto grid w-full max-w-6xl items-start gap-8 text-left lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14;
   }
 
 .landing-security-copy {
-    @apply lg:sticky lg:top-28;
+    @apply text-center lg:sticky lg:top-28 lg:text-left;
+  }
+
+.landing-slide-title--left {
+    @apply mx-auto text-center lg:mx-0 lg:text-left;
+  }
+
+.landing-slide-lead--left {
+    @apply mx-auto text-center lg:mx-0 lg:text-left;
   }
 
 /* Servicios — flujo horizontal */
 .landing-flow-rail {
-    @apply mx-auto mt-10 flex list-none flex-col gap-6 p-0 text-left sm:mt-12 md:flex-row md:items-stretch md:gap-0;
+    @apply mx-auto mt-10 flex w-full max-w-5xl list-none flex-col gap-6 p-0 text-left sm:mt-12 md:flex-row md:items-stretch md:justify-between md:gap-4;
   }
 
 .landing-flow-step {
@@ -915,11 +916,11 @@
   }
 
 .landing-section--models {
-    @apply border-t border-white/[0.06] bg-[#030508] py-14 md:py-20;
+    @apply bg-[#030508];
   }
 
 .landing-models-layout {
-    @apply mx-auto grid max-w-7xl items-start gap-8 px-5 text-center md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 lg:text-left;
+    @apply mx-auto grid w-full max-w-6xl items-start gap-8 px-4 text-center sm:px-6 md:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:text-left;
   }
 
 .landing-models-copy {
@@ -1174,7 +1175,7 @@
   }
 
 .landing-section--cta {
-    @apply border-t border-white/[0.06] bg-[#0b1220] py-10 md:py-14;
+    @apply bg-[#0b1220];
   }
 
 .landing-section-cta-panel {
@@ -1206,8 +1207,55 @@
   }
 
 .landing-manifest .site-footer {
-    /* Sin pb-28 del shell móvil: en landing no hay bottom nav */
-    @apply border-t border-white/[0.08] bg-[#02040a] pb-10 pt-14;
+    @apply border-t border-white/[0.08] bg-[#02040a] px-5 pb-10 pt-14;
+  }
+
+.landing-manifest .site-footer-top {
+    @apply mx-auto mb-10 max-w-[1100px] text-center;
+  }
+
+.landing-manifest .site-footer-brand-block {
+    @apply mx-auto flex max-w-md flex-col items-center;
+  }
+
+.landing-manifest .site-footer-tagline {
+    @apply mt-4 max-w-sm text-center text-sm leading-relaxed text-slate-400;
+  }
+
+.landing-manifest .site-footer-social {
+    @apply mt-6 flex flex-row flex-wrap items-center justify-center gap-3;
+  }
+
+.landing-manifest .site-footer-social-link {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-slate-300 no-underline transition hover:border-white/30 hover:bg-white/10 hover:text-white;
+  }
+
+.landing-manifest .site-footer-inner {
+    @apply mx-auto grid max-w-[1100px] gap-10;
+  }
+
+.landing-manifest .site-footer-inner--three {
+    @apply grid-cols-1 text-center sm:grid-cols-3 sm:text-left;
+  }
+
+.landing-manifest .site-footer-inner--three .site-footer-col {
+    @apply flex flex-col items-center sm:items-start;
+  }
+
+.landing-manifest .site-footer-heading {
+    @apply mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-400;
+  }
+
+.landing-manifest .site-footer-col ul {
+    @apply m-0 list-none space-y-2.5 p-0 text-sm;
+  }
+
+.landing-manifest .site-footer-col a {
+    @apply text-slate-400 no-underline transition-colors hover:text-white;
+  }
+
+.landing-manifest .site-footer-bottom {
+    @apply mx-auto mt-10 max-w-[1100px] border-t border-white/[0.06] pt-6 text-center text-xs text-slate-600;
   }
 
 .landing-section-kicker {
