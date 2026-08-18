@@ -4,7 +4,7 @@
 
 @source "./HomeHeroConsoleDemo.tsx";
 
-@layer components {
+/* Unlayered — same cascade reason as landing-system.css */
 .hero-console-demo {
     @apply w-full;
   }
@@ -458,5 +458,4 @@
 @keyframes hero-demo-click {
   from { opacity: 0.9; transform: translate(-50%, -50%) scale(0.35); }
   to { opacity: 0; transform: translate(-50%, -50%) scale(1.4); }
-}
 }

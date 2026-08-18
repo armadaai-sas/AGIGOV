@@ -48,7 +48,10 @@
   }
 }
 
-@layer components {
+/* Landing layout — UNLAYERED on purpose.
+ * Split Tailwind imports can invert @layer order so preflight padding:0
+ * beats @layer components; unlayered .ls-* spacing always wins. */
+
   /* ===== Tokens =====
    * El skin TRUST (claro) redefine --color-agigov-* en <html>.
    * El landing debe aislar tokens oscuros o el texto/consola quedan ilegibles.
@@ -1290,7 +1293,6 @@
     color: #64748b;
     text-align: center;
   }
-}
 
 /* Body/html: no dejar que TRUST pinte el viewport de blanco detrás del landing */
 html:has(.ls-root),

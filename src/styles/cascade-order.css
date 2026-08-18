@@ -1,0 +1,7 @@
+/*
+ * MUST be the first CSS import in main.tsx.
+ * First @layer name list wins for the whole document — if utilities/components
+ * appear before this (via split Tailwind imports), preflight padding:0 beats
+ * every spacing utility and every @layer components rule.
+ */
+@layer theme, base, components, utilities;
