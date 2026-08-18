@@ -8,7 +8,7 @@ export function LandingCtaSection() {
   const copy = useLandingCopy();
 
   return (
-    <section id="sandbox" className="ls-section ls-section--alt" aria-labelledby="landing-cta-title">
+    <section id="sandbox" className="ls-section ls-section--alt ls-section--focus" aria-labelledby="landing-cta-title">
       <div className="ls-inner">
         <div className="ls-cta">
           <header className="ls-head">

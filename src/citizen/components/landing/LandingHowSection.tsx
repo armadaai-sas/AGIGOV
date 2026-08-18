@@ -19,7 +19,7 @@ export function LandingHowSection() {
     <section
       ref={sectionRef}
       id="operacion"
-      className={`ls-section ls-section--alt ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--alt ls-section--focus ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-how-title"
     >
       <div className="ls-inner">

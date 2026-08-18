@@ -32,7 +32,7 @@ export function LandingLearnSection() {
   ] as const;
 
   return (
-    <section id="aprender" className="ls-section" aria-labelledby="landing-learn-title">
+    <section id="aprender" className="ls-section ls-section--focus" aria-labelledby="landing-learn-title">
       <div className="ls-inner">
         <header className="ls-head">
           <p className="ls-kicker">{copy.LANDING_LEARN_KICKER}</p>

@@ -134,6 +134,35 @@
     margin-top: 0.5rem;
   }
 
+  /* Desde Modelos: más aire para enfocar lectura/categoría */
+  .ls-section--focus {
+    --ls-pad-y-focus: 4.75rem;
+    padding-top: var(--ls-pad-y-focus);
+    padding-bottom: var(--ls-pad-y-focus);
+  }
+
+  @media (min-width: 640px) {
+    .ls-section--focus {
+      --ls-pad-y-focus: 6rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ls-section--focus {
+      --ls-pad-y-focus: 7.25rem;
+    }
+  }
+
+  .ls-section--focus + .ls-section--focus {
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .ls-section--focus + .ls-section--focus {
+      margin-top: 1.75rem;
+    }
+  }
+
   .ls-section--hero {
     border-top: 0;
     /* Sticky nav is in-flow — no fixed-header clearance */
