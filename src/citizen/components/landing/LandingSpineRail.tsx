@@ -10,7 +10,7 @@ export const LANDING_MODULES = [
   { id: 'seguridad', label: 'Seguridad' },
   { id: 'aplicacion', label: 'Aplicación' },
   { id: 'desarrolladores', label: 'Desarrolladores' },
-  { id: 'pruebalo', label: 'Pruébalo' },
+  { id: 'sandbox', label: 'Sandbox' },
   { id: 'contacto', label: 'Contacto' },
 ] as const;
 
@@ -80,9 +80,9 @@ export function LandingSpineRail() {
             key={mod.id}
             className={`landing-module-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
           >
-            <a href={`#${mod.id}`} className="landing-module-rail-link">
-              <span className="landing-module-rail-index">{String(i + 1).padStart(2, '0')}</span>
+            <a href={`#${mod.id}`} className="landing-module-rail-link" aria-current={i === active ? 'true' : undefined}>
               <span className="landing-module-rail-orb" />
+              <span className="landing-module-rail-index">{String(i + 1).padStart(2, '0')}</span>
               <span className="landing-module-rail-label">{mod.label}</span>
             </a>
           </li>

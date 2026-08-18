@@ -5,12 +5,14 @@ import { PlatformProvider } from './context/PlatformContext.js';
 import { PanicBanner } from './components/PanicBanner.js';
 import { CommandPalette } from './components/CommandPalette.js';
 import { OnboardingModal } from './components/OnboardingModal.js';
-import { LoadingState } from './components/PageShell.js';
+import { LandingBootScreen } from './components/landing/LandingBootScreen.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
 import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
 import { usesAppShell } from './platform/navConfig.js';
-const HomePage = lazy(() => import('./pages/HomePage.js'));
+/** Home eager: el landing es la superficie principal; evita waterfall de chunks. */
+import HomePage from './pages/HomePage.js';
+
 const DashboardPage = lazy(() => import('./pages/DashboardPage.js'));
 const ProposalsPage = lazy(() => import('./pages/ProposalsPage.js'));
 const SupplyPage = lazy(() => import('./pages/SupplyPage.js'));
@@ -39,13 +41,7 @@ function AppRoutes() {
   const withShell = usesAppShell(pathname);
 
   const routes = (
-    <Suspense
-      fallback={
-        <div className={withShell ? 'app-shell-content' : 'agigov-shell-narrow agigov-page-transition'}>
-          <LoadingState label="Cargando página…" />
-        </div>
-      }
-    >
+    <Suspense fallback={<LandingBootScreen label="Cargando la página…" />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/gestion" element={<DashboardPage />} />

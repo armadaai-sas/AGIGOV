@@ -146,9 +146,24 @@ export function useLandingCopy() {
       LANDING_APPLICATION_TITLE: t('landing.application.title'),
       LANDING_APPLICATION_LEAD: t('landing.application.lead'),
       LANDING_APPLICATION_ITEMS: [
-        { id: 'treasury', title: t('landing.application.treasury.title'), body: t('landing.application.treasury.body') },
-        { id: 'audit', title: t('landing.application.audit.title'), body: t('landing.application.audit.body') },
-        { id: 'procurement', title: t('landing.application.procurement.title'), body: t('landing.application.procurement.body') },
+        {
+          id: 'treasury',
+          title: t('landing.application.treasury.title'),
+          body: t('landing.application.treasury.body'),
+          outcome: t('landing.application.treasury.outcome'),
+        },
+        {
+          id: 'audit',
+          title: t('landing.application.audit.title'),
+          body: t('landing.application.audit.body'),
+          outcome: t('landing.application.audit.outcome'),
+        },
+        {
+          id: 'procurement',
+          title: t('landing.application.procurement.title'),
+          body: t('landing.application.procurement.body'),
+          outcome: t('landing.application.procurement.outcome'),
+        },
       ] as const,
       LANDING_DEVELOPERS_KICKER: t('landing.developers.kicker'),
       LANDING_DEVELOPERS_TITLE: t('landing.developers.title'),

@@ -20,26 +20,26 @@ type DiagramNode = {
   y: number;
 };
 
+/** Layout simétrico 2+2: columnas 18 / 50 / 82 · eje vertical en el hub. */
 const NODES: DiagramNode[] = [
-  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 8, y: 18 },
-  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 8, y: 62 },
-  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 78, y: 12 },
-  { id: 'sentinel', labelKey: 'sentinel', icon: Radio, x: 78, y: 40 },
-  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 78, y: 68 },
-  { id: 'publish', labelKey: 'publish', icon: LayoutDashboard, x: 52, y: 88 },
+  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 18, y: 18 },
+  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 18, y: 58 },
+  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 82, y: 18 },
+  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 82, y: 58 },
+  { id: 'sentinel', labelKey: 'sentinel', icon: Radio, x: 50, y: 66 },
+  { id: 'publish', labelKey: 'publish', icon: LayoutDashboard, x: 50, y: 88 },
 ];
 
 const EDGES: Array<{ from: string; to: string }> = [
   { from: 'ingest', to: 'hub' },
   { from: 'multisig', to: 'hub' },
   { from: 'hub', to: 'escrow' },
-  { from: 'hub', to: 'sentinel' },
   { from: 'hub', to: 'ledger' },
+  { from: 'hub', to: 'sentinel' },
   { from: 'sentinel', to: 'publish' },
-  { from: 'ledger', to: 'publish' },
 ];
 
-const HUB = { x: 42, y: 40 };
+const HUB = { x: 50, y: 38 };
 
 function point(id: string): { x: number; y: number } {
   if (id === 'hub') return HUB;
@@ -47,7 +47,7 @@ function point(id: string): { x: number; y: number } {
   return { x: n.x, y: n.y };
 }
 
-/** Diagrama OS — imagen principal que vende el flujo (estilo canvas interconectado). */
+/** Diagrama OS — canvas simétrico centrado. */
 export function HomeHeroOsDiagram() {
   const copy = useLandingCopy();
   const reduceMotion = useReducedMotion();

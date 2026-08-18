@@ -271,6 +271,31 @@
     @apply mb-1;
   }
 
+.landing-boot-screen {
+    @apply flex min-h-[100svh] w-full flex-col items-center justify-center gap-5 bg-[#030508] px-6 text-center;
+  }
+
+.landing-boot-screen-label {
+    @apply m-0 text-sm font-medium tracking-wide text-slate-400;
+  }
+
+.landing-boot-screen-pulse {
+    @apply mt-1 h-1 w-16 rounded-full bg-white/10;
+    background-image: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.85), transparent);
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    animation: landing-boot-pulse 1.1s ease-in-out infinite;
+  }
+
+@keyframes landing-boot-pulse {
+  0% {
+    background-position: -40% 0;
+  }
+  100% {
+    background-position: 140% 0;
+  }
+}
+
 .agigov-glass {
     @apply border border-white/[0.08] bg-agigov-glass backdrop-blur-xl backdrop-saturate-150;
   }

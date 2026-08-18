@@ -49,7 +49,7 @@ export function SiteFooter() {
               <Link to="/#modelos">Modelos</Link>
             </li>
             <li>
-              <Link to="/#pruebalo">Pruébalo</Link>
+              <Link to="/#sandbox">Sandbox</Link>
             </li>
           </ul>
         </div>

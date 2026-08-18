@@ -82,19 +82,20 @@
   }
 
   .landing-module-rail {
-    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[11.5rem] lg:flex;
+    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[12.5rem] lg:flex;
   }
 
   .landing-module-rail-track {
-    @apply absolute bottom-[12%] left-[2.15rem] top-[18%] w-px overflow-hidden bg-white/10;
+    /* Alineada al centro de los orbes (pl-5 + orb ~6px). */
+    @apply absolute bottom-[14%] left-[1.55rem] top-[16%] w-px overflow-hidden bg-white/10;
   }
 
   .landing-module-rail-progress {
-    @apply w-full origin-top bg-gradient-to-b from-cyan-400 via-cyan-400/80 to-cyan-500/30 transition-[height] duration-300 ease-out;
+    @apply w-full origin-top bg-gradient-to-b from-cyan-400 via-cyan-400/80 to-cyan-500/25 transition-[height] duration-300 ease-out;
   }
 
   .landing-module-rail-list {
-    @apply relative z-[1] m-0 flex h-full list-none flex-col justify-center gap-1 py-[18vh] pl-3 pr-2;
+    @apply relative z-[1] m-0 flex h-full list-none flex-col justify-center gap-1 py-[16vh] pl-5 pr-3;
   }
 
   .landing-module-rail-item {
@@ -102,40 +103,52 @@
   }
 
   .landing-module-rail-link {
-    @apply pointer-events-auto flex items-center gap-2 rounded-lg px-1.5 py-1.5 no-underline transition-colors hover:bg-white/[0.04];
-  }
-
-  .landing-module-rail-index {
-    @apply w-5 shrink-0 font-mono text-[9px] tabular-nums text-slate-600;
+    @apply pointer-events-auto relative flex min-h-9 items-center gap-0 rounded-xl py-1.5 no-underline transition-[transform,background-color,box-shadow,padding] duration-300 ease-out;
   }
 
   .landing-module-rail-orb {
-    @apply block h-2 w-2 shrink-0 rounded-full border border-white/25 bg-[#030508] transition-all duration-300;
+    @apply relative z-[1] ml-0 mr-0 block h-1.5 w-1.5 shrink-0 rounded-full border border-white/20 bg-[#030508] transition-all duration-300;
+  }
+
+  .landing-module-rail-index {
+    @apply ml-0 w-0 shrink-0 overflow-hidden font-mono text-[9px] tabular-nums text-transparent opacity-0 transition-all duration-300;
   }
 
   .landing-module-rail-label {
-    @apply truncate text-[11px] font-medium tracking-[0.04em] text-slate-500 transition-colors;
+    @apply max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-semibold tracking-[0.02em] text-transparent opacity-0 transition-all duration-300 ease-out;
   }
 
   .landing-module-rail-item.is-done .landing-module-rail-orb {
-    @apply border-cyan-500/70 bg-cyan-600;
+    @apply border-cyan-500/55 bg-cyan-700/90;
   }
 
-  .landing-module-rail-item.is-done .landing-module-rail-label,
-  .landing-module-rail-item.is-done .landing-module-rail-index {
-    @apply text-slate-400;
+  /* Activo: el foco se acerca al contenido; solo ese nombre queda abierto. */
+  .landing-module-rail-item.is-active .landing-module-rail-link {
+    @apply translate-x-3 bg-white/[0.07] pr-3 shadow-[0_0_28px_-6px_rgba(34,211,238,0.6)];
   }
 
   .landing-module-rail-item.is-active .landing-module-rail-orb {
-    @apply h-2.5 w-2.5 border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.7)];
-  }
-
-  .landing-module-rail-item.is-active .landing-module-rail-label {
-    @apply text-cyan-100;
+    @apply h-2.5 w-2.5 border-cyan-200 bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.9)];
   }
 
   .landing-module-rail-item.is-active .landing-module-rail-index {
-    @apply text-cyan-400/90;
+    @apply ml-2.5 w-5 text-cyan-400/90 opacity-100;
+  }
+
+  .landing-module-rail-item.is-active .landing-module-rail-label {
+    @apply ml-1.5 max-w-[7.75rem] text-cyan-50 opacity-100;
+  }
+
+  .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover {
+    @apply translate-x-1.5 bg-white/[0.04];
+  }
+
+  .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover .landing-module-rail-index {
+    @apply ml-2.5 w-5 text-slate-500 opacity-100;
+  }
+
+  .landing-module-rail-item:not(.is-active) .landing-module-rail-link:hover .landing-module-rail-label {
+    @apply ml-1.5 max-w-[7.75rem] text-slate-300 opacity-80;
   }
 
   .hero-trust-nav-github {
@@ -210,7 +223,7 @@
   }
 
   .landing-wide-stage {
-    @apply mx-auto mt-10 w-full max-w-7xl px-0;
+    @apply mx-auto mt-10 w-full max-w-6xl px-2 sm:px-4;
   }
 
   .hero-product-stage--diagram {
@@ -294,9 +307,9 @@
   }
 
   .hero-os-diagram-canvas {
-    @apply relative h-[22rem] w-full sm:h-[26rem] md:h-[28rem];
+    @apply relative mx-auto h-[22rem] w-full sm:h-[26rem] md:h-[30rem];
     background:
-      radial-gradient(ellipse 45% 40% at 42% 40%, rgba(3, 105, 161, 0.16), transparent 70%),
+      radial-gradient(ellipse 38% 36% at 50% 38%, rgba(34, 211, 238, 0.14), transparent 72%),
       linear-gradient(180deg, #0b1220 0%, #030508 100%);
   }
 
@@ -507,7 +520,8 @@
   }
 
 html.landing-snap-root {
-    scroll-snap-type: y mandatory;
+    /* proximity: se puede llegar al footer; mandatory lo atrapaba en #contacto */
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
   }
 
@@ -520,7 +534,14 @@ html.landing-snap-root {
   .landing-manifest > section.snap-start,
   .landing-manifest > .landing-section {
     scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  /* Destino de snap al pie — permite bajar completo */
+  .landing-manifest > .site-footer {
+    scroll-snap-align: end;
     scroll-snap-stop: always;
+    padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
   }
 
   .landing-manifest > .hero-landing-track .hero-cinematic-stage {

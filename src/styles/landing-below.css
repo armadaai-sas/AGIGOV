@@ -655,43 +655,159 @@
     @apply mx-auto mt-3 max-w-3xl font-display text-[clamp(1.65rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-white;
   }
 
+.landing-slide-title--left {
+    @apply mx-0 text-left;
+  }
+
 .landing-slide-lead {
     @apply mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base;
   }
 
-.landing-services-grid,
-.landing-security-grid,
-.landing-application-grid {
-    @apply mt-10 grid list-none gap-4 p-0 text-left sm:grid-cols-2 lg:grid-cols-4;
+.landing-slide-lead--left {
+    @apply mx-0 text-left;
   }
 
-.landing-security-grid,
-.landing-application-grid {
-    @apply lg:grid-cols-3;
+.landing-slide-inner--security {
+    @apply grid max-w-6xl items-start gap-10 text-left lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16;
   }
 
-.landing-services-card,
-.landing-security-card,
-.landing-application-card {
-    @apply rounded-2xl border border-white/10 bg-[#111827]/80 p-5;
+.landing-security-copy {
+    @apply lg:sticky lg:top-28;
   }
 
-.landing-services-icon,
-.landing-security-icon,
-.landing-application-icon {
-    @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+/* Servicios — flujo horizontal */
+.landing-flow-rail {
+    @apply mx-auto mt-12 flex list-none flex-col gap-8 p-0 text-left md:flex-row md:items-stretch md:gap-0;
   }
 
-.landing-services-card-title,
-.landing-security-card-title,
-.landing-application-card-title {
-    @apply mt-4 font-display text-lg font-semibold tracking-[-0.02em] text-white;
+.landing-flow-step {
+    @apply relative flex flex-1 flex-col opacity-0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s ease-out calc(var(--step, 0) * 90ms),
+      transform 0.5s ease-out calc(var(--step, 0) * 90ms);
   }
 
-.landing-services-card-body,
-.landing-security-card-body,
-.landing-application-card-body {
-    @apply mt-2 text-sm leading-relaxed text-slate-400;
+.landing-section--services.is-inview .landing-flow-step {
+    @apply opacity-100;
+    transform: translateY(0);
+  }
+
+.landing-flow-step-head {
+    @apply mb-4 flex items-center gap-0;
+  }
+
+.landing-flow-index {
+    @apply font-mono text-[11px] font-semibold tabular-nums tracking-[0.14em] text-cyan-400/90;
+  }
+
+.landing-flow-connector {
+    @apply ml-3 hidden h-px flex-1 bg-gradient-to-r from-cyan-400/50 via-cyan-400/20 to-transparent md:block;
+  }
+
+.landing-flow-icon {
+    @apply mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/[0.08] text-cyan-300;
+  }
+
+.landing-flow-title {
+    @apply font-display text-lg font-semibold tracking-[-0.02em] text-white md:pr-4;
+  }
+
+.landing-flow-body {
+    @apply mt-2 max-w-[16rem] text-sm leading-relaxed text-slate-400 md:pr-4;
+  }
+
+/* Seguridad — capas verticales */
+.landing-defense-stack {
+    @apply m-0 list-none space-y-0 p-0;
+  }
+
+.landing-defense-layer {
+    @apply relative flex gap-4 opacity-0;
+    transform: translateX(12px);
+    transition:
+      opacity 0.45s ease-out calc(var(--step, 0) * 110ms),
+      transform 0.45s ease-out calc(var(--step, 0) * 110ms);
+  }
+
+.landing-section--security.is-inview .landing-defense-layer {
+    @apply opacity-100;
+    transform: translateX(0);
+  }
+
+.landing-defense-rail {
+    @apply relative flex w-4 shrink-0 flex-col items-center pt-2;
+  }
+
+.landing-defense-orb {
+    @apply relative z-[1] h-3 w-3 rounded-full border-2 border-cyan-300 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.65)];
+  }
+
+.landing-defense-line {
+    @apply mt-1 w-px flex-1 bg-gradient-to-b from-cyan-400/50 to-white/10;
+    min-height: 3.5rem;
+  }
+
+.landing-defense-body {
+    @apply mb-8 flex flex-1 gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5;
+  }
+
+.landing-defense-icon {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-400/25 bg-cyan-400/10 text-cyan-300;
+  }
+
+.landing-defense-index {
+    @apply m-0 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-400/80;
+  }
+
+.landing-defense-title {
+    @apply mt-1 font-display text-xl font-semibold tracking-[-0.02em] text-white;
+  }
+
+.landing-defense-text {
+    @apply mt-1.5 text-sm leading-relaxed text-slate-400;
+  }
+
+/* Aplicación — roles */
+.landing-roles-grid {
+    @apply mx-auto mt-12 grid list-none gap-5 p-0 text-left sm:grid-cols-3;
+  }
+
+.landing-role-panel {
+    @apply flex flex-col border-t border-cyan-400/35 pt-5 opacity-0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease-out calc(var(--step, 0) * 100ms),
+      transform 0.5s ease-out calc(var(--step, 0) * 100ms);
+  }
+
+.landing-section--application.is-inview .landing-role-panel {
+    @apply opacity-100;
+    transform: translateY(0);
+  }
+
+.landing-role-top {
+    @apply mb-4 flex items-center justify-between;
+  }
+
+.landing-role-icon {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04] text-cyan-300;
+  }
+
+.landing-role-index {
+    @apply font-mono text-[11px] tabular-nums text-slate-500;
+  }
+
+.landing-role-title {
+    @apply font-display text-xl font-semibold tracking-[-0.02em] text-white;
+  }
+
+.landing-role-body {
+    @apply mt-2 flex-1 text-sm leading-relaxed text-slate-400;
+  }
+
+.landing-role-outcome {
+    @apply mt-5 flex items-start gap-2 text-sm font-medium text-cyan-200/90;
   }
 
 .landing-section--services {
@@ -1090,7 +1206,8 @@
   }
 
 .landing-manifest .site-footer {
-    @apply border-t border-white/[0.08] bg-[#02040a];
+    /* Sin pb-28 del shell móvil: en landing no hay bottom nav */
+    @apply border-t border-white/[0.08] bg-[#02040a] pb-10 pt-14;
   }
 
 .landing-section-kicker {

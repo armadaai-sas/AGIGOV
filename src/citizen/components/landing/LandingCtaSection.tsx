@@ -4,13 +4,13 @@ import { ArrowRight } from 'lucide-react';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import '../../../styles/landing-below.css';
 
-/** Diapositiva Pruébalo — CTA de conversión. */
+/** Diapositiva Sandbox — CTA de conversión. */
 export function LandingCtaSection() {
   const copy = useLandingCopy();
 
   return (
     <section
-      id="pruebalo"
+      id="sandbox"
       className="landing-section landing-section--slide landing-section--cta scroll-mt-24"
       aria-labelledby="landing-cta-title"
     >
