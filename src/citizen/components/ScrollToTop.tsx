@@ -20,9 +20,13 @@ export function ScrollToTop() {
   return null;
 }
 
-/** Entrada suave del contenido al navegar (CSS only). */
+/** Entrada suave al navegar — sin wrapper en home (evita pelear con nav/rail fixed). */
 export function PageTransition({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
+
+  if (pathname === '/') {
+    return children;
+  }
 
   return (
     <div key={pathname} className="agigov-page-transition">

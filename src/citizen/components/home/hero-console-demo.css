@@ -1,0 +1,501 @@
+﻿/* Console demo only — used by landing home (no legacy 100svh stages). */
+@import "tailwindcss/utilities.css" layer(utilities);
+@reference "../../../styles/base.css";
+
+@source "./HomeHeroConsoleDemo.tsx";
+
+@layer components {
+@keyframes hero-demo-click {
+    from {
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(0.35);
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.4);
+    }
+  }
+.hero-console-demo {
+    @apply w-full;
+  }
+
+.hero-console-demo-shell {
+    @apply overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_28px_64px_-24px_rgba(15,23,42,0.5)] ring-1 ring-slate-900/10;
+  }
+
+.hero-console-demo-titlebar {
+    @apply flex items-center gap-2 border-b border-white/10 bg-black/60 px-3 py-1.5;
+  }
+
+.hero-console-demo-dots {
+    @apply flex gap-1;
+  }
+
+.hero-console-demo-dots span {
+    @apply h-2 w-2 rounded-full;
+  }
+
+.hero-console-demo-dots span:nth-child(1) {
+    @apply bg-red-500/80;
+  }
+
+.hero-console-demo-dots span:nth-child(2) {
+    @apply bg-amber-400/80;
+  }
+
+.hero-console-demo-dots span:nth-child(3) {
+    @apply bg-emerald-400/80;
+  }
+
+.hero-console-demo-path {
+    @apply min-w-0 flex-1 truncate font-mono text-[9px] uppercase tracking-wider text-slate-500;
+  }
+
+.hero-console-demo-badge {
+    @apply shrink-0 rounded px-1.5 py-0.5 font-mono text-[8px] font-bold tracking-widest bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30;
+  }
+
+.hero-console-demo-body {
+    @apply relative min-h-[18rem] flex-1 p-3 sm:min-h-[22rem] sm:p-4 md:min-h-[26rem] md:p-5;
+  }
+
+.hero-console-demo-frame {
+    @apply flex min-h-[18rem] sm:min-h-[22rem] md:min-h-[26rem];
+  }
+
+.hero-console-demo-rail {
+    @apply hidden w-10 shrink-0 flex-col items-center gap-2 border-r border-white/10 bg-black/40 py-3 sm:flex;
+  }
+
+.hero-console-demo-rail-btn {
+    @apply flex h-7 w-7 items-center justify-center rounded-lg text-slate-600;
+  }
+
+.hero-console-demo-rail-btn.is-active {
+    @apply bg-sky-500/20 text-sky-300;
+  }
+
+.hero-console-demo-badge--live {
+    @apply bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30;
+  }
+
+.hero-console-demo-program {
+    @apply mt-0.5 line-clamp-1 text-[9px] text-slate-500;
+  }
+
+.hero-console-demo-kpi-icon--sky {
+    @apply text-sky-400;
+  }
+
+.hero-console-demo-budget {
+    @apply mt-2.5 space-y-2 border-t border-white/10 pt-2.5;
+  }
+
+.hero-console-demo-budget-labels {
+    @apply mb-0.5 flex justify-between gap-2 text-[8px] uppercase tracking-wide text-slate-500;
+  }
+
+.hero-console-demo-budget-labels span:last-child {
+    @apply font-mono text-[8px] normal-case text-slate-400;
+  }
+
+.hero-console-demo-progress-fill--sky {
+    @apply bg-gradient-to-r from-sky-600 to-sky-400;
+  }
+
+.hero-console-demo-progress-fill--emerald {
+    @apply bg-gradient-to-r from-emerald-600 to-emerald-400;
+  }
+
+.hero-console-demo-contracts-head {
+    @apply mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-2.5;
+  }
+
+.hero-console-demo-contracts-title {
+    @apply text-[9px] font-semibold uppercase tracking-wide text-slate-400;
+  }
+
+.hero-console-demo-legend {
+    @apply flex gap-2 text-[8px] text-slate-500;
+  }
+
+.hero-console-demo-legend-dot {
+    @apply mr-1 inline-block h-1.5 w-1.5 rounded-full;
+  }
+
+.hero-console-demo-legend-dot--ok {
+    @apply bg-emerald-400;
+  }
+
+.hero-console-demo-legend-dot--warn {
+    @apply bg-amber-400;
+  }
+
+.hero-console-demo-contracts-grid {
+    @apply mt-2 grid grid-cols-2 gap-1.5;
+  }
+
+.hero-console-demo-contract {
+    @apply rounded-lg border p-2 text-left;
+  }
+
+.hero-console-demo-contract.is-ok {
+    @apply border-emerald-500/30 bg-emerald-500/10;
+  }
+
+.hero-console-demo-contract.is-warn {
+    @apply border-amber-500/35 bg-amber-500/10;
+  }
+
+.hero-console-demo-contract.is-focus {
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.5);
+  }
+
+.hero-console-demo-contract-title {
+    @apply line-clamp-1 font-display text-[10px] font-semibold text-slate-100;
+  }
+
+.hero-console-demo-contract-meta {
+    @apply mt-0.5 text-[8px] text-slate-500;
+  }
+
+.hero-console-demo-contract-milestones {
+    @apply mt-1.5 text-[8px] text-slate-500;
+  }
+
+.hero-console-demo-contract-amount {
+    @apply mt-0.5 font-mono text-[9px] font-medium text-slate-200;
+  }
+
+.hero-console-demo-split-grid {
+    @apply mt-3 grid w-full grid-cols-3 gap-1.5;
+  }
+
+.hero-console-demo-split-chip {
+    @apply rounded-lg border px-2 py-1.5 text-left;
+  }
+
+.hero-console-demo-split-chip--emerald {
+    @apply border-emerald-500/30 bg-emerald-500/10;
+  }
+
+.hero-console-demo-split-chip--sky {
+    @apply border-sky-500/30 bg-sky-500/10;
+  }
+
+.hero-console-demo-split-chip--violet {
+    @apply border-violet-500/30 bg-violet-500/10;
+  }
+
+.hero-console-demo-split-pct {
+    @apply font-display text-sm font-bold text-white;
+  }
+
+.hero-console-demo-split-label {
+    @apply text-[8px] text-slate-500;
+  }
+
+.hero-console-demo-split-amount {
+    @apply mt-0.5 font-mono text-[8px] text-slate-300;
+  }
+
+.hero-route-demo {
+    @apply mt-10;
+  }
+
+.hero-route-demo-why {
+    @apply mx-auto max-w-2xl rounded-xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 text-center;
+  }
+
+.hero-route-demo-why-kicker {
+    @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500;
+  }
+
+.hero-route-demo-why-text {
+    @apply mt-1 text-sm leading-relaxed text-slate-700;
+  }
+
+.hero-route-demo-track-wrap {
+    @apply relative mt-8;
+  }
+
+.hero-route-demo-steps {
+    @apply grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3;
+  }
+
+.hero-route-demo-step-counter {
+    @apply mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-slate-400;
+  }
+
+.hero-route-demo-step-btn {
+    @apply flex w-full flex-col items-center gap-2 rounded-xl border border-slate-200 bg-white px-2 py-3 text-center transition hover:border-slate-300;
+  }
+
+.hero-route-demo-step-btn.is-active {
+    @apply border-slate-900 bg-slate-900 text-white shadow-md;
+  }
+
+.hero-route-demo-step-btn.is-done:not(.is-active) {
+    @apply border-slate-300 bg-slate-50;
+  }
+
+.hero-route-demo-step-icon {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700;
+  }
+
+.hero-route-demo-step-btn.is-active .hero-route-demo-step-icon {
+    @apply bg-white/15 text-white;
+  }
+
+.hero-route-demo-step-label {
+    @apply text-[11px] font-semibold leading-tight text-slate-800;
+  }
+
+.hero-route-demo-step-btn.is-active .hero-route-demo-step-label {
+    @apply text-white;
+  }
+
+.hero-route-demo-panel {
+    @apply mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm;
+  }
+
+.hero-route-demo-panel-head {
+    @apply flex flex-wrap items-start gap-3;
+  }
+
+.hero-route-demo-panel-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-800;
+  }
+
+.hero-route-demo-panel-kicker {
+    @apply text-[10px] font-semibold uppercase tracking-wide text-slate-500;
+  }
+
+.hero-route-demo-panel-title {
+    @apply font-display text-lg font-semibold text-slate-900;
+  }
+
+.hero-route-demo-panel-stat {
+    @apply ml-auto rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 font-mono text-[9px] text-slate-600;
+  }
+
+.hero-route-demo-panel-detail {
+    @apply mt-4 text-sm leading-relaxed text-slate-600;
+  }
+
+.hero-route-demo-panel-link {
+    @apply mt-4 inline-flex items-center gap-1 text-sm font-semibold text-slate-900 no-underline hover:text-slate-600;
+  }
+
+.hero-route-step {
+    @apply list-none;
+  }
+
+.hero-route-step-card {
+    @apply flex h-full items-start gap-3 rounded-xl border border-slate-200/90 bg-white px-3.5 py-3 no-underline shadow-sm transition hover:border-slate-300 hover:shadow-md;
+  }
+
+.hero-route-step-index {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-50 font-mono text-xs font-semibold text-sky-700;
+  }
+
+.hero-route-step-body {
+    @apply flex min-w-0 flex-1 flex-col text-left;
+  }
+
+.hero-route-step-label {
+    @apply text-sm font-semibold text-slate-900;
+  }
+
+.hero-route-step-hint {
+    @apply text-[11px] leading-snug text-slate-500;
+  }
+
+.hero-console-demo-scene {
+    @apply min-h-[20rem] sm:min-h-[24rem];
+  }
+
+.hero-console-demo-header {
+    @apply flex items-start justify-between gap-2 border-b border-white/10 pb-2;
+  }
+
+.hero-console-demo-kicker {
+    @apply text-[9px] font-medium uppercase tracking-wider text-slate-500;
+  }
+
+.hero-console-demo-heading {
+    @apply mt-0.5 font-mono text-xs text-slate-200;
+  }
+
+.hero-console-demo-sub {
+    @apply mt-1 font-mono text-[10px] text-slate-500;
+  }
+
+.hero-console-demo-pill {
+    @apply shrink-0 rounded-md bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[8px] text-emerald-300 ring-1 ring-emerald-500/25;
+  }
+
+.hero-console-demo-kpis {
+    @apply mt-2.5 grid grid-cols-1 gap-1.5 sm:grid-cols-3;
+  }
+
+.hero-console-demo-kpi {
+    @apply rounded-lg border border-white/10 bg-white/[0.03] p-2 min-w-0;
+  }
+
+.hero-console-demo-kpi--accent {
+    @apply border-emerald-500/25 bg-emerald-500/10;
+  }
+
+.hero-console-demo-kpi-icon {
+    @apply mb-0.5 h-3 w-3 text-emerald-400;
+  }
+
+.hero-console-demo-kpi-label {
+    @apply text-[8px] uppercase tracking-wide text-slate-500;
+  }
+
+.hero-console-demo-kpi-value {
+    @apply mt-0.5 flex flex-wrap items-baseline gap-x-1 font-mono text-[11px] font-semibold tabular-nums text-white sm:text-xs;
+  }
+
+.hero-console-demo-kpi-unit {
+    @apply text-[8px] font-normal text-slate-500;
+  }
+
+.hero-console-demo-progress {
+    @apply mt-2.5;
+  }
+
+.hero-console-demo-progress-labels {
+    @apply mb-0.5 flex justify-between text-[8px] uppercase tracking-wide text-slate-500;
+  }
+
+.hero-console-demo-progress-track {
+    @apply h-1.5 overflow-hidden rounded-full bg-white/10;
+  }
+
+.hero-console-demo-progress-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400;
+  }
+
+.hero-console-demo-grid {
+    @apply mt-2.5 grid grid-cols-5 gap-1;
+  }
+
+.hero-console-demo-cell {
+    @apply aspect-[4/3] rounded border border-emerald-500/35 bg-emerald-500/20;
+  }
+
+.hero-console-demo-rows {
+    @apply mt-3 space-y-1.5;
+  }
+
+.hero-console-demo-row {
+    @apply flex justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[10px] text-slate-400;
+  }
+
+.hero-console-demo-row span:last-child {
+    @apply font-mono text-slate-200;
+  }
+
+.hero-console-demo-row--accent {
+    @apply border-amber-500/30 bg-amber-500/10 text-amber-200/90;
+  }
+
+.hero-console-demo-btn {
+    @apply mt-3 w-full rounded-lg border border-sky-500/35 bg-sky-500/15 px-3 py-1.5 text-[10px] font-semibold text-sky-200;
+  }
+
+.hero-console-demo-scene--result {
+    @apply flex flex-col items-center justify-center py-1 text-center;
+  }
+
+.hero-console-demo-result-icon {
+    @apply mb-1;
+  }
+
+.hero-console-demo-result-title {
+    @apply text-xs font-semibold text-emerald-300;
+  }
+
+.hero-console-demo-result-delta {
+    @apply mt-1 font-mono text-lg font-bold tabular-nums text-white;
+  }
+
+.hero-console-demo-result-hash {
+    @apply mt-1 flex items-center justify-center gap-1 text-[9px] text-slate-500;
+  }
+
+.hero-console-demo-result-bar {
+    @apply mt-2.5 flex h-1 w-full max-w-[12rem] overflow-hidden rounded-full;
+  }
+
+.hero-console-demo-result-bar span:nth-child(1) {
+    @apply bg-emerald-500;
+  }
+
+.hero-console-demo-result-bar span:nth-child(2) {
+    @apply bg-sky-500;
+  }
+
+.hero-console-demo-result-bar span:nth-child(3) {
+    @apply bg-violet-500;
+  }
+
+.hero-console-demo-result-caption {
+    @apply mt-1 text-[8px] uppercase tracking-wide text-slate-600;
+  }
+
+.hero-console-demo-cursor {
+    @apply pointer-events-none absolute z-20;
+    transform: translate(-4px, -2px);
+  }
+
+.hero-console-demo-cursor-pointer {
+    @apply block h-4 w-4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='20' fill='none'%3E%3Cpath fill='%23fff' stroke='%230f172a' stroke-width='1.2' d='M2 2l9.5 6.5L8 9l3.5 8.5L8.5 14l-6.5-12z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+  }
+
+.hero-console-demo-click-ring {
+    @apply absolute left-1 top-1 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-sky-400/80;
+    animation: hero-demo-click 0.45s ease-out forwards;
+  }
+
+.hero-console-mockup-link {
+    @apply mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-sky-300 no-underline transition hover:text-sky-200;
+  }
+
+.hero-console-mockup-window {
+    @apply overflow-hidden rounded-2xl border border-cyan-500/15 bg-[#080c14] shadow-2xl shadow-black/60;
+@keyframes hero-demo-click {
+    from {
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(0.35);
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.4);
+    }
+  }
+
+@keyframes hero-cinematic-kenburns {
+    from { transform: scale(1.04); }
+    to { transform: scale(1.09); }
+  }
+
+@keyframes landing-compare-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+

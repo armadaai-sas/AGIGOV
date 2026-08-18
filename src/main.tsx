@@ -5,7 +5,13 @@ import { registerSW } from 'virtual:pwa-register';
 import App from './App.tsx';
 import './styles/base.css';
 
-registerSW({ immediate: false });
+/** Activate new SW ASAP so deploys aren't trapped behind stale precache. */
+registerSW({
+  immediate: true,
+  onNeedRefresh() {
+    window.location.reload();
+  },
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

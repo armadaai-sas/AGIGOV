@@ -3,7 +3,7 @@ import { useInView } from 'motion/react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { HomeHeroConsoleDemo } from '../home/HomeHeroConsoleDemo.js';
-import '../home/hero-console.css';
+import '../home/hero-console-demo.css';
 
 /** Consola — mismo ancho .ls-inner que el resto. */
 export function LandingConsoleSection() {
