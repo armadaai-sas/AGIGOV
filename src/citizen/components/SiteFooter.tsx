@@ -52,6 +52,9 @@ export function SiteFooter() {
               <Link to="/#operacion">Operación</Link>
             </li>
             <li>
+              <Link to="/#aprender">Aprende</Link>
+            </li>
+            <li>
               <Link to="/#sandbox">Sandbox</Link>
             </li>
           </ul>

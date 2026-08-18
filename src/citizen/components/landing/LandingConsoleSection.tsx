@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
+import { BookOpen, ArrowRight } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { HomeHeroConsoleDemo } from '../home/HomeHeroConsoleDemo.js';
@@ -7,7 +9,7 @@ import '../home/hero-console-demo.css';
 
 type OpsHealth = { ok?: boolean };
 
-/** Consola — stage ancho centrado + badge LIVE desde health real. */
+/** Consola — tamaño fijo; solo cambia el contenido interno. */
 export function LandingConsoleSection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -53,6 +55,16 @@ export function LandingConsoleSection() {
       <div className="ls-stage ls-stage--console">
         <div className="ls-inner ls-inner--stage">
           <HomeHeroConsoleDemo forceLive={opsLive} />
+          <div className="ls-learn-more">
+            <Link to="/aprender/glosario" className="ls-btn ls-btn--ghost">
+              <BookOpen className="h-4 w-4" aria-hidden />
+              {copy.LANDING_LEARN_MORE}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link to="/ayuda" className="ls-learn-more-link">
+              {copy.LANDING_LEARN_HELP_CTA}
+            </Link>
+          </div>
         </div>
       </div>
     </section>

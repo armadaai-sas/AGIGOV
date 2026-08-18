@@ -10,6 +10,7 @@
 @source "../citizen/components/landing/LandingConsoleSection.tsx";
 @source "../citizen/components/landing/LandingModelsInteractiveSection.tsx";
 @source "../citizen/components/landing/LandingHowSection.tsx";
+@source "../citizen/components/landing/LandingLearnSection.tsx";
 @source "../citizen/components/landing/LandingDevelopersSection.tsx";
 @source "../citizen/components/landing/LandingCtaSection.tsx";
 @source "../citizen/components/landing/LandingContactSection.tsx";
@@ -89,7 +90,7 @@
     --ls-max-stage: 72rem;
     --ls-rail: 12.5rem;
     --ls-pad-x: 1rem;
-    --ls-pad-y: 2.25rem;
+    --ls-pad-y: 3.5rem;
     --ls-gap: 1rem;
     position: relative;
     overflow-x: clip;
@@ -103,7 +104,7 @@
   @media (min-width: 640px) {
     .ls-root {
       --ls-pad-x: 1.5rem;
-      --ls-pad-y: 2.75rem;
+      --ls-pad-y: 4.5rem;
       --ls-gap: 1.25rem;
     }
   }
@@ -111,7 +112,7 @@
   @media (min-width: 768px) {
     .ls-root {
       --ls-pad-x: 2rem;
-      --ls-pad-y: 3.25rem;
+      --ls-pad-y: 5.5rem;
     }
   }
 
@@ -126,6 +127,11 @@
     border-top: 1px solid var(--ls-line);
     background: var(--ls-bg);
     scroll-margin-top: 5rem;
+  }
+
+  /* Cada categoría reserva su aire — no se pisa con la siguiente */
+  .ls-section + .ls-section {
+    margin-top: 0.5rem;
   }
 
   .ls-section--hero {
@@ -775,6 +781,97 @@
 
   .ls-flow-foot-sep {
     opacity: 0.5;
+  }
+
+  .ls-learn-more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .ls-learn-more-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #94a3b8;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ls-learn-more-link:hover {
+    color: #e2e8f0;
+  }
+
+  .ls-learn-grid {
+    display: grid;
+    gap: var(--ls-gap);
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    .ls-learn-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .ls-learn-card {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.25rem 1.35rem;
+    text-decoration: none;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  .ls-learn-card:hover {
+    border-color: rgba(34, 211, 238, 0.35);
+    background: rgba(34, 211, 238, 0.06);
+  }
+
+  .ls-learn-icon {
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    background: rgba(34, 211, 238, 0.1);
+    color: #67e8f9;
+  }
+
+  .ls-learn-card-title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  .ls-learn-card-body {
+    margin: 0;
+    flex: 1;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--ls-muted);
+  }
+
+  .ls-learn-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #67e8f9;
   }
 
   .ls-frame {
