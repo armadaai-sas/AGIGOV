@@ -34,7 +34,7 @@ const NAV = [
 ] as const;
 
 /** Demo cinematográfica — misma densidad que la consola operativa real. */
-export function HomeHeroConsoleDemo() {
+export function HomeHeroConsoleDemo({ forceLive = false }: { forceLive?: boolean }) {
   const reduceMotion = useReducedMotion();
   const { formatMoney, sovereign, t } = useSovereignConfig();
   const { data, live } = useHeroEgsData('home-hero-egs-demo');
@@ -80,7 +80,8 @@ export function HomeHeroConsoleDemo() {
   }, [reduceMotion]);
 
   const cursor = CURSOR_PATH[scene];
-  const badge = live ? t('common.live') : t('common.preview');
+  const isLive = forceLive || live;
+  const badge = isLive ? t('common.live') : t('common.preview');
 
   return (
     <div className="hero-console-demo" aria-hidden>
@@ -94,7 +95,7 @@ export function HomeHeroConsoleDemo() {
           <span className="hero-console-demo-path">
             {t('hero.console.path', { iso: sovereign.iso })}
           </span>
-          <span className={`hero-console-demo-badge ${live ? 'hero-console-demo-badge--live' : ''}`}>
+          <span className={`hero-console-demo-badge ${isLive ? 'hero-console-demo-badge--live' : ''}`}>
             {badge}
           </span>
         </div>

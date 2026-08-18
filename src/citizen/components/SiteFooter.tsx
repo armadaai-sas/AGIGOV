@@ -49,6 +49,9 @@ export function SiteFooter() {
               <Link to="/#modelos">Modelos</Link>
             </li>
             <li>
+              <Link to="/#operacion">Operación</Link>
+            </li>
+            <li>
               <Link to="/#sandbox">Sandbox</Link>
             </li>
           </ul>

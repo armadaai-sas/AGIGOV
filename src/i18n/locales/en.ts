@@ -28,6 +28,10 @@ const en = {
   'landing.console.kicker': 'Live console',
   'landing.console.title': 'See the OS decide in real time.',
   'landing.console.lead': 'Savings, contracts, and reconcile — one institutional dashboard.',
+  'landing.how.kicker': 'How it runs',
+  'landing.how.title': 'Four steps. Three layers. Three roles.',
+  'landing.how.lead':
+    'From signed ceiling to citizen dashboard — custody, freeze, and publish in one institutional flow.',
   'hero.sell.lead':
     'AGIGOV is the operating system for one budget line: you load evidence, the OS runs custody, and you publish a close you can defend.',
   'hero.sell.point1': 'Operate: baseline multi-sig → milestones in escrow → sentinel gate',

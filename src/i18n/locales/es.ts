@@ -30,6 +30,10 @@ const es: Record<MessageKey, string> = {
   'landing.console.kicker': 'Consola en vivo',
   'landing.console.title': 'Mira al OS decidir en tiempo real.',
   'landing.console.lead': 'Ahorro, contratos y reconcile — un solo dashboard institucional.',
+  'landing.how.kicker': 'Cómo opera',
+  'landing.how.title': 'Cuatro pasos. Tres capas. Tres roles.',
+  'landing.how.lead':
+    'Del techo firmado al dashboard ciudadano — custodia, freeze y publicación en un solo flujo institucional.',
   'hero.sell.lead':
     'AGIGOV es el sistema operativo de un rubro presupuestario: carga evidencia, el OS custodia el flujo y publica un cierre defendible.',
   'hero.sell.point1': 'Opera: baseline multi-sig → hitos en escrow → gate centinela',

@@ -9,9 +9,7 @@
 @source "../citizen/components/landing/LandingSpineRail.tsx";
 @source "../citizen/components/landing/LandingConsoleSection.tsx";
 @source "../citizen/components/landing/LandingModelsInteractiveSection.tsx";
-@source "../citizen/components/landing/LandingServicesSection.tsx";
-@source "../citizen/components/landing/LandingSecuritySection.tsx";
-@source "../citizen/components/landing/LandingApplicationSection.tsx";
+@source "../citizen/components/landing/LandingHowSection.tsx";
 @source "../citizen/components/landing/LandingDevelopersSection.tsx";
 @source "../citizen/components/landing/LandingCtaSection.tsx";
 @source "../citizen/components/landing/LandingContactSection.tsx";
@@ -40,6 +38,8 @@
 @media (min-width: 1280px) {
   .ls-root {
     padding-left: var(--ls-rail);
+    /* Mirror rail width on the right so stages optically center in the viewport */
+    padding-right: var(--ls-rail);
   }
 
   .ls-rail {
@@ -86,6 +86,7 @@
     --ls-line: rgba(255, 255, 255, 0.06);
     --ls-cyan: #22d3ee;
     --ls-max: 64rem;
+    --ls-max-stage: 72rem;
     --ls-rail: 12.5rem;
     --ls-pad-x: 1rem;
     --ls-pad-y: 2.25rem;
@@ -152,6 +153,10 @@
     max-width: var(--ls-max);
     margin-inline: auto;
     padding-inline: var(--ls-pad-x);
+  }
+
+  .ls-inner--stage {
+    max-width: var(--ls-max-stage);
   }
 
   .ls-head {
@@ -321,8 +326,21 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.75rem 0;
+    padding: 0.75rem var(--ls-pad-x);
+    padding-right: max(var(--ls-pad-x), 1.5rem);
     transition: background-color 0.2s, backdrop-filter 0.2s;
+  }
+
+  @media (min-width: 640px) {
+    .ls-nav-bar {
+      padding-right: max(var(--ls-pad-x), 2rem);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ls-nav-bar {
+      padding-right: max(var(--ls-pad-x), 2.5rem);
+    }
   }
 
   .ls-nav.is-scrolled .ls-nav-bar {
@@ -524,15 +542,143 @@
   }
 
   .ls-stage {
+    display: flex;
     width: 100%;
-    max-width: 100%;
+    max-width: var(--ls-max-stage);
     margin-top: 1.75rem;
+    margin-inline: auto;
+    justify-content: center;
+  }
+
+  .ls-stage > * {
+    width: 100%;
   }
 
   @media (min-width: 640px) {
     .ls-stage {
       margin-top: 2.25rem;
     }
+  }
+
+  .ls-stage--hero {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .ls-stage--hero {
+      margin-top: 2.5rem;
+    }
+  }
+
+  .ls-hero-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 22rem;
+    margin: 1.5rem auto 0;
+  }
+
+  @media (min-width: 640px) {
+    .ls-hero-cta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      max-width: none;
+      width: auto;
+    }
+  }
+
+  .ls-hero-trust {
+    margin: 1rem 0 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--ls-muted);
+    text-align: center;
+  }
+
+  .ls-how-block {
+    margin-top: 3rem;
+    text-align: left;
+  }
+
+  .ls-how-subhead {
+    margin: 0;
+    font-family: var(--font-display, ui-sans-serif);
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+  }
+
+  .ls-how-sublead {
+    margin: 0.5rem auto 0;
+    max-width: 36rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ls-muted);
+    text-align: center;
+  }
+
+  .ls-how-layers {
+    display: grid;
+    gap: var(--ls-gap);
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .ls-how-layers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .ls-how-layer {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem 1.1rem;
+  }
+
+  .ls-how-layer-icon {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    background: rgba(34, 211, 238, 0.1);
+    color: #67e8f9;
+  }
+
+  .ls-how-layer-index {
+    margin: 0;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(34, 211, 238, 0.85);
+  }
+
+  .ls-how-layer-title {
+    margin: 0.2rem 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  .ls-how-layer-body {
+    margin: 0.35rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--ls-muted);
   }
 
   .ls-frame {

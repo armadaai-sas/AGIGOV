@@ -10,11 +10,11 @@
   }
 
 .hero-console-demo-shell {
-    @apply overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_28px_64px_-24px_rgba(15,23,42,0.5)] ring-1 ring-slate-900/10;
+    @apply overflow-hidden rounded-2xl border border-white/10 bg-[#070b12] shadow-[0_40px_100px_-28px_rgba(0,0,0,0.85)] ring-1 ring-white/5;
   }
 
 .hero-console-demo-titlebar {
-    @apply flex items-center gap-2 border-b border-white/10 bg-black/60 px-3 py-1.5;
+    @apply flex items-center gap-2 border-b border-white/10 bg-black/60 px-4 py-2;
   }
 
 .hero-console-demo-dots {
@@ -46,7 +46,7 @@
   }
 
 .hero-console-demo-body {
-    @apply relative p-3 sm:p-4 md:p-5;
+    @apply relative p-4 sm:p-5 md:p-6;
   }
 
 .hero-console-demo-frame {
@@ -314,7 +314,7 @@
   }
 
 .hero-console-demo-heading {
-    @apply mt-0.5 font-mono text-xs text-slate-200;
+    @apply mt-0.5 font-mono text-sm text-slate-100;
   }
 
 .hero-console-demo-sub {
@@ -346,7 +346,7 @@
   }
 
 .hero-console-demo-kpi-value {
-    @apply mt-0.5 flex flex-wrap items-baseline gap-x-1 font-mono text-[11px] font-semibold tabular-nums text-white sm:text-xs;
+    @apply mt-0.5 flex flex-wrap items-baseline gap-x-1 font-mono text-sm font-semibold tabular-nums text-white sm:text-base;
   }
 
 .hero-console-demo-kpi-unit {
