@@ -484,11 +484,6 @@
     @apply border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-white hover:text-slate-900;
   }
 
-.landing-section {
-    /* Base legacy (no slides). Slides override abajo a full-bleed. */
-    @apply flex w-full items-stretch px-0 py-12 md:py-16;
-  }
-
 .landing-section-inner {
     @apply mx-auto w-full max-w-3xl px-5;
   }
