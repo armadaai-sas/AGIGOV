@@ -5,51 +5,45 @@ import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { usePlatform } from '../../context/PlatformContext.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { ModelStatusBadge } from '../models/ModelStatusBadge.js';
-import '../../../styles/landing-below.css';
 
 const FEATURED = AGIGOV_MODELS.filter((m) => m.audience === 'gubernamental').slice(0, 3);
 
-/** Catálogo — cabecera centrada + cards en rejilla equilibrada. */
+/** Modelos — cabecera + grid 1→2→3. */
 export function LandingModelsInteractiveSection() {
   const copy = useLandingCopy();
   const { t } = usePlatform();
 
   return (
-    <section
-      id="modelos"
-      className="landing-section landing-section--slide landing-section--models scroll-mt-24"
-      aria-labelledby="landing-models-title"
-    >
-      <div className="landing-slide-inner">
-        <p className="hero-brand-kicker">{copy.LANDING_MODELS_KICKER}</p>
-        <h2 id="landing-models-title" className="landing-slide-title">
-          {copy.LANDING_MODELS_TITLE}
-        </h2>
-        <p className="landing-slide-lead">{copy.LANDING_MODELS_BODY}</p>
-        <div className="landing-models-actions">
-          <Link
-            to="/modelos"
-            className="hero-brand-btn hero-brand-btn--ghost-navy landing-models-catalog-link"
-          >
-            {copy.LANDING_MODELS_CATALOG}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
-        </div>
+    <section id="modelos" className="ls-section" aria-labelledby="landing-models-title">
+      <div className="ls-inner">
+        <header className="ls-head">
+          <p className="ls-kicker">{copy.LANDING_MODELS_KICKER}</p>
+          <h2 id="landing-models-title" className="ls-title">
+            {copy.LANDING_MODELS_TITLE}
+          </h2>
+          <p className="ls-lead">{copy.LANDING_MODELS_BODY}</p>
+          <div className="ls-actions">
+            <Link to="/modelos" className="ls-btn ls-btn--ghost">
+              {copy.LANDING_MODELS_CATALOG}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </header>
 
-        <div className="landing-models-grid">
+        <div className="ls-grid ls-grid--3">
           {FEATURED.map((model) => {
             const Icon = model.icon;
             return (
-              <Link key={model.id} to={model.productPath} className="landing-models-card">
-                <div className="landing-models-card-head">
-                  <span className="landing-models-card-icon">
+              <Link key={model.id} to={model.productPath} className="ls-card">
+                <div className="ls-card-head">
+                  <span className="ls-card-icon">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
                   <ModelStatusBadge modelId={model.id} status={model.status} size="sm" />
                 </div>
-                <h3 className="landing-models-card-title">{model.name}</h3>
-                <p className="landing-models-card-desc">{model.tagline}</p>
-                <span className="landing-models-card-cta">
+                <h3 className="ls-card-title">{model.name}</h3>
+                <p className="ls-card-desc">{model.tagline}</p>
+                <span className="ls-card-cta">
                   {t('model.card.viewBrief')}
                   <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </span>

@@ -9,7 +9,7 @@ import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 const GITHUB_REPO = 'https://github.com/armadaai-sas/Armada-VZLA';
 
-/** Header mínimo: logo · GitHub · Registro (sesión dentro del flujo de registro). */
+/** Header fijo: logo · GitHub · Registro. */
 export function HomeHeroNav() {
   const [scrolled, setScrolled] = useState(false);
   const { t } = useSovereignConfig();
@@ -23,26 +23,26 @@ export function HomeHeroNav() {
   }, []);
 
   return (
-    <header className={`hero-trust-nav hero-trust-nav--navy hero-trust-nav--minimal ${scrolled ? 'is-scrolled' : ''}`}>
-      <div className="hero-trust-nav-inner hero-trust-nav-inner--minimal">
-        <Link to="/" className="hero-trust-nav-logo" aria-label={t('nav.home')}>
+    <header className={`ls-nav ${scrolled ? 'is-scrolled' : ''}`}>
+      <div className="ls-nav-bar">
+        <Link to="/" className="ls-nav-logo" aria-label={t('nav.home')}>
           <AgigovLogo size="sm" showWordmark variant="dark" />
         </Link>
 
-        <div className="hero-trust-nav-actions">
+        <div className="ls-nav-actions">
           <a
             href={GITHUB_REPO}
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-trust-nav-github"
+            className="ls-nav-github"
             aria-label="GitHub"
             title="GitHub"
           >
-            <Github className="hero-trust-nav-github-icon" aria-hidden />
+            <Github className="h-[1.15rem] w-[1.15rem]" aria-hidden />
           </a>
           <Link
             to={isAuthenticated ? INSTITUTION_ROUTES.pilot : INSTITUTION_ROUTES.register}
-            className="hero-trust-nav-register"
+            className="ls-nav-register"
           >
             {isAuthenticated ? t('nav.myPilot') : t('nav.register')}
           </Link>

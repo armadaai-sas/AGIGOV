@@ -9,13 +9,12 @@ import { LandingDevelopersSection } from '../components/landing/LandingDeveloper
 import { LandingCtaSection } from '../components/landing/LandingCtaSection.js';
 import { LandingContactSection } from '../components/landing/LandingContactSection.js';
 import { SiteFooter } from '../components/SiteFooter.js';
-import '../../styles/landing.css';
-import '../../styles/landing-below.css';
+import '../../styles/landing-system.css';
 
-/** Landing AGIGOV — secciones por contenido (sin forzar 100vh). */
+/** Landing AGIGOV — sistema .ls-* (un ancho, mobile-first, sin 100svh). */
 export default function HomePage() {
   return (
-    <div className="landing-manifest">
+    <div className="ls-root">
       <LandingSpineRail />
       <HeroOrchestrator />
       <LandingConsoleSection />

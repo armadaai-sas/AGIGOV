@@ -14,7 +14,6 @@ import {
 
 type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;
 
-/** Módulos del landing — icono + nombre siempre visibles. */
 export const LANDING_MODULES = [
   { id: 'os', label: 'OS', Icon: Cpu },
   { id: 'consola', label: 'Consola', Icon: LayoutDashboard },
@@ -46,7 +45,7 @@ function activeModuleIndex(): number {
   return best;
 }
 
-/** Rail fijo: identidad por módulo (icono + label). */
+/** Rail XL: icono + label siempre visibles. */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -64,40 +63,37 @@ export function LandingSpineRail() {
     tick();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    const mo = new MutationObserver(onScroll);
-    mo.observe(document.body, { childList: true, subtree: true });
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
-      mo.disconnect();
     };
   }, []);
 
   if (!mounted) return null;
 
   return createPortal(
-    <aside className="landing-module-rail" aria-label="Módulos del producto">
-      <div className="landing-module-rail-track" aria-hidden>
-        <div className="landing-module-rail-progress" style={{ height: `${progress}%` }} />
+    <aside className="ls-rail" aria-label="Módulos del producto">
+      <div className="ls-rail-track" aria-hidden>
+        <div className="ls-rail-progress" style={{ height: `${progress}%` }} />
       </div>
-      <ol className="landing-module-rail-list">
+      <ol className="ls-rail-list">
         {LANDING_MODULES.map((mod, i) => {
           const Icon = mod.Icon;
           return (
             <li
               key={mod.id}
-              className={`landing-module-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
+              className={`ls-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
             >
               <a
                 href={`#${mod.id}`}
-                className="landing-module-rail-link"
+                className="ls-rail-link"
                 aria-current={i === active ? 'true' : undefined}
               >
-                <span className="landing-module-rail-icon" aria-hidden>
-                  <Icon className="landing-module-rail-icon-svg" />
+                <span className="ls-rail-icon" aria-hidden>
+                  <Icon />
                 </span>
-                <span className="landing-module-rail-label">{mod.label}</span>
+                <span className="ls-rail-label">{mod.label}</span>
               </a>
             </li>
           );
