@@ -20,12 +20,12 @@ type DiagramNode = {
   y: number;
 };
 
-/** Layout compacto: menos vacío negro bajo el hub. */
+/** Layout compacto mobile-safe: nodos más hacia dentro en phone. */
 const NODES: DiagramNode[] = [
-  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 18, y: 16 },
-  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 18, y: 52 },
-  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 82, y: 16 },
-  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 82, y: 52 },
+  { id: 'ingest', labelKey: 'ingest', icon: FileInput, x: 22, y: 16 },
+  { id: 'multisig', labelKey: 'multisig', icon: PenLine, x: 22, y: 52 },
+  { id: 'escrow', labelKey: 'escrow', icon: Landmark, x: 78, y: 16 },
+  { id: 'ledger', labelKey: 'ledger', icon: Database, x: 78, y: 52 },
   { id: 'sentinel', labelKey: 'sentinel', icon: Radio, x: 50, y: 64 },
   { id: 'publish', labelKey: 'publish', icon: LayoutDashboard, x: 50, y: 82 },
 ];

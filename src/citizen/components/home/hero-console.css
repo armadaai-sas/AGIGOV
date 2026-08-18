@@ -623,11 +623,11 @@
   }
 
 .hero-console-demo-kpis {
-    @apply mt-2.5 grid grid-cols-3 gap-1.5;
+    @apply mt-2.5 grid grid-cols-1 gap-1.5 sm:grid-cols-3;
   }
 
 .hero-console-demo-kpi {
-    @apply rounded-lg border border-white/10 bg-white/[0.03] p-2;
+    @apply rounded-lg border border-white/10 bg-white/[0.03] p-2 min-w-0;
   }
 
 .hero-console-demo-kpi--accent {
@@ -643,11 +643,11 @@
   }
 
 .hero-console-demo-kpi-value {
-    @apply mt-0.5 font-mono text-xs font-semibold tabular-nums text-white;
+    @apply mt-0.5 flex flex-wrap items-baseline gap-x-1 font-mono text-[11px] font-semibold tabular-nums text-white sm:text-xs;
   }
 
 .hero-console-demo-kpi-unit {
-    @apply ml-0.5 text-[8px] font-normal text-slate-500;
+    @apply text-[8px] font-normal text-slate-500;
   }
 
 .hero-console-demo-progress {
