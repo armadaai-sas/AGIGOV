@@ -1,4 +1,7 @@
 /* Critical theme + preflight — every route */
+/* Establish layer order BEFORE any @import so preflight cannot beat components/utilities. */
+@layer theme, base, components, utilities;
+
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "../citizen/theme/trust-light.css";

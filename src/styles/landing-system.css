@@ -19,6 +19,35 @@
 @source "../citizen/components/SiteFooter.tsx";
 @source "../citizen/components/models/ModelStatusBadge.tsx";
 
+/* Unlayered layout locks — beat inverted @layer order / preflight padding:0 */
+.ls-root {
+  --ls-rail: 12.5rem;
+}
+
+.ls-rail {
+  --ls-rail: 12.5rem;
+  --color-agigov-void: #030508;
+  --color-agigov-text: #f8fafc;
+  --color-agigov-text-muted: #94a3b8;
+  --color-agigov-orbit: #22d3ee;
+  display: none;
+  pointer-events: none;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 60;
+}
+
+@media (min-width: 1280px) {
+  .ls-root {
+    padding-left: var(--ls-rail);
+  }
+
+  .ls-rail {
+    display: flex;
+    width: var(--ls-rail);
+  }
+}
+
 @layer components {
   /* ===== Tokens =====
    * El skin TRUST (claro) redefine --color-agigov-* en <html>.
@@ -79,12 +108,6 @@
     .ls-root {
       --ls-pad-x: 2rem;
       --ls-pad-y: 3.25rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .ls-root {
-      padding-left: var(--ls-rail);
     }
   }
 
@@ -352,14 +375,13 @@
     background: #67e8f9;
   }
 
-  /* ===== Rail (xl+) ===== */
+  /* ===== Rail (xl+) — visibility; width/padding locks are unlayered above ===== */
   .ls-rail {
     pointer-events: none;
     position: fixed;
     inset: 0 auto 0 0;
     z-index: 60;
     display: none;
-    width: var(--ls-rail);
   }
 
   @media (min-width: 1280px) {
