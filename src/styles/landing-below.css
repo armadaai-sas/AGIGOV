@@ -391,7 +391,8 @@
   }
 
 .landing-section {
-    @apply mx-auto w-full max-w-[1200px] px-5 py-20 md:py-28;
+    /* Full-bleed by default; width caps live on inners / legacy layouts. */
+    @apply flex w-full max-w-none items-stretch px-0 py-12 md:py-16;
   }
 
 .landing-section--model {
@@ -484,11 +485,12 @@
   }
 
 .landing-section {
-    @apply flex items-center px-6 py-12 md:py-16;
+    /* Base legacy (no slides). Slides override abajo a full-bleed. */
+    @apply flex w-full items-stretch px-0 py-12 md:py-16;
   }
 
 .landing-section-inner {
-    @apply mx-auto max-w-3xl;
+    @apply mx-auto w-full max-w-3xl px-5;
   }
 
 .landing-section--light {
@@ -644,8 +646,8 @@
   }
 
 .landing-section--slide {
-    /* Altura natural — el 100svh + justify-center creaba vacíos negros enormes. */
-    @apply flex flex-col justify-start border-t border-white/[0.06] py-14 sm:py-16 md:py-20;
+    /* Full-bleed: el ancho lo controlan los inners, no la sección. */
+    @apply flex w-full max-w-none flex-col items-stretch justify-start border-t border-white/[0.06] px-0 py-14 sm:py-16 md:py-20;
   }
 
 .landing-slide-inner {
@@ -665,7 +667,7 @@
   }
 
 .landing-security-copy {
-    @apply text-center lg:sticky lg:top-28 lg:text-left;
+    @apply text-center lg:text-left;
   }
 
 .landing-slide-title--left {

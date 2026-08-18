@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LifeBuoy, ArrowRight, Compass, Landmark, Users, X } from 'lucide-react';
 
 import { usePlatform, type OnboardingPersona } from '../context/PlatformContext.js';
@@ -34,12 +34,14 @@ const PATHS: Array<{
   },
 ];
 
-/** Onboarding 3 pasos — primera visita (Fase F1). */
+/** Onboarding 3 pasos — no en la home: el landing debe verse limpio. */
 export function OnboardingModal() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { onboardingDone, completeOnboarding, dismissOnboarding } = usePlatform();
 
-  if (onboardingDone) return null;
+  // La página de producto (/) no debe abrirse con un modal encima.
+  if (pathname === '/' || onboardingDone) return null;
 
   function choose(persona: OnboardingPersona, to: string) {
     completeOnboarding(persona);
