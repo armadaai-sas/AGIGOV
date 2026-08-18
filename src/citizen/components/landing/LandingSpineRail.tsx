@@ -1,18 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 import { createPortal } from 'react-dom';
+import {
+  Cpu,
+  LayoutDashboard,
+  Boxes,
+  Workflow,
+  ShieldCheck,
+  Building2,
+  Code2,
+  FlaskConical,
+  Mail,
+} from 'lucide-react';
 
-/** Módulos del landing — cada uno es una “página” full-viewport. */
+type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;
+
+/** Módulos del landing — cada uno con identidad visual propia. */
 export const LANDING_MODULES = [
-  { id: 'os', label: 'OS' },
-  { id: 'consola', label: 'Consola' },
-  { id: 'modelos', label: 'Modelos' },
-  { id: 'servicios', label: 'Servicios' },
-  { id: 'seguridad', label: 'Seguridad' },
-  { id: 'aplicacion', label: 'Aplicación' },
-  { id: 'desarrolladores', label: 'Desarrolladores' },
-  { id: 'sandbox', label: 'Sandbox' },
-  { id: 'contacto', label: 'Contacto' },
-] as const;
+  { id: 'os', label: 'OS', Icon: Cpu },
+  { id: 'consola', label: 'Consola', Icon: LayoutDashboard },
+  { id: 'modelos', label: 'Modelos', Icon: Boxes },
+  { id: 'servicios', label: 'Servicios', Icon: Workflow },
+  { id: 'seguridad', label: 'Seguridad', Icon: ShieldCheck },
+  { id: 'aplicacion', label: 'Aplicación', Icon: Building2 },
+  { id: 'desarrolladores', label: 'Desarrolladores', Icon: Code2 },
+  { id: 'sandbox', label: 'Sandbox', Icon: FlaskConical },
+  { id: 'contacto', label: 'Contacto', Icon: Mail },
+] as const satisfies ReadonlyArray<{ id: string; label: string; Icon: ModuleIcon }>;
 
 function activeModuleIndex(): number {
   const mid = window.innerHeight * 0.35;
@@ -34,8 +47,7 @@ function activeModuleIndex(): number {
 }
 
 /**
- * Rail de módulos tipo Railway — fijo al viewport (portal a body),
- * scroll-spy por geometría (no depende de IntersectionObserver + lazy).
+ * Rail de módulos — icono + label con identidad por sección.
  */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
@@ -56,7 +68,6 @@ export function LandingSpineRail() {
     tick();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    // Re-scan when lazy sections mount
     const mo = new MutationObserver(onScroll);
     mo.observe(document.body, { childList: true, subtree: true });
     return () => {
@@ -75,18 +86,27 @@ export function LandingSpineRail() {
         <div className="landing-module-rail-progress" style={{ height: `${progress}%` }} />
       </div>
       <ol className="landing-module-rail-list">
-        {LANDING_MODULES.map((mod, i) => (
-          <li
-            key={mod.id}
-            className={`landing-module-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
-          >
-            <a href={`#${mod.id}`} className="landing-module-rail-link" aria-current={i === active ? 'true' : undefined}>
-              <span className="landing-module-rail-orb" />
-              <span className="landing-module-rail-index">{String(i + 1).padStart(2, '0')}</span>
-              <span className="landing-module-rail-label">{mod.label}</span>
-            </a>
-          </li>
-        ))}
+        {LANDING_MODULES.map((mod, i) => {
+          const Icon = mod.Icon;
+          return (
+            <li
+              key={mod.id}
+              className={`landing-module-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
+            >
+              <a
+                href={`#${mod.id}`}
+                className="landing-module-rail-link"
+                aria-current={i === active ? 'true' : undefined}
+                title={mod.label}
+              >
+                <span className="landing-module-rail-icon" aria-hidden>
+                  <Icon className="landing-module-rail-icon-svg" />
+                </span>
+                <span className="landing-module-rail-label">{mod.label}</span>
+              </a>
+            </li>
+          );
+        })}
       </ol>
     </aside>,
     document.body,
