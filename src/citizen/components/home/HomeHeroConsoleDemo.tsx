@@ -120,7 +120,7 @@ export function HomeHeroConsoleDemo() {
                 <motion.div
                   key="overview"
                   className="hero-console-demo-scene"
-                  initial={{ opacity: 0, y: 6 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.35 }}
@@ -223,7 +223,7 @@ export function HomeHeroConsoleDemo() {
                 <motion.div
                   key="contract"
                   className="hero-console-demo-scene"
-                  initial={{ opacity: 0, x: 12 }}
+                  initial={false}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -8 }}
                   transition={{ duration: 0.35 }}
@@ -261,7 +261,7 @@ export function HomeHeroConsoleDemo() {
                 <motion.div
                   key="result"
                   className="hero-console-demo-scene hero-console-demo-scene--result"
-                  initial={{ opacity: 0, scale: 0.98 }}
+                  initial={false}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}

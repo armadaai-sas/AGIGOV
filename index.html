@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" data-agigov-skin="trust">
+<html lang="es" data-agigov-skin="trust" data-agigov-landing="1">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,6 +20,16 @@
     <title>AGIGOV — Plataforma institucional</title>
     <style>
       html, body { margin: 0; background: #030508; }
+      /* Landing oscuro: no heredar tokens claros del skin Trust en el primer paint. */
+      html[data-agigov-landing] {
+        color-scheme: dark;
+        --color-agigov-void: #030508;
+        --color-agigov-text: #f8fafc;
+        --color-agigov-text-muted: #94a3b8;
+        --color-agigov-navy: #0b1220;
+        --color-agigov-console: rgba(6, 10, 18, 0.92);
+        background: #030508;
+      }
       #agigov-boot {
         min-height: 100svh;
         display: flex;

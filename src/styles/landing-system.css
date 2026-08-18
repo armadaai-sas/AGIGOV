@@ -20,7 +20,32 @@
 @source "../citizen/components/models/ModelStatusBadge.tsx";
 
 @layer components {
-  /* ===== Tokens ===== */
+  /* ===== Tokens =====
+   * El skin TRUST (claro) redefine --color-agigov-* en <html>.
+   * El landing debe aislar tokens oscuros o el texto/consola quedan ilegibles.
+   */
+  .ls-root,
+  .ls-rail {
+    --color-agigov-navy: #0b1220;
+    --color-agigov-navy-light: #111827;
+    --color-agigov-surface: #1a2332;
+    --color-agigov-surface-elevated: #243044;
+    --color-agigov-primary: #0369a1;
+    --color-agigov-primary-hover: #0284c7;
+    --color-agigov-primary-soft: #0ea5e9;
+    --color-agigov-text: #f8fafc;
+    --color-agigov-text-muted: #94a3b8;
+    --color-agigov-border: rgba(255, 255, 255, 0.08);
+    --color-agigov-void: #030508;
+    --color-agigov-orbit: #22d3ee;
+    --color-agigov-console: rgba(6, 10, 18, 0.92);
+    --color-agigov-glass: rgba(8, 12, 22, 0.82);
+    --hero-text-primary: #f8fafc;
+    --hero-text-muted: #94a3b8;
+    --hero-bg: #030508;
+    --hero-accent: #0ea5e9;
+  }
+
   .ls-root {
     --ls-bg: #030508;
     --ls-bg-alt: #0b1220;
@@ -36,8 +61,10 @@
     position: relative;
     overflow-x: clip;
     width: 100%;
+    min-height: 100svh;
     background: var(--ls-bg);
     color: var(--ls-ink);
+    color-scheme: dark;
   }
 
   @media (min-width: 640px) {
@@ -1246,44 +1273,11 @@
     color: #64748b;
     text-align: center;
   }
+}
 
-  /* Badges (home may load before app.css) */
-  .model-status-badge,
-  .model-status-badge--sm,
-  .model-status-badge--md,
-  .model-status-badge--disponible,
-  .model-status-badge--beta,
-  .model-status-badge--roadmap {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .model-status-badge--sm {
-    padding: 0.15rem 0.5rem;
-    font-size: 0.625rem;
-  }
-
-  .model-status-badge--disponible {
-    border-color: rgba(16, 185, 129, 0.35);
-    background: rgba(16, 185, 129, 0.1);
-    color: #a7f3d0;
-  }
-
-  .model-status-badge--beta {
-    border-color: rgba(245, 158, 11, 0.35);
-    background: rgba(245, 158, 11, 0.1);
-    color: #fde68a;
-  }
-
-  .model-status-badge--roadmap {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.04);
-    color: #94a3b8;
-  }
+/* Body/html: no dejar que TRUST pinte el viewport de blanco detrás del landing */
+html:has(.ls-root),
+html:has(.ls-root) body {
+  background: #030508 !important;
+  color: #f1f5f9;
 }

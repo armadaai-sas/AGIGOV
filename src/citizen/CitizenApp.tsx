@@ -94,6 +94,7 @@ export default function CitizenApp() {
 
 function CitizenAppInner() {
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     if (pathname !== '/') {
@@ -101,8 +102,18 @@ function CitizenAppInner() {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-agigov-landing', isHome);
+  }, [isHome]);
+
   return (
-    <div className="min-h-screen bg-agigov-void text-agigov-text">
+    <div
+      className={
+        isHome
+          ? 'min-h-screen bg-[#030508] text-slate-100'
+          : 'min-h-screen bg-agigov-void text-agigov-text'
+      }
+    >
       <PanicBanner />
       <ScrollToTop />
       <PageTransition>
