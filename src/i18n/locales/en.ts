@@ -165,7 +165,7 @@ const en = {
   'nav.governance2': 'Governance 2.0',
   'nav.institutional': 'Institutional',
   'nav.login': 'Sign in',
-  'nav.register': 'Create account',
+  'nav.register': 'Register',
   'nav.logout': 'Sign out',
   'nav.myPilot': 'My pilot',
   'nav.main': 'Main navigation',

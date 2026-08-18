@@ -167,7 +167,7 @@ const es: Record<MessageKey, string> = {
   'nav.governance2': 'Gobernanza 2.0',
   'nav.institutional': 'Institucional',
   'nav.login': 'Iniciar sesión',
-  'nav.register': 'Crear cuenta',
+  'nav.register': 'Registro',
   'nav.logout': 'Cerrar sesión',
   'nav.myPilot': 'Mi piloto',
   'nav.main': 'Navegación principal',
