@@ -1,20 +1,10 @@
-﻿/* Console demo only — used by landing home (no legacy 100svh stages). */
+﻿/* Console demo only — landing home (no legacy 100svh stages). */
 @import "tailwindcss/utilities.css" layer(utilities);
 @reference "../../../styles/base.css";
 
 @source "./HomeHeroConsoleDemo.tsx";
 
 @layer components {
-@keyframes hero-demo-click {
-    from {
-      opacity: 0.9;
-      transform: translate(-50%, -50%) scale(0.35);
-    }
-    to {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(1.4);
-    }
-  }
 .hero-console-demo {
     @apply w-full;
   }
@@ -465,37 +455,8 @@
     animation: hero-demo-click 0.45s ease-out forwards;
   }
 
-.hero-console-mockup-link {
-    @apply mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-sky-300 no-underline transition hover:text-sky-200;
-  }
-
-.hero-console-mockup-window {
-    @apply overflow-hidden rounded-2xl border border-cyan-500/15 bg-[#080c14] shadow-2xl shadow-black/60;
 @keyframes hero-demo-click {
-    from {
-      opacity: 0.9;
-      transform: translate(-50%, -50%) scale(0.35);
-    }
-    to {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(1.4);
-    }
-  }
-
-@keyframes hero-cinematic-kenburns {
-    from { transform: scale(1.04); }
-    to { transform: scale(1.09); }
-  }
-
-@keyframes landing-compare-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  from { opacity: 0.9; transform: translate(-50%, -50%) scale(0.35); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(1.4); }
 }
-
+}
