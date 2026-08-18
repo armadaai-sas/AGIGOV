@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
-const SECTIONS = [
+/** Módulos del landing — cada uno es una “página” full-viewport. */
+export const LANDING_MODULES = [
   { id: 'os', label: 'OS' },
   { id: 'consola', label: 'Consola' },
   { id: 'modelos', label: 'Modelos' },
@@ -12,50 +14,81 @@ const SECTIONS = [
   { id: 'contacto', label: 'Contacto' },
 ] as const;
 
-/** Timeline vertical izquierda — una entrada por diapositiva del landing. */
+function activeModuleIndex(): number {
+  const mid = window.innerHeight * 0.35;
+  let best = 0;
+  let bestDist = Number.POSITIVE_INFINITY;
+
+  for (let i = 0; i < LANDING_MODULES.length; i++) {
+    const el = document.getElementById(LANDING_MODULES[i]!.id);
+    if (!el) continue;
+    const rect = el.getBoundingClientRect();
+    const center = rect.top + rect.height * 0.25;
+    const dist = Math.abs(center - mid);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = i;
+    }
+  }
+  return best;
+}
+
+/**
+ * Rail de módulos tipo Railway — fijo al viewport (portal a body),
+ * scroll-spy por geometría (no depende de IntersectionObserver + lazy).
+ */
 export function LandingSpineRail() {
   const [active, setActive] = useState(0);
-  const last = SECTIONS.length - 1;
+  const [mounted, setMounted] = useState(false);
+  const last = LANDING_MODULES.length - 1;
   const progress = last <= 0 ? 0 : (active / last) * 100;
 
   useEffect(() => {
-    const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
-    if (els.length === 0) return;
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible?.target?.id) return;
-        const idx = SECTIONS.findIndex((s) => s.id === visible.target.id);
-        if (idx >= 0) setActive(idx);
-      },
-      { threshold: [0.15, 0.35, 0.55, 0.75], rootMargin: '-12% 0px -40% 0px' },
-    );
-
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
+    setMounted(true);
+    let raf = 0;
+    const tick = () => {
+      setActive(activeModuleIndex());
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    // Re-scan when lazy sections mount
+    const mo = new MutationObserver(onScroll);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      mo.disconnect();
+    };
   }, []);
 
-  return (
-    <aside className="landing-spine" aria-label="Progreso de la página">
-      <div className="landing-spine-line" aria-hidden>
-        <div className="landing-spine-progress" style={{ height: `${progress}%` }} />
+  if (!mounted) return null;
+
+  return createPortal(
+    <aside className="landing-module-rail" aria-label="Módulos del producto">
+      <div className="landing-module-rail-track" aria-hidden>
+        <div className="landing-module-rail-progress" style={{ height: `${progress}%` }} />
       </div>
-      <ol className="landing-spine-dots">
-        {SECTIONS.map((s, i) => (
+      <ol className="landing-module-rail-list">
+        {LANDING_MODULES.map((mod, i) => (
           <li
-            key={s.id}
-            className={`landing-spine-dot ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
+            key={mod.id}
+            className={`landing-module-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
           >
-            <a href={`#${s.id}`} className="landing-spine-hit" title={s.label}>
-              <span className="landing-spine-orb" />
-              <span className="landing-spine-label">{s.label}</span>
+            <a href={`#${mod.id}`} className="landing-module-rail-link">
+              <span className="landing-module-rail-index">{String(i + 1).padStart(2, '0')}</span>
+              <span className="landing-module-rail-orb" />
+              <span className="landing-module-rail-label">{mod.label}</span>
             </a>
           </li>
         ))}
       </ol>
-    </aside>
+    </aside>,
+    document.body,
   );
 }

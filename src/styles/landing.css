@@ -17,7 +17,7 @@
 
 @layer components {
   .landing-manifest {
-    @apply relative bg-[#030508] text-slate-100;
+    @apply relative bg-[#030508] text-slate-100 lg:pl-[11.5rem];
   }
 
   .landing-display-title {
@@ -81,48 +81,65 @@
     }
   }
 
-  .landing-spine {
-    @apply pointer-events-none fixed left-2 top-1/2 z-40 hidden h-[min(70vh,36rem)] w-14 -translate-y-1/2 lg:block xl:left-5 xl:w-24;
+  .landing-module-rail {
+    @apply pointer-events-none fixed inset-y-0 left-0 z-[60] hidden w-[11.5rem] lg:flex;
   }
 
-  .landing-spine-line {
-    @apply absolute left-[0.95rem] top-0 h-full w-px -translate-x-1/2 overflow-hidden bg-white/10 xl:left-[1.1rem];
+  .landing-module-rail-track {
+    @apply absolute bottom-[12%] left-[2.15rem] top-[18%] w-px overflow-hidden bg-white/10;
   }
 
-  .landing-spine-progress {
-    @apply w-full origin-top bg-gradient-to-b from-cyan-400/90 via-cyan-400/70 to-cyan-500/40 transition-[height] duration-500 ease-out;
+  .landing-module-rail-progress {
+    @apply w-full origin-top bg-gradient-to-b from-cyan-400 via-cyan-400/80 to-cyan-500/30 transition-[height] duration-300 ease-out;
   }
 
-  .landing-spine-dots {
-    @apply relative z-[1] flex h-full list-none flex-col items-start justify-between py-1;
+  .landing-module-rail-list {
+    @apply relative z-[1] m-0 flex h-full list-none flex-col justify-center gap-1 py-[18vh] pl-3 pr-2;
   }
 
-  .landing-spine-hit {
-    @apply pointer-events-auto relative flex h-8 items-center gap-2 pl-1;
+  .landing-module-rail-item {
+    @apply m-0;
   }
 
-  .landing-spine-orb {
-    @apply block h-2.5 w-2.5 shrink-0 rounded-full border border-cyan-400/40 bg-[#0b1220] transition-all duration-300;
+  .landing-module-rail-link {
+    @apply pointer-events-auto flex items-center gap-2 rounded-lg px-1.5 py-1.5 no-underline transition-colors hover:bg-white/[0.04];
   }
 
-  .landing-spine-label {
-    @apply hidden max-w-[5.5rem] truncate text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500 transition-colors xl:inline;
+  .landing-module-rail-index {
+    @apply w-5 shrink-0 font-mono text-[9px] tabular-nums text-slate-600;
   }
 
-  .landing-spine-dot.is-done .landing-spine-orb {
-    @apply border-cyan-500/70 bg-cyan-600/90;
+  .landing-module-rail-orb {
+    @apply block h-2 w-2 shrink-0 rounded-full border border-white/25 bg-[#030508] transition-all duration-300;
   }
 
-  .landing-spine-dot.is-done .landing-spine-label {
+  .landing-module-rail-label {
+    @apply truncate text-[11px] font-medium tracking-[0.04em] text-slate-500 transition-colors;
+  }
+
+  .landing-module-rail-item.is-done .landing-module-rail-orb {
+    @apply border-cyan-500/70 bg-cyan-600;
+  }
+
+  .landing-module-rail-item.is-done .landing-module-rail-label,
+  .landing-module-rail-item.is-done .landing-module-rail-index {
     @apply text-slate-400;
   }
 
-  .landing-spine-dot.is-active .landing-spine-orb {
-    @apply h-3 w-3 border-cyan-200 bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.65)];
+  .landing-module-rail-item.is-active .landing-module-rail-orb {
+    @apply h-2.5 w-2.5 border-cyan-200 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.7)];
   }
 
-  .landing-spine-dot.is-active .landing-spine-label {
-    @apply text-cyan-200;
+  .landing-module-rail-item.is-active .landing-module-rail-label {
+    @apply text-cyan-100;
+  }
+
+  .landing-module-rail-item.is-active .landing-module-rail-index {
+    @apply text-cyan-400/90;
+  }
+
+  .hero-trust-nav-github {
+    @apply inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/15 bg-white/[0.04] px-2.5 text-xs font-medium text-slate-200 no-underline transition hover:border-white/25 hover:bg-white/[0.08] hover:text-white;
   }
 
 .landing-lead {
@@ -140,7 +157,7 @@
   }
 
   .hero-cinematic-stage--sell {
-    min-height: auto;
+    min-height: 100svh;
     padding-bottom: 5rem;
   }
 
