@@ -7,6 +7,7 @@ import { LandingHowSection } from '../components/landing/LandingHowSection.js';
 import { LandingSecuritySection } from '../components/landing/LandingSecuritySection.js';
 import { LandingLearnSection } from '../components/landing/LandingLearnSection.js';
 import { LandingDevelopersSection } from '../components/landing/LandingDevelopersSection.js';
+import { LandingProcessSection } from '../components/landing/LandingProcessSection.js';
 import { LandingCtaSection } from '../components/landing/LandingCtaSection.js';
 import { LandingContactSection } from '../components/landing/LandingContactSection.js';
 import { SiteFooter } from '../components/SiteFooter.js';
@@ -25,6 +26,7 @@ export default function HomePage() {
       <LandingSecuritySection />
       <LandingLearnSection />
       <LandingDevelopersSection />
+      <LandingProcessSection />
       <LandingCtaSection />
       <LandingContactSection />
       <SiteFooter />

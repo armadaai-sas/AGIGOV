@@ -1570,11 +1570,148 @@
     }
   }
 
+  /* ===== Process (Build · Deploy) ===== */
+  .ls-process {
+    display: grid;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .ls-process {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .ls-process-item {
+    display: flex;
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 900px) {
+    .ls-process-item {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+
+  .ls-process-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 900px) {
+    .ls-process-rail {
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+    }
+  }
+
+  .ls-process-node {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e2e8f0;
+  }
+
+  .ls-process-line {
+    flex: 1;
+    width: 1px;
+    min-height: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 900px) {
+    .ls-process-line {
+      width: auto;
+      min-height: 0;
+      height: 1px;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .ls-process-index {
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: #64748b;
+  }
+
+  .ls-process-title {
+    margin: 0.2rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+
+  .ls-process-text {
+    margin: 0.45rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #94a3b8;
+  }
+
+  .ls-process-where {
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .ls-process-where li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+  }
+
+  .ls-process-where svg {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+    color: #94a3b8;
+  }
+
   /* ===== Footer ===== */
   .ls-root .site-footer {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     background: #02040a;
     padding: 3.5rem var(--ls-pad-x) 2.5rem;
+  }
+
+  .ls-root .site-footer-map {
+    display: grid;
+    max-width: var(--ls-max);
+    margin-inline: auto;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .ls-root .site-footer-map {
+      grid-template-columns: minmax(12rem, 18rem) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  .ls-root .site-footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
   }
 
   .ls-root .site-footer-top {
@@ -1593,18 +1730,17 @@
 
   .ls-root .site-footer-tagline {
     margin: 1rem 0 0;
-    max-width: 24rem;
+    max-width: 22rem;
     font-size: 0.875rem;
     line-height: 1.55;
     color: #94a3b8;
-    text-align: center;
+    text-align: left;
   }
 
   .ls-root .site-footer-social {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
     gap: 0.75rem;
     margin-top: 1.5rem;
   }
@@ -1626,6 +1762,24 @@
     border-color: rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
+  }
+
+  .ls-root .site-footer-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .ls-root .site-footer-cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .ls-root .site-footer-cols {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
   }
 
   .ls-root .site-footer-inner {
@@ -1695,7 +1849,7 @@
     border-top: 1px solid var(--ls-line);
     font-size: 0.75rem;
     color: #64748b;
-    text-align: center;
+    text-align: left;
   }
 
 /* Body/html: no dejar que TRUST pinte el viewport de blanco detrás del landing */
