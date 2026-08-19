@@ -46,6 +46,8 @@
   .ls-rail {
     display: flex;
     width: var(--ls-rail);
+    flex-direction: column;
+    justify-content: center;
   }
 }
 
@@ -431,61 +433,88 @@
     background: #67e8f9;
   }
 
-  /* ===== Rail (xl+) — visibility; width/padding locks are unlayered above ===== */
+  /* ===== Rail (xl+) — polish only; width/padding locks stay unlayered ===== */
   .ls-rail {
     pointer-events: none;
     position: fixed;
     inset: 0 auto 0 0;
     z-index: 60;
     display: none;
+    flex-direction: column;
+    justify-content: center;
   }
 
   @media (min-width: 1280px) {
     .ls-rail {
       display: flex;
+      background: linear-gradient(
+        90deg,
+        rgba(3, 5, 8, 0.94) 0%,
+        rgba(3, 5, 8, 0.72) 70%,
+        transparent 100%
+      );
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
     }
   }
 
   .ls-rail-track {
     position: absolute;
-    top: 14%;
-    bottom: 12%;
-    left: 2.15rem;
+    top: 16%;
+    bottom: 16%;
+    left: 1.95rem;
     width: 1px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .ls-rail-progress {
     width: 100%;
     transform-origin: top;
-    background: linear-gradient(to bottom, #22d3ee, rgba(34, 211, 238, 0.25));
-    transition: height 0.3s ease-out;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, #67e8f9, rgba(34, 211, 238, 0.2));
+    transition: height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .ls-rail-list {
     position: relative;
     z-index: 1;
     display: flex;
-    height: 100%;
+    max-height: min(78vh, 40rem);
     margin: 0;
     list-style: none;
     flex-direction: column;
     justify-content: center;
-    gap: 0.25rem;
-    padding: 12vh 0.5rem 12vh 1rem;
+    gap: 0.35rem;
+    padding: 1.25rem 0.65rem 1.25rem 0.7rem;
   }
 
   .ls-rail-link {
     pointer-events: auto;
     display: flex;
-    min-height: 2.25rem;
+    min-height: 2.35rem;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.6rem;
     border-radius: 999px;
-    padding: 0.25rem 0.4rem;
+    padding: 0.3rem 0.55rem 0.3rem 0.3rem;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .ls-rail-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .ls-rail-link:hover .ls-rail-label {
+    color: #cbd5e1;
+  }
+
+  .ls-rail-link:focus-visible {
+    outline: 2px solid rgba(34, 211, 238, 0.55);
+    outline-offset: 2px;
   }
 
   .ls-rail-icon {
@@ -496,9 +525,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.04);
     color: #94a3b8;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .ls-rail-icon svg {
@@ -514,16 +548,18 @@
     font-weight: 600;
     letter-spacing: 0.02em;
     color: #64748b;
+    transition: color 0.2s ease;
   }
 
   .ls-rail-item.is-active .ls-rail-link {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(34, 211, 238, 0.1);
   }
 
   .ls-rail-item.is-active .ls-rail-icon {
     border-color: rgba(103, 232, 249, 0.55);
-    background: rgba(34, 211, 238, 0.15);
+    background: rgba(34, 211, 238, 0.18);
     color: #ecfeff;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
   }
 
   .ls-rail-item.is-active .ls-rail-label {
@@ -531,9 +567,9 @@
   }
 
   .ls-rail-item.is-done .ls-rail-icon {
-    border-color: rgba(34, 211, 238, 0.35);
-    background: rgba(34, 211, 238, 0.1);
-    color: rgba(103, 232, 249, 0.85);
+    border-color: rgba(34, 211, 238, 0.3);
+    background: rgba(34, 211, 238, 0.08);
+    color: rgba(103, 232, 249, 0.9);
   }
 
   .ls-rail-item.is-done .ls-rail-label {

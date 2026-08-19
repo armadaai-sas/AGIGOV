@@ -86,7 +86,16 @@ export function LandingSpineRail() {
               <a
                 href={`#${mod.id}`}
                 className="ls-rail-link"
+                title={mod.label}
                 aria-current={i === active ? 'true' : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(mod.id)?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  });
+                  window.history.replaceState(null, '', `#${mod.id}`);
+                }}
               >
                 <span className="ls-rail-icon" aria-hidden>
                   <Icon />
