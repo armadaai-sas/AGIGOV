@@ -9,14 +9,12 @@ import { ModelValidationPanel } from '../components/models/ModelValidationPanel.
 import { ServiceConnectionPanel } from '../components/services/ServiceConnectionPanel.js';
 import { PageShell, SectionHeader } from '../components/PageShell.js';
 import { getAgigovModel, MODEL_AUDIENCE_LABEL } from '../platform/agigovModels.js';
+import { getEffectiveModelStatus } from '../platform/modelStatusSync.js';
 
 const SECTION_NAV = [
   { id: 'problema', label: 'Problema' },
   { id: 'beneficios', label: 'Beneficios' },
   { id: 'operacion', label: 'Operación' },
-  { id: 'negocio', label: 'Negocio' },
-  { id: 'simulador-delta', label: 'Simulador' },
-  { id: 'validacion', label: 'Validación' },
 ] as const;
 
 export default function ModelDetailPage() {
@@ -28,7 +26,9 @@ export default function ModelDetailPage() {
   }
 
   const Icon = model.icon;
-  const showConnection = model.id === 'egs';
+  const effectiveStatus = getEffectiveModelStatus(model.id, model.status);
+  const showConnection =
+    model.id === 'egs' && (effectiveStatus === 'disponible' || effectiveStatus === 'beta');
 
   return (
     <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath(model.productPath)}>
@@ -62,11 +62,19 @@ export default function ModelDetailPage() {
           <a
             key={s.id}
             href={`#${s.id}`}
-            className="rounded-full border border-white/10 px-3 py-1 text-xs text-agigov-text-muted no-underline transition hover:border-sky-500/30 hover:text-sky-300"
+            className="rounded-full border border-agigov-border px-3 py-1 text-xs text-agigov-text-muted no-underline transition hover:border-agigov-primary/30 hover:text-agigov-primary"
           >
             {s.label}
           </a>
         ))}
+        {model.id === 'egs' ? (
+          <a
+            href="#simulador-delta"
+            className="rounded-full border border-agigov-border px-3 py-1 text-xs text-agigov-text-muted no-underline transition hover:border-agigov-primary/30 hover:text-agigov-primary"
+          >
+            Simulador
+          </a>
+        ) : null}
       </nav>
 
       <section id="problema" className="mt-8 scroll-mt-24 space-y-6">
@@ -146,16 +154,18 @@ export default function ModelDetailPage() {
 
       <div className="mt-10 flex flex-wrap gap-3">
         {model.consolePath ? (
-          <Link to={model.consolePath} className="ui-btn-primary">
+          <Link to={model.consolePath} className="ds-btn-app">
             Abrir consola
             <ArrowRight className="h-4 w-4" />
           </Link>
-        ) : null}
-        <Link to={`/modelos?compare=${model.id}`} className="ui-btn-secondary">
-          Comparar con otro modelo
-        </Link>
-        <Link to="/modelos" className="ui-btn-secondary">
-          Ver otros modelos
+        ) : (
+          <Link to="/institucional#desplegar" className="ds-btn-app">
+            Solicitar despliegue
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        )}
+        <Link to="/modelos" className="ds-btn-secondary ds-btn-app-shape">
+          Volver al catálogo
         </Link>
       </div>
     </PageShell>

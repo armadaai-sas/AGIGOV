@@ -164,20 +164,24 @@
     @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/[0.14] bg-white/[0.04] px-5 py-3 text-sm font-medium text-agigov-text transition-all hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
   }
 
+.agigov-btn-ghost {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
+  }
+
 .agigov-btn-accent {
     @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-agigov-accent to-amber-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/25 transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-accent-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
   }
 
 .agigov-input {
-    @apply min-h-[48px] w-full rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-3 text-base text-agigov-text placeholder:text-agigov-text-muted/50 focus-visible:border-sky-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary/50;
+    @apply min-h-[48px] w-full rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-3 text-base text-agigov-text placeholder:text-slate-400 focus-visible:border-sky-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary/50;
   }
 
 .agigov-link {
-    @apply font-medium text-sky-400 underline-offset-4 transition-colors hover:text-sky-300 hover:underline;
+    @apply font-medium text-sky-300 underline-offset-4 transition-colors hover:text-sky-200 hover:underline;
   }
 
 .agigov-mono-id {
-    @apply font-mono text-[11px] text-sky-400/75;
+    @apply font-mono text-[11px] text-sky-300;
   }
 
 .agigov-badge {

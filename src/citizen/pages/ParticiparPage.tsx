@@ -113,18 +113,27 @@ export default function ParticiparPage() {
       />
 
       <div className="mb-8 grid gap-3 sm:grid-cols-2 agigov-stagger-list">
-        {channels.map(({ icon, title: channelTitle, text, status, active, href }) => (
-          <ChannelCard
-            key={channelTitle}
-            icon={icon}
-            title={channelTitle}
-            text={text}
-            status={status}
-            active={active}
-            href={href}
-          />
-        ))}
+        {channels
+          .filter((c) => c.active)
+          .map(({ icon, title: channelTitle, text, status, active, href }) => (
+            <ChannelCard
+              key={channelTitle}
+              icon={icon}
+              title={channelTitle}
+              text={text}
+              status={status}
+              active={active}
+              href={href}
+            />
+          ))}
       </div>
+      <p className="mb-8 text-sm text-agigov-text-muted">
+        Campañas y nodos comunitarios: próximamente. Mientras tanto use propuestas o el{' '}
+        <Link to="/desarrolladores" className="agigov-link">
+          portal de desarrolladores
+        </Link>
+        .
+      </p>
 
       <form
         id="propuesta-form"
@@ -228,19 +237,15 @@ export default function ParticiparPage() {
         ) : null}
       </form>
 
-      <section className="agigov-card border-sky-500/20 bg-sky-950/10">
-        <h2 className="font-semibold text-agigov-text">También puedes explorar</h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link to="/proyectos" className="ds-btn-secondary ds-btn-app-shape">
-            Aportar a proyectos
-          </Link>
-          <Link to="/gestion" className="ds-btn-secondary ds-btn-app-shape">
-            Ver gestión pública
-          </Link>
-          <Link to="/institucional" className="ds-btn-secondary ds-btn-app-shape">
-            Leer la Carta
-          </Link>
-        </div>
+      <section className="agigov-card">
+        <h2 className="font-semibold text-agigov-text">Seguir explorando</h2>
+        <p className="mt-2 text-sm text-agigov-text-muted">
+          Vea propuestas registradas o vuelva al catálogo de modelos.
+        </p>
+        <Link to="/propuestas" className="ds-btn-secondary ds-btn-app-shape mt-4 inline-flex">
+          Ver propuestas
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </section>
     </PageShell>
   );

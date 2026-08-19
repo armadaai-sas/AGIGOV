@@ -15,7 +15,7 @@
   --color-agigov-success: #059669;
   --color-agigov-danger: #dc2626;
   --color-agigov-text: #0f172a;
-  --color-agigov-text-muted: #64748b;
+  --color-agigov-text-muted: #475569;
   --color-agigov-border: rgba(15, 23, 42, 0.1);
   --color-agigov-void: #ffffff;
   --color-agigov-orbit: #0052ff;
@@ -55,9 +55,33 @@
   color: var(--color-agigov-text);
 }
 
-[data-agigov-skin='trust'] .ds-btn-app,
-[data-agigov-skin='trust'] .agigov-btn-primary {
+[data-agigov-skin='trust'] .ui-btn-primary {
   background: var(--color-agigov-primary);
+  border-color: var(--color-agigov-primary);
+  color: #fff;
+}
+
+[data-agigov-skin='trust'] .ui-btn-primary:hover {
+  background: var(--color-agigov-primary-hover);
+  border-color: var(--color-agigov-primary-hover);
+  color: #fff;
+}
+
+[data-agigov-skin='trust'] .ds-btn-app,
+[data-agigov-skin='trust'] .agigov-btn-primary,
+[data-agigov-skin='trust'] .ds-btn-primary,
+[data-agigov-skin='trust'] .ds-btn-primary.ds-btn-app-shape {
+  background: var(--color-agigov-primary);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+[data-agigov-skin='trust'] .ds-btn-app:hover,
+[data-agigov-skin='trust'] .agigov-btn-primary:hover,
+[data-agigov-skin='trust'] .ds-btn-primary:hover,
+[data-agigov-skin='trust'] .ds-btn-primary.ds-btn-app-shape:hover {
+  background: var(--color-agigov-primary-hover);
   color: #fff;
 }
 
@@ -65,6 +89,11 @@
   border-color: var(--color-agigov-border);
   background: #fff;
   color: var(--color-agigov-text);
+}
+
+[data-agigov-skin='trust'] .agigov-input::placeholder {
+  color: #64748b;
+  opacity: 1;
 }
 
 [data-agigov-skin='trust'] .agigov-progress-track {
@@ -226,7 +255,8 @@
 /* Contrast: secondary/ghost buttons + chrome on light skin */
 [data-agigov-skin='trust'] .ds-btn-secondary,
 [data-agigov-skin='trust'] .ds-btn-secondary.ds-btn-app-shape,
-[data-agigov-skin='trust'] .ui-btn-secondary {
+[data-agigov-skin='trust'] .ui-btn-secondary,
+[data-agigov-skin='trust'] .agigov-btn-secondary {
   border-color: #cbd5e1;
   background: #fff;
   color: #0f172a;
@@ -234,21 +264,47 @@
 
 [data-agigov-skin='trust'] .ds-btn-secondary:hover,
 [data-agigov-skin='trust'] .ds-btn-secondary.ds-btn-app-shape:hover,
-[data-agigov-skin='trust'] .ui-btn-secondary:hover {
+[data-agigov-skin='trust'] .ui-btn-secondary:hover,
+[data-agigov-skin='trust'] .agigov-btn-secondary:hover {
   border-color: #94a3b8;
   background: #f8fafc;
   color: #020617;
 }
 
 [data-agigov-skin='trust'] .ds-btn-ghost,
-[data-agigov-skin='trust'] .agigov-btn-ghost {
+[data-agigov-skin='trust'] .agigov-btn-ghost,
+[data-agigov-skin='trust'] .ui-btn-ghost {
   color: #334155;
 }
 
 [data-agigov-skin='trust'] .ds-btn-ghost:hover,
-[data-agigov-skin='trust'] .agigov-btn-ghost:hover {
+[data-agigov-skin='trust'] .agigov-btn-ghost:hover,
+[data-agigov-skin='trust'] .ui-btn-ghost:hover {
   color: #0f172a;
   background: #f1f5f9;
+}
+
+[data-agigov-skin='trust'] .agigov-link,
+[data-agigov-skin='trust'] .agigov-link-hover {
+  color: #0052ff;
+}
+
+[data-agigov-skin='trust'] .agigov-link:hover,
+[data-agigov-skin='trust'] .agigov-link-hover:hover {
+  color: #0040cc;
+}
+
+[data-agigov-skin='trust'] .agigov-mono-id {
+  color: #0369a1;
+}
+
+[data-agigov-skin='trust'] a.text-sky-400,
+[data-agigov-skin='trust'] .text-sky-400,
+[data-agigov-skin='trust'] a.text-sky-400\/90,
+[data-agigov-skin='trust'] .text-sky-400\/90,
+[data-agigov-skin='trust'] a.text-sky-400\/70,
+[data-agigov-skin='trust'] .text-sky-400\/70 {
+  color: #0369a1;
 }
 
 [data-agigov-skin='trust'] .inst-reg-hero-badge {

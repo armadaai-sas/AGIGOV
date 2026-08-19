@@ -127,7 +127,7 @@ function Stat({
         {lesson ? <MicroLesson term={label}>{lesson}</MicroLesson> : null}
       </p>
       <p className="mt-2 font-display text-3xl font-bold text-agigov-text">{value}</p>
-      <p className="mt-1 text-xs text-sky-400/70">{hint}</p>
+      <p className="mt-1 text-xs text-agigov-text-muted">{hint}</p>
     </div>
   );
 }

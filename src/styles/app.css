@@ -9,7 +9,8 @@
 
 @layer components {
 .ds-btn-primary {
-    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-8 text-[15px] font-semibold text-slate-950 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
+    /* App shell: use ds-btn-app. This class kept for legacy; TRUST remaps to primary blue. */
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-agigov-primary px-8 text-[15px] font-semibold text-white transition-colors hover:bg-agigov-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
   }
 
 .ds-btn-app {
@@ -17,7 +18,7 @@
   }
 
 .ds-btn-secondary {
-    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-white/15 px-8 text-[15px] font-medium text-slate-200 transition-colors hover:border-white/30 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50;
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-white/15 px-8 text-[15px] font-medium text-slate-100 transition-colors hover:border-white/30 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50;
   }
 
 .ds-btn-app-shape {
@@ -33,7 +34,7 @@
   }
 
 .ds-btn-ghost {
-    @apply text-[15px] font-medium text-slate-400 underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
+    @apply text-[15px] font-medium text-slate-300 underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
   }
 
 .ds-btn-sm {
