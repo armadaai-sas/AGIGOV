@@ -303,12 +303,17 @@ const es: Record<MessageKey, string> = {
   'landing.process.build.body': 'Elige un modelo: fiscal, electoral, escrow u otro frente del Estado.',
   'landing.process.where.title': 'Cloud o Local',
   'landing.process.where.body': 'Misma lógica de evidencia; tú eliges dónde corre el nodo.',
+  'landing.process.where.label': '¿Dónde vas a construir?',
   'landing.process.where.cloud': 'Cloud — despliegue institucional gestionado; consola y API públicas.',
   'landing.process.where.local': 'Local — nodo soberano (Docker / edge); datos bajo tu control.',
+  'landing.process.where.cloudShort': 'Cloud',
+  'landing.process.where.localShort': 'Local',
   'landing.process.configure.title': 'Configurar',
   'landing.process.configure.body': 'Firmas, Centinela, roles humanos — sin opacidad.',
   'landing.process.deploy.title': 'Desplegar',
   'landing.process.deploy.body': 'Publica el flujo en producción; el resultado queda defendible.',
+  'landing.process.cta': 'Construir ahora',
+  'landing.process.ctaMicro': 'Empieza por un modelo. Cloud o Local — misma lógica de evidencia.',
 
   'landing.footer.tagline':
     'Construye modelos del Estado. Despliega en Cloud o Local — con evidencia y sin opacidad.',

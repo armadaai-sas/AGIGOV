@@ -300,12 +300,17 @@ const en = {
   'landing.process.build.body': 'Choose a model: fiscal, electoral, escrow, or another State front.',
   'landing.process.where.title': 'Cloud or Local',
   'landing.process.where.body': 'Same evidence logic; you choose where the node runs.',
+  'landing.process.where.label': 'Where will you build?',
   'landing.process.where.cloud': 'Cloud — managed institutional deploy; public console and API.',
   'landing.process.where.local': 'Local — sovereign node (Docker / edge); data under your control.',
+  'landing.process.where.cloudShort': 'Cloud',
+  'landing.process.where.localShort': 'Local',
   'landing.process.configure.title': 'Configure',
   'landing.process.configure.body': 'Signatures, Centinela, human roles — without opacity.',
   'landing.process.deploy.title': 'Deploy',
   'landing.process.deploy.body': 'Publish the flow in production; the result stays defensible.',
+  'landing.process.cta': 'Build now',
+  'landing.process.ctaMicro': 'Start with a model. Cloud or Local — same evidence logic.',
 
   'landing.footer.tagline':
     'Build State models. Deploy in Cloud or Local — with evidence and without opacity.',

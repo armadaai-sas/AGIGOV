@@ -10,7 +10,6 @@ import {
   BookOpen,
   Code2,
   Rocket,
-  FlaskConical,
   Mail,
 } from 'lucide-react';
 
@@ -26,7 +25,6 @@ export const LANDING_MODULES = [
   { id: 'aprender', label: 'Aprende', Icon: BookOpen },
   { id: 'desarrolladores', label: 'Devs', Icon: Code2 },
   { id: 'construir', label: 'Construir', Icon: Rocket },
-  { id: 'sandbox', label: 'Desplegar', Icon: FlaskConical },
   { id: 'contacto', label: 'Contacto', Icon: Mail },
 ] as const satisfies ReadonlyArray<{ id: string; label: string; Icon: ModuleIcon }>;
 

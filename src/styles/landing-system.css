@@ -848,6 +848,268 @@
     opacity: 0.5;
   }
 
+  /* Operación — flujo dinámico */
+  .ls-dynflow {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2.25rem auto 0;
+    max-width: 52rem;
+  }
+
+  .ls-dynflow-track {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 720px) {
+    .ls-dynflow-track {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+  }
+
+  .ls-dynflow-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: #94a3b8;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .ls-dynflow-tab:hover {
+    border-color: rgba(34, 211, 238, 0.35);
+    color: #e2e8f0;
+  }
+
+  .ls-dynflow-tab.is-active {
+    border-color: rgba(34, 211, 238, 0.55);
+    background: rgba(34, 211, 238, 0.1);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.15);
+  }
+
+  .ls-dynflow-tab-icon {
+    display: inline-flex;
+    height: 1.75rem;
+    width: 1.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    background: rgba(34, 211, 238, 0.08);
+    color: #67e8f9;
+  }
+
+  .ls-dynflow-tab-index {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: #64748b;
+  }
+
+  .ls-dynflow-tab.is-active .ls-dynflow-tab-index {
+    color: rgba(34, 211, 238, 0.95);
+  }
+
+  .ls-dynflow-tab-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .ls-dynflow-stage {
+    min-height: 11rem;
+  }
+
+  .ls-dynflow-card {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1.5rem 1.35rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgba(34, 211, 238, 0.12), transparent 55%),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  .ls-dynflow-card-icon {
+    display: inline-flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.35rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    background: rgba(34, 211, 238, 0.1);
+    color: #67e8f9;
+  }
+
+  .ls-dynflow-card-index {
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: rgba(34, 211, 238, 0.9);
+  }
+
+  .ls-dynflow-card-title {
+    margin: 0;
+    font-family: var(--font-display, ui-sans-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ls-dynflow-card-text {
+    margin: 0.35rem 0 0;
+    max-width: 36rem;
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: #94a3b8;
+  }
+
+  /* Construir — layout + CTA impacto */
+  .ls-build {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 960px) {
+    .ls-build {
+      grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.85fr);
+      gap: 2rem;
+      align-items: start;
+    }
+  }
+
+  .ls-process-item--btn {
+    display: flex;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.65rem 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 0.85rem;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .ls-process-item--btn:hover,
+  .ls-process-item--btn.is-active {
+    border-color: rgba(34, 211, 238, 0.35);
+    background: rgba(34, 211, 238, 0.06);
+  }
+
+  .ls-process-item--btn.is-active .ls-process-node {
+    border-color: rgba(34, 211, 238, 0.65);
+    background: rgba(34, 211, 238, 0.16);
+    color: #67e8f9;
+  }
+
+  .ls-build-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.35rem 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      radial-gradient(90% 70% at 100% 0%, rgba(34, 211, 238, 0.14), transparent 60%),
+      rgba(2, 6, 14, 0.85);
+  }
+
+  .ls-build-panel-label {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+
+  .ls-build-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .ls-build-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .ls-build-toggle-btn.is-active {
+    border-color: rgba(34, 211, 238, 0.55);
+    background: rgba(34, 211, 238, 0.12);
+    color: #fff;
+  }
+
+  .ls-build-panel-hint {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #94a3b8;
+  }
+
+  .ls-btn--impact {
+    margin-top: 0.35rem;
+    min-height: 3.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 12px 40px rgba(34, 211, 238, 0.18);
+  }
+
+  .ls-build-micro {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #64748b;
+  }
+
+  .ls-build-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.1rem;
+  }
+
+  .ls-build-link {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-decoration: none;
+  }
+
+  .ls-build-link:hover {
+    color: #e2e8f0;
+  }
+
   .ls-learn-more {
     display: flex;
     flex-wrap: wrap;
@@ -1573,16 +1835,16 @@
   /* ===== Process (Build · Deploy) ===== */
   .ls-process {
     display: grid;
-    margin: 2rem 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
-    gap: 1.5rem;
+    gap: 0.5rem;
   }
 
   @media (min-width: 900px) {
     .ls-process {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
     }
   }
 
@@ -1593,8 +1855,8 @@
 
   @media (min-width: 900px) {
     .ls-process-item {
-      flex-direction: column;
-      gap: 0.75rem;
+      flex-direction: row;
+      gap: 0.85rem;
     }
   }
 

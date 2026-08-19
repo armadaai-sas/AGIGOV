@@ -231,6 +231,11 @@ export function useLandingCopy() {
       LANDING_PROCESS_LEAD: t('landing.process.lead'),
       LANDING_PROCESS_CLOUD: t('landing.process.where.cloud'),
       LANDING_PROCESS_LOCAL: t('landing.process.where.local'),
+      LANDING_PROCESS_CLOUD_SHORT: t('landing.process.where.cloudShort'),
+      LANDING_PROCESS_LOCAL_SHORT: t('landing.process.where.localShort'),
+      LANDING_PROCESS_WHERE_LABEL: t('landing.process.where.label'),
+      LANDING_PROCESS_CTA: t('landing.process.cta'),
+      LANDING_PROCESS_CTA_MICRO: t('landing.process.ctaMicro'),
       LANDING_PROCESS_STEPS: [
         { id: 'build', title: t('landing.process.build.title'), body: t('landing.process.build.body') },
         { id: 'where', title: t('landing.process.where.title'), body: t('landing.process.where.body') },

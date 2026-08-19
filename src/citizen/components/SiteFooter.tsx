@@ -76,7 +76,7 @@ export function SiteFooter() {
                 <Link to="/#construir">{t('landing.footer.link.build')}</Link>
               </li>
               <li>
-                <Link to="/#sandbox">{t('landing.footer.link.deploy')}</Link>
+                <Link to="/#construir">{t('landing.footer.link.deploy')}</Link>
               </li>
             </ul>
           </div>
