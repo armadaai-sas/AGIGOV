@@ -8,6 +8,7 @@ import { LandingSecuritySection } from '../components/landing/LandingSecuritySec
 import { LandingLearnSection } from '../components/landing/LandingLearnSection.js';
 import { LandingDevelopersSection } from '../components/landing/LandingDevelopersSection.js';
 import { LandingProcessSection } from '../components/landing/LandingProcessSection.js';
+import { LandingDeploySection } from '../components/landing/LandingDeploySection.js';
 import { LandingContactSection } from '../components/landing/LandingContactSection.js';
 import { SiteFooter } from '../components/SiteFooter.js';
 import '../../styles/landing-system.css';
@@ -26,6 +27,7 @@ export default function HomePage() {
       <LandingLearnSection />
       <LandingDevelopersSection />
       <LandingProcessSection />
+      <LandingDeploySection />
       <LandingContactSection />
       <SiteFooter />
     </div>

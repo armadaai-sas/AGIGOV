@@ -76,7 +76,7 @@ export function SiteFooter() {
                 <Link to="/#construir">{t('landing.footer.link.build')}</Link>
               </li>
               <li>
-                <Link to="/#construir">{t('landing.footer.link.deploy')}</Link>
+                <Link to="/#desplegar">{t('landing.footer.link.deploy')}</Link>
               </li>
             </ul>
           </div>
@@ -103,10 +103,10 @@ export function SiteFooter() {
             <p className="site-footer-heading">{t('landing.footer.deploy')}</p>
             <ul>
               <li>
-                <Link to="/#construir">{t('landing.footer.link.cloud')}</Link>
+                <Link to="/#desplegar">{t('landing.footer.link.cloud')}</Link>
               </li>
               <li>
-                <Link to="/#construir">{t('landing.footer.link.local')}</Link>
+                <Link to="/#desplegar">{t('landing.footer.link.local')}</Link>
               </li>
               <li>
                 <Link to="/#seguridad">{t('landing.footer.link.security')}</Link>

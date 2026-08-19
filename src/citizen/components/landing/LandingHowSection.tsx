@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
-import { Landmark, PenLine, Radio, Database } from 'lucide-react';
+import { ArrowRight, Landmark, PenLine, Radio, Database } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
@@ -30,7 +30,7 @@ export function LandingHowSection() {
     <section
       ref={sectionRef}
       id="operacion"
-      className={`ls-section ls-section--alt ls-section--focus ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--alt ls-section--focus ls-section--operacion ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-how-title"
     >
       <div className="ls-inner">
@@ -87,6 +87,17 @@ export function LandingHowSection() {
               </motion.div>
             </AnimatePresence>
           </div>
+        </div>
+
+        <div className="ls-actions">
+          <a href="#construir" className="ls-btn ls-btn--primary">
+            {copy.LANDING_PROCESS_CTA}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+          <a href="#desplegar" className="ls-btn ls-btn--ghost">
+            {copy.LANDING_DEPLOY_CTA}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
         </div>
       </div>
     </section>

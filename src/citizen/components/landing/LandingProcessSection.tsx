@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
-import { ArrowRight, Boxes, Cloud, Settings2, Rocket, Server } from 'lucide-react';
+import { ArrowRight, Boxes, Cloud, Settings2, Server } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
-const STEP_ICONS = [Boxes, Cloud, Settings2, Rocket] as const;
+const STEP_ICONS = [Boxes, Cloud, Settings2] as const;
 
-/** Construir — pasos interactivos + CTA (el sandbox es Construir). */
+/** Construir — elige modelo + Cloud|Local + configurar. CTA: Construir. */
 export function LandingProcessSection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -98,12 +98,12 @@ export function LandingProcessSection() {
             </Link>
             <p className="ls-build-micro">{copy.LANDING_PROCESS_CTA_MICRO}</p>
             <div className="ls-build-links">
-              <a href="#consola" className="ls-build-link">
-                {copy.LANDING_CTA_SEE_CONSOLE}
-              </a>
               <Link to="/modelos" className="ls-build-link">
                 {copy.LANDING_MODELS_CATALOG}
               </Link>
+              <a href="#desplegar" className="ls-build-link">
+                {copy.LANDING_PROCESS_NEXT_DEPLOY}
+              </a>
             </div>
           </div>
         </div>

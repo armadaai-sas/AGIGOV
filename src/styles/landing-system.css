@@ -1110,6 +1110,128 @@
     color: #e2e8f0;
   }
 
+  /* Seguridad — grid (distinto de Operación) */
+  .ls-section--security .ls-kicker--security {
+    color: #86efac;
+  }
+
+  .ls-sec-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 720px) {
+    .ls-sec-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .ls-sec-card {
+    padding: 1.15rem 1.1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(134, 239, 172, 0.18);
+    background:
+      radial-gradient(90% 80% at 0% 0%, rgba(134, 239, 172, 0.1), transparent 55%),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  .ls-sec-card-icon {
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(134, 239, 172, 0.35);
+    background: rgba(134, 239, 172, 0.1);
+    color: #86efac;
+  }
+
+  .ls-sec-card-index {
+    margin: 0.75rem 0 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .ls-sec-card-title {
+    margin: 0.25rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ls-sec-card-text {
+    margin: 0.4rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #94a3b8;
+  }
+
+  .ls-actions--security {
+    margin-top: 1.75rem;
+  }
+
+  .ls-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  /* Desplegar — separado de Construir */
+  .ls-deploy {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 960px) {
+    .ls-deploy {
+      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+      align-items: start;
+      gap: 2rem;
+    }
+  }
+
+  .ls-deploy-points {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .ls-deploy-point {
+    padding: 1rem 1.1rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .ls-deploy-point-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ls-deploy-point-text {
+    margin: 0.35rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #94a3b8;
+  }
+
+  .ls-build-panel--deploy {
+    border-color: rgba(34, 211, 238, 0.28);
+  }
+
   .ls-learn-more {
     display: flex;
     flex-wrap: wrap;
