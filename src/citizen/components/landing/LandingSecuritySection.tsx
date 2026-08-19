@@ -1,12 +1,12 @@
 import { useRef } from 'react';
 import { useInView } from 'motion/react';
-import { ShieldCheck, Snowflake, KeyRound } from 'lucide-react';
+import { ShieldCheck, Radio, KeyRound, Atom } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
-const ICONS = [KeyRound, Snowflake, ShieldCheck] as const;
+const ICONS = [KeyRound, Radio, ShieldCheck, Atom] as const;
 
-/** Seguridad — stack centrado, una columna. */
+/** Seguridad — firma, Centinela, rastro, PQC. */
 export function LandingSecuritySection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);

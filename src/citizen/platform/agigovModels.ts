@@ -63,7 +63,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     audience: 'gubernamental',
     status: 'disponible',
     icon: TrendingDown,
-    tagline: 'Fee solo sobre ahorro fiscal verificado',
+    tagline: 'Ahorro en gestión y operaciones con evidencia',
     problem:
       'El Estado ejecuta presupuesto con opacidad: pagos sin hito, sobrecostos no detectados y cierres trimestrales manuales propensos a discrepancia.',
     purpose:
@@ -103,7 +103,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     audience: 'gubernamental',
     status: 'beta',
     icon: Vote,
-    tagline: 'Emisión, recuento y auditoría de votos verificables',
+    tagline: 'Voto y recuento con auditoría verificable',
     problem:
       'Los procesos electorales tradicionales concentran confianza en actas opacas, recuentos no reproducibles y vulnerabilidad a fraude cibernético o manipulación manual.',
     purpose:

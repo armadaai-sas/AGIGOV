@@ -1,8 +1,10 @@
 import { HeroOrchestrator } from '../components/hero/HeroOrchestrator.js';
 import { LandingSpineRail } from '../components/landing/LandingSpineRail.js';
 import { LandingConsoleSection } from '../components/landing/LandingConsoleSection.js';
+import { LandingWhySection } from '../components/landing/LandingWhySection.js';
 import { LandingModelsInteractiveSection } from '../components/landing/LandingModelsInteractiveSection.js';
 import { LandingHowSection } from '../components/landing/LandingHowSection.js';
+import { LandingSecuritySection } from '../components/landing/LandingSecuritySection.js';
 import { LandingLearnSection } from '../components/landing/LandingLearnSection.js';
 import { LandingDevelopersSection } from '../components/landing/LandingDevelopersSection.js';
 import { LandingCtaSection } from '../components/landing/LandingCtaSection.js';
@@ -17,8 +19,10 @@ export default function HomePage() {
       <LandingSpineRail />
       <HeroOrchestrator />
       <LandingConsoleSection />
+      <LandingWhySection />
       <LandingModelsInteractiveSection />
       <LandingHowSection />
+      <LandingSecuritySection />
       <LandingLearnSection />
       <LandingDevelopersSection />
       <LandingCtaSection />

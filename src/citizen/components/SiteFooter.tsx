@@ -46,10 +46,16 @@ export function SiteFooter() {
               <Link to="/#consola">Consola</Link>
             </li>
             <li>
+              <Link to="/#alcance">Alcance</Link>
+            </li>
+            <li>
               <Link to="/#modelos">Modelos</Link>
             </li>
             <li>
               <Link to="/#operacion">Operación</Link>
+            </li>
+            <li>
+              <Link to="/#seguridad">Seguridad</Link>
             </li>
             <li>
               <Link to="/#aprender">Aprende</Link>

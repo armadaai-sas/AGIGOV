@@ -3,8 +3,10 @@ import { createPortal } from 'react-dom';
 import {
   Cpu,
   LayoutDashboard,
+  Compass,
   Boxes,
   Workflow,
+  Shield,
   BookOpen,
   Code2,
   FlaskConical,
@@ -16,8 +18,10 @@ type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 
 export const LANDING_MODULES = [
   { id: 'os', label: 'OS', Icon: Cpu },
   { id: 'consola', label: 'Consola', Icon: LayoutDashboard },
+  { id: 'alcance', label: 'Alcance', Icon: Compass },
   { id: 'modelos', label: 'Modelos', Icon: Boxes },
   { id: 'operacion', label: 'Operación', Icon: Workflow },
+  { id: 'seguridad', label: 'Seguridad', Icon: Shield },
   { id: 'aprender', label: 'Aprende', Icon: BookOpen },
   { id: 'desarrolladores', label: 'Devs', Icon: Code2 },
   { id: 'sandbox', label: 'Sandbox', Icon: FlaskConical },
