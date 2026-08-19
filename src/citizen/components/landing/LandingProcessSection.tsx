@@ -103,18 +103,15 @@ export function LandingProcessSection() {
               {where === 'cloud' ? copy.LANDING_PROCESS_CLOUD : copy.LANDING_PROCESS_LOCAL}
             </p>
 
-            <Link to={copy.HERO_CTA_PRIMARY.path} className="ls-btn ls-btn--primary ls-btn--impact">
-              {copy.LANDING_PROCESS_CTA}
+            <a href="#desplegar" className="ls-btn ls-btn--primary ls-btn--impact">
+              {copy.LANDING_DEPLOY_CTA}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </a>
             <p className="ls-build-micro">{copy.LANDING_PROCESS_CTA_MICRO}</p>
             <div className="ls-build-links">
               <Link to="/modelos" className="ls-build-link">
                 {copy.LANDING_MODELS_CATALOG}
               </Link>
-              <a href="#desplegar" className="ls-build-link">
-                {copy.LANDING_PROCESS_NEXT_DEPLOY}
-              </a>
             </div>
           </div>
         </div>

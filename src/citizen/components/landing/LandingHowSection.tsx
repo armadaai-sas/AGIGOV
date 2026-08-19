@@ -90,11 +90,11 @@ export function LandingHowSection() {
         </div>
 
         <div className="ls-actions">
-          <a href="#construir" className="ls-btn ls-btn--primary">
-            {copy.LANDING_PROCESS_CTA}
+          <a href="#construir" className="ls-btn ls-btn--ghost">
+            {copy.LANDING_PROCESS_KICKER}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
-          <a href="#desplegar" className="ls-btn ls-btn--ghost">
+          <a href="#desplegar" className="ls-btn ls-btn--primary">
             {copy.LANDING_DEPLOY_CTA}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </a>

@@ -307,8 +307,8 @@ const en = {
   'landing.process.where.localShort': 'Local',
   'landing.process.configure.title': 'Configure',
   'landing.process.configure.body': 'Signatures, Centinela, human roles — without opacity.',
-  'landing.process.cta': 'Build now',
-  'landing.process.ctaMicro': 'Build first. Deploy is the next step.',
+  'landing.process.cta': 'Deploy now',
+  'landing.process.ctaMicro': 'Same action as Deploy: publish the model in Cloud or Local.',
   'landing.process.nextDeploy': 'Then deploy →',
 
   'landing.deploy.kicker': 'Deploy',

@@ -310,8 +310,8 @@ const es: Record<MessageKey, string> = {
   'landing.process.where.localShort': 'Local',
   'landing.process.configure.title': 'Configurar',
   'landing.process.configure.body': 'Firmas, Centinela, roles humanos — sin opacidad.',
-  'landing.process.cta': 'Construir ahora',
-  'landing.process.ctaMicro': 'Primero construyes. Desplegar es el siguiente paso.',
+  'landing.process.cta': 'Desplegar ahora',
+  'landing.process.ctaMicro': 'Misma acción que Desplegar: publica el modelo en Cloud o Local.',
   'landing.process.nextDeploy': 'Luego desplegar →',
 
   'landing.deploy.kicker': 'Desplegar',

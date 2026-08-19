@@ -50,8 +50,8 @@ export function LandingSecuritySection() {
             {copy.LANDING_SECURITY_CTA}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
-          <a href="#construir" className="ls-btn ls-btn--primary">
-            {copy.LANDING_PROCESS_CTA}
+          <a href="#desplegar" className="ls-btn ls-btn--primary">
+            {copy.LANDING_DEPLOY_CTA}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
         </div>
