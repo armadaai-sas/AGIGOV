@@ -55,6 +55,21 @@
   color: var(--color-agigov-text);
 }
 
+[data-agigov-skin='trust'] .agigov-sovereign-settings {
+  border-color: var(--color-agigov-border);
+  background: #f8fafc;
+}
+
+[data-agigov-skin='trust'] .agigov-sovereign-field select {
+  border-color: #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+}
+
+[data-agigov-skin='trust'] .agigov-sovereign-hint {
+  color: #475569;
+}
+
 [data-agigov-skin='trust'] .ui-btn-primary {
   background: var(--color-agigov-primary);
   border-color: var(--color-agigov-primary);
