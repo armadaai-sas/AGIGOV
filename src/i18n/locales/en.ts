@@ -22,7 +22,7 @@ const en = {
   'hero.screen.demo': 'Demo',
   'hero.screen.route': 'Route',
   'hero.screen.pilot': 'Pilot',
-  'hero.cinematic.title': 'The operating system of the State.',
+  'hero.cinematic.title': 'The Operating System of the State.',
   'hero.cinematic.tagline': 'Governance 2.0',
   'hero.cinematic.subline':
     'Models that authenticate management and help a nation grow — with evidence and without opacity.',

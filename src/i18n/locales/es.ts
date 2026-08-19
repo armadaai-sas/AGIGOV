@@ -24,7 +24,7 @@ const es: Record<MessageKey, string> = {
   'hero.screen.demo': 'Demo',
   'hero.screen.route': 'Ruta',
   'hero.screen.pilot': 'Piloto',
-  'hero.cinematic.title': 'El sistema operativo del Estado.',
+  'hero.cinematic.title': 'El Sistema Operativo del Estado.',
   'hero.cinematic.tagline': 'Gobernanza 2.0',
   'hero.cinematic.subline':
     'Modelos que autentican la gestión y ayudan a crecer a una nación — con evidencia y sin opacidad.',
