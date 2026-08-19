@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
-import { ArrowRight, Boxes, Cloud, Settings2, Server } from 'lucide-react';
+import { Boxes, Cloud, Settings2, Server } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { LandingDeployCta } from './LandingDeployCta.js';
 
 const STEP_ICONS = [Boxes, Cloud, Settings2] as const;
 
@@ -103,10 +104,7 @@ export function LandingProcessSection() {
               {where === 'cloud' ? copy.LANDING_PROCESS_CLOUD : copy.LANDING_PROCESS_LOCAL}
             </p>
 
-            <a href="#desplegar" className="ls-btn ls-btn--primary ls-btn--impact">
-              {copy.LANDING_DEPLOY_CTA}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </a>
+            <LandingDeployCta href="#desplegar" impact />
             <p className="ls-build-micro">{copy.LANDING_PROCESS_CTA_MICRO}</p>
             <div className="ls-build-links">
               <Link to="/modelos" className="ls-build-link">

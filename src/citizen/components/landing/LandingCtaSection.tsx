@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { LayoutDashboard, Boxes } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { LandingDeployCta } from './LandingDeployCta.js';
 
 /** Sandbox — CTAs de conversión (fuera del hero). */
 export function LandingCtaSection() {
@@ -18,15 +19,14 @@ export function LandingCtaSection() {
             </h2>
             <p className="ls-lead">{copy.LANDING_CTA_LEAD}</p>
             <div className="ls-actions">
-              <Link to={copy.HERO_CTA_PRIMARY.path} className="ls-btn ls-btn--primary">
-                {copy.HERO_CTA_PRIMARY.label}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
+              <LandingDeployCta to={copy.HERO_CTA_PRIMARY.path} impact />
               <a href="#consola" className="ls-btn ls-btn--ghost">
-                {copy.LANDING_CTA_SEE_CONSOLE}
+                <LayoutDashboard className="h-4 w-4" aria-hidden />
+                <span>{copy.LANDING_CTA_SEE_CONSOLE}</span>
               </a>
               <Link to="/modelos" className="ls-btn ls-btn--ghost">
-                {copy.LANDING_MODELS_CATALOG}
+                <Boxes className="h-4 w-4" aria-hidden />
+                <span>{copy.LANDING_MODELS_CATALOG}</span>
               </Link>
             </div>
           </header>

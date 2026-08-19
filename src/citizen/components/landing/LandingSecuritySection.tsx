@@ -4,6 +4,7 @@ import { useInView } from 'motion/react';
 import { ArrowRight, Atom, KeyRound, Radio, ShieldCheck } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { LandingDeployCta } from './LandingDeployCta.js';
 
 const ICONS = [KeyRound, Radio, ShieldCheck, Atom] as const;
 
@@ -47,13 +48,11 @@ export function LandingSecuritySection() {
 
         <div className="ls-actions ls-actions--security">
           <Link to="/institucional" className="ls-btn ls-btn--ghost">
-            {copy.LANDING_SECURITY_CTA}
+            <ShieldCheck className="h-4 w-4" aria-hidden />
+            <span>{copy.LANDING_SECURITY_CTA}</span>
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
-          <a href="#desplegar" className="ls-btn ls-btn--primary">
-            {copy.LANDING_DEPLOY_CTA}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </a>
+          <LandingDeployCta href="#desplegar" />
         </div>
       </div>
     </section>

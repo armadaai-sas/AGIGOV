@@ -10,7 +10,6 @@ import {
   BookOpen,
   Code2,
   Rocket,
-  Send,
   Mail,
 } from 'lucide-react';
 
@@ -27,8 +26,8 @@ export const LANDING_MODULES = [
   { id: 'seguridad', label: 'Seguridad', Icon: Shield },
   { id: 'aprender', label: 'Aprende', Icon: BookOpen },
   { id: 'desarrolladores', label: 'Devs', Icon: Code2 },
-  { id: 'construir', label: 'Construir', Icon: Rocket },
-  { id: 'desplegar', label: 'Desplegar', Icon: Send },
+  { id: 'construir', label: 'Construir', Icon: Boxes },
+  { id: 'desplegar', label: 'Desplegar', Icon: Rocket },
   { id: 'contacto', label: 'Contacto', Icon: Mail },
 ] as const satisfies ReadonlyArray<{ id: string; label: string; Icon: ModuleIcon }>;
 

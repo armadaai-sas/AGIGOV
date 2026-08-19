@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
-import { ArrowRight, Landmark, PenLine, Radio, Database } from 'lucide-react';
+import { ArrowRight, Boxes, Landmark, PenLine, Radio, Database } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { LandingDeployCta } from './LandingDeployCta.js';
 
 const FLOW_ICONS = [PenLine, Landmark, Radio, Database] as const;
 
@@ -91,13 +92,11 @@ export function LandingHowSection() {
 
         <div className="ls-actions">
           <a href="#construir" className="ls-btn ls-btn--ghost">
-            {copy.LANDING_PROCESS_KICKER}
+            <Boxes className="h-4 w-4" aria-hidden />
+            <span>{copy.LANDING_PROCESS_KICKER}</span>
             <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
-          <a href="#desplegar" className="ls-btn ls-btn--primary">
-            {copy.LANDING_DEPLOY_CTA}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </a>
+          <LandingDeployCta href="#desplegar" />
         </div>
       </div>
     </section>

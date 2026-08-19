@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
-import { ArrowRight, Cloud, Rocket, Server } from 'lucide-react';
+import { Cloud, Server } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { LandingDeployCta } from './LandingDeployCta.js';
 
 /** Desplegar — separado de Construir. CTA: Desplegar. */
 export function LandingDeploySection() {
@@ -62,11 +62,7 @@ export function LandingDeploySection() {
               {where === 'cloud' ? copy.LANDING_DEPLOY_CLOUD : copy.LANDING_DEPLOY_LOCAL}
             </p>
 
-            <Link to={copy.HERO_CTA_PRIMARY.path} className="ls-btn ls-btn--primary ls-btn--impact">
-              <Rocket className="h-4 w-4" aria-hidden />
-              {copy.LANDING_DEPLOY_CTA}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            <LandingDeployCta to={copy.HERO_CTA_PRIMARY.path} impact />
             <p className="ls-build-micro">{copy.LANDING_DEPLOY_CTA_MICRO}</p>
             <div className="ls-build-links">
               <a href="#construir" className="ls-build-link">
