@@ -7,13 +7,16 @@ import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
 const STEP_ICONS = [Boxes, Cloud, Settings2] as const;
 
-/** Construir — elige modelo + Cloud|Local + configurar. CTA: Construir. */
+/** Construir — pasos aislados (sin CSS compartido de timeline). */
 export function LandingProcessSection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { amount: 0.12, once: true });
   const [where, setWhere] = useState<'cloud' | 'local'>('cloud');
   const [active, setActive] = useState(0);
+  const steps = copy.LANDING_PROCESS_STEPS;
+  const current = steps[active]!;
+  const CurrentIcon = STEP_ICONS[active]!;
 
   return (
     <section
@@ -32,36 +35,43 @@ export function LandingProcessSection() {
         </header>
 
         <div className="ls-build">
-          <ol className="ls-process" aria-label={copy.LANDING_PROCESS_TITLE}>
-            {copy.LANDING_PROCESS_STEPS.map((step, i) => {
-              const Icon = STEP_ICONS[i]!;
-              const last = i === copy.LANDING_PROCESS_STEPS.length - 1;
-              const selected = i === active;
-              return (
-                <li key={step.id}>
+          <div className="ls-build-main">
+            <div className="ls-build-steps" role="tablist" aria-label={copy.LANDING_PROCESS_TITLE}>
+              {steps.map((step, i) => {
+                const Icon = STEP_ICONS[i]!;
+                const selected = i === active;
+                return (
                   <button
+                    key={step.id}
                     type="button"
-                    className={`ls-process-item--btn${selected ? ' is-active' : ''}`}
+                    role="tab"
+                    aria-selected={selected}
+                    className={`ls-build-step${selected ? ' is-active' : ''}`}
                     onClick={() => setActive(i)}
-                    aria-pressed={selected}
-                    aria-label={`${step.title}. ${step.body}`}
                   >
-                    <span className="ls-process-rail" aria-hidden>
-                      <span className="ls-process-node">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                      {!last ? <span className="ls-process-line" /> : null}
+                    <span className="ls-build-step-icon" aria-hidden>
+                      <Icon className="h-4 w-4" />
                     </span>
-                    <span className="ls-process-body">
-                      <span className="ls-process-index">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="ls-process-title">{step.title}</span>
-                      <span className="ls-process-text">{step.body}</span>
+                    <span className="ls-build-step-meta">
+                      <span className="ls-build-step-index">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="ls-build-step-label">{step.title}</span>
                     </span>
                   </button>
-                </li>
-              );
-            })}
-          </ol>
+                );
+              })}
+            </div>
+
+            <div className="ls-build-stage" role="tabpanel">
+              <span className="ls-build-stage-icon" aria-hidden>
+                <CurrentIcon className="h-6 w-6" />
+              </span>
+              <p className="ls-build-stage-index">
+                {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
+              </p>
+              <h3 className="ls-build-stage-title">{current.title}</h3>
+              <p className="ls-build-stage-text">{current.body}</p>
+            </div>
+          </div>
 
           <div className="ls-build-panel">
             <p className="ls-build-panel-label">{copy.LANDING_PROCESS_WHERE_LABEL}</p>
