@@ -41,21 +41,22 @@ export function LandingProcessSection() {
                 <li key={step.id}>
                   <button
                     type="button"
-                    className={`ls-process-item ls-process-item--btn${selected ? ' is-active' : ''}`}
+                    className={`ls-process-item--btn${selected ? ' is-active' : ''}`}
                     onClick={() => setActive(i)}
                     aria-pressed={selected}
+                    aria-label={`${step.title}. ${step.body}`}
                   >
-                    <div className="ls-process-rail" aria-hidden>
+                    <span className="ls-process-rail" aria-hidden>
                       <span className="ls-process-node">
                         <Icon className="h-4 w-4" />
                       </span>
                       {!last ? <span className="ls-process-line" /> : null}
-                    </div>
-                    <div className="ls-process-body">
-                      <p className="ls-process-index">{String(i + 1).padStart(2, '0')}</p>
-                      <h3 className="ls-process-title">{step.title}</h3>
-                      <p className="ls-process-text">{step.body}</p>
-                    </div>
+                    </span>
+                    <span className="ls-process-body">
+                      <span className="ls-process-index">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="ls-process-title">{step.title}</span>
+                      <span className="ls-process-text">{step.body}</span>
+                    </span>
                   </button>
                 </li>
               );

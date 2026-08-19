@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin, Youtube } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { usePlatform } from '../context/PlatformContext.js';
@@ -8,6 +8,7 @@ const DISCORD_URL = 'https://discord.gg/agigov';
 const GITHUB_ORG = 'https://github.com/armadaai-sas';
 const X_URL = 'https://x.com/agigov';
 const LINKEDIN_URL = 'https://www.linkedin.com/company/agigov';
+const YOUTUBE_URL = 'https://www.youtube.com/@agigov';
 
 function IconX({ className }: { className?: string }) {
   return (
@@ -29,6 +30,7 @@ const SOCIAL = [
   { href: GITHUB_ORG, label: 'GitHub', Icon: Github },
   { href: LINKEDIN_URL, label: 'LinkedIn', Icon: Linkedin },
   { href: X_URL, label: 'X', Icon: IconX },
+  { href: YOUTUBE_URL, label: 'YouTube', Icon: Youtube },
   { href: DISCORD_URL, label: 'Discord', Icon: IconDiscord },
 ] as const;
 
