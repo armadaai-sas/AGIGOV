@@ -14,7 +14,7 @@ export function LandingModelsInteractiveSection() {
   const { t } = usePlatform();
 
   return (
-    <section id="modelos" className="ls-section ls-section--focus" aria-labelledby="landing-models-title">
+    <section id="modelos" className="ls-section ls-section--focus ls-section--tone ls-section--tone-amber" aria-labelledby="landing-models-title">
       <div className="ls-inner">
         <header className="ls-head">
           <p className="ls-kicker">{copy.LANDING_MODELS_KICKER}</p>

@@ -16,7 +16,7 @@ export function LandingDeploySection() {
     <section
       ref={sectionRef}
       id="desplegar"
-      className={`ls-section ls-section--focus ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-coral ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-deploy-title"
     >
       <div className="ls-inner">

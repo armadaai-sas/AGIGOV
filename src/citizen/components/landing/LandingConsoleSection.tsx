@@ -40,7 +40,7 @@ export function LandingConsoleSection() {
     <section
       ref={sectionRef}
       id="consola"
-      className={`ls-section ls-section--alt ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--alt ls-section--tone ls-section--tone-cyan ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-console-title"
     >
       <div className="ls-inner">

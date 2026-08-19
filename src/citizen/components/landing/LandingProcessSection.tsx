@@ -23,7 +23,7 @@ export function LandingProcessSection() {
     <section
       ref={sectionRef}
       id="construir"
-      className={`ls-section ls-section--alt ls-section--focus ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--alt ls-section--focus ls-section--tone ls-section--tone-blue ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-process-title"
     >
       <div className="ls-inner">

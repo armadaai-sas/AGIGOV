@@ -18,7 +18,7 @@ export function LandingSecuritySection() {
     <section
       ref={sectionRef}
       id="seguridad"
-      className={`ls-section ls-section--security ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--security ls-section--tone ls-section--tone-green ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-security-title"
     >
       <div className="ls-inner">

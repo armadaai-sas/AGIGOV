@@ -16,7 +16,7 @@ export function LandingWhySection() {
     <section
       ref={sectionRef}
       id="alcance"
-      className={`ls-section ls-section--alt ls-section--focus ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--alt ls-section--focus ls-section--tone ls-section--tone-sky ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-why-title"
     >
       <div className="ls-inner">

@@ -17,7 +17,7 @@ export function LandingDevelopersSection() {
     <section
       ref={sectionRef}
       id="desarrolladores"
-      className={`ls-section ls-section--focus ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-lime ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-developers-title"
     >
       <div className="ls-inner">
