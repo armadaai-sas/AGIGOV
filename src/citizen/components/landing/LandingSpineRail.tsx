@@ -14,6 +14,8 @@ import {
   Mail,
 } from 'lucide-react';
 
+import { LandingExperience, scrollToLandingId } from './LandingExperience.js';
+
 type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>;
 
 export const LANDING_MODULES = [
@@ -77,42 +79,41 @@ export function LandingSpineRail() {
   if (!mounted) return null;
 
   return createPortal(
-    <aside className="ls-rail" aria-label="Módulos del producto">
-      <div className="ls-rail-track" aria-hidden>
-        <div className="ls-rail-progress" style={{ height: `${progress}%` }} />
-      </div>
-      <ol className="ls-rail-list">
-        {LANDING_MODULES.map((mod, i) => {
-          const Icon = mod.Icon;
-          return (
-            <li
-              key={mod.id}
-              className={`ls-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
-            >
-              <a
-                href={`#${mod.id}`}
-                className="ls-rail-link"
-                title={mod.label}
-                aria-current={i === active ? 'true' : undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(mod.id)?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  });
-                  window.history.replaceState(null, '', `#${mod.id}`);
-                }}
+    <>
+      <LandingExperience />
+      <aside className="ls-rail" aria-label="Módulos del producto">
+        <div className="ls-rail-track" aria-hidden>
+          <div className="ls-rail-progress" style={{ height: `${progress}%` }} />
+        </div>
+        <ol className="ls-rail-list">
+          {LANDING_MODULES.map((mod, i) => {
+            const Icon = mod.Icon;
+            return (
+              <li
+                key={mod.id}
+                className={`ls-rail-item ${i === active ? 'is-active' : i < active ? 'is-done' : ''}`}
               >
-                <span className="ls-rail-icon" aria-hidden>
-                  <Icon />
-                </span>
-                <span className="ls-rail-label">{mod.label}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ol>
-    </aside>,
+                <a
+                  href={`#${mod.id}`}
+                  className="ls-rail-link"
+                  title={mod.label}
+                  aria-current={i === active ? 'true' : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToLandingId(mod.id);
+                  }}
+                >
+                  <span className="ls-rail-icon" aria-hidden>
+                    <Icon />
+                  </span>
+                  <span className="ls-rail-label">{mod.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </aside>
+    </>,
     document.body,
   );
 }
