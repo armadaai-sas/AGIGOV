@@ -13,11 +13,11 @@ export default function InstitutionAccessPage() {
   const { isAuthenticated } = useInstitutionAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={INSTITUTION_ROUTES.pilot} replace />;
+    return <Navigate to={INSTITUTION_ROUTES.desk} replace />;
   }
 
   return (
-    <PageShell narrow={false} breadcrumbs={breadcrumbsForPath('/institucional/acceso')}>
+    <PageShell narrow breadcrumbs={breadcrumbsForPath('/institucional/acceso')}>
       <SectionHeader
         eyebrow={t('auth.kicker')}
         title={t('auth.title')}

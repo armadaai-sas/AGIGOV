@@ -34,6 +34,7 @@ const ModelsCatalogPage = lazy(() => import('./pages/ModelsCatalogPage.js'));
 const ModelDetailPage = lazy(() => import('./pages/ModelDetailPage.js'));
 const EgsVialConsolePage = lazy(() => import('./pages/EgsVialConsolePage.js'));
 const CnePage = lazy(() => import('./pages/CnePage.js'));
+const EscritorioPage = lazy(() => import('./pages/EscritorioPage.js'));
 
 function AppRoutes() {
   const { pathname } = useLocation();
@@ -44,6 +45,7 @@ function AppRoutes() {
     <Suspense fallback={<LandingBootScreen label="Cargando la página…" />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/escritorio" element={<EscritorioPage />} />
         <Route path="/gestion" element={<DashboardPage />} />
         <Route path="/propuestas" element={<ProposalsPage />} />
         <Route path="/suministros" element={<SupplyPage />} />

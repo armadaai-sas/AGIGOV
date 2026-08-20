@@ -13,7 +13,7 @@ type Props = {
 
 /**
  * Navegación de cuenta institucional — patrón estándar:
- * sin sesión → Iniciar sesión + Registrarse · con sesión → Mi piloto + Cerrar sesión
+ * sin sesión → Iniciar sesión + Registrarse · con sesión → Escritorio + Cerrar sesión
  */
 export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
   const { t } = useSovereignConfig();
@@ -33,12 +33,12 @@ export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
       return (
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
-            to={INSTITUTION_ROUTES.pilot}
+            to={INSTITUTION_ROUTES.desk}
             className="hero-trust-nav-ghost inline-flex items-center gap-1.5"
           >
             <Building2 className="h-4 w-4" aria-hidden />
             <span className="hidden sm:inline max-w-[8rem] truncate">{session.institutionName}</span>
-            <span className="sm:hidden">{t('nav.myPilot')}</span>
+            <span className="sm:hidden">{t('nav.desk')}</span>
           </Link>
           <button
             type="button"
@@ -55,13 +55,13 @@ export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
     return (
       <div className="app-topbar-account">
         <Link
-          to={INSTITUTION_ROUTES.pilot}
+          to={INSTITUTION_ROUTES.desk}
           className="app-topbar-account-link"
           title={session.institutionName}
         >
           <Building2 className="h-4 w-4 shrink-0" aria-hidden />
           <span className="hidden lg:inline max-w-[10rem] truncate">{session.institutionName}</span>
-          <span className="lg:hidden">{t('nav.myPilot')}</span>
+          <span className="lg:hidden">{t('nav.desk')}</span>
         </Link>
         <button
           type="button"

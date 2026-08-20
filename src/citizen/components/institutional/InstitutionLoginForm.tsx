@@ -25,7 +25,7 @@ export function InstitutionLoginForm() {
   const [magicBusy, setMagicBusy] = useState(false);
 
   const redirectTo =
-    (location.state as { from?: string } | null)?.from ?? INSTITUTION_ROUTES.pilot;
+    (location.state as { from?: string } | null)?.from ?? INSTITUTION_ROUTES.desk;
   const loggedOut = Boolean((location.state as { loggedOut?: boolean } | null)?.loggedOut);
 
   useEffect(() => {

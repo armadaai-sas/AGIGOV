@@ -557,12 +557,16 @@
     @apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)];
   }
 
+.inst-reg-shell--simple {
+    @apply mx-auto max-w-xl grid-cols-1;
+  }
+
 .inst-reg-hero-badge {
     @apply inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-300;
   }
 
 .inst-reg-entity {
-    @apply flex cursor-pointer flex-col gap-1 rounded-xl border border-agigov-border bg-white/[0.02] p-4 transition-colors hover:border-sky-500/30;
+    @apply flex cursor-pointer flex-col gap-0.5 rounded-lg border border-agigov-border bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-sky-500/30;
   }
 
 .inst-reg-entity.is-selected {
@@ -571,6 +575,76 @@
 
 .inst-reg-form fieldset {
     @apply border-0 p-0;
+  }
+
+/* Escritorio OS — home simple (estilo Cursor) */
+.os-desk {
+    @apply mx-auto flex w-full max-w-2xl flex-col items-stretch gap-8 py-4 md:py-8;
+  }
+
+.os-desk-head {
+    @apply text-center;
+  }
+
+.os-desk-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-agigov-text-muted;
+  }
+
+.os-desk-title {
+    @apply mt-2 font-display text-2xl font-semibold tracking-tight text-agigov-text sm:text-3xl;
+  }
+
+.os-desk-lead {
+    @apply mx-auto mt-2 max-w-md text-sm text-agigov-text-muted;
+  }
+
+.os-desk-actions {
+    @apply m-0 list-none space-y-3 p-0;
+  }
+
+.os-desk-card {
+    @apply flex items-center gap-4 rounded-xl border border-agigov-border bg-agigov-surface px-4 py-4 no-underline transition
+      hover:border-sky-500/40 hover:bg-sky-500/[0.04];
+  }
+
+.os-desk-card--primary {
+    @apply border-sky-500/45 bg-sky-500/[0.08];
+  }
+
+.os-desk-card-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-agigov-border bg-white/[0.03] text-sky-600;
+  }
+
+.os-desk-card--primary .os-desk-card-icon {
+    @apply border-sky-500/35 bg-sky-500/15 text-sky-700;
+  }
+
+.os-desk-card-text {
+    @apply min-w-0 flex-1 text-left;
+  }
+
+.os-desk-card-title {
+    @apply block text-sm font-semibold text-agigov-text;
+  }
+
+.os-desk-card-body {
+    @apply mt-0.5 block text-xs leading-relaxed text-agigov-text-muted;
+  }
+
+.os-desk-card-arrow {
+    @apply shrink-0 text-agigov-text-muted opacity-50;
+  }
+
+.os-desk-card:hover .os-desk-card-arrow {
+    @apply text-sky-600 opacity-100;
+  }
+
+.os-desk-foot {
+    @apply text-center;
+  }
+
+.os-desk-foot-link {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium text-agigov-text-muted no-underline transition hover:text-sky-600;
   }
 
 .app-topbar-auth {

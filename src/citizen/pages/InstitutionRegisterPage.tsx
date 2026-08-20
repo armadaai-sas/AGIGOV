@@ -13,11 +13,11 @@ export default function InstitutionRegisterPage() {
   const { isAuthenticated } = useInstitutionAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={INSTITUTION_ROUTES.pilot} replace />;
+    return <Navigate to={INSTITUTION_ROUTES.desk} replace />;
   }
 
   return (
-    <PageShell narrow={false} breadcrumbs={breadcrumbsForPath('/institucional/registro')}>
+    <PageShell narrow breadcrumbs={breadcrumbsForPath('/institucional/registro')}>
       <SectionHeader
         eyebrow={t('reg.kicker')}
         title={t('reg.title')}

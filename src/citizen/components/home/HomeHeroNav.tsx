@@ -41,10 +41,10 @@ export function HomeHeroNav() {
             <Github className="h-[1.15rem] w-[1.15rem]" aria-hidden />
           </a>
           <Link
-            to={isAuthenticated ? INSTITUTION_ROUTES.pilot : INSTITUTION_ROUTES.register}
+            to={isAuthenticated ? INSTITUTION_ROUTES.desk : INSTITUTION_ROUTES.register}
             className="ls-nav-register"
           >
-            {isAuthenticated ? t('nav.myPilot') : t('nav.register')}
+            {isAuthenticated ? t('nav.desk') : t('nav.register')}
           </Link>
         </div>
       </div>

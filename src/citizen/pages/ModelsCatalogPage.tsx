@@ -105,9 +105,9 @@ export default function ModelsCatalogPage() {
   return (
     <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath('/modelos')}>
       <SectionHeader
-        eyebrow="AGIGOV · Catálogo"
+        eyebrow="AGIGOV · Modelos"
         title="Modelos del sistema"
-        lead="Servicios modulares para gobierno, empresa y ciudadanía. Filtra por audiencia y estado."
+        lead="Elige una app del OS. Filtra por audiencia y estado."
       />
 
       <ModelCatalogFilters

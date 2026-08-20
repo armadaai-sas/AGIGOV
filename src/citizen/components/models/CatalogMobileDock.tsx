@@ -4,7 +4,7 @@ import { LayoutDashboard, Package, TrendingDown } from 'lucide-react';
 import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from '../../platform/agigovModels.js';
 
 const DOCK_ITEMS = [
-  { to: '/modelos', label: 'Catálogo', icon: Package, isActive: (path: string) => path === '/modelos' },
+  { to: '/modelos', label: 'Modelos', icon: Package, isActive: (path: string) => path === '/modelos' },
   {
     to: EGS_MODEL_PATH,
     label: 'EGS',

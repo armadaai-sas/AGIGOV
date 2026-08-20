@@ -230,35 +230,21 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
 
       await refresh();
       onComplete?.();
-      navigate(INSTITUTION_ROUTES.pilot, { replace: true });
+      navigate(INSTITUTION_ROUTES.desk, { replace: true });
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <div className="inst-reg-shell">
-      <div className="inst-reg-hero agigov-card">
-        <div className="inst-reg-hero-badge">
-          <ShieldCheck className="h-5 w-5 text-sky-700" aria-hidden />
-          <span>{t('reg.badge')}</span>
-        </div>
-        <ul className="mt-4 space-y-1 text-sm text-agigov-text-muted">
-          <li>· {t('reg.point1')}</li>
-          <li>· {t('reg.point2')}</li>
-          <li>· {t('reg.point3')}</li>
-        </ul>
+    <div className="inst-reg-shell inst-reg-shell--simple">
+      <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
         {isGovernmentTier ? (
-          <p className="mt-4 rounded-lg border border-amber-600/35 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950">
+          <p className="mb-4 rounded-lg border border-amber-600/35 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950">
             {t('reg.governmentChannel')}
           </p>
         ) : null}
-      </div>
-
-      <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
-        <p className="mb-4 rounded-lg border border-sky-600/30 bg-sky-50 px-3 py-2 text-xs font-medium text-sky-950">
-          {t('reg.verificationNotice')}
-        </p>
+        <p className="mb-4 text-xs text-agigov-text-muted">{t('reg.verificationNotice')}</p>
 
         <fieldset>
           <legend className="text-sm font-semibold text-agigov-text">{t('reg.entityType')}</legend>

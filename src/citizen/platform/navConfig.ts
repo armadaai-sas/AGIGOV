@@ -61,7 +61,7 @@ export const NAV_SECTION_MODELO: NavSection = {
     { to: '/institucional#protocolo', label: 'Protocolo', hint: 'IAP · firmas · agentes', icon: Globe },
     { to: '/institucional#whitepaper', label: 'White paper', hint: 'Marco normativo global', icon: ScrollText },
     { to: '/institucional#documentacion', label: 'Documentación', hint: 'Carta · especificación', icon: FileStack },
-    { to: '/modelos', label: 'Modelos', hint: 'Catálogo gubernamental · empresarial · ciudadano', icon: Package },
+    { to: '/modelos', label: 'Modelos', hint: 'Apps del OS · gobierno · empresa · ciudadano', icon: Package },
     { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API · OpenAPI · integradores', icon: Code2 },
   ],
   cta: {
@@ -108,7 +108,7 @@ export const NAV_SECTION_SERVICES: NavSection = {
     {
       to: '/modelos',
       label: 'Modelos',
-      hint: 'Catálogo del sistema',
+      hint: 'Apps del sistema',
       icon: Package,
     },
     {
@@ -130,12 +130,18 @@ export const NAV_SECTION_SERVICES: NavSection = {
 export const NAV_SECTION_INSTITUTIONAL: NavSection = {
   id: 'institutional',
   label: 'Sistema',
-  subtitle: 'Desplegar · ayuda',
+  subtitle: 'Escritorio · desplegar · ayuda',
   items: [
     {
+      to: INSTITUTION_ROUTES.desk,
+      label: 'Escritorio',
+      hint: 'Inicio del OS — elige una acción',
+      icon: LayoutDashboard,
+    },
+    {
       to: INSTITUTION_ROUTES.register,
-      label: 'Desplegar',
-      hint: 'Registro institucional',
+      label: 'Crear cuenta',
+      hint: 'Registro institucional corto',
       icon: Rocket,
     },
     {

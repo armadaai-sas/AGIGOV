@@ -3,6 +3,8 @@ import { Github, Linkedin, Youtube } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { usePlatform } from '../context/PlatformContext.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { EGS_CONSOLE_PATH, EGS_MODEL_PATH } from '../platform/agigovModels.js';
 
 const DISCORD_URL = 'https://discord.gg/agigov';
 const GITHUB_ORG = 'https://github.com/armadaai-sas';
@@ -34,7 +36,7 @@ const SOCIAL = [
   { href: DISCORD_URL, label: 'Discord', Icon: IconDiscord },
 ] as const;
 
-/** Footer institucional — mapa producto (estructura n8n, colores AGIGOV). */
+/** Footer OSGOV — mismos nombres que el dock / landing (sin links muertos). */
 export function SiteFooter() {
   const { t } = usePlatform();
   const year = new Date().getFullYear();
@@ -72,13 +74,28 @@ export function SiteFooter() {
                 <Link to="/#consola">{t('landing.footer.link.console')}</Link>
               </li>
               <li>
-                <Link to="/#alcance">{t('landing.footer.link.scope')}</Link>
+                <Link to="/#alcance">{t('landing.footer.link.citizen')}</Link>
               </li>
               <li>
-                <Link to="/#construir">{t('landing.footer.link.build')}</Link>
+                <Link to="/#modelos">{t('landing.footer.link.apps')}</Link>
               </li>
               <li>
-                <Link to="/#desplegar">{t('landing.footer.link.deploy')}</Link>
+                <Link to="/#desplegar">{t('landing.footer.link.install')}</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="site-footer-col">
+            <p className="site-footer-heading">{t('landing.footer.citizen')}</p>
+            <ul>
+              <li>
+                <Link to="/gestion">{t('landing.footer.link.ledger')}</Link>
+              </li>
+              <li>
+                <Link to="/participar">{t('landing.footer.link.participate')}</Link>
+              </li>
+              <li>
+                <Link to="/propuestas">{t('landing.footer.link.proposals')}</Link>
               </li>
             </ul>
           </div>
@@ -87,34 +104,34 @@ export function SiteFooter() {
             <p className="site-footer-heading">{t('landing.footer.models')}</p>
             <ul>
               <li>
-                <Link to="/modelos">{t('landing.footer.link.catalog')}</Link>
+                <Link to="/modelos">{t('landing.footer.link.modelsAll')}</Link>
               </li>
               <li>
-                <Link to="/modelos/egs">{t('landing.footer.link.egs')}</Link>
+                <Link to={EGS_CONSOLE_PATH}>{t('landing.footer.link.egsConsole')}</Link>
               </li>
               <li>
-                <Link to="/modelos/set">{t('landing.footer.link.set')}</Link>
-              </li>
-              <li>
-                <Link to="/modelos/escrow-institucional">{t('landing.footer.link.escrow')}</Link>
+                <Link to={EGS_MODEL_PATH}>{t('landing.footer.link.egs')}</Link>
               </li>
             </ul>
           </div>
 
           <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.deploy')}</p>
+            <p className="site-footer-heading">{t('landing.footer.system')}</p>
             <ul>
               <li>
-                <Link to="/#desplegar">{t('landing.footer.link.cloud')}</Link>
+                <Link to={INSTITUTION_ROUTES.desk}>{t('landing.footer.link.desk')}</Link>
               </li>
               <li>
-                <Link to="/#desplegar">{t('landing.footer.link.local')}</Link>
+                <Link to={INSTITUTION_ROUTES.register}>{t('landing.footer.link.deploy')}</Link>
               </li>
               <li>
-                <Link to="/#seguridad">{t('landing.footer.link.security')}</Link>
+                <Link to={INSTITUTION_ROUTES.login}>{t('landing.footer.link.access')}</Link>
               </li>
               <li>
-                <Link to="/#seguridad">{t('landing.footer.link.pqc')}</Link>
+                <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
+              </li>
+              <li>
+                <Link to="/#contacto">{t('landing.footer.link.contact')}</Link>
               </li>
             </ul>
           </div>
@@ -123,10 +140,7 @@ export function SiteFooter() {
             <p className="site-footer-heading">{t('landing.footer.community')}</p>
             <ul>
               <li>
-                <Link to="/#desarrolladores">{t('landing.footer.link.devs')}</Link>
-              </li>
-              <li>
-                <a href={`${GITHUB_ORG}/Armada-VZLA`} target="_blank" rel="noopener noreferrer">
+                <a href={GITHUB_ORG} target="_blank" rel="noopener noreferrer">
                   {t('landing.footer.link.github')}
                 </a>
               </li>
@@ -136,22 +150,7 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <Link to="/institucional#protocolo">{t('landing.footer.link.docs')}</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.help')}</p>
-            <ul>
-              <li>
-                <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
-              </li>
-              <li>
                 <Link to="/aprender/glosario">{t('landing.footer.link.glossary')}</Link>
-              </li>
-              <li>
-                <Link to="/#contacto">{t('landing.footer.link.contact')}</Link>
               </li>
             </ul>
           </div>

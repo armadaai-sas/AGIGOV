@@ -16,6 +16,9 @@ import { usesFunnelShell } from '../platform/navConfig.js';
 import { usePlatform } from '../context/PlatformContext.js';
 
 function topbarContext(pathname: string): { prefix: string; label: string } {
+  if (pathname === '/escritorio') {
+    return { prefix: 'AGIGOV', label: 'Escritorio' };
+  }
   if (pathname === EGS_CONSOLE_PATH || pathname.startsWith(`${EGS_CONSOLE_PATH}/`)) {
     return { prefix: 'AGIGOV', label: 'Consola EGS' };
   }

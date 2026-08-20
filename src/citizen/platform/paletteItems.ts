@@ -20,7 +20,7 @@ const MODEL_ITEMS: PaletteItem[] = AGIGOV_MODELS.map((m) => ({
 export const PALETTE_ITEMS: readonly PaletteItem[] = [
   { id: 'vision', label: 'La visión · Actos I–V', to: '/institucional#vision', group: 'Gobernanza 2.0', keywords: 'sueño esperanza actos narrativa' },
   { id: 'home', label: 'Inicio', to: '/', group: 'Gobernanza 2.0', keywords: 'home landing' },
-  { id: 'modelos', label: 'Catálogo de modelos', to: '/modelos', group: 'Modelos AGIGOV', keywords: 'servicios gubernamental empresarial ciudadano' },
+  { id: 'modelos', label: 'Modelos', to: '/modelos', group: 'Modelos AGIGOV', keywords: 'servicios gubernamental empresarial ciudadano catalogo' },
   { id: 'modelo', label: 'Modelo', to: '/#modelo', group: 'Gobernanza 2.0', keywords: 'pilares gobernanza' },
   { id: 'protocolo', label: 'Protocolo', to: '/institucional#protocolo', group: 'Gobernanza 2.0', keywords: 'iap firmas agentes' },
   { id: 'whitepaper', label: 'White paper', to: '/institucional#whitepaper', group: 'Gobernanza 2.0', keywords: 'marco normativo' },

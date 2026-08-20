@@ -120,7 +120,7 @@ export function useLandingCopy() {
         description: t('model.first.description'),
         demoLabel: t('model.first.demo'),
         path: '/modelos/egs',
-        demoPath: INSTITUTION_ROUTES.pilot,
+        demoPath: INSTITUTION_ROUTES.desk,
       },
       HERO_GOVERNANCE_COMPARE: {
         kicker: t('compare.kicker'),

@@ -70,6 +70,8 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
   }
 
   switch (pathname) {
+    case '/escritorio':
+      return [root, { label: 'Escritorio' }];
     case '/gestion':
       return [root, { label: 'Gestión pública' }];
     case '/propuestas':

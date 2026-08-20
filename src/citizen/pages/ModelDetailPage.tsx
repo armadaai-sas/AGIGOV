@@ -34,7 +34,7 @@ export default function ModelDetailPage() {
     <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath(model.productPath)}>
       <Link to="/modelos" className="agigov-help-back">
         <ArrowLeft className="h-4 w-4" />
-        Catálogo de modelos
+        Modelos
       </Link>
 
       <header className="mt-4">

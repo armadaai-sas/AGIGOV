@@ -4,6 +4,8 @@ export const INSTITUTION_ROUTES = {
   register: '/institucional/registro',
   login: '/institucional/acceso',
   pilot: '/institucional/piloto',
+  /** Escritorio OS — home tras login (tipo Cursor). */
+  desk: '/escritorio',
   modelBrief: '/modelos/egs',
   console: '/modelos/egs/consola',
 } as const;
