@@ -55,7 +55,7 @@ export const NAV_SECTION_MODELO: NavSection = {
   label: 'Gobernanza 2.0',
   subtitle: 'Modelo AGIGOV · global',
   items: [
-    { to: '/', label: 'Inicio', hint: 'Presentación cinematográfica', icon: LayoutGrid },
+    { to: '/', label: 'Inicio', hint: 'Sistema operativo del Estado', icon: LayoutGrid },
     { to: '/institucional#vision', label: 'La visión', hint: 'Actos I–V · sueño institucional', icon: LayoutGrid },
     { to: '/#modelo', label: 'Modelo', hint: 'Tres pilares del protocolo', icon: Layers },
     { to: '/institucional#protocolo', label: 'Protocolo', hint: 'IAP · firmas · agentes', icon: Globe },
@@ -72,74 +72,83 @@ export const NAV_SECTION_MODELO: NavSection = {
   },
 } as const;
 
-/** Acceso institucional — registro, login, piloto. */
-export const NAV_SECTION_INSTITUTIONAL: NavSection = {
-  id: 'institutional',
-  label: 'Institucional',
-  subtitle: 'Gobierno · piloto fiscal',
+/** OS dock — ciudadano: ledger público y participación. */
+export const NAV_SECTION_CITIZEN: NavSection = {
+  id: 'ven',
+  label: 'Ciudadano',
+  subtitle: 'Ver · participar',
   items: [
     {
-      to: INSTITUTION_ROUTES.register,
-      label: 'Crear cuenta',
-      hint: 'Alta institucional · catálogo · verificación',
-      icon: Landmark,
+      to: '/gestion',
+      label: 'Gestión pública',
+      hint: 'Ledger público · datos verificables',
+      icon: Activity,
     },
     {
-      to: INSTITUTION_ROUTES.login,
-      label: 'Iniciar sesión',
-      hint: 'Correo + contraseña → piloto EGS',
-      icon: ShieldCheck,
+      to: '/participar',
+      label: 'Participar',
+      hint: 'Enviar propuesta con hechos',
+      icon: Users,
     },
     {
-      to: INSTITUTION_ROUTES.pilot,
-      label: 'Piloto EGS',
-      hint: 'Wizard fiscal 7 pasos',
-      icon: Rocket,
-    },
-    {
-      to: INSTITUTION_ROUTES.hub,
-      label: 'Hub institucional',
-      hint: 'Carta · protocolo · concierge',
-      icon: ScrollText,
+      to: '/propuestas',
+      label: 'Propuestas',
+      hint: 'Dictámenes publicados',
+      icon: FileText,
     },
   ],
 } as const;
 
-/** Operación — modelos y consolas. */
+/** OS dock — apps / modelos. */
 export const NAV_SECTION_SERVICES: NavSection = {
   id: 'ven-funnel',
-  label: 'Servicios',
-  subtitle: 'Modelos AGIGOV',
+  label: 'Apps',
+  subtitle: 'Modelos del OS',
   items: [
     {
       to: '/modelos',
-      label: 'Catálogo',
-      hint: 'Todos los modelos del sistema',
+      label: 'Modelos',
+      hint: 'Catálogo del sistema',
       icon: Package,
-    },
-    {
-      to: EGS_MODEL_PATH,
-      label: 'Efficiency Gain Share',
-      hint: 'Ahorro fiscal verificado · Q-Close',
-      icon: TrendingDown,
     },
     {
       to: EGS_CONSOLE_PATH,
       label: 'Consola EGS',
-      hint: 'Salud presupuestaria · reconciliación',
+      hint: 'Escritorio operativo · salud fiscal',
       icon: LayoutDashboard,
     },
     {
       to: '/contratos',
-      label: 'Escrow · Contratos',
-      hint: 'Hitos · cadena de custodia',
+      label: 'Contratos',
+      hint: 'Escrow · cadena de custodia',
       icon: FileCheck,
     },
+  ],
+} as const;
+
+/** OS dock — sistema (desplegar + ayuda). */
+export const NAV_SECTION_INSTITUTIONAL: NavSection = {
+  id: 'institutional',
+  label: 'Sistema',
+  subtitle: 'Desplegar · ayuda',
+  items: [
     {
-      to: '/gestion',
-      label: 'Gestión verificable',
-      hint: 'Telemetría ledger publicada',
-      icon: Activity,
+      to: INSTITUTION_ROUTES.register,
+      label: 'Desplegar',
+      hint: 'Registro institucional',
+      icon: Rocket,
+    },
+    {
+      to: INSTITUTION_ROUTES.login,
+      label: 'Acceso',
+      hint: 'Iniciar sesión',
+      icon: ShieldCheck,
+    },
+    {
+      to: '/ayuda',
+      label: 'Ayuda',
+      hint: 'Tutoriales y glosario',
+      icon: LifeBuoy,
     },
   ],
 } as const;
@@ -147,18 +156,16 @@ export const NAV_SECTION_SERVICES: NavSection = {
 /** @deprecated Usar NAV_SECTION_SERVICES */
 export const NAV_SECTION_VEN_FUNNEL: NavSection = NAV_SECTION_SERVICES;
 
-/** Participación y economía — colapsado bajo «Más». */
+/** Secundario — no va en el dock primario (command palette / rutas directas). */
 export const NAV_SECTION_VEN_MORE: NavSection = {
   id: 'ven-more',
   label: 'Más',
-  subtitle: 'Participación · recursos',
+  subtitle: 'Extra',
   groups: [
     {
       label: 'Participación',
       items: [
-        { to: '/propuestas', label: 'Propuestas', hint: 'Dictámenes ciudadanos', icon: FileText },
-        { to: '/participar', label: 'Participar', hint: 'Enviar propuesta', icon: Users },
-        { to: '/cne', label: 'Consulta electoral', hint: 'Sistema electoral tokenizado', icon: Vote },
+        { to: '/cne', label: 'Consulta electoral', hint: 'SET', icon: Vote },
       ],
     },
     {
@@ -171,15 +178,15 @@ export const NAV_SECTION_VEN_MORE: NavSection = {
     {
       label: 'Recursos',
       items: [
-        { to: '/institucional', label: 'Institucional', hint: 'Carta y protocolo', icon: Landmark },
-        { to: '/ayuda', label: 'Centro de ayuda', hint: 'Tutoriales', icon: LifeBuoy },
+        { to: '/institucional', label: 'Institucional', hint: 'Hub · carta', icon: Landmark },
         { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API pública', icon: Code2 },
+        { to: EGS_MODEL_PATH, label: 'Ficha EGS', hint: 'Detalle del modelo', icon: TrendingDown },
       ],
     },
   ],
 } as const;
 
-/** @deprecated Operación VEN expandida — usar funnel + more */
+/** @deprecated */
 export const NAV_SECTION_VEN: NavSection = NAV_SECTION_VEN_FUNNEL;
 
 export const NAV_SECTION_RESOURCES: NavSection = {
@@ -197,8 +204,9 @@ export function usesFunnelNav(_implementationId: ImplementationId): boolean {
   return true;
 }
 
+/** Dock OS: Ciudadano → Apps → Sistema. */
 export function getNavSidebarSections(_implementationId: ImplementationId): readonly NavSection[] {
-  return [NAV_SECTION_INSTITUTIONAL, NAV_SECTION_SERVICES, NAV_SECTION_VEN_MORE];
+  return [NAV_SECTION_CITIZEN, NAV_SECTION_SERVICES, NAV_SECTION_INSTITUTIONAL];
 }
 
 /** @deprecated Usar getNavSidebarSections */
@@ -225,7 +233,7 @@ export const NAV_AYUDA: readonly NavItem[] = [
   NAV_SECTION_RESOURCES.items![1],
 ];
 
-export const NAV_PARTICIPAR: NavItem = NAV_VEN_MORE_ITEMS.find((i) => i.to === '/participar')!;
+export const NAV_PARTICIPAR: NavItem = NAV_SECTION_CITIZEN.items!.find((i) => i.to === '/participar')!;
 
 export const NAV_INSTITUCIONAL: NavItem = NAV_SECTION_RESOURCES.items!.find(
   (i) => i.to === '/institucional',
@@ -253,41 +261,19 @@ export function isNavActive(
   const currentParams = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);
   const currentTab = currentParams.get('tab');
 
-  if (to.includes('#') && !to.startsWith('/#')) {
-    const [basePath, anchor] = to.split('#');
-    if (basePath === '/' && pathname === '/') return hash === `#${anchor}`;
-    return pathname === basePath && hash === `#${anchor}`;
+  if (!path) return false;
+
+  if (tabParam) {
+    return pathname === path.split('#')[0] && currentTab === tabParam;
   }
 
-  if (to.includes('#') && to.startsWith('/#')) {
-    const anchor = to.slice(2);
-    return pathname === '/' && hash === `#${anchor}`;
+  const hashIdx = path.indexOf('#');
+  if (hashIdx >= 0) {
+    const base = path.slice(0, hashIdx);
+    const wantHash = path.slice(hashIdx);
+    return pathname === base && (hash === wantHash || hash === wantHash.slice(1));
   }
 
-  if (tabParam && pathname === path) {
-    if (tabParam === 'salud') {
-      return currentTab === 'salud' || currentTab === null;
-    }
-    return currentTab === tabParam;
-  }
-
-  if (path === '/') return pathname === '/';
-  if (path === '/ayuda') return pathname === '/ayuda' || pathname.startsWith('/ayuda/');
-  if (path === '/proyectos' && !tabParam) {
-    return pathname === '/proyectos' || pathname.startsWith('/proyectos/contrato/');
-  }
-  if (path === EGS_CONSOLE_PATH || path === EGS_MODEL_PATH) {
-    return pathname === path || pathname.startsWith(`${path}/`);
-  }
-  if (path === '/modelos') {
-    return pathname === '/modelos' || pathname.startsWith('/modelos/');
-  }
-  if (path === '/contratos') {
-    return pathname === '/contratos' || pathname.startsWith('/proyectos/contrato/');
-  }
-  if (path === '/institucional') {
-    return pathname === '/institucional';
-  }
   if (path.startsWith('/institucional/')) {
     return pathname === path || pathname.startsWith(`${path}/`);
   }

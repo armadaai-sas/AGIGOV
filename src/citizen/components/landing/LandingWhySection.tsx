@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
 import { Building2, Users, ShieldCheck, Orbit } from 'lucide-react';
 
@@ -6,7 +7,7 @@ import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
 const WHY_ICONS = [Building2, Users, ShieldCheck, Orbit] as const;
 
-/** Alcance — para qué / por qué (nación, ciudadano, seguridad, futuro). */
+/** Ciudadano + Estado — para qué sirve el OS. */
 export function LandingWhySection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -46,6 +47,14 @@ export function LandingWhySection() {
         </ul>
 
         <p className="ls-flow-foot">{copy.LANDING_WHY_FOOT}</p>
+        <div className="ls-actions" style={{ marginTop: '1.25rem' }}>
+          <Link to="/gestion" className="ls-btn ls-btn--ghost">
+            Ver gestión pública
+          </Link>
+          <Link to="/participar" className="ls-btn ls-btn--ghost">
+            Participar
+          </Link>
+        </div>
       </div>
     </section>
   );

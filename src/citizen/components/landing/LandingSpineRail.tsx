@@ -5,10 +5,6 @@ import {
   LayoutDashboard,
   Compass,
   Boxes,
-  Workflow,
-  Shield,
-  BookOpen,
-  Code2,
   Rocket,
   Mail,
 } from 'lucide-react';
@@ -19,15 +15,10 @@ type ModuleIcon = ComponentType<{ className?: string; 'aria-hidden'?: boolean | 
 
 export const LANDING_MODULES = [
   { id: 'os', label: 'OS', Icon: Cpu },
-  { id: 'consola', label: 'Consola', Icon: LayoutDashboard },
-  { id: 'alcance', label: 'Alcance', Icon: Compass },
-  { id: 'modelos', label: 'Modelos', Icon: Boxes },
-  { id: 'operacion', label: 'Operación', Icon: Workflow },
-  { id: 'seguridad', label: 'Seguridad', Icon: Shield },
-  { id: 'aprender', label: 'Aprende', Icon: BookOpen },
-  { id: 'desarrolladores', label: 'Devs', Icon: Code2 },
-  { id: 'construir', label: 'Construir', Icon: Boxes },
-  { id: 'desplegar', label: 'Desplegar', Icon: Rocket },
+  { id: 'consola', label: 'Escritorio', Icon: LayoutDashboard },
+  { id: 'alcance', label: 'Ciudadano', Icon: Compass },
+  { id: 'modelos', label: 'Apps', Icon: Boxes },
+  { id: 'desplegar', label: 'Instalar', Icon: Rocket },
   { id: 'contacto', label: 'Contacto', Icon: Mail },
 ] as const satisfies ReadonlyArray<{ id: string; label: string; Icon: ModuleIcon }>;
 

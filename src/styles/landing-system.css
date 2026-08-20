@@ -174,15 +174,51 @@
     border-top: 0;
     /* Sticky nav is in-flow — no fixed-header clearance */
     padding-top: 1.25rem;
+    /* Boot OS: aire + un acento, sin glow de marketing */
     background:
-      radial-gradient(ellipse 55% 45% at 50% 12%, rgba(3, 105, 161, 0.22), transparent 70%),
-      linear-gradient(180deg, #030508 0%, #0b1220 42%, #030508 100%);
+      radial-gradient(ellipse 50% 40% at 50% 0%, rgba(14, 165, 233, 0.14), transparent 65%),
+      linear-gradient(180deg, #030508 0%, #0b1220 50%, #030508 100%);
   }
 
   @media (min-width: 640px) {
     .ls-section--hero {
       padding-top: 1.75rem;
     }
+  }
+
+  /* Landing como escritorio OS: menos ruido de tonos */
+  .ls-root--os .ls-section--tone::before {
+    opacity: 0.55;
+  }
+
+  .ls-root--os .ls-kicker {
+    letter-spacing: 0.16em;
+  }
+
+  .ls-root--os .ls-frame,
+  .ls-root--os .hero-os-diagram {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.75);
+  }
+
+  /* Titlebar tipo ventana OS (solo frames sin barra propia) */
+  .ls-root--os .ls-frame {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+  }
+
+  .ls-root--os .ls-frame::before {
+    content: '';
+    display: block;
+    height: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background-image:
+      radial-gradient(circle at 0.85rem 50%, #f87171 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 1.7rem 50%, #fbbf24 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 2.55rem 50%, #4ade80 0 0.28rem, transparent 0.3rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent);
   }
 
   .ls-section--alt {
