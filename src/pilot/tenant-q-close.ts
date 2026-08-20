@@ -21,6 +21,15 @@ export type QuarterClosePipelineResult = {
   egsFeeReason: string;
   published: boolean;
   ledgerProcessId: string | null;
+  /** Model Manifest v1 — destino y reparto del fee del protocolo. */
+  modelId: 'egs';
+  publisherId: string | null;
+  feeShare: {
+    feeAmount: number;
+    builderAmount: number;
+    protocolAmount: number;
+    reserveAmount: number;
+  } | null;
 };
 
 /** Fase C — centinela reconcilia ingest → Δ → checkpoint (opcional publish). */
@@ -57,6 +66,9 @@ export async function runTenantQuarterClosePipeline(
       egsFeeReason: 'Q-close reconcile failed',
       published: false,
       ledgerProcessId: qc.ledgerProcessId,
+      modelId: 'egs',
+      publisherId: null,
+      feeShare: null,
     };
   }
 
@@ -99,12 +111,31 @@ export async function runTenantQuarterClosePipeline(
     },
   });
 
+  const egsInvoice = computeEgsFeeInvoice({
+    baselineTrimestral: baseline,
+    gastosVerificados: reconcile.gastosVerificados,
+    ajustesFuerzaMayor: ajustes,
+    currency: refreshed.currency,
+    egsAddonEnabled: (process.env.AGIGOV_EGS_ADDON ?? '1').trim() !== '0',
+  });
+
+  const feeSharePayload = {
+    modelId: egsInvoice.modelId,
+    publisherId: egsInvoice.publisherId,
+    feeAmount: egsInvoice.feeShare.feeAmount,
+    builderAmount: egsInvoice.feeShare.builderAmount,
+    protocolAmount: egsInvoice.feeShare.protocolAmount,
+    reserveAmount: egsInvoice.feeShare.reserveAmount,
+    billable: Boolean(options.publish && egsInvoice.billable),
+  };
+
   const evidenceBundle = {
     processId: ledgerProcessId,
     facts: [
       { slug, ministry: tenant.ministryCode, releases: reconcile.releaseCount },
       { gastosVerificados: computed.gastosVerificados },
       { calculoAhorroFinal: computed.calculoAhorroFinal },
+      { egsFeeShare: feeSharePayload },
     ],
     hashes: [contentHash],
     rulesTriggered: reconcile.discrepancies.length ? ['reconcile-warn'] : [],
@@ -142,14 +173,6 @@ export async function runTenantQuarterClosePipeline(
     });
   }
 
-  const egsInvoice = computeEgsFeeInvoice({
-    baselineTrimestral: baseline,
-    gastosVerificados: reconcile.gastosVerificados,
-    ajustesFuerzaMayor: ajustes,
-    currency: refreshed.currency,
-    egsAddonEnabled: (process.env.AGIGOV_EGS_ADDON ?? '1').trim() !== '0',
-  });
-
   return {
     ok: true,
     quarterCloseId: refreshed.id,
@@ -162,5 +185,13 @@ export async function runTenantQuarterClosePipeline(
     egsFeeReason: egsInvoice.reason,
     published: Boolean(options.publish),
     ledgerProcessId,
+    modelId: 'egs',
+    publisherId: egsInvoice.publisherId,
+    feeShare: {
+      feeAmount: egsInvoice.feeShare.feeAmount,
+      builderAmount: egsInvoice.feeShare.builderAmount,
+      protocolAmount: egsInvoice.feeShare.protocolAmount,
+      reserveAmount: egsInvoice.feeShare.reserveAmount,
+    },
   };
 }

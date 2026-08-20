@@ -20,6 +20,7 @@
 | [CNE-TOKENIZADO.md](./CNE-TOKENIZADO.md) | Centro Nacional Electoral y voto seguro |
 | [SEGURIDAD-PQC.md](./SEGURIDAD-PQC.md) | Seguridad, PQC, ciberdefensa |
 | [CONTRIBUCION.md](./CONTRIBUCION.md) | Puentes para personas, IA y gobiernos |
+| **[MODEL-MANIFEST-v1.md](./MODEL-MANIFEST-v1.md)** | **Contrato de modelo comunitario (SDK / rev-share)** |
 | [revisiones/](./revisiones/) | Informes legal-político (`state-legal-political`) |
 | **[ROADMAP-EJECUCION.md](./ROADMAP-EJECUCION.md)** | **Pasos 1–14 ejecutables uno a uno** |
 

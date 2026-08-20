@@ -3,6 +3,7 @@
 Catálogo canónico de los **10 modelos operativos** del protocolo AGIGOV, agrupados en tres audiencias. Cada modelo es un producto replicable: define el problema que resuelve, cómo funciona, por qué es vital, y su modelo de negocio y operación validados.
 
 **Fuente de verdad en código:** `src/citizen/platform/agigovModels.ts`  
+**Contrato comunitario (builders):** [MODEL-MANIFEST-v1.md](./MODEL-MANIFEST-v1.md) · `src/citizen/platform/modelManifest.ts`  
 **UI pública:** `/modelos` · `/modelos/:id`
 
 ---

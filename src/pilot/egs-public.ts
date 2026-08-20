@@ -1,6 +1,7 @@
 import { getCoreDb } from '../db/client.js';
 import { reconcileQuarterClose } from '../db/egs/reconcile-quarter-close.js';
 import { toTreasuryPayload } from '../db/egs/quarter-close.js';
+import { getModelManifest, splitProtocolFee } from '../citizen/platform/modelManifest.js';
 
 export type MilestonePublicState = 'LOCKED' | 'VALIDATED' | 'RELEASED';
 
@@ -39,6 +40,15 @@ export interface PublicMinistryHealth {
     meritPool: string;
     agigovFee: string;
   };
+  /** Rev-share del fee del protocolo (Model Manifest v1). */
+  feeShare: {
+    modelId: string;
+    publisherId: string;
+    feeAmount: string;
+    builderAmount: string;
+    protocolAmount: string;
+    reserveAmount: string;
+  } | null;
   releaseCount: number;
   contracts: PublicEgsContractSummary[];
   treasuryPayload: ReturnType<typeof toTreasuryPayload> | null;
@@ -253,6 +263,19 @@ export async function getMinistryHealth(ministryCode = 'MPPI'): Promise<PublicMi
       meritPool: reconcile.meritPoolAmount.toFixed(4),
       agigovFee: reconcile.agigovFeeAmount.toFixed(4),
     },
+    feeShare: (() => {
+      const manifest = getModelManifest('egs');
+      if (!manifest) return null;
+      const share = splitProtocolFee(reconcile.agigovFeeAmount, manifest.billing);
+      return {
+        modelId: manifest.id,
+        publisherId: manifest.publisherId,
+        feeAmount: share.feeAmount.toFixed(4),
+        builderAmount: share.builderAmount.toFixed(4),
+        protocolAmount: share.protocolAmount.toFixed(4),
+        reserveAmount: share.reserveAmount.toFixed(4),
+      };
+    })(),
     releaseCount: reconcile.releaseCount,
     contracts,
     treasuryPayload,

@@ -465,6 +465,14 @@ export interface MinistryHealthResponse {
     meritPool: string;
     agigovFee: string;
   };
+  feeShare?: {
+    modelId: string;
+    publisherId: string;
+    feeAmount: string;
+    builderAmount: string;
+    protocolAmount: string;
+    reserveAmount: string;
+  } | null;
   releaseCount: number;
   contracts: MinistryHealthContract[];
   treasuryPayload: Record<string, string | number> | null;

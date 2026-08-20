@@ -156,6 +156,14 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
             style={{ width: `${pctOf(data.split.agigovFee, data.calculoAhorroFinal)}%` }}
           />
         </div>
+
+        {data.feeShare ? (
+          <p className="mt-4 text-xs text-agigov-text-muted">
+            Fee del protocolo → builder {data.feeShare.builderAmount} · kernel{' '}
+            {data.feeShare.protocolAmount} · reserva {data.feeShare.reserveAmount} (
+            {data.feeShare.publisherId})
+          </p>
+        ) : null}
       </section>
 
       <section className="space-y-4">
