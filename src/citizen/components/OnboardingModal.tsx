@@ -29,7 +29,7 @@ const PATHS: Array<{
     persona: 'government',
     icon: Landmark,
     title: 'Represento un gobierno',
-    text: 'Registro institucional y piloto fiscal EGS: perfil de entidad, sandbox y baseline multi-sig.',
+    text: 'Crear cuenta institucional y abrir el escritorio — consola EGS y modelos.',
     to: INSTITUTION_ROUTES.register,
   },
 ];

@@ -22,7 +22,7 @@ export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
 
   async function handleLogout() {
     await logout();
-    navigate(INSTITUTION_ROUTES.login, {
+    navigate(INSTITUTION_ROUTES.desk, {
       replace: true,
       state: { loggedOut: true },
     });

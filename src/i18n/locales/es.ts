@@ -223,14 +223,14 @@ const es: Record<MessageKey, string> = {
   'route.why':
     'No sustituimos al servidor público — le damos una capa común de evidencia verificable para decidir y rendir cuentas.',
   'route.title': 'Un motor. Modelos que encajan en su gestión.',
-  'route.lead': 'Empiece por el piloto fiscal; el catálogo crece con actas.',
+  'route.lead': 'Empiece en el escritorio; los modelos crecen con actas.',
   'route.step.os.label': 'Motor AGIGOV',
   'route.step.os.hint': 'Pipeline institucional',
   'route.step.os.detail':
     'Recibido → validado → decidido → comprometido → publicado. Centinela congela si algo no cuadra.',
   'route.step.os.stat': '5 estados · ledger inmutable',
-  'route.step.catalog.label': 'Catálogo modular',
-  'route.step.catalog.hint': 'Un motor, muchas funciones',
+  'route.step.catalog.label': 'Modelos (apps)',
+  'route.step.catalog.hint': 'Un OS, muchas apps',
   'route.step.catalog.detail':
     'EGS, SET, nodos territoriales — cada modelo con acta, badge honesto y consola propia.',
   'route.step.catalog.stat': 'Modelos por audiencia B2G/B2B/B2C',
@@ -294,7 +294,7 @@ const es: Record<MessageKey, string> = {
   'landing.cta.action': 'Desplegar',
   'landing.cta.contact': 'Hablar con el equipo',
   'landing.cta.seeConsole': 'Ver consola en vivo',
-  'landing.models.catalog': 'Ver catálogo completo',
+  'landing.models.catalog': 'Ver todos los modelos',
 
   'landing.process.kicker': 'Construir',
   'landing.process.title': 'Construye tu modelo en Cloud o Local.',

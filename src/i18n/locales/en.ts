@@ -220,14 +220,14 @@ const en = {
   'route.why':
     'We do not replace public servants — we give them a shared layer of verifiable evidence to decide and be accountable.',
   'route.title': 'One engine. Models that fit your operations.',
-  'route.lead': 'Start with the fiscal pilot; the catalog grows with institutional acts.',
+  'route.lead': 'Start at the desk; models grow with institutional acts.',
   'route.step.os.label': 'AGIGOV engine',
   'route.step.os.hint': 'Institutional pipeline',
   'route.step.os.detail':
     'Received → validated → decided → committed → published. Sentinel freezes if something does not reconcile.',
   'route.step.os.stat': '5 states · immutable ledger',
-  'route.step.catalog.label': 'Modular catalog',
-  'route.step.catalog.hint': 'One engine, many functions',
+  'route.step.catalog.label': 'Models (apps)',
+  'route.step.catalog.hint': 'One OS, many apps',
   'route.step.catalog.detail':
     'EGS, SET, territorial nodes — each model with an act, honest badge, and its own console.',
   'route.step.catalog.stat': 'Models by B2G/B2B/B2C audience',
@@ -291,7 +291,7 @@ const en = {
   'landing.cta.action': 'Deploy',
   'landing.cta.contact': 'Talk to the team',
   'landing.cta.seeConsole': 'See live console',
-  'landing.models.catalog': 'View full catalog',
+  'landing.models.catalog': 'View all models',
 
   'landing.process.kicker': 'Build',
   'landing.process.title': 'Build your model in Cloud or Local.',

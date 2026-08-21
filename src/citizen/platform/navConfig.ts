@@ -16,7 +16,6 @@ import {
   FileStack,
   Rocket,
   Layers,
-  ShieldCheck,
   FileCheck,
   MoreHorizontal,
   LayoutDashboard,
@@ -66,8 +65,8 @@ export const NAV_SECTION_MODELO: NavSection = {
   ],
   cta: {
     to: INSTITUTION_ROUTES.register,
-    label: 'Probar el modelo',
-    hint: 'Registro institucional · piloto EGS',
+    label: 'Crear cuenta',
+    hint: 'Registro corto → escritorio',
     icon: Rocket,
   },
 } as const;
@@ -126,29 +125,17 @@ export const NAV_SECTION_SERVICES: NavSection = {
   ],
 } as const;
 
-/** OS dock — sistema (desplegar + ayuda). */
+/** OS dock — sistema (herramientas, no auth). Auth vive en topbar. */
 export const NAV_SECTION_INSTITUTIONAL: NavSection = {
   id: 'institutional',
   label: 'Sistema',
-  subtitle: 'Escritorio · desplegar · ayuda',
+  subtitle: 'Escritorio · ayuda',
   items: [
     {
       to: INSTITUTION_ROUTES.desk,
       label: 'Escritorio',
       hint: 'Inicio del OS — elige una acción',
       icon: LayoutDashboard,
-    },
-    {
-      to: INSTITUTION_ROUTES.register,
-      label: 'Crear cuenta',
-      hint: 'Registro institucional corto',
-      icon: Rocket,
-    },
-    {
-      to: INSTITUTION_ROUTES.login,
-      label: 'Acceso',
-      hint: 'Iniciar sesión',
-      icon: ShieldCheck,
     },
     {
       to: '/ayuda',
