@@ -47,12 +47,12 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 | **G11** | Consola EGS | **GO** (código) | Copy corto + ficha |
 | **G12** | Contratos | **GO** (código) | Ministry soberano; sin npm |
 | **G13** | Piloto fuera camino feliz | **GO-CONDICIONADO** | Solo pie de escritorio “avanzado” |
-| **G14** | Hub institucional | PENDING | |
+| **G14** | Hub institucional | **GO** (código) | Hub corto: concierge + Modelos; ensayos → `/ayuda` |
 | **G15** | Rutas sombra | **GO-CONDICIONADO** | Keep/kill abajo |
 | **G16** | Ventas+soporte | **GO** (código) | Contacto en dock Sistema |
 | **G17** | Copy/labels | **GO-CONDICIONADO** | Catálogo→Modelos en UI pública |
-| **G18** | Errores/vacíos | PENDING | |
-| **G19** | Mobile | PENDING | |
+| **G18** | Errores/vacíos | **GO** (código) | Sin `npm run` en empty públicos |
+| **G19** | Mobile | **GO** (código) | Dock: Escritorio · Modelos · Gestión |
 | **G20** | Gate prod Operador B | **NO-GO** aún | Sin PASS real |
 
 ---
@@ -74,8 +74,7 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 | ID | Sev | Gap | Next |
 |----|-----|-----|------|
 | G7–G12 | P1 | Escrutinio ciudadano/apps | Probar live ventana a ventana |
-| G16 | P1 | Concierge/ventas débiles | CTA ayuda + contacto en Sistema |
-| G18–G19 | P1 | Empty + mobile | Tras G7–G12 |
+| G5/G6 | P1 | Registro/login E2E | Operador B evidencia |
 | G20 | P0 | Sin Operador B PASS | Agendar prueba real |
 
 ---

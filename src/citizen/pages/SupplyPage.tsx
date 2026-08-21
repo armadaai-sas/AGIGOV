@@ -50,8 +50,7 @@ export default function SupplyPage() {
             <div className="sm:col-span-2">
               <EmptyState
                 title="Sin datos de inventario"
-                description="Agregados del agente Logístico — agua, energía, granos — aparecerán aquí cuando haya registros publicados."
-                hint="Modo demo: npm run db:seed && npm run agents:flow"
+                description="Cuando el pipeline publique suministros agregados, aparecerán aquí."
               />
             </div>
           ) : (

@@ -18,19 +18,15 @@ const MODEL_ITEMS: PaletteItem[] = AGIGOV_MODELS.map((m) => ({
 
 /** Entradas del command palette ⌘K — alineadas con navConfig y catálogo de modelos. */
 export const PALETTE_ITEMS: readonly PaletteItem[] = [
-  { id: 'vision', label: 'La visión · Actos I–V', to: '/institucional#vision', group: 'Gobernanza 2.0', keywords: 'sueño esperanza actos narrativa' },
   { id: 'home', label: 'Inicio', to: '/', group: 'Gobernanza 2.0', keywords: 'home landing' },
-  { id: 'modelos', label: 'Modelos', to: '/modelos', group: 'Modelos AGIGOV', keywords: 'servicios gubernamental empresarial ciudadano catalogo' },
+  { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Gobernanza 2.0', keywords: 'carta concierge protocolo' },
   { id: 'modelo', label: 'Modelo', to: '/#modelo', group: 'Gobernanza 2.0', keywords: 'pilares gobernanza' },
-  { id: 'protocolo', label: 'Protocolo', to: '/institucional#protocolo', group: 'Gobernanza 2.0', keywords: 'iap firmas agentes' },
-  { id: 'whitepaper', label: 'White paper', to: '/institucional#whitepaper', group: 'Gobernanza 2.0', keywords: 'marco normativo' },
-  { id: 'documentacion', label: 'Documentación', to: '/institucional#documentacion', group: 'Gobernanza 2.0', keywords: 'carta especificación docs' },
+  { id: 'ayuda-agigov', label: 'Qué es AGIGOV', to: '/ayuda/institucional', group: 'Gobernanza 2.0', keywords: 'tutorial protocolo carta visión' },
+  { id: 'modelos', label: 'Modelos', to: '/modelos', group: 'Modelos AGIGOV', keywords: 'servicios gubernamental empresarial ciudadano catalogo' },
   { id: 'desplegar', label: 'Registro institucional', to: '/institucional/registro', group: 'Institucional', keywords: 'registro acceso login piloto gobierno institucional' },
   { id: 'acceso', label: 'Acceso institucional', to: '/institucional/acceso', group: 'Institucional', keywords: 'login sesión institución gobierno' },
   { id: 'piloto', label: 'Piloto fiscal EGS', to: '/institucional/piloto', group: 'Institucional', keywords: 'piloto wizard egs sandbox' },
   { id: 'desarrolladores', label: 'Desarrolladores', to: '/desarrolladores', group: 'Gobernanza 2.0', keywords: 'api openapi integradores' },
-  { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Gobernanza 2.0', keywords: 'carta comparador protocolo' },
-  { id: 'comparador', label: 'Comparador Política 2.0', to: '/institucional#comparador', group: 'Gobernanza 2.0', keywords: 'politica metricas' },
   { id: 'egs-consola', label: 'Consola EGS', to: '/modelos/egs/consola', group: 'Operación', keywords: 'quarter close delta ahorro consola presupuesto' },
   { id: 'contratos', label: 'Escrow · Contratos', to: '/contratos', group: 'Operación', keywords: 'hitos centinela escrow' },
   { id: 'transparencia', label: 'Transparencia', to: '/transparencia', group: 'Operación', keywords: 'aei contrato eficiencia dictamen' },

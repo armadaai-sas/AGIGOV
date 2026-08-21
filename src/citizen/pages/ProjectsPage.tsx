@@ -246,8 +246,7 @@ function DaoTab({
             {dao.data.projects.length === 0 ? (
               <EmptyState
                 title="Sin proyectos publicados"
-                description="Proyectos aprobados con fondos en escrow programático se listarán aquí cuando estén en estado publicado."
-                hint="Modo demo: npm run db:seed"
+                description="Proyectos aprobados con fondos en escrow se listarán aquí cuando estén publicados."
               />
             ) : (
               dao.data.projects.map((project) => (

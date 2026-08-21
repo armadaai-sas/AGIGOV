@@ -21,9 +21,12 @@ export function PilotStatusSection() {
       <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-amber-500/20">
         <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multi-sig</h2>
         <p className="agigov-lead mt-2">
-          Acta multi-sig no verificada aún. Ejecuta{' '}
-          <code className="text-sky-300">npm run pilot:init && pilot:ratify && pilot:verify</code>.
+          Acta multi-sig no verificada aún en este entorno. Contacte al operador del despliegue o
+          abra el escritorio para continuar.
         </p>
+        <Link to="/escritorio" className="ds-btn-secondary ds-btn-app-shape mt-4 inline-flex">
+          Ir al escritorio
+        </Link>
       </section>
     );
   }

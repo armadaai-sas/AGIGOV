@@ -46,53 +46,52 @@ const MODULE_COPY: Record<
   escrow: {
     emptyTitle: 'Aún no hay contratos publicados',
     emptyDescription:
-      'Este módulo lee contratos desde el nodo API público del despliegue. Si el nodo no está activo o no tiene datos demo, la lista aparece vacía.',
-    serviceTitle: 'Escrow · Contratos',
+      'Cuando el ministerio publique contratos con hitos verificables, aparecerán aquí.',
+    serviceTitle: 'Contratos',
     devHint: 'npm run api:public · npm run db:seed:egs-pilot',
   },
   egs: {
-    emptyTitle: 'Telemetría EGS no disponible',
+    emptyTitle: 'Consola no disponible',
     emptyDescription:
-      'La consola consulta el nodo API público y el ledger EGS del entorno. Verifique el estado del servicio abajo.',
-    serviceTitle: 'Efficiency Gain Share (EGS)',
+      'No pudimos cargar la salud presupuestaria. Reintenta o vuelve más tarde.',
+    serviceTitle: 'Consola EGS',
     devHint: 'npm run api:public · npm run db:seed:egs-pilot',
   },
   gestion: {
     emptyTitle: 'Aún no hay telemetría publicada',
     emptyDescription:
-      'El dashboard de gestión muestra solo actos en estado publicado desde el nodo institucional conectado.',
-    serviceTitle: 'Gestión verificable',
+      'Aquí verás actos ya publicados del ledger — cuando existan en este despliegue.',
+    serviceTitle: 'Gestión pública',
     devHint: 'npm run api:public · npm run db:seed · npm run agents:flow',
   },
   proposals: {
     emptyTitle: 'Propuestas no disponibles',
-    emptyDescription:
-      'Las propuestas se cargan desde el nodo API público. Sin nodo activo no hay listado ni dictámenes.',
-    serviceTitle: 'Participación y dictamen',
+    emptyDescription: 'No hay listado de propuestas en este momento. Reintenta en unos minutos.',
+    serviceTitle: 'Propuestas',
     devHint: 'npm run api:public · npm run db:seed',
   },
   supply: {
     emptyTitle: 'Inventario no disponible',
-    emptyDescription: 'Los suministros agregados se publican vía API pública del nodo territorial.',
+    emptyDescription: 'Los suministros aparecerán cuando el nodo publique datos agregados.',
     serviceTitle: 'Suministros',
     devHint: 'npm run api:public · npm run db:seed',
   },
   projects: {
     emptyTitle: 'Proyectos no disponibles',
-    emptyDescription: 'Los proyectos DAO se leen del nodo conectado. Verifique el servicio antes de continuar.',
-    serviceTitle: 'Prosperidad compartida (DAO)',
+    emptyDescription: 'Los proyectos aparecerán cuando estén publicados en este entorno.',
+    serviceTitle: 'Proyectos',
     devHint: 'npm run api:public · npm run db:seed',
   },
   cne: {
     emptyTitle: 'Consulta no disponible',
-    emptyDescription: 'La consulta demo requiere nodo API activo con datos seed en este entorno.',
+    emptyDescription: 'La consulta ciudadana no está activa en este momento.',
     serviceTitle: 'Consulta ciudadana',
     devHint: 'npm run api:public · npm run db:seed',
   },
   generic: {
     emptyTitle: 'Datos no disponibles',
-    emptyDescription: 'Este módulo depende del nodo API público del despliegue.',
-    serviceTitle: 'Nodo AGIGOV',
+    emptyDescription: 'Este módulo no responde ahora. Reintenta o contacta soporte.',
+    serviceTitle: 'AGIGOV',
     devHint: 'npm run api:public · npm run dev',
   },
 };

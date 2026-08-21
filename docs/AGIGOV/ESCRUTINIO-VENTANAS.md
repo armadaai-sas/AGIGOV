@@ -15,7 +15,10 @@
 | G10 | Modelos | `/modelos` | **GO** (código) | Sync strip ruido | Solo si drift / DEV |
 | G11 | Consola EGS | `/modelos/egs/consola` | **GO** (código) | Lead largo; pie demo | Copy corto + CTA ficha |
 | G12 | Contratos | `/contratos` | **GO** (código) | MPPI hardcode; VES fijo; npm hint | Sovereign ministry + formatMoney |
+| G14 | Institucional | `/institucional` | **GO** (código) | Ensayos largos | Hub corto + concierge |
 | G16 | Contacto/soporte | dock Sistema | **GO** (código) | Poco visible | Item Contacto → `/#contacto` |
+| G18 | Empty states | suministros/proyectos | **GO** (código) | `npm run` ciudadano | Hints removidos |
+| G19 | Mobile dock | OS rutas | **GO** (código) | Solo catálogo | Escritorio · Modelos · Gestión |
 | G5/G6 | Registro/Login | `/institucional/*` | **GO-CONDICIONADO** | → escritorio | E2E Operador B |
 | G20 | Gate prod | — | **NO-GO** | Sin Operador B PASS | Agendar |
 
@@ -26,5 +29,5 @@ Sistema: **Escritorio · Ayuda · Contacto**. Auth solo topbar.
 ## Próximo
 
 1. Registro/login E2E (G5/G6 evidencia)  
-2. Empty + mobile (G18/G19)  
-3. Operador B Trust Pack (G20)
+2. Operador B Trust Pack (G20)  
+3. Smoke live tras deploy de G14/G18/G19
