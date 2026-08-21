@@ -73,13 +73,12 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 
 | ID | Sev | Gap | Next |
 |----|-----|-----|------|
-| G20 | P0 | Sin Operador B PASS | Pack READY · falta humano B |
-| G5/G6 | P1 | Registro/login E2E | Form live OK · E2E = pasos 1–2 de B |
-| CI | P1 | `tsc` sin prisma-edge | Fix workflow: generate edge |
-| Dom | P1 | HTTPS fijo / dominio | Túnel efímero o dominio |
+| **G20** | P0 | Sin Operador B PASS | Humano: `prueba-real-2` pasos 1–9 |
+| G5/G6 | P1 | E2E registro/login | Pasos 1–2 de la misma corrida |
+| Dom | P2 | HTTPS fijo | Tras G20 |
 
 ---
 
 ## 6. Próximo movimiento
 
-**G20:** Operador B solo ejecuta `docs/commercial/case-studies/prueba-real-2/01-operador-b-checklist.md` contra `http://137.184.66.163/` (post-deploy `f3085aa`, health `ok:true` @ 2026-08-21T14:00:48Z).
+**Bloqueo único:** Operador B en live `50cc8f7`. Smoke HTTP de ventanas G1–G19 = 200 + health OK @ 2026-08-21T14:41Z. Sin 9 PNG + informe `PASS`, producción mundial sigue **NO-GO**.
