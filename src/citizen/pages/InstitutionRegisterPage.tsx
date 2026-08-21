@@ -1,3 +1,4 @@
+import { Camera } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
@@ -18,6 +19,18 @@ export default function InstitutionRegisterPage() {
 
   return (
     <PageShell narrow breadcrumbs={breadcrumbsForPath('/institucional/registro')}>
+      <aside className="mb-6 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3">
+        <Camera className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden />
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
+            Trust Pack · paso B1
+          </p>
+          <p className="mt-1 text-sm text-agigov-text">
+            Tras crear cuenta, captura el escritorio o esta pantalla.
+          </p>
+          <p className="mt-1 font-mono text-xs text-amber-100/80">artifacts/01-registro.png</p>
+        </div>
+      </aside>
       <SectionHeader
         eyebrow={t('reg.kicker')}
         title={t('reg.title')}
