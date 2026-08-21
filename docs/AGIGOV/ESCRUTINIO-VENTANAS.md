@@ -28,6 +28,11 @@ Sistema: **Escritorio · Ayuda · Contacto**. Auth solo topbar.
 
 ## Próximo
 
-1. Registro/login E2E (G5/G6 evidencia)  
-2. Operador B Trust Pack (G20)  
-3. Smoke live tras deploy de G14/G18/G19
+1. **Operador B Trust Pack (G20)** — checklist `prueba-real-2/01-operador-b-checklist.md`  
+2. G5/G6 quedan cubiertos por pasos 1–2 de esa corrida  
+
+### Smoke post-deploy `f3085aa` (2026-08-21T14:00Z)
+
+- Deploy Action: **success**  
+- Health: `ok:true`, `postgres:true`, `panicMode:false`  
+- Bundle live: `Concierge institucional` ✓ · dock Escritorio ✓ · sin `Modo demo: npm run` ✓

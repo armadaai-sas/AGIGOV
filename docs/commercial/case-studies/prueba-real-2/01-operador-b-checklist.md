@@ -9,10 +9,11 @@ Si el túnel 404 / cambia: usar siempre la IP HTTP o pedir a A la `HTTPS_URL` de
 
 ## A — Preparación (antes de llamar a B)
 
-- [ ] `GET /api/ops/health` → `ok:true`, `postgres:true`, `panicMode:false`
+- [x] `GET /api/ops/health` → `ok:true`, `postgres:true`, `panicMode:false` (2026-08-21T14:00:48Z · SHA `f3085aa`)
 - [ ] Ventana privada / perfil limpio para B
-- [ ] Carpeta lista: `docs/commercial/case-studies/prueba-real-2/artifacts/` (B deja PNGs aquí o se los pasa a A)
+- [x] Carpeta lista: `docs/commercial/case-studies/prueba-real-2/artifacts/`
 - [ ] A **no** abre Zoom/guía durante pasos 1–9
+- [x] Pack listo: ver `06-READY-FOR-OPERADOR-B.md`
 
 ## B — Pasos (PASS solo si B solo)
 
