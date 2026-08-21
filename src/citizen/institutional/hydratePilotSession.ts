@@ -9,7 +9,7 @@ export function computeSuggestedStep(
   if (!session.slug) return 0;
   if (!session.modelId) return 1;
   if (onboardingStatus !== 'ingest_ready') return 2;
-  if (session.ingestAccepted <= 0) return 3;
+  if (session.ingestAccepted < 3) return 3;
   if (session.reconcileOk !== true) return 4;
   if (!session.published) return 5;
   return 6;

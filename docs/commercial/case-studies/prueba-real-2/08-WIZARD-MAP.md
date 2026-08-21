@@ -7,7 +7,7 @@ URL base: http://137.184.66.163/institucional/piloto
 | 3 slug | Perfil / provision | slug tenant visible |
 | 4 EGS | Modelo | radio **Efficiency Gain Share (EGS)** + Continuar |
 | 5 baseline | Baseline | botones Onboard + **Ratificar** → estado listo ingest |
-| 6 hitos | Ingest | ≥3 hitos / evidencia (archivo o demo) |
+| 6 hitos | Ingest | ≥3 hitos: CSV, o 3× «Enviar hito», o **Enviar 3 hitos demo** (tras deploy) |
 | 7 centinela | Reconcile | OK o FREEZE legible |
 | 8 Q-close | Close | Publicar → `published` + Δ |
 | 9 tenant | Dashboard / Consola | `/modelos/egs/consola` con datos de tu slug |

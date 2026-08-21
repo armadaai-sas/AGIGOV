@@ -491,7 +491,7 @@ const en = {
   'pilot.gate.model': 'Select the EGS fiscal model before continuing.',
   'pilot.gate.baseline': 'Complete baseline multi-sig (onboard + ratify) before ingest.',
   'pilot.gate.token': 'Ingest token missing — re-provision or reconnect the tenant.',
-  'pilot.gate.ingest': 'Submit at least one verified milestone before reconcile.',
+  'pilot.gate.ingest': 'Submit at least 3 verified milestones before reconcile (Trust Pack).',
   'pilot.gate.reconcile': 'Centinela must validate reconcile before publish.',
   'pilot.gate.publish': 'Publish Q-close to see your dashboard with live data.',
   'pilot.verify.banner':
@@ -518,6 +518,8 @@ const en = {
   'pilot.ingest.amount': 'Amount',
   'pilot.ingest.hint': 'Centinela runs reconcile automatically when rows are accepted',
   'pilot.ingest.submit': 'Submit milestone',
+  'pilot.ingest.submitThree': 'Submit 3 demo milestones (Trust Pack)',
+  'pilot.ingest.progress': 'Milestones accepted this session: {count} / 3',
   'pilot.ingest.ok': 'Accepted {accepted} · skipped {skipped}',
   'pilot.ingest.filesLead': 'Upload municipality delivery: CSV spreadsheet (Excel export) + PDF report.',
   'pilot.ingest.csvLabel': 'CSV spreadsheet',

@@ -66,7 +66,7 @@ export function isPilotStepComplete(
     case 2:
       return onboarding?.onboardingStatus === 'ingest_ready';
     case 3:
-      return session.ingestAccepted > 0;
+      return session.ingestAccepted >= 3;
     case 4:
       return session.reconcileOk === true;
     case 5:

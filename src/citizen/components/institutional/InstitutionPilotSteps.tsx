@@ -239,6 +239,32 @@ export function InstitutionIngestStep() {
     ]);
   }
 
+  /** Trust Pack / Operador B: ≥3 hitos en un clic (índices únicos). */
+  async function submitThreeDemo() {
+    const base = Number.isFinite(milestoneIndex) ? milestoneIndex : 9001;
+    const stamp = Date.now();
+    await submitRows([
+      {
+        contractRef: contractRef || `ESC-${session.slug}-demo`,
+        milestoneIndex: base,
+        amount,
+        evidenceRef: `wizard-demo-${stamp}-1`,
+      },
+      {
+        contractRef: contractRef || `ESC-${session.slug}-demo`,
+        milestoneIndex: base + 1,
+        amount,
+        evidenceRef: `wizard-demo-${stamp}-2`,
+      },
+      {
+        contractRef: contractRef || `ESC-${session.slug}-demo`,
+        milestoneIndex: base + 2,
+        amount,
+        evidenceRef: `wizard-demo-${stamp}-3`,
+      },
+    ]);
+  }
+
   async function submitFromFiles() {
     if (fileRows.length === 0) {
       setError(t('pilot.ingest.filesMissing'));
@@ -316,11 +342,24 @@ export function InstitutionIngestStep() {
       </p>
       {msg ? <p className="mt-3 text-sm text-emerald-400">{msg}</p> : null}
       {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
-      <button type="button" className="ds-btn-app mt-4" disabled={busy} onClick={() => void submit()}>
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        {t('pilot.ingest.submit')}
-      </button>
-      <WizardStepFooter />
+      <p className="mt-3 text-xs text-agigov-text-muted">
+        {t('pilot.ingest.progress', { count: String(session.ingestAccepted) })}
+      </p>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <button type="button" className="ds-btn-app" disabled={busy} onClick={() => void submit()}>
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          {t('pilot.ingest.submit')}
+        </button>
+        <button
+          type="button"
+          className="ds-btn-secondary ds-btn-app-shape"
+          disabled={busy}
+          onClick={() => void submitThreeDemo()}
+        >
+          {t('pilot.ingest.submitThree')}
+        </button>
+      </div>
+      <WizardStepFooter continueDisabled={session.ingestAccepted < 3} />
     </div>
   );
 }
@@ -330,7 +369,7 @@ export function InstitutionReconcileStep() {
   const { t } = useSovereignConfig();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const blocked = !session.slug || session.ingestAccepted <= 0;
+  const blocked = !session.slug || session.ingestAccepted < 3;
 
   async function rerun() {
     if (!session.slug) return;
@@ -360,7 +399,7 @@ export function InstitutionReconcileStep() {
   if (!session.slug) {
     return <PilotStepPrerequisite targetStep={0} message={t('pilot.gate.profile')} />;
   }
-  if (session.ingestAccepted <= 0) {
+  if (session.ingestAccepted < 3) {
     return <PilotStepPrerequisite targetStep={3} message={t('pilot.gate.ingest')} />;
   }
 

@@ -494,7 +494,7 @@ const es: Record<MessageKey, string> = {
   'pilot.gate.model': 'Seleccione el modelo fiscal EGS antes de continuar.',
   'pilot.gate.baseline': 'Complete el baseline multi-sig (onboard + ratify) antes de ingestar.',
   'pilot.gate.token': 'Falta el token de ingestión — vuelva a provisionar o reconecte el tenant.',
-  'pilot.gate.ingest': 'Envíe al menos un hito verificado antes del reconcile.',
+  'pilot.gate.ingest': 'Envíe al menos 3 hitos verificados antes del reconcile (Trust Pack).',
   'pilot.gate.reconcile': 'Centinela debe validar el reconcile antes de publicar.',
   'pilot.gate.publish': 'Publique el Q-close para ver su dashboard con datos reales.',
   'pilot.verify.banner':
@@ -521,6 +521,8 @@ const es: Record<MessageKey, string> = {
   'pilot.ingest.amount': 'Monto',
   'pilot.ingest.hint': 'Centinela reconcilia automáticamente si las filas son aceptadas',
   'pilot.ingest.submit': 'Enviar hito',
+  'pilot.ingest.submitThree': 'Enviar 3 hitos demo (Trust Pack)',
+  'pilot.ingest.progress': 'Hitos aceptados en esta sesión: {count} / 3',
   'pilot.ingest.ok': 'Aceptadas {accepted} · omitidas {skipped}',
   'pilot.ingest.filesLead': 'Suba la entrega de la alcaldía: planilla CSV (exporte Excel) + informe PDF.',
   'pilot.ingest.csvLabel': 'Planilla CSV',
