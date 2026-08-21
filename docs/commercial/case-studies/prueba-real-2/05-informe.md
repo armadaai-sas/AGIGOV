@@ -6,7 +6,7 @@
 |-------|-------|
 | scenarioId | `operador-b-cloud-prueba-real-2` |
 | environment | `do-prod-light` · http://137.184.66.163/ |
-| deploySha | `4b8f128` (CI + deploy OK) |
+| deploySha | `675d5b1` (+ CSV público en siguiente push) |
 | actor | _(tu nombre)_ |
 | startedAt | _(ISO UTC)_ |
 | endedAt | _(ISO UTC)_ |

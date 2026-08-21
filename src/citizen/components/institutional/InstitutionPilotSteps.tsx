@@ -282,6 +282,17 @@ export function InstitutionIngestStep() {
 
   return (
     <div className="agigov-card inst-pilot-step">
+      <p className="mb-3 text-sm text-agigov-text-muted">
+        Trust Pack: descargue el CSV de 3 hitos{' '}
+        <a
+          className="text-sky-400 no-underline hover:text-sky-300"
+          href="/docs/sample-ingest-3-hitos.csv"
+          download="sample-ingest-3-hitos.csv"
+        >
+          sample-ingest-3-hitos.csv
+        </a>
+        {' '}o use «Enviar 3 hitos demo».
+      </p>
       <InstitutionFileIngestPanel
         onRowsReady={(rows, skips) => {
           setFileRows(rows);

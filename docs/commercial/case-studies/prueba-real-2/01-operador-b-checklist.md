@@ -26,10 +26,10 @@ Si el túnel 404 / cambia: usar siempre la IP HTTP o pedir a A la `HTTPS_URL` de
 | 5 | Wizard | Onboard + ratificar baseline | `artifacts/05-baseline.png` |
 | 6 | Wizard | ≥3 hitos con evidencia | `artifacts/06-ingest.png` |
 
-**Atajo paso 6 (live actual):** en Ingest, sube  
-`docs/commercial/case-studies/prueba-real-2/sample-ingest-3-hitos.csv`  
-y pulsa enviar filas CSV (PDF opcional; sin PDF centinela marca revisión).  
-O: «Enviar hito» ×3 cambiando el índice 9001→9002→9003.
+**Atajo paso 6 (live):**  
+1. En Ingest: **Enviar 3 hitos demo**, o  
+2. Descargar http://137.184.66.163/docs/sample-ingest-3-hitos.csv → subir CSV → enviar filas, o  
+3. «Enviar hito» ×3 (índices 9001–9003).
 | 7 | Reconcile / centinela | OK **o** FREEZE legible | `artifacts/07-centinela.png` |
 | 8 | Q-close | Publicar → `published` + Δ | `artifacts/08-qclose.png` |
 | 9 | Consola EGS / gestión | Datos del **tenant** (no solo demo) | `artifacts/09-tenant.png` |
