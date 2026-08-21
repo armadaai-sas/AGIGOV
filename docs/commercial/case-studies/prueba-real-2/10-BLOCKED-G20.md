@@ -1,22 +1,26 @@
-# BLOCKED — G20 Operador B (2026-08-21T15:00Z)
+# BLOCKED — G20 (2026-08-21T16:28Z)
 
-## Estado del goal «pulido G1–G20 / listo producción»
+## Estado
 
 | Parte | Estado | Evidencia |
 |-------|--------|-----------|
-| G1–G19 UX/nav/smoke | **GO** (código + live) | HEAD 200, health ok, SHA `5674774` |
-| G20 Trust Pack | **NO-GO / BLOCKED** | `present: 0` PNG en `artifacts/` |
+| G1–G19 smoke | **GO** | HEAD 200 |
+| Backend Trust Pack | **PASS (API)** | `11-API-PROBE.md` |
+| UI B1 registro | Parcial | `artifacts/01-registro.png` |
+| Sesión post-registro | **FAIL / P0** | Cookie Secure en HTTP |
+| G20 | **NO-GO** | `present:1/9` · verdict BLOCKED |
 
-## Por qué no avanza
+## Bug P0 (bloquea Operador B)
 
-La ley de evidencia exige **Operador B humano** (pasos 1–9 + screenshots + informe).  
-Prep A, hints UI, CSV, verificador y droplet están listos. **No hay capturas.**
+Registro redirige a `/escritorio` pero sesión no persiste (`hasSessionLs:false`).  
+Causa: cookie `Secure` bajo `NODE_ENV=production` en `http://137.184.66.163`.
 
-## Qué desbloquea G20
+**Fix local listo** (sin deploy aún):
+- `src/server/session-cookie.ts`
+- `src/citizen/institutional/institutionAuth.ts`
 
-1. Ventana privada → http://137.184.66.163/institucional/registro  
-2. Completar checklist `01-operador-b-checklist.md`  
-3. Dejar `01-registro.png` … `09-tenant.png` en `artifacts/`  
-4. Rellenar `05-informe.md` → `npm run verify:operador-b` exit 0  
+## Próximo movimiento
 
-Hasta entonces el goal permanece activo y **no** se marca complete.
+1. Commit + deploy prod-light del fix  
+2. Re-correr Operador B UI 1–9  
+3. `npm run verify:operador-b` → exit 0  

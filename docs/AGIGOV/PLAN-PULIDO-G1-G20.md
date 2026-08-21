@@ -81,4 +81,4 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 
 ## 6. Próximo movimiento
 
-**Bloqueo único:** Operador B en live `50cc8f7`. Smoke HTTP de ventanas G1–G19 = 200 + health OK @ 2026-08-21T14:41Z. Sin 9 PNG + informe `PASS`, producción mundial sigue **NO-GO**.
+**Bloqueo P0:** sesión UI rota en live HTTP (cookie `Secure`). Fix en código local; falta **commit + deploy**. Backend Trust Pack OK (`11-API-PROBE.md`). Pack UI: `1/9` PNG · informe `BLOCKED`.

@@ -1,7 +1,7 @@
 import { syncRegistrationFromSession } from './institutionRegistration.js';
 
 const SESSION_KEY = 'agigov-institution-session-v1';
-/** @deprecated Token vive en cookie httpOnly; se limpia si queda residual. */
+/** Bearer fallback si la cookie httpOnly no se fija (p.ej. Secure en HTTP). */
 const SESSION_TOKEN_KEY = 'agigov-institution-session-token-v1';
 const API_BASE = import.meta.env.VITE_PUBLIC_API_URL ?? '';
 
@@ -23,22 +23,23 @@ export type InstitutionSession = {
   verificationStatus?: string | null;
 };
 
-function clearLegacyTokenCache(): void {
+function persistSessionToken(token: string | null | undefined): void {
   try {
-    localStorage.removeItem(SESSION_TOKEN_KEY);
+    if (token?.trim()) localStorage.setItem(SESSION_TOKEN_KEY, token.trim());
+    else localStorage.removeItem(SESSION_TOKEN_KEY);
   } catch {
     /* ignore */
   }
 }
 
-function persistSession(session: InstitutionSession): void {
-  clearLegacyTokenCache();
+function persistSession(session: InstitutionSession, sessionToken?: string | null): void {
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  if (sessionToken !== undefined) persistSessionToken(sessionToken);
   syncRegistrationFromSession(session);
 }
 
 function clearPersistedSession(): void {
-  clearLegacyTokenCache();
+  persistSessionToken(null);
   localStorage.removeItem(SESSION_KEY);
 }
 
@@ -58,16 +59,15 @@ export function loadInstitutionSession(): InstitutionSession | null {
   }
 }
 
-export function saveInstitutionSession(session: InstitutionSession): void {
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  clearLegacyTokenCache();
+export function saveInstitutionSession(session: InstitutionSession, sessionToken?: string | null): void {
+  persistSession(session, sessionToken);
 }
 
 export function clearInstitutionSession(): void {
   clearPersistedSession();
 }
 
-/** @deprecated Prefer cookie httpOnly; Bearer residual solo si existe (migración). */
+/** Bearer fallback cuando cookie httpOnly no se fija (p.ej. Secure en HTTP). */
 export function getInstitutionSessionToken(): string | null {
   if (typeof window === 'undefined') return null;
   return localStorage.getItem(SESSION_TOKEN_KEY);
@@ -150,7 +150,7 @@ export async function loginInstitution(
   }
 
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(session);
+  persistSession(session, json.sessionToken);
   return { ok: true, session };
 }
 
@@ -194,7 +194,7 @@ export async function registerInstitutionAuth(input: {
   }
 
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(session);
+  persistSession(session, json.sessionToken);
   return { ok: true, session };
 }
 
@@ -276,6 +276,6 @@ export async function verifyInstitutionMagicLinkToken(
     return { ok: false, error: json.error ?? 'invalid_magic_link' };
   }
   const session = buildSessionFromApi(json.user, json.expiresAt);
-  persistSession(session);
+  persistSession(session, json.sessionToken);
   return { ok: true, session };
 }

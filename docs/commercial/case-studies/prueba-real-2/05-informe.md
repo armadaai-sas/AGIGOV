@@ -1,37 +1,31 @@
-# Informe Operador B — prueba-real-2
+# Informe Operador B — prueba-real-2 (UI)
 
-**Estado:** PENDING — rellenar al cerrar la corrida.
-
-| Campo | Valor |
+| field | value |
 |-------|-------|
-| scenarioId | `operador-b-cloud-prueba-real-2` |
-| environment | `do-prod-light` · http://137.184.66.163/ |
-| deploySha | `675d5b1` (+ CSV público en siguiente push) |
-| actor | _(tu nombre)_ |
-| startedAt | _(ISO UTC)_ |
-| endedAt | _(ISO UTC)_ |
-| URL usada | http://137.184.66.163/ |
-| B solo | sí / no |
-| verdict | **PENDING** → `PASS` \| `FAIL` \| `BLOCKED` |
+| startedAt | 2026-08-21T16:21Z |
+| endedAt | 2026-08-21T16:30Z |
+| environment | do-prod-light · http://137.184.66.163 |
+| actor | Cursor agent (browser) — no humano |
+| B solo | no (agent) |
+| verdict | **BLOCKED** |
 
 ## Pasos
 
-| # | Hecho | Screenshot en `artifacts/` | Nota |
-|---|-------|------------------------------|------|
-| 1 Registro | ☐ | `01-registro.png` | |
-| 2 Login | ☐ | `02-acceso.png` | |
-| 3 Piloto / slug | ☐ | `03-piloto-slug.png` | Wizard: perfil |
-| 4 EGS | ☐ | `04-modelo-egs.png` | Wizard: modelo |
-| 5 Baseline | ☐ | `05-baseline.png` | Onboard + ratificar |
-| 6 ≥3 hitos | ☐ | `06-ingest.png` | Wizard: ingest |
-| 7 Centinela | ☐ | `07-centinela.png` | OK o FREEZE |
-| 8 Q-close | ☐ | `08-qclose.png` | published + Δ |
-| 9 Consola tenant | ☐ | `09-tenant.png` | `/modelos/egs/consola` |
+| # | Resultado |
+|---|-----------|
+| 1 Registro → escritorio | UI llega a `/escritorio` · captura `artifacts/01-registro.png` |
+| 1b Sesión | **FAIL** — topbar sigue «Iniciar sesión»; LS/cookie vacíos tras refresh |
+| 2–9 | No ejecutados (bloqueados por sesión) |
 
-## Notas / bloqueos
+## Causa raíz (evidencia)
 
-_(paso #, qué viste, qué hiciste)_
+`NODE_ENV=production` forzaba cookie `Secure` en HTTP IP → browser descarta Set-Cookie → `refreshInstitutionSessionFromServer()` 401 → limpia LS.
 
-## Firma B
+## Fix en código (pendiente deploy)
 
-Fecha UTC: ________  ·  Firma/nombre: ________
+- [`src/server/session-cookie.ts`](../../../src/server/session-cookie.ts): Secure solo con HTTPS / `AGIGOV_COOKIE_SECURE=1`
+- [`src/citizen/institutional/institutionAuth.ts`](../../../src/citizen/institutional/institutionAuth.ts): persistir `sessionToken` Bearer fallback
+
+## G20
+
+`g20Gate` permanece **NO-GO** hasta: deploy del fix + corrida UI completa + verdict PASS humano (o re-score post-deploy).

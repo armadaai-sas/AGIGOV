@@ -19,23 +19,25 @@ export function readInstitutionSessionTokenFromCookie(cookieHeader?: string): st
   return token || null;
 }
 
+/**
+ * Secure solo si HTTPS real o AGIGOV_COOKIE_SECURE=1.
+ * No atar a NODE_ENV=production: prod-light en http://IP descarta cookies Secure.
+ */
+function cookieSecureAttribute(): string {
+  const forced = (process.env.AGIGOV_COOKIE_SECURE ?? '').trim();
+  if (forced === '1' || forced.toLowerCase() === 'true') return '; Secure';
+  if (forced === '0' || forced.toLowerCase() === 'false') return '';
+  const publicUrl = (process.env.AGIGOV_PUBLIC_URL ?? process.env.AGIGOV_APP_URL ?? '').trim();
+  return publicUrl.toLowerCase().startsWith('https://') ? '; Secure' : '';
+}
+
 export function buildInstitutionSessionCookie(token: string, expiresAt: Date): string {
   const maxAge = Math.max(0, Math.floor((expiresAt.getTime() - Date.now()) / 1000));
-  const secure =
-    (process.env.NODE_ENV ?? '').toLowerCase() === 'production' ||
-    (process.env.AGIGOV_COOKIE_SECURE ?? '0') === '1'
-      ? '; Secure'
-      : '';
-  return `${INSTITUTION_SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; Max-Age=${maxAge}; SameSite=Lax${secure}`;
+  return `${INSTITUTION_SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; Max-Age=${maxAge}; SameSite=Lax${cookieSecureAttribute()}`;
 }
 
 export function clearInstitutionSessionCookie(): string {
-  const secure =
-    (process.env.NODE_ENV ?? '').toLowerCase() === 'production' ||
-    (process.env.AGIGOV_COOKIE_SECURE ?? '0') === '1'
-      ? '; Secure'
-      : '';
-  return `${INSTITUTION_SESSION_COOKIE}=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax${secure}`;
+  return `${INSTITUTION_SESSION_COOKIE}=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax${cookieSecureAttribute()}`;
 }
 
 /** Orígenes permitidos para CORS con credentials (PWA + API en host distinto). */
