@@ -105,8 +105,8 @@ export default function ModelsCatalogPage() {
   return (
     <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath('/modelos')}>
       <SectionHeader
-        eyebrow="AGIGOV · Modelos"
-        title="Modelos del sistema"
+        eyebrow="AGIGOV · Apps"
+        title="Modelos"
         lead="Elige una app del OS. Filtra por audiencia y estado."
       />
 
@@ -192,7 +192,7 @@ export default function ModelsCatalogPage() {
       )}
 
       <p className="text-center text-sm text-agigov-text-muted">
-        {AGIGOV_MODELS.length} modelos · estado vía <code className="agigov-mono-id">models:audit</code>
+        {AGIGOV_MODELS.length} modelos · gobierno · empresa · ciudadano
       </p>
     </PageShell>
   );

@@ -16,6 +16,9 @@ export function CatalogSyncStrip() {
   const synced = stats.outOfSync === 0;
   const auditDate = new Date(stats.lastAuditAt).toLocaleString();
 
+  // Ciudadanos no necesitan strip de auditoría si todo está alineado.
+  if (synced && !DEV_MODE) return null;
+
   return (
     <StateHint>
       <div className="flex flex-wrap items-start gap-3">
@@ -26,10 +29,10 @@ export function CatalogSyncStrip() {
         )}
         <div className="min-w-0 flex-1">
           <p className="agigov-page-state-kicker">
-            {synced ? 'Catálogo sincronizado' : 'Desincronización catálogo ↔ auditoría'}
+            {synced ? 'Modelos sincronizados' : 'Estados de modelos desalineados'}
           </p>
           <p className="text-sm text-agigov-text">
-            <strong>{stats.inSync}/{stats.total}</strong> modelos alineados ·{' '}
+            <strong>{stats.inSync}/{stats.total}</strong> alineados ·{' '}
             <strong>{stats.approved}</strong> aprobados · auditoría {auditDate}
           </p>
           {!synced ? (
@@ -43,7 +46,7 @@ export function CatalogSyncStrip() {
                     <Link to={model.productPath} className="text-sky-600 hover:underline dark:text-sky-400">
                       {model.shortName}
                     </Link>
-                    : catálogo{' '}
+                    : listado{' '}
                     <span className="font-medium">{MODEL_STATUS_LABEL[sync.catalogStatus]}</span>
                     {' · '}auditoría{' '}
                     <span className="font-medium">

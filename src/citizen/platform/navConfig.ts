@@ -129,7 +129,7 @@ export const NAV_SECTION_SERVICES: NavSection = {
 export const NAV_SECTION_INSTITUTIONAL: NavSection = {
   id: 'institutional',
   label: 'Sistema',
-  subtitle: 'Escritorio · ayuda',
+  subtitle: 'Escritorio · ayuda · contacto',
   items: [
     {
       to: INSTITUTION_ROUTES.desk,
@@ -142,6 +142,12 @@ export const NAV_SECTION_INSTITUTIONAL: NavSection = {
       label: 'Ayuda',
       hint: 'Tutoriales y glosario',
       icon: LifeBuoy,
+    },
+    {
+      to: '/#contacto',
+      label: 'Contacto',
+      hint: 'Concierge institucional',
+      icon: Landmark,
     },
   ],
 } as const;

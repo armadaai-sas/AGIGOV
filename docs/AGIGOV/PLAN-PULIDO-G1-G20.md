@@ -43,13 +43,13 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 | **G7** | Gestión | **GO-CONDICIONADO** | Ledger primero; reportar irregularidad abajo | Sprint C |
 | **G8** | Participar | **GO** (código) | Form-first sin tarjetas de ruido | |
 | **G9** | Propuestas | **GO** (código) | CTA Enviar propuesta | |
-| **G10** | Modelos | PENDING | |
-| **G11** | Consola EGS | PENDING | |
-| **G12** | Contratos | PENDING | |
+| **G10** | Modelos | **GO** (código) | Sync strip solo drift/DEV |
+| **G11** | Consola EGS | **GO** (código) | Copy corto + ficha |
+| **G12** | Contratos | **GO** (código) | Ministry soberano; sin npm |
 | **G13** | Piloto fuera camino feliz | **GO-CONDICIONADO** | Solo pie de escritorio “avanzado” |
 | **G14** | Hub institucional | PENDING | |
 | **G15** | Rutas sombra | **GO-CONDICIONADO** | Keep/kill abajo |
-| **G16** | Ventas+soporte | PENDING | |
+| **G16** | Ventas+soporte | **GO** (código) | Contacto en dock Sistema |
 | **G17** | Copy/labels | **GO-CONDICIONADO** | Catálogo→Modelos en UI pública |
 | **G18** | Errores/vacíos | PENDING | |
 | **G19** | Mobile | PENDING | |
