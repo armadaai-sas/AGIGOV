@@ -22,10 +22,15 @@ export default function ProposalsPage() {
   return (
     <PageShell banner={{ state, lastUpdated }} breadcrumbs={breadcrumbsForPath('/propuestas')}>
       <SectionHeader
-        eyebrow="AGIGOV · Participación y Dictamen"
-        title="Propuestas y dictámenes"
-        lead="Resumen ciudadano del agente Soberano — lenguaje accesible con trazabilidad en ledger."
+        eyebrow="AGIGOV · Ciudadano"
+        title="Propuestas"
+        lead="Dictámenes publicados con lenguaje claro y trazabilidad en el ledger."
         helpTopic="propuestas"
+        action={
+          <Link to="/participar" className="ds-btn-app">
+            Enviar propuesta
+          </Link>
+        }
       />
 
       {error && state === 'error' && !data ? (

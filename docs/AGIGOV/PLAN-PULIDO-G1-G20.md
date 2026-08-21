@@ -40,9 +40,9 @@ Entrada · título 5s · nav activa · cada botón · cada form · empty/loading
 | **G4** | Landing labels | **GO** (código) | “Ver todos los modelos”; rail OS/Escritorio/… |
 | **G5** | Registro | **GO-CONDICIONADO** | Ya corto + → escritorio; falta E2E Operador B |
 | **G6** | Login | **GO-CONDICIONADO** | → escritorio; falta E2E Operador B |
-| **G7** | Gestión | PENDING | Sprint C |
-| **G8** | Participar | PENDING | |
-| **G9** | Propuestas | PENDING | |
+| **G7** | Gestión | **GO-CONDICIONADO** | Ledger primero; reportar irregularidad abajo | Sprint C |
+| **G8** | Participar | **GO** (código) | Form-first sin tarjetas de ruido | |
+| **G9** | Propuestas | **GO** (código) | CTA Enviar propuesta | |
 | **G10** | Modelos | PENDING | |
 | **G11** | Consola EGS | PENDING | |
 | **G12** | Contratos | PENDING | |

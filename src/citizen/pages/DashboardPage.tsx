@@ -28,15 +28,10 @@ export default function DashboardPage() {
       breadcrumbs={breadcrumbsForPath('/gestion')}
     >
       <SectionHeader
-        eyebrow="AGIGOV · Gestión Pública Verificable"
-        title="Gestión pública verificable"
-        lead="Telemetría agregada del ledger — sin datos personales. Demo técnica del modelo."
+        eyebrow="AGIGOV · Ciudadano"
+        title="Gestión pública"
+        lead="Ledger público: lo que ya está publicado y se puede verificar — sin datos personales."
         helpTopic="gestion"
-        action={
-          <span className="agigov-badge bg-sky-500/15 text-sky-200 hidden sm:inline-flex">
-            Demo técnica
-          </span>
-        }
       />
 
       {fatalError ? (
@@ -51,10 +46,6 @@ export default function DashboardPage() {
 
       {data ? (
         <div className="space-y-8">
-          <div className="agigov-enter-up">
-            <CentinelaReportForm />
-          </div>
-
           <section className="grid grid-cols-2 gap-4 agigov-stagger-list">
             <Stat
               label="Entradas ledger"
@@ -77,8 +68,7 @@ export default function DashboardPage() {
             {data.reports.length === 0 ? (
               <EmptyState
                 title="Sin reportes publicados"
-                description="Cuando la gestión pase validación y se publique, aparecerá aquí — telemetría agregada, sin datos personales."
-                hint="Modo demo: npm run agents:flow && npm run db:seed"
+                description="Cuando la gestión pase validación y se publique, aparecerá aquí."
               />
             ) : (
               <div className="space-y-4 agigov-stagger-list">
@@ -103,6 +93,13 @@ export default function DashboardPage() {
               </div>
             )}
           </section>
+
+          <div className="agigov-enter-up border-t border-agigov-border pt-8">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-agigov-text-muted">
+              Reportar irregularidad
+            </h2>
+            <CentinelaReportForm />
+          </div>
         </div>
       ) : null}
     </PageShell>
