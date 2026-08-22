@@ -48,8 +48,8 @@ async function main() {
   try {
     // B1 — registro
     await page.goto(`${BASE}/institucional/registro`, { waitUntil: 'networkidle' });
-    await page.getByRole('combobox', { name: /Región/i }).selectOption({ label: 'Antioquia' });
-    await page.getByRole('combobox', { name: /Entidad/i }).selectOption({ label: /Medellín/i });
+    await page.getByRole('combobox', { name: /Región/i }).selectOption('ANT');
+    await page.getByRole('combobox', { name: /Entidad/i }).selectOption('col-alc-medellin');
     await page.getByRole('textbox', { name: /Correo institucional/i }).fill(email);
     await page.getByRole('textbox', { name: /Número \(sin código/i }).fill('3001112233');
     await page.getByRole('textbox', { name: /Contacto institucional/i }).fill('Operador B CI');

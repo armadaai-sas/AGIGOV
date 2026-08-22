@@ -11,8 +11,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: operador-b-trust-pack
-  cancel-in-progress: true
+  group: operador-b-trust-pack-${{ github.event_name }}
+  cancel-in-progress: false
 
 jobs:
   capture:
