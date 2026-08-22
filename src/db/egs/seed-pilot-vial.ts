@@ -26,6 +26,14 @@ export type SeedEgsPilotOptions = {
   egsScale?: PilotJurisdictionProfile['egsScale'];
 };
 
+function seedTenantKey(ministryCode: string, budgetCode: string): string {
+  return `${ministryCode}-${budgetCode}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+}
+
 function resolveSeedContext(options: SeedEgsPilotOptions) {
   const iso = options.iso ?? 'VEN';
   const profile = getPilotProfileForIso(iso);
@@ -35,6 +43,7 @@ function resolveSeedContext(options: SeedEgsPilotOptions) {
   const currency = options.currency ?? profile.currency;
   const didNs = profile.didNamespace;
   const escrowPrefix = profile.escrowPrefix;
+  const tenantKey = seedTenantKey(ministryCode, budgetCode);
 
   return {
     iso,
@@ -50,11 +59,13 @@ function resolveSeedContext(options: SeedEgsPilotOptions) {
     currency,
     didNs,
     escrowPrefix,
+    tenantKey,
     contractCount: options.contractCount ?? scale.contractCount,
     releasePerMilestone: scale.releasePerMilestone,
     milestonesPerContract: scale.milestonesPerContract,
     annualBaseline: scale.annualBaseline,
-    actaProcessId: `acta-baseline-${iso.toLowerCase()}-vial-pilot-2026`,
+    // Per-tenant IDs — shared iso-only IDs collide when provisioning many sandboxes.
+    actaProcessId: `acta-baseline-${iso.toLowerCase()}-${tenantKey}-2026`,
     pilotTag: profile.pilotEvidenceTag,
   };
 }
@@ -162,7 +173,7 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
 
   let milestoneIndex = 0;
   for (let c = 1; c <= contractCount; c++) {
-    const processId = `${escrowPrefix}-c${String(c).padStart(2, '0')}`;
+    const processId = `${escrowPrefix}-${ctx.tenantKey}-c${String(c).padStart(2, '0')}`;
     const contractTotal = releasePerMilestone * milestonesPerContract;
 
     const escrow = await db.escrow.upsert({
@@ -235,7 +246,7 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
     ajustesFuerzaMayor: 0,
   });
 
-  const ledgerProcessId = `proc-quarter-close-${ctx.iso.toLowerCase()}-vial-${FISCAL_YEAR}-q${QUARTER}`;
+  const ledgerProcessId = `proc-quarter-close-${ctx.iso.toLowerCase()}-${ctx.tenantKey}-${FISCAL_YEAR}-q${QUARTER}`;
   const treasuryPayload = toTreasuryPayload(
     quarterClose.id,
     FISCAL_YEAR,
@@ -291,7 +302,7 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
     iso: ctx.iso,
     currency,
     escrowPrefix,
-    firstEscrowRef: `${escrowPrefix}-c01`,
+    firstEscrowRef: `${escrowPrefix}-${ctx.tenantKey}-c01`,
     budgetLineId: budgetLine.id,
     quarterCloseId: quarterClose.id,
     baselineTrimestral: baselineQ,
