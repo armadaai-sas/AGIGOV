@@ -1,0 +1,80 @@
+name: Operador B Trust Pack (live UI)
+
+# Captura 9 PNG + informe contra do-prod-light. Corre en Actions (no en el PC del fundador).
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Deploy prod-light (DigitalOcean)']
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: operador-b-trust-pack
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AGIGOV_LIVE_URL: http://137.184.66.163
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.54.2
+          npx playwright install chromium --with-deps
+
+      - name: Live health gate
+        run: |
+          set -euo pipefail
+          body=$(curl -sf "$AGIGOV_LIVE_URL/api/ops/health")
+          echo "$body"
+          echo "$body" | grep -q '"ok":true'
+          echo "$body" | grep -q '"postgres":true'
+          echo "$body" | grep -q '"panicMode":false'
+
+      - name: Capture Operador B UI
+        run: node scripts/operador-b-ui-capture.mjs
+
+      - name: Score pack
+        run: node scripts/verify-operador-b-pack.mjs
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: operador-b-artifacts
+          path: |
+            docs/commercial/case-studies/prueba-real-2/artifacts/*.png
+            docs/commercial/case-studies/prueba-real-2/05-informe.md
+
+      - name: Commit Trust Pack to main
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/commercial/case-studies/prueba-real-2/artifacts/*.png \
+                  docs/commercial/case-studies/prueba-real-2/05-informe.md || true
+          if git diff --cached --quiet; then
+            echo "No pack changes to commit"
+            exit 0
+          fi
+          git commit -m "Add Operador B Trust Pack UI evidence from live capture."
+          git pull --rebase origin main
+          git push origin HEAD:main
