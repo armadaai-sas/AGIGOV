@@ -92,11 +92,16 @@ async function main() {
     await page.getByRole('button', { name: /Cerrar sesión/i }).waitFor({ timeout: 30_000 });
     await shot(page, '02-acceso.png');
 
-    // B3 — piloto provision (unique slug avoids colliding demo profiles)
+    // B3 — piloto provision (unique slug + ministry/budget — DB unique on ministry+budget)
     await page.goto(`${BASE}/institucional/piloto`, { waitUntil: 'networkidle' });
     await dismissOnboarding(page);
-    const uniqueSlug = `opb-ci-${Date.now()}`.slice(0, 48);
-    const slugInput = page.getByRole('textbox', { name: /Slug/i }).first();
+    const runId = String(Date.now());
+    const uniqueSlug = `opb-ci-${runId}`.slice(0, 48);
+    const uniqueMinistry = `OPB${runId.slice(-6)}`.toUpperCase();
+    const uniqueBudget = `B-${runId.slice(-8)}`;
+    await page.getByRole('textbox', { name: /Código ministerio/i }).fill(uniqueMinistry);
+    await page.getByRole('textbox', { name: /Código rubro|rubro presupuestario/i }).fill(uniqueBudget);
+    const slugInput = page.getByRole('textbox', { name: /Slug del tenant/i });
     await slugInput.waitFor({ timeout: 30_000 });
     await slugInput.fill(uniqueSlug);
     const provisionBtn = page.getByRole('button', { name: /Crear tenant sandbox/i });
