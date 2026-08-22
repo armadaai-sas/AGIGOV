@@ -72,6 +72,7 @@ async function main() {
     await page.getByRole('textbox', { name: /Confirmar contraseña/i }).fill(password);
     const confirm = page.getByRole('checkbox', { name: /Confirmo que es una solicitud/i });
     if (!(await confirm.isChecked())) await confirm.check({ force: true });
+    await dismissOnboarding(page);
     await clickRole(page, /Crear cuenta e ir al escritorio/i);
     await page.waitForURL(/\/escritorio/, { timeout: 90_000 });
     await dismissOnboarding(page);
@@ -93,7 +94,8 @@ async function main() {
 
     // B3 — piloto provision
     await page.goto(`${BASE}/institucional/piloto`, { waitUntil: 'networkidle' });
-    await dismissOnboarding(page);    await page.getByRole('button', { name: /Crear tenant sandbox/i }).click();
+    await dismissOnboarding(page);
+    await page.getByRole('button', { name: /Crear tenant sandbox/i }).click();
     await page.getByText(/Tenant:/i).waitFor({ timeout: 90_000 });
     await shot(page, '03-piloto-slug.png');
     await clickRole(page, /^Continuar$/i);
