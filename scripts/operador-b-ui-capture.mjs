@@ -92,11 +92,29 @@ async function main() {
     await page.getByRole('button', { name: /Cerrar sesión/i }).waitFor({ timeout: 30_000 });
     await shot(page, '02-acceso.png');
 
-    // B3 — piloto provision
+    // B3 — piloto provision (unique slug avoids colliding demo profiles)
     await page.goto(`${BASE}/institucional/piloto`, { waitUntil: 'networkidle' });
     await dismissOnboarding(page);
-    await page.getByRole('button', { name: /Crear tenant sandbox/i }).click();
-    await page.getByText(/Tenant:/i).waitFor({ timeout: 90_000 });
+    const uniqueSlug = `opb-ci-${Date.now()}`.slice(0, 48);
+    const slugInput = page.getByRole('textbox', { name: /Slug/i }).first();
+    await slugInput.waitFor({ timeout: 30_000 });
+    await slugInput.fill(uniqueSlug);
+    const provisionBtn = page.getByRole('button', { name: /Crear tenant sandbox/i });
+    await provisionBtn.waitFor({ state: 'visible', timeout: 30_000 });
+    const provisionWait = page.waitForResponse(
+      (r) => r.url().includes('/api/ops/tenants/provision') && r.request().method() === 'POST',
+      { timeout: 90_000 },
+    );
+    await provisionBtn.click();
+    const provisionRes = await provisionWait;
+    if (!provisionRes.ok()) {
+      const body = await provisionRes.text().catch(() => '');
+      await shot(page, '03-piloto-fail.png');
+      throw new Error(`provision HTTP ${provisionRes.status()}: ${body.slice(0, 500)}`);
+    }
+    await page.getByTestId('pilot-slug-banner').or(page.getByText(/Tenant:/i)).waitFor({
+      timeout: 30_000,
+    });
     await shot(page, '03-piloto-slug.png');
     await clickRole(page, /^Continuar$/i);
 
