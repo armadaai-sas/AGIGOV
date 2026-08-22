@@ -36,6 +36,19 @@ async function clickRole(page, name, opts = {}) {
   await page.getByRole('button', { name, ...opts }).first().click({ timeout: 60_000 });
 }
 
+/** Tour modal blocks clicks after first escritorio visit. */
+async function dismissOnboarding(page) {
+  const dialog = page.locator('[role="dialog"].agigov-onboarding, .agigov-onboarding[role="dialog"]');
+  if (await dialog.count() === 0) return;
+  const skip = page.locator('button.agigov-onboarding-skip');
+  if (await skip.count()) {
+    await skip.first().click({ timeout: 5_000 }).catch(() => undefined);
+  } else {
+    await page.getByRole('button', { name: /^Cerrar$/i }).first().click({ timeout: 5_000 }).catch(() => undefined);
+  }
+  await dialog.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => undefined);
+}
+
 async function main() {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
@@ -48,6 +61,7 @@ async function main() {
   try {
     // B1 — registro
     await page.goto(`${BASE}/institucional/registro`, { waitUntil: 'networkidle' });
+    await dismissOnboarding(page);
     await page.getByRole('combobox', { name: /Región/i }).selectOption('ANT');
     await page.getByRole('combobox', { name: /Entidad/i }).selectOption('col-alc-medellin');
     await page.getByRole('textbox', { name: /Correo institucional/i }).fill(email);
@@ -57,25 +71,29 @@ async function main() {
     await page.getByRole('textbox', { name: /^Contraseña$/i }).fill(password);
     await page.getByRole('textbox', { name: /Confirmar contraseña/i }).fill(password);
     const confirm = page.getByRole('checkbox', { name: /Confirmo que es una solicitud/i });
-    if (!(await confirm.isChecked())) await confirm.check();
+    if (!(await confirm.isChecked())) await confirm.check({ force: true });
     await clickRole(page, /Crear cuenta e ir al escritorio/i);
     await page.waitForURL(/\/escritorio/, { timeout: 90_000 });
+    await dismissOnboarding(page);
     await page.getByRole('button', { name: /Cerrar sesión/i }).waitFor({ timeout: 30_000 });
     await shot(page, '01-registro.png');
 
     // B2 — logout → login
+    await dismissOnboarding(page);
     await page.getByRole('button', { name: /Cerrar sesión/i }).click();
     await page.goto(`${BASE}/institucional/acceso`, { waitUntil: 'networkidle' });
+    await dismissOnboarding(page);
     await page.locator('input[type="email"], input[name="email"]').first().fill(email);
     await page.locator('input[type="password"]').first().fill(password);
     await clickRole(page, /Entrar al escritorio/i);
     await page.waitForURL(/\/escritorio/, { timeout: 60_000 });
+    await dismissOnboarding(page);
     await page.getByRole('button', { name: /Cerrar sesión/i }).waitFor({ timeout: 30_000 });
     await shot(page, '02-acceso.png');
 
     // B3 — piloto provision
     await page.goto(`${BASE}/institucional/piloto`, { waitUntil: 'networkidle' });
-    await page.getByRole('button', { name: /Crear tenant sandbox/i }).click();
+    await dismissOnboarding(page);    await page.getByRole('button', { name: /Crear tenant sandbox/i }).click();
     await page.getByText(/Tenant:/i).waitFor({ timeout: 90_000 });
     await shot(page, '03-piloto-slug.png');
     await clickRole(page, /^Continuar$/i);
