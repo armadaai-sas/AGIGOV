@@ -52,7 +52,7 @@ export function useLandingCopy() {
       HERO_CTA_MICRO: t('hero.cinematic.micro'),
       HERO_TRUST_LINE: t('hero.cinematic.trust'),
       HERO_CTA_PRIMARY: { label: t('hero.cta.primary'), path: INSTITUTION_ROUTES.register },
-      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: INSTITUTION_ROUTES.console },
+      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: '/ayuda' },
       LANDING_AUTHORITY_KICKER: t('landing.authority.kicker'),
       LANDING_AUTHORITY_TITLE: t('landing.authority.title'),
       LANDING_AUTHORITY_LEAD: t('landing.authority.lead'),
