@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import type { MessageKey } from '../../i18n/index.js';
 import { usePlatform } from '../context/PlatformContext.js';
-import { TRY_MODEL_ENTRY, INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 const ROUTE_STEP_IDS = ['os', 'catalog', 'pilot', 'close'] as const;
 const COMPARE_DIM_IDS = ['efficiency', 'results', 'security', 'citizens'] as const;
@@ -31,6 +31,7 @@ export function useLandingCopy() {
       HERO_CINEMATIC_TITLE: t('hero.cinematic.title'),
       HERO_CINEMATIC_TAGLINE: t('hero.cinematic.tagline'),
       HERO_CINEMATIC_SUBLINE: t('hero.cinematic.subline'),
+      HERO_NOT_LLM: t('hero.cinematic.notLlm'),
       HERO_SELL_LEAD: t('hero.sell.lead'),
       HERO_SELL_POINTS: [t('hero.sell.point1'), t('hero.sell.point2'), t('hero.sell.point3')] as const,
       HERO_DIAGRAM_EYEBROW: t('hero.diagram.eyebrow'),
@@ -50,8 +51,16 @@ export function useLandingCopy() {
       }),
       HERO_CTA_MICRO: t('hero.cinematic.micro'),
       HERO_TRUST_LINE: t('hero.cinematic.trust'),
-      HERO_CTA_PRIMARY: { label: t('hero.cta.primary'), path: TRY_MODEL_ENTRY },
-      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: '/#operacion' },
+      HERO_CTA_PRIMARY: { label: t('hero.cta.primary'), path: INSTITUTION_ROUTES.register },
+      HERO_CTA_SECONDARY: { label: t('hero.cta.secondary'), path: INSTITUTION_ROUTES.console },
+      LANDING_AUTHORITY_KICKER: t('landing.authority.kicker'),
+      LANDING_AUTHORITY_TITLE: t('landing.authority.title'),
+      LANDING_AUTHORITY_LEAD: t('landing.authority.lead'),
+      LANDING_AUTHORITY_COPILOT_TITLE: t('landing.authority.copilot.title'),
+      LANDING_AUTHORITY_COPILOT_BODY: t('landing.authority.copilot.body'),
+      LANDING_AUTHORITY_OS_TITLE: t('landing.authority.os.title'),
+      LANDING_AUTHORITY_OS_BODY: t('landing.authority.os.body'),
+      LANDING_AUTHORITY_FOOT: t('landing.authority.foot'),
       LANDING_HOW_KICKER: t('landing.how.kicker'),
       LANDING_HOW_TITLE: t('landing.how.title'),
       LANDING_HOW_LEAD: t('landing.how.lead'),
@@ -108,7 +117,7 @@ export function useLandingCopy() {
             : id === 'catalog'
               ? '/modelos'
               : id === 'pilot'
-                ? TRY_MODEL_ENTRY
+                ? INSTITUTION_ROUTES.register
                 : INSTITUTION_ROUTES.pilot,
         detail: t(`route.step.${id}.detail` as MessageKey),
         stat: t(`route.step.${id}.stat` as MessageKey),

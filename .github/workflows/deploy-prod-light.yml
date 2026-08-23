@@ -117,6 +117,18 @@ jobs:
         run: |
           curl -sf "http://${DROPLET_HOST}:3001/api/ops/health"
           echo
-          curl -sf "http://${DROPLET_HOST}/api/ops/health"
-          echo
+          ok=0
+          for i in $(seq 1 20); do
+            if curl -sf "http://${DROPLET_HOST}/api/ops/health"; then
+              echo
+              ok=1
+              break
+            fi
+            echo "nginx /api not ready yet ($i/20)"
+            sleep 3
+          done
+          if [ "$ok" != "1" ]; then
+            echo "ERROR: http://${DROPLET_HOST}/api/ops/health still failing"
+            exit 1
+          fi
           curl -sfI "http://${DROPLET_HOST}/" | head -n 5

@@ -22,10 +22,11 @@ const en = {
   'hero.screen.demo': 'Demo',
   'hero.screen.route': 'Route',
   'hero.screen.pilot': 'Pilot',
-  'hero.cinematic.title': 'The Operating System of the State.',
+  'hero.cinematic.title': 'The multi-agent OS of the State.',
   'hero.cinematic.tagline': 'Governance 2.0',
   'hero.cinematic.subline':
-    'Models that authenticate management and help a nation grow — with evidence and without opacity.',
+    'Evidence kernel · FREEZE · operational apps (EGS…). Any LLM is optional — and always subordinate to Centinela.',
+  'hero.cinematic.notLlm': 'We are not an LLM. We are the OS.',
   'landing.console.kicker': 'Console',
   'landing.console.title': 'See management in motion.',
   'landing.console.lead':
@@ -42,7 +43,7 @@ const en = {
   'landing.why.foot': 'Institutions operate. Citizens see and take part. Same truth.',
   'landing.why.state.title': 'For the State',
   'landing.why.state.body':
-    'One OS with models: each area authenticates what it does and gains management efficiency.',
+    'A multi-agent OS: institutional roles operate the kernel; operational apps (not LLMs) run on top.',
   'landing.why.citizen.title': 'For citizens',
   'landing.why.citizen.body':
     'Public management on the ledger and channels to participate — without opacity.',
@@ -73,7 +74,7 @@ const en = {
   'hero.diagram.eyebrow': 'Operating system',
   'hero.diagram.path': 'AGIGOV / OS',
   'hero.diagram.hub': 'AGIGOV OS',
-  'hero.diagram.hubSub': 'Evidence · custody · publish',
+  'hero.diagram.hubSub': 'Evidence · Centinela · publish',
   'hero.diagram.node.ingest': 'Spend ingest',
   'hero.diagram.node.multisig': 'Multi-sig baseline',
   'hero.diagram.node.escrow': 'Smart escrow',
@@ -82,9 +83,9 @@ const en = {
   'hero.diagram.node.publish': 'Citizen dashboard',
   'hero.cinematic.liveCaption': 'EGS console · {jurisdiction}',
   'hero.cinematic.micro': 'Input → process → gate → result',
-  'hero.cinematic.trust': 'Ed25519 · Centinela · PQC readiness · human-in-the-loop',
-  'hero.cta.primary': 'Deploy institutional model',
-  'hero.cta.secondary': 'See how it works',
+  'hero.cinematic.trust': 'Ledger · multi-sig · FREEZE · human-in-the-loop',
+  'hero.cta.primary': 'Institutional registration',
+  'hero.cta.secondary': 'See live console / FREEZE',
   'hero.cta.stage.kicker': 'Next step',
   'hero.cta.stage.title': 'Start with one budget line',
   'hero.cta.stage.lead':
@@ -284,7 +285,19 @@ const en = {
 
   'landing.models.kicker': 'Apps',
   'landing.models.title': 'One OS. Many apps for the State.',
-  'landing.models.body': 'Pick a model. Deploy. Operate.',
+  'landing.models.body':
+    'Operational apps on the OS (EGS, escrow…) — not language models. Pick one. Deploy. Operate.',
+  'landing.authority.kicker': 'Positioning',
+  'landing.authority.title': 'Copilots speed people up. We decide what becomes official.',
+  'landing.authority.lead':
+    'Grok, Claude, and GPT help the civil servant. AGIGOV is the authority plane: evidence must clear Centinela before publish or pay.',
+  'landing.authority.copilot.title': 'AI copilots (Grok / Claude / GPT)',
+  'landing.authority.copilot.body':
+    'Draft, summarize, reason. Productivity for the employee. No fiscal FREEZE, no shared citizen ledger.',
+  'landing.authority.os.title': 'AGIGOV — multi-agent State OS',
+  'landing.authority.os.body':
+    'Kernel + institutional agents + operational apps. Optional plug-in LLM — always subordinate to Centinela.',
+  'landing.authority.foot': 'We complement frontier models. We do not compete as another chat.',
   'landing.cta.title': 'Deploy the OS.',
   'landing.cta.lead': 'Build in the cloud or locally. Deploy with evidence — without opacity.',
   'landing.cta.micro': 'Cloud or local — same evidence logic',
@@ -332,7 +345,7 @@ const en = {
   'landing.security.cta': 'See institutional security',
 
   'landing.footer.tagline':
-    'Operating system for the State — public evidence, no opacity.',
+    'Multi-agent OS of the State — evidence kernel, not another LLM.',
   'landing.footer.product': 'Product',
   'landing.footer.citizen': 'Citizen',
   'landing.footer.models': 'Models',

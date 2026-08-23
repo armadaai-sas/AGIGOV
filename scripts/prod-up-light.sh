@@ -43,8 +43,24 @@ echo "[ProdLight] Migraciones + seed (one-shot)..."
 docker compose -f "$COMPOSE" --env-file "$ENV_FILE" run --rm migrate
 
 echo "[ProdLight] Health checks..."
-sleep 3
+for _i in $(seq 1 30); do
+  if curl -sf "http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/ops/health" >/dev/null; then
+    break
+  fi
+  sleep 2
+done
+# Refresh nginx upstream after core recreate (avoids sticky stale DNS → 502 on /api/).
+docker compose -f "$COMPOSE" --env-file "$ENV_FILE" $PROFILES restart web >/dev/null
+sleep 2
 curl -sf "http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/ops/health" | head -c 500 || true
+echo ""
+for _i in $(seq 1 15); do
+  if curl -sf "http://127.0.0.1:${WEB_PORT:-80}/api/ops/health" >/dev/null; then
+    break
+  fi
+  sleep 2
+done
+curl -sf "http://127.0.0.1:${WEB_PORT:-80}/api/ops/health" | head -c 200 || echo "[ProdLight] WARN: nginx /api still unhealthy"
 echo ""
 echo "[ProdLight] Listo."
 echo "  AGIGOV UI:  http://127.0.0.1:${WEB_PORT:-80}/"

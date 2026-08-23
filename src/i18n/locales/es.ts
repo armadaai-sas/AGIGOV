@@ -24,10 +24,11 @@ const es: Record<MessageKey, string> = {
   'hero.screen.demo': 'Demo',
   'hero.screen.route': 'Ruta',
   'hero.screen.pilot': 'Piloto',
-  'hero.cinematic.title': 'El Sistema Operativo del Estado.',
+  'hero.cinematic.title': 'El OS multi-agente del Estado.',
   'hero.cinematic.tagline': 'Gobernanza 2.0',
   'hero.cinematic.subline':
-    'Modelos que autentican la gestión y ayudan a crecer a una nación — con evidencia y sin opacidad.',
+    'Kernel de evidencia · FREEZE · apps operativas (EGS…). El LLM es opcional — y siempre subordinado al Centinela.',
+  'hero.cinematic.notLlm': 'No somos un LLM. Somos el OS.',
   'landing.console.kicker': 'Consola',
   'landing.console.title': 'Mira la gestión en movimiento.',
   'landing.console.lead':
@@ -44,7 +45,7 @@ const es: Record<MessageKey, string> = {
   'landing.why.foot': 'Instituciones operan. Ciudadanos ven y participan. Misma verdad.',
   'landing.why.state.title': 'Para el Estado',
   'landing.why.state.body':
-    'Un OS con modelos: cada área autentica lo que hace y gana eficiencia en gestión.',
+    'Un OS multi-agente: roles institucionales operan el kernel; las apps operativas (no LLMs) corren encima.',
   'landing.why.citizen.title': 'Para el ciudadano',
   'landing.why.citizen.body':
     'Gestión pública en el ledger y canales para participar — sin opacidad.',
@@ -75,7 +76,7 @@ const es: Record<MessageKey, string> = {
   'hero.diagram.eyebrow': 'Sistema operativo',
   'hero.diagram.path': 'AGIGOV / OS',
   'hero.diagram.hub': 'AGIGOV OS',
-  'hero.diagram.hubSub': 'Evidencia · custodia · publicación',
+  'hero.diagram.hubSub': 'Evidencia · Centinela · publicación',
   'hero.diagram.node.ingest': 'Ingesta de gasto',
   'hero.diagram.node.multisig': 'Baseline multi-sig',
   'hero.diagram.node.escrow': 'Escrow inteligente',
@@ -84,9 +85,9 @@ const es: Record<MessageKey, string> = {
   'hero.diagram.node.publish': 'Dashboard ciudadano',
   'hero.cinematic.liveCaption': 'Consola EGS · {jurisdiction}',
   'hero.cinematic.micro': 'Entrada → proceso → gate → resultado',
-  'hero.cinematic.trust': 'Ed25519 · Centinela · preparación PQC · human-in-the-loop',
-  'hero.cta.primary': 'Desplegar modelo institucional',
-  'hero.cta.secondary': 'Ver cómo funciona',
+  'hero.cinematic.trust': 'Ledger · multi-sig · FREEZE · human-in-the-loop',
+  'hero.cta.primary': 'Registro institucional',
+  'hero.cta.secondary': 'Ver consola / FREEZE en vivo',
   'hero.flow.eyebrow': 'Así trabaja AGIGOV — elige un caso',
   'hero.flow.resultLabel': 'Resultado',
   'hero.flow.stage.in': 'Entrada',
@@ -287,7 +288,19 @@ const es: Record<MessageKey, string> = {
 
   'landing.models.kicker': 'Apps',
   'landing.models.title': 'Un OS. Muchas apps del Estado.',
-  'landing.models.body': 'Elige un modelo. Despliega. Opera.',
+  'landing.models.body':
+    'Apps operativas sobre el OS (EGS, escrow…) — no modelos de lenguaje. Elige una. Despliega. Opera.',
+  'landing.authority.kicker': 'Posicionamiento',
+  'landing.authority.title': 'Los copilotos aceleran personas. Nosotros decidimos qué se vuelve oficial.',
+  'landing.authority.lead':
+    'Grok, Claude y GPT ayudan al funcionario. AGIGOV es el plano de autoridad: la evidencia debe pasar por Centinela antes de publicar o pagar.',
+  'landing.authority.copilot.title': 'Copilotos IA (Grok / Claude / GPT)',
+  'landing.authority.copilot.body':
+    'Redactan, resumen, razonan. Productividad del empleado. Sin FREEZE fiscal ni ledger ciudadano compartido.',
+  'landing.authority.os.title': 'AGIGOV — OS multi-agente del Estado',
+  'landing.authority.os.body':
+    'Kernel + agentes institucionales + apps operativas. LLM enchufable opcional — siempre subordinado al Centinela.',
+  'landing.authority.foot': 'Complementamos frontier models. No competimos como otro chat.',
   'landing.cta.title': 'Despliega el OS.',
   'landing.cta.lead': 'Construye en Cloud o Local. Despliega con evidencia — sin opacidad.',
   'landing.cta.micro': 'Cloud o Local — misma lógica de evidencia',
@@ -335,7 +348,7 @@ const es: Record<MessageKey, string> = {
   'landing.security.cta': 'Ver seguridad institucional',
 
   'landing.footer.tagline':
-    'Sistema operativo del Estado — evidencia pública, sin opacidad.',
+    'OS multi-agente del Estado — kernel de evidencia, no otro LLM.',
   'landing.footer.product': 'Producto',
   'landing.footer.citizen': 'Ciudadano',
   'landing.footer.models': 'Modelos',

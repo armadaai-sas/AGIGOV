@@ -3,10 +3,10 @@
 
 export const HERO_EYEBROW = 'Organización oficial';
 
-export const HERO_CINEMATIC_TITLE = 'El sistema operativo del Estado';
+export const HERO_CINEMATIC_TITLE = 'El OS multi-agente del Estado.';
 export const HERO_CINEMATIC_TAGLINE = 'Gobernanza 2.0';
 export const HERO_CINEMATIC_SUBLINE =
-  'Evidencia verificable para quienes ya gobiernan — sin sustituir al criterio humano.';
+  'Kernel de evidencia · FREEZE · apps operativas (EGS…). El LLM es opcional — y siempre subordinado al Centinela.';
 export const HERO_CINEMATIC_LIVE_CAPTION = 'Consola en vivo · datos del sandbox MPPI';
 
 export const HERO_SCREEN_LABELS = ['Demo', 'Ruta', 'Piloto'] as const;
