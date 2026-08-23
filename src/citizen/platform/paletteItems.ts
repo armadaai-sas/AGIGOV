@@ -19,7 +19,7 @@ const MODEL_ITEMS: PaletteItem[] = AGIGOV_MODELS.map((m) => ({
 /** Entradas del command palette ⌘K — alineadas con navConfig y catálogo de modelos. */
 export const PALETTE_ITEMS: readonly PaletteItem[] = [
   { id: 'home', label: 'Inicio', to: '/', group: 'Gobernanza 2.0', keywords: 'home landing' },
-  { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Gobernanza 2.0', keywords: 'carta concierge protocolo' },
+  { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Gobernanza 2.0', keywords: 'carta sandbox registro hablar equipo protocolo' },
   { id: 'modelo', label: 'Modelo', to: '/#modelo', group: 'Gobernanza 2.0', keywords: 'pilares gobernanza' },
   { id: 'ayuda-agigov', label: 'Qué es AGIGOV', to: '/ayuda/institucional', group: 'Gobernanza 2.0', keywords: 'tutorial protocolo carta visión' },
   { id: 'modelos', label: 'Modelos', to: '/modelos', group: 'Modelos AGIGOV', keywords: 'servicios gubernamental empresarial ciudadano catalogo' },

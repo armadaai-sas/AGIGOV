@@ -93,7 +93,7 @@ export default function EscritorioPage() {
           {isAuthenticated ? (
             <Link to={INSTITUTION_ROUTES.pilot} className="os-desk-foot-link">
               <Rocket className="h-3.5 w-3.5" aria-hidden />
-              Piloto fiscal EGS (Trust Pack)
+              Piloto fiscal EGS (Paquete de confianza)
             </Link>
           ) : (
             <Link to={INSTITUTION_ROUTES.register} className="os-desk-foot-link">

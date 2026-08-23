@@ -23,7 +23,7 @@ export default function InstitutionRegisterPage() {
         <Camera className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden />
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
-            Trust Pack · paso B1
+            Paquete de confianza · paso B1
           </p>
           <p className="mt-1 text-sm text-agigov-text">
             Tras crear cuenta, captura el escritorio o esta pantalla.

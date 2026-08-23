@@ -53,16 +53,16 @@ export const NAV_SECTION_MODELO: NavSection = {
   subtitle: 'Modelo AGIGOV · global',
   items: [
     { to: '/', label: 'Inicio', hint: 'Sistema operativo del Estado', icon: LayoutGrid },
-    { to: '/institucional', label: 'Institucional', hint: 'Concierge · registro · cuenta', icon: Landmark },
-    { to: '/#modelo', label: 'Modelo', hint: 'Tres pilares del protocolo', icon: Layers },
+    { to: '/institucional', label: 'Institucional', hint: 'Sandbox · hablar · cuenta', icon: Landmark },
+    { to: '/#autoridad', label: 'Por qué OS', hint: 'OS vs agentes / LLMs', icon: Layers },
     { to: '/ayuda/institucional', label: 'Qué es AGIGOV', hint: 'Tutorial · protocolo · Carta', icon: ScrollText },
     { to: '/modelos', label: 'Modelos', hint: 'Apps del OS · gobierno · empresa · ciudadano', icon: Package },
     { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API · OpenAPI · integradores', icon: Code2 },
   ],
   cta: {
     to: INSTITUTION_ROUTES.register,
-    label: 'Crear cuenta',
-    hint: 'Registro corto → escritorio',
+    label: 'Abrir entorno de prueba',
+    hint: 'Registro autoservicio → tenant',
     icon: Rocket,
   },
 } as const;
@@ -142,7 +142,7 @@ export const NAV_SECTION_INSTITUTIONAL: NavSection = {
     {
       to: '/#contacto',
       label: 'Contacto',
-      hint: 'Concierge institucional',
+      hint: 'Entorno de prueba o hablar con el equipo',
       icon: Landmark,
     },
   ],
@@ -191,7 +191,7 @@ export const NAV_SECTION_RESOURCES: NavSection = {
   items: [
     { to: '/ayuda', label: 'Centro de ayuda', hint: 'Tutoriales paso a paso', icon: LifeBuoy },
     { to: '/aprender/glosario', label: 'Glosario', hint: 'Términos clave', icon: BookOpen },
-    { to: '/institucional', label: 'Institucional', hint: 'Carta y concierge', icon: Landmark },
+    { to: '/institucional', label: 'Institucional', hint: 'Sandbox y hablar con el equipo', icon: Landmark },
   ],
 } as const;
 

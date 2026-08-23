@@ -304,7 +304,7 @@ export function InstitutionProfileStep() {
           data-testid="pilot-slug-banner"
         >
           <p className="text-xs font-semibold uppercase tracking-wide text-sky-200/90">
-            Slug tenant (captura Trust Pack)
+            Identificador de cuenta (captura Paquete de confianza)
           </p>
           <p className="mt-1 break-all font-mono text-lg text-sky-100">{session.slug}</p>
           {session.firstEscrowRef ? (

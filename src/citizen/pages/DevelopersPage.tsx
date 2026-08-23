@@ -15,7 +15,7 @@ const ENDPOINTS = [
   { method: 'GET', path: '/api/public/cne/consultation', desc: 'Consulta ciudadana verificable (demo)' },
   { method: 'POST', path: '/api/public/cne/vote', desc: 'Voto agregado consulta demo' },
   { method: 'POST', path: '/api/public/payments/webhook', desc: 'Webhook HMAC (pasarela pendiente — no es cobro bancario en prod)' },
-  { method: 'GET', path: '/api/public/pilot', desc: 'Estado multi-sig del despliegue demo' },
+  { method: 'GET', path: '/api/public/pilot', desc: 'Estado multifirma del despliegue demo' },
   { method: 'GET', path: '/api/public/openapi.json', desc: 'OpenAPI stub' },
 ] as const;
 
@@ -27,7 +27,7 @@ export default function DevelopersPage() {
       <SectionHeader
         eyebrow="AGIGOV · Desarrolladores"
         title="Portal para integradores"
-        lead="Integra la API pública, IAP entre agentes y health checks — sin leer todo el monorepo."
+        lead="API pública documentada. Endpoints marcados (demo) o stub no son producción cobrada — verifica health en vivo antes de integrar."
       />
 
       <section className="agigov-card mb-6 border-sky-500/20 bg-sky-950/10">

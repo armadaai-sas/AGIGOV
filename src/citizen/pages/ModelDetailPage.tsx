@@ -9,6 +9,7 @@ import { ModelValidationPanel } from '../components/models/ModelValidationPanel.
 import { ServiceConnectionPanel } from '../components/services/ServiceConnectionPanel.js';
 import { PageShell, SectionHeader } from '../components/PageShell.js';
 import { getAgigovModel, MODEL_AUDIENCE_LABEL } from '../platform/agigovModels.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 import { getEffectiveModelStatus } from '../platform/modelStatusSync.js';
 
 const SECTION_NAV = [
@@ -155,12 +156,12 @@ export default function ModelDetailPage() {
       <div className="mt-10 flex flex-wrap gap-3">
         {model.consolePath ? (
           <Link to={model.consolePath} className="ds-btn-app">
-            Abrir consola
+            {effectiveStatus === 'beta' ? 'Abrir demo' : 'Abrir consola'}
             <ArrowRight className="h-4 w-4" />
           </Link>
         ) : (
-          <Link to="/institucional#desplegar" className="ds-btn-app">
-            Solicitar despliegue
+          <Link to={INSTITUTION_ROUTES.register} className="ds-btn-app">
+            {effectiveStatus === 'beta' ? 'Probar en el entorno de prueba' : 'Abrir entorno de prueba'}
             <ArrowRight className="h-4 w-4" />
           </Link>
         )}

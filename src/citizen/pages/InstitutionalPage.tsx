@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Users, ScrollText, Code2 } from 'lucide-react';
+import { ArrowRight, Mail, LogIn, Rocket, ScrollText, Code2 } from 'lucide-react';
 
 import { AgigovLogo } from '../components/AgigovLogo.js';
 import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { PageShell } from '../components/PageShell.js';
 import { HelpTopicLink } from '../components/HelpTopicLink.js';
-import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { INSTITUTION_ROUTES, TEAM_CONTACT_MAILTO } from '../platform/institutionalRoutes.js';
 
 /**
- * Hub institucional — corto: visión en una frase + concierge + 2 CTAs.
- * Narrativa larga (Actos I–V) vive en docs; no bloquea el camino feliz.
+ * Hub institucional — dos caminos, sin jerga:
+ * 1) Sandbox autoservicio (registro)
+ * 2) Hablar con el equipo (correo humano)
  */
 export default function InstitutionalPage() {
   return (
@@ -26,39 +27,58 @@ export default function InstitutionalPage() {
         <p className="mt-3">
           <HelpTopicLink topic="institucional" />
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link to={INSTITUTION_ROUTES.register} className="ds-btn-app">
-            Crear cuenta
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link to={INSTITUTION_ROUTES.desk} className="ds-btn-secondary ds-btn-app-shape">
-            Abrir escritorio
-          </Link>
-        </div>
       </section>
 
-      <section id="desplegar" className="agigov-card mb-8 scroll-mt-28">
+      <section id="sandbox" className="agigov-card mb-6 scroll-mt-28">
         <div className="flex items-start gap-3">
           <div className="agigov-pillar-icon shrink-0">
-            <Users className="h-6 w-6" />
+            <Rocket className="h-6 w-6" aria-hidden />
           </div>
           <div>
-            <h2 className="font-display text-xl font-bold text-agigov-text">
-              Concierge institucional
-            </h2>
+            <p className="text-xs font-semibold uppercase tracking-wide text-agigov-text-muted">
+              Camino 1 · Autoservicio
+            </p>
+            <h2 className="mt-1 font-display text-xl font-bold text-agigov-text">Abrir entorno de prueba</h2>
             <p className="mt-2 text-sm leading-relaxed text-agigov-text-muted">
-              Evaluación de readiness, carta y sandbox controlado. Si ya tiene cuenta, entre al
-              escritorio.
+              Te registras, creas una cuenta y pruebas el OS solo. No necesitas hablar con nadie.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link to={INSTITUTION_ROUTES.register} className="ds-btn-app">
-                Registro
+                Abrir entorno de prueba
+                <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to={INSTITUTION_ROUTES.login} className="ds-btn-secondary ds-btn-app-shape">
+                <LogIn className="h-4 w-4" aria-hidden />
                 Ya tengo cuenta
               </Link>
-              <Link to="/#contacto" className="agigov-link inline-flex items-center text-sm">
-                Contacto
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hablar" className="agigov-card mb-8 scroll-mt-28">
+        <div className="flex items-start gap-3">
+          <div className="agigov-pillar-icon shrink-0">
+            <Mail className="h-6 w-6" aria-hidden />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-agigov-text-muted">
+              Camino 2 · Humano
+            </p>
+            <h2 className="mt-1 font-display text-xl font-bold text-agigov-text">
+              Hablar con el equipo
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-agigov-text-muted">
+              Para piloto guiado, readiness, carta o onboarding enterprise. Es correo real al
+              equipo — no un formulario genérico ni un alias de registro.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a href={TEAM_CONTACT_MAILTO} className="ds-btn-app">
+                <Mail className="h-4 w-4" aria-hidden />
+                contacto@agigov.org
+              </a>
+              <Link to={INSTITUTION_ROUTES.pilot} className="ds-btn-secondary ds-btn-app-shape">
+                Ver piloto fiscal
               </Link>
             </div>
           </div>

@@ -17,11 +17,11 @@ const PATHS = [
     action: 'Abrir gestión pública',
   },
   {
-    to: '/institucional#concierge',
+    to: '/institucional#sandbox',
     icon: Landmark,
     title: 'Gobierno e institución',
-    text: 'Concierge para incorporar el modelo AGIGOV en tu jurisdicción.',
-    action: 'Solicitar concierge',
+    text: 'Abre un entorno de prueba autoservicio o habla con el equipo para un piloto guiado.',
+    action: 'Abrir camino institucional',
   },
 ] as const;
 

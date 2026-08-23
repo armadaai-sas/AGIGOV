@@ -67,7 +67,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'El Estado ejecuta presupuesto con opacidad: pagos sin hito, sobrecostos no detectados y cierres trimestrales manuales propensos a discrepancia.',
     purpose:
-      'Reconciliar baseline presupuestario vs gasto trazado en ledger, calcular el ahorro verificado y repartirlo bajo reglas publicadas (re-inversión, mérito, fee del operador).',
+      'Reconciliar baseline presupuestario vs gasto trazado en ledger, calcular el ahorro verificado y repartirlo bajo reglas publicadas (re-inversión, mérito, comisión del operador).',
     whyVital:
       'Permite defender ante contraloría y ciudadanía que cada unidad monetaria ahorrada es auditable — sin fee si no hay ahorro real. Alinea incentivos del operador con eficiencia, no con gasto.',
     benefits: [
@@ -77,9 +77,9 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Congelamiento humano ante discrepancia',
     ],
     howItWorks: [
-      'Acta baseline multi-sig fija el techo presupuestario',
+      'Acta línea base multifirma fija el techo presupuestario',
       'Logístico registra ejecución e hitos en escrow',
-      'Centinela reconcilia antes del Q-Close',
+      'Centinela reconcilia antes del Cierre trimestral',
       'Comunicador publica ahorro y reparto en dashboard',
     ],
     businessModel: {
@@ -89,8 +89,8 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     },
     operationalModel: {
       agents: 'Centinela · Logístico · Soberano · Comunicador',
-      flow: 'Baseline → ejecución → reconciliación → Q-Close → reparto',
-      evidence: 'Ledger inmutable + acta multi-sig + hashes de hitos',
+      flow: 'Baseline → ejecución → reconciliación → Cierre trimestral → reparto',
+      evidence: 'Ledger inmutable + acta multifirma + hashes de hitos',
     },
     productPath: `${BASE}/egs`,
     consolePath: `${BASE}/egs/consola`,
@@ -119,7 +119,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Ciudadano emite voto con DID wallet-less',
       'Cola edge tolera desconexión',
-      'Core consolida con multi-sig de la autoridad electoral',
+      'Core consolida con multifirma de la autoridad electoral',
       'Agregados publicados; detalle cifrado hasta cierre legal',
     ],
     businessModel: {
@@ -130,7 +130,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     operationalModel: {
       agents: 'Centinela · Soberano · Comunicador',
       flow: 'Emisión → commit → recuento → publicación → auditoría',
-      evidence: 'Hash chain por mesa/territorio + acta multi-sig',
+      evidence: 'Hash chain por mesa/territorio + acta multifirma',
     },
     productPath: `${BASE}/set`,
     keywords: 'elecciones voto recuento auditoría electoral',
@@ -151,7 +151,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Reduce corrupcción estructural en cadena de pagos: el proveedor cobra al cumplir, el Estado no pierde leverage y la contraloría ve el mismo ledger que el ministerio.',
     benefits: [
       'LOCKED → VALIDATED → RELEASED por hito',
-      'Multi-sig antes de liberaciones irreversibles',
+      'multifirma antes de liberaciones irreversibles',
       'Cadena de custodia por contrato',
       'Integración con sensores y auditores',
     ],
@@ -310,7 +310,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     benefits: [
       'Envelopes IAP firmados',
       'Anti-replay y DID registry',
-      'Webhook a escrow al validar',
+      'Aviso automático a escrow al validar',
       'OpenAPI para integradores',
     ],
     howItWorks: [
@@ -437,7 +437,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Autoridad convoca consulta con quórum definido',
       'Ciudadanos emiten preferencia cifrada',
       'Centinela valida integridad del proceso',
-      'Resultado publicado con acta multi-sig',
+      'Resultado publicado con acta multifirma',
     ],
     businessModel: {
       payer: 'Municipio / ente convocante',

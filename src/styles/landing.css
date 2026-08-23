@@ -9,7 +9,9 @@
 @source "../citizen/components/home/HomeHeroMobileCta.tsx";
 @source "../citizen/components/home/HomeHeroOsDiagram.tsx";
 @source "../citizen/components/home/HomeHeroTitleAura.tsx";
+@source "../citizen/components/home/HomeHeroTitleRotator.tsx";
 @source "../citizen/components/home/HomeHeroConsoleDemo.tsx";
+@source "../citizen/components/home/HomeHeroInteractiveStage.tsx";
 @source "../citizen/components/landing/LandingSpineRail.tsx";
 @source "../citizen/components/landing/LandingConsoleSection.tsx";
 @source "../citizen/components/AgigovLogo.tsx";

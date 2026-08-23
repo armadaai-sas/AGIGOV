@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import { useInView } from 'motion/react';
-import { Bot, ShieldCheck } from 'lucide-react';
+import { Bot, ShieldCheck, ArrowRight } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 
-/** Copilotos vs OS de autoridad — anti-confusión vs Grok/Claude. */
+/** Copilotos vs OS — contraste visual con “gate” en el centro. */
 export function LandingAuthoritySection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -26,7 +26,7 @@ export function LandingAuthoritySection() {
           <p className="ls-lead">{copy.LANDING_AUTHORITY_LEAD}</p>
         </header>
 
-        <div className="ls-authority-compare" role="list">
+        <div className="ls-authority-stage" role="list">
           <article className="ls-authority-col" role="listitem">
             <div className="ls-card-head">
               <span className="ls-card-icon">
@@ -36,6 +36,13 @@ export function LandingAuthoritySection() {
             <h3 className="ls-card-title">{copy.LANDING_AUTHORITY_COPILOT_TITLE}</h3>
             <p className="ls-card-desc">{copy.LANDING_AUTHORITY_COPILOT_BODY}</p>
           </article>
+
+          <div className="ls-authority-gate" aria-hidden>
+            <span className="ls-authority-gate-label">Centinela</span>
+            <ArrowRight className="ls-authority-gate-arrow h-4 w-4" />
+            <span className="ls-authority-gate-chip">FREEZE / PERMITIR</span>
+          </div>
+
           <article className="ls-authority-col ls-authority-col--os" role="listitem">
             <div className="ls-card-head">
               <span className="ls-card-icon">

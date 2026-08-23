@@ -44,7 +44,7 @@ const DEMO: MinistryHealthResponse = {
   pilotBanner: '',
 };
 
-const TRUST = ['Centinela', 'Human-in-the-loop', 'Ledger publicado', 'Offline-first'] as const;
+const TRUST = ['Centinela', 'Decisión humana', 'Registro publicado', 'Primero offline'] as const;
 
 function formatVes(value: string): string {
   const n = parseFloat(value);

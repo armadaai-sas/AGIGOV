@@ -129,20 +129,26 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
   {
     slug: 'institucional',
     title: 'Institucional y gobiernos',
-    tagline: 'Adopción del modelo, Carta, protocolo y concierge.',
+    tagline: 'Adopción del modelo: sandbox autoservicio o hablar con el equipo.',
     category: 'institucional',
     whatIs:
-      'Documentación y concierge para instituciones que adoptan AGIGOV. Implementaciones nacionales (ej. Venezuela) viven aquí, no en el logo global.',
+      'Hub para instituciones que adoptan AGIGOV: abrir entorno de prueba (registro) o escribir al equipo para piloto guiado. Implementaciones nacionales (ej. Venezuela) viven aquí, no en el logo global.',
     whoFor: 'Equipos gubernamentales, jurídico, operadores de nodo y aliados institucionales.',
     youCan: [
-      'Leer Carta y política de participación',
-      'Solicitar concierge para piloto territorial',
-      'Acceder a protocolo técnico para desarrolladores',
+      'Abrir un entorno de prueba autoservicio (registro)',
+      'Hablar con el equipo para piloto guiado',
+      'Acceder a API y docs para desarrolladores',
     ],
     steps: [
       { title: 'Conoce el marco', text: 'Carta, pilares y roadmap de ejecución del piloto.' },
-      { title: 'Concierge', text: 'Registra interés institucional — human-in-the-loop en hitos críticos.' },
-      { title: 'Implementación', text: 'Elige jurisdicción en el selector del header sin confundir marca AGIGOV.' },
+      {
+        title: 'Elige el camino',
+        text: 'Entorno de prueba = te registras solo. Hablar = correo humano. No son lo mismo.',
+      },
+      {
+        title: 'Implementación',
+        text: 'Elige jurisdicción en el selector del header sin confundir marca AGIGOV.',
+      },
     ],
     actionRoute: '/institucional',
     actionLabel: 'Abrir institucional',
@@ -161,11 +167,14 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
       'Profundizar con glosario y tutoriales por sección',
     ],
     steps: [
-      { title: 'Lee la comparación', text: 'En la home, sección Modelo explica diferencias clave.' },
+      { title: 'Lee la comparación', text: 'En la home, sección Por qué OS explica la diferencia.' },
       { title: 'Sigue el flujo', text: 'Recibido → validado → decidido → comprometido → publicado.' },
-      { title: 'Elige tu camino', text: 'Explorar datos, participar o concierge según tu rol.' },
+      {
+        title: 'Elige tu camino',
+        text: 'Explorar datos, participar, abrir entorno de prueba o hablar con el equipo.',
+      },
     ],
-    actionRoute: '/#modelo',
+    actionRoute: '/#autoridad',
     actionLabel: 'Ver en la home',
   },
 ] as const;

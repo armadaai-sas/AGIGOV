@@ -4,14 +4,14 @@ import { ShieldCheck } from 'lucide-react';
 import { fetchPilotStatus } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 
-/** Estado multi-sig del despliegue demo (Paso 10). */
+/** Estado multifirma del despliegue demo (Paso 10). */
 export function PilotStatusSection() {
   const { data, error, state } = useCachedFetch('pilot-status', fetchPilotStatus, 60_000);
 
   if (state === 'syncing' && !data) {
     return (
       <section className="agigov-card mb-10 border border-white/[0.06]">
-        <p className="text-sm text-agigov-text-muted">Verificando acta multi-sig…</p>
+        <p className="text-sm text-agigov-text-muted">Verificando acta multifirma…</p>
       </section>
     );
   }
@@ -19,9 +19,9 @@ export function PilotStatusSection() {
   if (error || !data) {
     return (
       <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-amber-500/20">
-        <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multi-sig</h2>
+        <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multifirma</h2>
         <p className="agigov-lead mt-2">
-          Acta multi-sig no verificada aún en este entorno. Contacte al operador del despliegue o
+          Acta multifirma no verificada aún en este entorno. Contacte al operador del despliegue o
           abra el escritorio para continuar.
         </p>
         <Link to="/escritorio" className="ds-btn-secondary ds-btn-app-shape mt-4 inline-flex">
@@ -39,7 +39,7 @@ export function PilotStatusSection() {
       <div className="flex items-start gap-3">
         <ShieldCheck className="h-7 w-7 shrink-0 text-emerald-400" aria-hidden />
         <div className="min-w-0 flex-1">
-          <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multi-sig verificado</h2>
+          <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multifirma verificado</h2>
           <p className="agigov-lead mt-2">
             Acta <span className="agigov-mono-id">{data.processId}</span> —{' '}
             {data.ok ? (

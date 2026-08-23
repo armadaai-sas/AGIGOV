@@ -29,8 +29,8 @@ export const HERO_ROUTE_STEPS = [
     label: 'Trust Pilot Fiscal',
     hint: 'Primer modelo disponible',
     path: '/modelos/egs',
-    detail: 'Cierre verificable de un rubro en 90 días. Fee AGIGOV solo si hay ahorro real verificado.',
-    stat: 'Piloto 3× validado en sandbox',
+    detail: 'Cierre verificable de un rubro en 90 días. Comisión AGIGOV solo si hay ahorro real verificado.',
+    stat: 'Piloto 3× validado en el entorno de prueba',
   },
   {
     id: 'close',
@@ -38,6 +38,6 @@ export const HERO_ROUTE_STEPS = [
     hint: 'Gestión + ciudadanía',
     path: '/modelos/egs/consola',
     detail: 'Acta firmada, hashes reproducibles y dashboard publicable sin exponer datos personales.',
-    stat: 'Ed25519 · human-in-the-loop',
+    stat: 'Ed25519 · decisión humana',
   },
 ] as const;

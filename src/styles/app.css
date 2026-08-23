@@ -1777,7 +1777,8 @@
     @apply text-[#475569];
   }
 
-.site-nav-link--concierge {
+.site-nav-link--concierge,
+.site-nav-link--cta {
     @apply inline-flex items-center gap-1.5 rounded-lg border border-slate-300/60 bg-white/40 px-3 py-1.5 text-sm font-semibold text-[#475569] shadow-none transition-colors hover:border-slate-400/70 hover:bg-white/60;
   }
 

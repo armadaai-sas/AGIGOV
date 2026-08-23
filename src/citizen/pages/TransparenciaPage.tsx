@@ -54,7 +54,7 @@ export default function TransparenciaPage() {
       />
 
       <PlatformAlert variant="warning" title="Demo técnica" className="mb-6">
-        Promulgación pública sujeta a firma multi-sig del marco contractual.
+        Promulgación pública sujeta a firma multifirma del marco contractual.
       </PlatformAlert>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

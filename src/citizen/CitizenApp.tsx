@@ -50,8 +50,8 @@ function AppRoutes() {
         <Route path="/propuestas" element={<ProposalsPage />} />
         <Route path="/suministros" element={<SupplyPage />} />
         <Route path="/modelos" element={<ModelsCatalogPage />} />
-        <Route path="/modelos/:modelId" element={<ModelDetailPage />} />
         <Route path="/modelos/egs/consola" element={<EgsVialConsolePage />} />
+        <Route path="/modelos/:modelId" element={<ModelDetailPage />} />
         <Route path="/ven/servicios/*" element={<LegacyVenRouteRedirect />} />
         <Route path="/proyectos" element={<ProjectsPage />} />
         <Route path="/proyectos/contrato/:escrowProcessId" element={<EgsContractDetailPage />} />

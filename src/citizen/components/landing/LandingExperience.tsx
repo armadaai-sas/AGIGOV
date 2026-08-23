@@ -8,7 +8,8 @@ export function scrollToLandingId(id: string) {
   if (!el) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  window.history.replaceState(null, '', `#${id}`);
+  const { pathname, search } = window.location;
+  window.history.replaceState(null, '', `${pathname}${search}#${id}`);
 }
 
 function hashFromHref(href: string | null): string | null {
@@ -17,6 +18,8 @@ function hashFromHref(href: string | null): string | null {
   try {
     const url = new URL(href, window.location.origin);
     if (url.pathname === '/' || url.pathname === window.location.pathname) {
+      // Query distinta (p.ej. ?resultado=empresarial) → deja que React Router navegue.
+      if (url.search && url.search !== window.location.search) return null;
       return url.hash ? url.hash.slice(1) : null;
     }
   } catch {

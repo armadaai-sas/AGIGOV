@@ -1,11 +1,16 @@
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useInView } from 'motion/react';
 import { Cloud, Server } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
+import { TRY_MODEL_ENTRY } from '../../platform/institutionalRoutes.js';
 import { LandingDeployCta } from './LandingDeployCta.js';
 
-/** Desplegar — separado de Construir. CTA: Desplegar. */
+/**
+ * Desplegar — dónde corre el OS + CTA único: abrir sandbox (registro).
+ * Sin anclas muertas (#construir / #consola).
+ */
 export function LandingDeploySection() {
   const copy = useLandingCopy();
   const sectionRef = useRef<HTMLElement>(null);
@@ -62,15 +67,15 @@ export function LandingDeploySection() {
               {where === 'cloud' ? copy.LANDING_DEPLOY_CLOUD : copy.LANDING_DEPLOY_LOCAL}
             </p>
 
-            <LandingDeployCta to={copy.HERO_CTA_PRIMARY.path} impact />
+            <LandingDeployCta to={TRY_MODEL_ENTRY} impact />
             <p className="ls-build-micro">{copy.LANDING_DEPLOY_CTA_MICRO}</p>
             <div className="ls-build-links">
-              <a href="#construir" className="ls-build-link">
+              <Link to="/#modelos" className="ls-btn ls-btn--secondary">
                 {copy.LANDING_DEPLOY_BACK_BUILD}
-              </a>
-              <a href="#consola" className="ls-build-link">
-                {copy.LANDING_CTA_SEE_CONSOLE}
-              </a>
+              </Link>
+              <Link to="/#resultados" className="ls-btn ls-btn--secondary">
+                {copy.LANDING_DEPLOY_SEE_RESULTS}
+              </Link>
             </div>
           </div>
         </div>

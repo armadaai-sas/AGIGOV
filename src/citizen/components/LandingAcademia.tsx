@@ -57,16 +57,16 @@ const GUIDES = [
   {
     icon: Landmark,
     title: 'Adoptar como gobierno',
-    text: 'Concierge institucional: carta, despliegue multi-sig y publicación verificable.',
-    to: '/institucional#concierge',
-    cta: 'Solicitar concierge',
+    text: 'Sandbox autoservicio o hablar con el equipo para piloto guiado y readiness.',
+    to: '/institucional#sandbox',
+    cta: 'Abrir camino institucional',
   },
   {
     icon: ScrollText,
     title: 'Protocolo y documentación',
     text: 'Especificación técnica del modelo genérico AGIGOV para desarrolladores e instituciones.',
-    to: '/institucional#protocolo',
-    cta: 'Ver protocolo',
+    to: '/desarrolladores',
+    cta: 'Ver API y docs',
   },
 ] as const;
 
@@ -74,7 +74,7 @@ const FLOW = [
   { step: '01', label: 'Recibido', desc: 'Propuesta o dato entra al sistema' },
   { step: '02', label: 'Validado', desc: 'Centinela verifica integridad y firmas' },
   { step: '03', label: 'Decidido', desc: 'Soberano o agentes emiten dictamen' },
-  { step: '04', label: 'Comprometido', desc: 'Multi-sig antes de efectos irreversibles' },
+  { step: '04', label: 'Comprometido', desc: 'multifirma antes de efectos irreversibles' },
   { step: '05', label: 'Publicado', desc: 'Ciudadano ve gestión en la plataforma' },
 ] as const;
 

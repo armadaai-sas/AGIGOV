@@ -71,10 +71,10 @@ export function SiteFooter() {
                 <Link to="/#os">{t('landing.footer.link.os')}</Link>
               </li>
               <li>
-                <Link to="/#consola">{t('landing.footer.link.console')}</Link>
+                <Link to="/#resultados">{t('landing.footer.link.console')}</Link>
               </li>
               <li>
-                <Link to="/#alcance">{t('landing.footer.link.citizen')}</Link>
+                <Link to="/#autoridad">{t('landing.footer.link.citizen')}</Link>
               </li>
               <li>
                 <Link to="/#modelos">{t('landing.footer.link.apps')}</Link>
@@ -129,6 +129,9 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
+              </li>
+              <li>
+                <Link to="/desarrolladores">{t('landing.footer.link.devs')}</Link>
               </li>
               <li>
                 <Link to="/#contacto">{t('landing.footer.link.contact')}</Link>

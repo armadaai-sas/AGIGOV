@@ -1,21 +1,21 @@
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'motion/react';
-import { Compass, Rocket, Sparkles } from 'lucide-react';
 
+import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
 import { HomeHeroTitleAura } from './HomeHeroTitleAura.js';
-import { HomeHeroOsDiagram } from './HomeHeroOsDiagram.js';
+import { HomeHeroTitleRotator, type HeroAudience } from './HomeHeroTitleRotator.js';
+import { HomeHeroInteractiveStage } from './HomeHeroInteractiveStage.js';
+import { HomeHeroGateRail } from './HomeHeroGateRail.js';
+import { HomeHeroLivePulse } from './HomeHeroLivePulse.js';
 
-const GATE_ICONS = {
-  explore: Compass,
-  deploy: Rocket,
-  discover: Sparkles,
-} as const;
-
-/** Hero: tres puertas OS (Explorar · Desplegar · Descubrir) + diagrama. */
+/** Hero: marca → promesa → kernel → resultados → Sandbox + API. */
 export function HomeHero() {
   const copy = useLandingCopy();
   const reduceMotion = useReducedMotion();
+  const [audience, setAudience] = useState<HeroAudience>('business');
+  const onAudienceChange = useCallback((next: HeroAudience) => setAudience(next), []);
 
   const enter = (delay: number) =>
     reduceMotion
@@ -23,7 +23,7 @@ export function HomeHero() {
       : {
           initial: { opacity: 0, y: 12 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] as const },
+          transition: { duration: 0.42, delay, ease: [0.16, 1, 0.3, 1] as const },
         };
 
   return (
@@ -31,45 +31,46 @@ export function HomeHero() {
       <div className="ls-inner">
         <div className="ls-hero-stack">
           <HomeHeroTitleAura />
-          <motion.p className="ls-hero-not-llm" {...enter(0)}>
+
+          <motion.div className="ls-hero-brand" {...enter(0)}>
+            <AgigovLogo size="lg" showWordmark tagline={copy.HERO_CINEMATIC_TAGLINE} />
+          </motion.div>
+
+          <motion.p className="ls-hero-not-llm" {...enter(0.03)}>
             {copy.HERO_NOT_LLM}
           </motion.p>
-          <motion.h1 id="home-hero-title" className="ls-hero-title" {...enter(0.04)}>
-            {copy.HERO_CINEMATIC_TITLE}
-          </motion.h1>
-          <motion.p className="ls-hero-sub" {...enter(0.08)}>
+
+          <motion.div className="ls-hero-title-wrap" {...enter(0.06)}>
+            <HomeHeroTitleRotator audience={audience} onAudienceChange={onAudienceChange} />
+          </motion.div>
+
+          <motion.p className="ls-hero-sub" {...enter(0.1)}>
             {copy.HERO_CINEMATIC_SUBLINE}
           </motion.p>
 
-          <motion.div className="ls-hero-gates" role="navigation" aria-label={copy.HERO_GATES_ARIA} {...enter(0.12)}>
-            {copy.HERO_GATES.map((gate) => {
-              const Icon = GATE_ICONS[gate.id];
-              return (
-                <Link key={gate.id} to={gate.path} className={`ls-hero-gate ls-hero-gate--${gate.id}`}>
-                  <span className="ls-hero-gate-icon" aria-hidden>
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="ls-hero-gate-copy">
-                    <span className="ls-hero-gate-label">{gate.label}</span>
-                    <span className="ls-hero-gate-hint">{gate.hint}</span>
-                  </span>
-                  <span className="ls-hero-gate-go" aria-hidden>
-                    →
-                  </span>
-                </Link>
-              );
-            })}
+          <motion.div {...enter(0.14)}>
+            <HomeHeroGateRail />
           </motion.div>
 
-          <motion.p className="ls-hero-trust" {...enter(0.16)}>
-            {copy.HERO_TRUST_LINE}
-          </motion.p>
+          <motion.div {...enter(0.17)}>
+            <HomeHeroLivePulse />
+          </motion.div>
+
+          <motion.div className="ls-hero-cta" {...enter(0.2)}>
+            <Link to={copy.HERO_CTA_PRIMARY.path} className="ls-btn ls-btn--primary ls-btn--impact">
+              {copy.HERO_CTA_PRIMARY.label}
+              <span aria-hidden> →</span>
+            </Link>
+            <Link to={copy.HERO_CTA_SECONDARY.path} className="ls-btn ls-btn--secondary">
+              {copy.HERO_CTA_SECONDARY.label}
+            </Link>
+          </motion.div>
         </div>
       </div>
 
-      <motion.div className="ls-stage ls-stage--hero" {...enter(0.18)}>
+      <motion.div className="ls-stage ls-stage--hero ls-stage--caps" {...enter(0.24)}>
         <div className="ls-inner ls-inner--stage">
-          <HomeHeroOsDiagram />
+          <HomeHeroInteractiveStage audience={audience} onAudienceChange={onAudienceChange} />
         </div>
       </motion.div>
     </section>

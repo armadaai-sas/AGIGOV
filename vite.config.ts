@@ -63,15 +63,27 @@ export default defineConfig(({ mode }) => {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
     resolve: {
+      // AGIGOV is a Windows junction → Armada-VZLA; keep the workspace path so Vite can read files.
+      preserveSymlinks: true,
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
+      // Junction workspace (AGIGOV ↔ Armada-VZLA): allow both path names.
+      fs: {
+        strict: false,
+        allow: [
+          path.resolve(__dirname),
+          path.resolve(__dirname, '..', 'AGIGOV'),
+          path.resolve(__dirname, '..', 'Armada-VZLA'),
+        ],
+      },
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:3001',
+          // Prefer local API when running; fall back to live droplet for landing pulse.
+          target: env.VITE_API_PROXY || 'http://137.184.66.163',
           changeOrigin: true,
         },
       },

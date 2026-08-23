@@ -78,7 +78,7 @@ export function HeroPremium({
           </div>
 
           <ul className="hero-trust-row mt-8" aria-label="Garantías del protocolo">
-            {['Multi-sig', 'Ledger inmutable', 'Human-in-the-loop', 'Offline-first'].map((t) => (
+            {['Multifirma', 'Registro inmutable', 'Decisión humana', 'Primero offline'].map((t) => (
               <li key={t}>{t}</li>
             ))}
           </ul>
@@ -92,7 +92,7 @@ export function HeroPremium({
               <p className="hero-console-label">Telemetría pública</p>
               <p className="hero-console-title">Nodo · AGIGOV-VEN</p>
             </div>
-            <span className="hero-console-badge">{loading ? 'SYNC' : 'LIVE'}</span>
+          <span className="hero-console-badge">{loading ? 'SYNC' : 'EN VIVO'}</span>
           </header>
 
           <div className="hero-metrics">

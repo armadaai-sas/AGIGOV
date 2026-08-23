@@ -100,7 +100,7 @@ export function EgsDeltaSimulator() {
       </dl>
 
       <p className="mt-4 text-xs text-amber-200/80">
-        Demo ilustrativa. Q-Close real requiere baseline multi-sig, reconciliación centinela y acta publicada.
+        Demo ilustrativa. Cierre trimestral real requiere línea base multifirma, reconciliación centinela y acta publicada.
       </p>
     </section>
   );

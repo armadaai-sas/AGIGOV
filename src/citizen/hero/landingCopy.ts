@@ -7,17 +7,17 @@ export const HERO_CINEMATIC_TITLE = 'El OS multi-agente del Estado.';
 export const HERO_CINEMATIC_TAGLINE = 'Gobernanza 2.0';
 export const HERO_CINEMATIC_SUBLINE =
   'Kernel de evidencia · FREEZE · apps operativas (EGS…). El LLM es opcional — y siempre subordinado al Centinela.';
-export const HERO_CINEMATIC_LIVE_CAPTION = 'Consola en vivo · datos del sandbox MPPI';
+export const HERO_CINEMATIC_LIVE_CAPTION = 'Consola en vivo · datos del entorno de prueba MPPI';
 
 export const HERO_SCREEN_LABELS = ['Demo', 'Ruta', 'Piloto'] as const;
 
 export const HERO_CTA_STAGE_TITLE = 'Empiece por un rubro acotado';
 export const HERO_CTA_STAGE_LEAD =
-  '90 días. Un ministerio, un rubro, un cierre firmado — fee solo si hay ahorro verificable.';
-export const HERO_CTA_MICRO = 'Sandbox público · sin registro · piloto validado 3×';
+  '90 días. Un ministerio, un rubro, un cierre firmado — comisión solo si hay ahorro verificable.';
+export const HERO_CTA_MICRO = 'Entorno de prueba público · sin registro · piloto validado 3×';
 
 export const HERO_TRUST_LINE =
-  'Ed25519 · human-in-the-loop · centinela antes de publicar';
+  'Ed25519 · decisión humana · centinela antes de publicar';
 
 export const HERO_TITLE = 'El sistema operativo del Estado moderno';
 export const HERO_TITLE_ACCENT = 'Gobernanza 2.0';
@@ -37,9 +37,9 @@ export const HERO_CTA_SECONDARY = {
 
 /** @deprecated Usar HERO_TRUST_LINE */
 export const HERO_TRUST_SEALS = [
-  'Piloto fiscal 3× en sandbox',
+  'Piloto fiscal 3× en el entorno de prueba',
   'Firmas Ed25519',
-  'Human-in-the-loop',
+  'decisión humana',
 ] as const;
 
 export const HERO_REASSURANCE = [
@@ -65,7 +65,7 @@ export const HERO_FIRST_MODEL = {
   name: 'Trust Pilot Fiscal',
   subtitle: 'Efficiency Gain Share',
   description:
-    'Cierre verificable de un rubro en 90 días. Fee solo si hay ahorro real verificado.',
+    'Cierre verificable de un rubro en 90 días. comisión solo si hay ahorro real verificado.',
   cta: 'Primer modelo',
   path: '/modelos/egs',
   demoPath: '/modelos/egs/consola',
@@ -88,7 +88,7 @@ export const HERO_GOVERNANCE_COMPARE = {
       id: 'results',
       label: 'Resultados',
       traditional: 'Difícil demostrar ahorro real o priorizar obra publicada',
-      governance2: 'Ahorro verificable, reparto EGS y fee solo sobre ahorro certificado',
+      governance2: 'Ahorro verificable, reparto EGS y comisión solo sobre ahorro certificado',
     },
     {
       id: 'security',
@@ -123,7 +123,7 @@ export const HERO_PIPELINE_CAPTION =
 export const HERO_VALUE_STRIP = [
   { label: 'Menos fricción', hint: 'Una verdad para tesorería y contraloría' },
   { label: 'Más legitimidad', hint: 'Gestión publicable, sin teatro' },
-  { label: 'Incentivos honestos', hint: 'Fee solo sobre ahorro certificado' },
+  { label: 'Incentivos honestos', hint: 'comisión solo sobre ahorro certificado' },
 ] as const;
 
 export const LANDING_MODELS_KICKER = 'Modelos modulares';
@@ -134,7 +134,7 @@ export const LANDING_MODELS_BODY =
 export const LANDING_CTA_TITLE = 'Vea el cierre fiscal en su propio ritmo';
 export const LANDING_CTA_LEAD =
   'Abra la consola, recorra el catálogo o agende una conversación sobre un rubro concreto.';
-export const LANDING_CTA_MICRO = 'Sin compromiso institucional para explorar el sandbox';
+export const LANDING_CTA_MICRO = 'Sin compromiso institucional para explorar el entorno de prueba';
 
 /** @deprecated */
 export const LANDING_CHALLENGE_KICKER = 'Contexto';

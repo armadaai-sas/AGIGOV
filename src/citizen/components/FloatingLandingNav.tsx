@@ -21,7 +21,7 @@ export function FloatingLandingNav() {
         </Link>
         <Link
           to={EGS_VIAL_PRODUCT_PATH}
-          className="site-nav-link site-nav-link--landing site-nav-link--concierge"
+          className="site-nav-link site-nav-link--landing site-nav-link--cta"
         >
           Servicio EGS
           <ArrowRight className="h-4 w-4" aria-hidden />

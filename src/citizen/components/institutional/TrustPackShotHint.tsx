@@ -13,7 +13,7 @@ const SHOT_BY_WIZARD_STEP: Array<{ bStep: number; file: string; tip: string }> =
   { bStep: 9, file: '09-tenant.png', tip: 'Consola / datos del tenant' },
 ];
 
-/** Hint de captura Trust Pack en el wizard (no sustituye checklist). */
+/** Hint de captura Paquete de confianza en el wizard (no sustituye checklist). */
 export function TrustPackShotHint() {
   const { activeStep } = useInstitutionPilot();
   const shot = SHOT_BY_WIZARD_STEP[activeStep];
@@ -22,12 +22,12 @@ export function TrustPackShotHint() {
   return (
     <aside
       className="mb-4 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3"
-      aria-label="Captura Trust Pack"
+      aria-label="Captura Paquete de confianza"
     >
       <Camera className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden />
       <div className="min-w-0">
         <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
-          Trust Pack · paso B{shot.bStep}
+          Paquete de confianza · paso B{shot.bStep}
         </p>
         <p className="mt-1 text-sm text-agigov-text">{shot.tip}</p>
         <p className="mt-1 font-mono text-xs text-amber-100/80">artifacts/{shot.file}</p>

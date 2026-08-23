@@ -8,11 +8,16 @@ export function ScrollToTop() {
   useEffect(() => {
     if (hash) {
       const id = hash.replace('#', '');
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
+      const tryScroll = (attempt = 0) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        if (attempt < 8) window.setTimeout(() => tryScroll(attempt + 1), 50);
+      };
+      tryScroll();
+      return;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [pathname, hash]);

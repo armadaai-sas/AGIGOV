@@ -23,7 +23,7 @@ export default function InstitutionAccessPage() {
         <Camera className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden />
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
-            Trust Pack · paso B2
+            Paquete de confianza · paso B2
           </p>
           <p className="mt-1 text-sm text-agigov-text">
             Cierra sesión si hace falta, inicia sesión y captura.

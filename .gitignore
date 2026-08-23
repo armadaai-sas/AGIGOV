@@ -67,3 +67,7 @@ data/billing-freeze.json
 prisma-edge/data/
 src/generated/
 infra/wireguard/config/
+
+# Local audit / temp artifacts (never commit)
+.tmp*
+.tmp-*/

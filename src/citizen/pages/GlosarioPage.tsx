@@ -12,6 +12,30 @@ const TERMS = [
     example: 'Un reporte de gestión publicado aparece como entrada verificable en el ledger.',
   },
   {
+    term: 'Centinela',
+    definition:
+      'Agente de integridad del OS. Si el flujo no cuadra con la evidencia, pausa la operación antes de publicar o pagar.',
+    example: 'Una discrepancia en un hito de escrow dispara revisión — no un pago automático a ciegas.',
+  },
+  {
+    term: 'FREEZE',
+    definition:
+      'Congelación controlada: el sistema detiene el efecto y un humano decide el siguiente paso.',
+    example: 'Ante anomalía electoral o fiscal, FREEZE evita publicar un resultado dudoso.',
+  },
+  {
+    term: 'Multifirma',
+    definition:
+      'Varias firmas institucionales deben coincidir antes de un acto irreversible (presupuesto, pago, cierre).',
+    example: 'Un techo presupuestario solo vale cuando hay quórum de firmas, no con un solo clic.',
+  },
+  {
+    term: 'Kernel',
+    definition:
+      'Núcleo del OS que decide qué se publica y qué se paga — con evidencia. No es un chatbot.',
+    example: 'Los agentes y un LLM opcional corren encima del kernel, subordinados a Centinela.',
+  },
+  {
     term: 'Propuesta',
     definition:
       'Iniciativa ciudadana con hechos verificables. Entra al pipeline como recibida y avanza solo si centinela valida la evidencia.',
@@ -39,9 +63,9 @@ export default function GlosarioPage() {
         title="Glosario ciudadano"
         lead="Conceptos clave del modelo — en lenguaje claro, sin jerga innecesaria."
         action={
-          <Link to="/#aprender" className="ds-btn-secondary ds-btn-app-shape hidden sm:inline-flex">
+          <Link to="/ayuda" className="ds-btn-secondary ds-btn-app-shape hidden sm:inline-flex">
             <BookOpen className="h-4 w-4" />
-            Guías completas
+            Centro de ayuda
           </Link>
         }
       />

@@ -11,11 +11,11 @@ const ACTIONS = [
     variant: 'primary' as const,
   },
   {
-    to: '/institucional#concierge',
+    to: '/institucional#sandbox',
     icon: Landmark,
-    title: 'Concierge de registro',
-    text: 'Gobiernos e instituciones: inicia la adopción del modelo AGIGOV en tu jurisdicción.',
-    cta: 'Registrar interés',
+    title: 'Abrir entorno de prueba institucional',
+    text: 'Gobiernos e instituciones: registro autoservicio para probar el OS en tu jurisdicción.',
+    cta: 'Abrir entorno de prueba',
     variant: 'gold' as const,
   },
   {

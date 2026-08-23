@@ -14,14 +14,14 @@ export function SiteHeader() {
         </Link>
 
         <div className="site-header-actions site-header-actions--landing">
-          <Link to="/institucional#modelo" className="site-nav-link site-nav-link--landing">
-            Modelo
+          <Link to="/#autoridad" className="site-nav-link site-nav-link--landing">
+            Por qué OS
           </Link>
           <Link to={INSTITUTION_ROUTES.login} className="site-nav-link site-nav-link--landing">
-            Iniciar sesión
+            Ya tengo cuenta
           </Link>
-          <Link to={TRY_MODEL_ENTRY} className="site-nav-link site-nav-link--landing site-nav-link--concierge">
-            Registrarse
+          <Link to={TRY_MODEL_ENTRY} className="site-nav-link site-nav-link--landing site-nav-link--cta">
+            Abrir entorno de prueba
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>

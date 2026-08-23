@@ -239,7 +239,7 @@ export function InstitutionIngestStep() {
     ]);
   }
 
-  /** Trust Pack / Operador B: ≥3 hitos en un clic (índices únicos). */
+  /** Paquete de confianza / Operador B: ≥3 hitos en un clic (índices únicos). */
   async function submitThreeDemo() {
     const base = Number.isFinite(milestoneIndex) ? milestoneIndex : 9001;
     const stamp = Date.now();
@@ -283,7 +283,7 @@ export function InstitutionIngestStep() {
   return (
     <div className="agigov-card inst-pilot-step">
       <p className="mb-3 text-sm text-agigov-text-muted">
-        Trust Pack: descargue el CSV de 3 hitos{' '}
+        Paquete de confianza: descargue el CSV de 3 hitos{' '}
         <a
           className="text-sky-400 no-underline hover:text-sky-300"
           href="/docs/sample-ingest-3-hitos.csv"

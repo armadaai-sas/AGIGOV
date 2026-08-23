@@ -36,15 +36,15 @@ export function HeroVisionStrip() {
         </p>
 
         <div className="cinematic-vision-actions">
-          <Link to="/institucional#desplegar" className="cinematic-btn-primary">
-            Concierge · registrarse
+          <Link to="/institucional#sandbox" className="cinematic-btn-primary">
+            Abrir entorno de prueba
             <ArrowRight className="h-5 w-5" aria-hidden />
           </Link>
           <Link to="/gestion" className="cinematic-btn-secondary">
             Entrar a AGIGOV-VEN
           </Link>
-          <Link to="#modelo" className="cinematic-btn-secondary">
-            Ver el modelo
+          <Link to="/#autoridad" className="cinematic-btn-secondary">
+            Por qué es un OS
           </Link>
         </div>
       </div>
