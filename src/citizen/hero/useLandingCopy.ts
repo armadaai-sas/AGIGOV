@@ -32,6 +32,27 @@ export function useLandingCopy() {
       HERO_CINEMATIC_TAGLINE: t('hero.cinematic.tagline'),
       HERO_CINEMATIC_SUBLINE: t('hero.cinematic.subline'),
       HERO_NOT_LLM: t('hero.cinematic.notLlm'),
+      HERO_GATES_ARIA: t('hero.gates.aria'),
+      HERO_GATES: [
+        {
+          id: 'explore' as const,
+          label: t('hero.gates.explore.label'),
+          hint: t('hero.gates.explore.hint'),
+          path: '/modelos',
+        },
+        {
+          id: 'deploy' as const,
+          label: t('hero.gates.deploy.label'),
+          hint: t('hero.gates.deploy.hint'),
+          path: INSTITUTION_ROUTES.register,
+        },
+        {
+          id: 'discover' as const,
+          label: t('hero.gates.discover.label'),
+          hint: t('hero.gates.discover.hint'),
+          path: '/#autoridad',
+        },
+      ],
       HERO_SELL_LEAD: t('hero.sell.lead'),
       HERO_SELL_POINTS: [t('hero.sell.point1'), t('hero.sell.point2'), t('hero.sell.point3')] as const,
       HERO_DIAGRAM_EYEBROW: t('hero.diagram.eyebrow'),

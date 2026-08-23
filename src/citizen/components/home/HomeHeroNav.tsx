@@ -13,7 +13,7 @@ type NavLink = { to: string; label: string; hint?: string; external?: boolean };
 type NavGroup = { id: string; label: string; items: NavLink[] };
 
 /**
- * Marketing header — craft x.ai (menús + Contact / Try free), identidad AGIGOV.
+ * Marketing header — craft x.ai (mega-menu + Try for free dropdown).
  */
 export function HomeHeroNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -72,6 +72,35 @@ export function HomeHeroNav() {
     },
   ];
 
+  const tryItems: NavLink[] = isAuthenticated
+    ? [
+        { to: INSTITUTION_ROUTES.desk, label: t('nav.desk'), hint: t('nav.marketing.try.deskHint') },
+        { to: INSTITUTION_ROUTES.pilot, label: t('nav.marketing.try.pilot'), hint: t('nav.marketing.try.pilotHint') },
+        { to: EGS_CONSOLE_PATH, label: t('nav.marketing.try.console'), hint: t('nav.marketing.try.consoleHint') },
+      ]
+    : [
+        {
+          to: INSTITUTION_ROUTES.register,
+          label: t('nav.marketing.try.self'),
+          hint: t('nav.marketing.try.selfHint'),
+        },
+        {
+          to: '/modelos',
+          label: t('nav.marketing.try.explore'),
+          hint: t('nav.marketing.try.exploreHint'),
+        },
+        {
+          to: EGS_CONSOLE_PATH,
+          label: t('nav.marketing.try.console'),
+          hint: t('nav.marketing.try.consoleHint'),
+        },
+        {
+          to: '/#contacto',
+          label: t('nav.marketing.try.support'),
+          hint: t('nav.marketing.try.supportHint'),
+        },
+      ];
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
@@ -81,9 +110,7 @@ export function HomeHeroNav() {
 
   useEffect(() => {
     const onPointer = (e: MouseEvent) => {
-      if (!navRef.current?.contains(e.target as Node)) {
-        setOpenGroup(null);
-      }
+      if (!navRef.current?.contains(e.target as Node)) setOpenGroup(null);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -106,12 +133,13 @@ export function HomeHeroNav() {
     };
   }, [mobileOpen]);
 
-  const tryPath = isAuthenticated ? INSTITUTION_ROUTES.desk : INSTITUTION_ROUTES.register;
-  const tryLabel = isAuthenticated ? t('nav.desk') : t('nav.marketing.tryFree');
-
   function closeAll() {
     setOpenGroup(null);
     setMobileOpen(false);
+  }
+
+  function toggleGroup(id: string) {
+    setOpenGroup((cur) => (cur === id ? null : id));
   }
 
   return (
@@ -136,12 +164,13 @@ export function HomeHeroNav() {
                   className="ls-nav-group-trigger"
                   aria-expanded={open}
                   aria-controls={`${menuId}-${group.id}`}
-                  onClick={() => setOpenGroup(open ? null : group.id)}
+                  onClick={() => toggleGroup(group.id)}
                 >
                   {group.label}
                   <ChevronDown className="ls-nav-chevron" aria-hidden />
                 </button>
-                <div id={`${menuId}-${group.id}`} className="ls-nav-dropdown" hidden={!open}>
+                <div id={`${menuId}-${group.id}`} className="ls-nav-dropdown ls-nav-dropdown--panel" hidden={!open}>
+                  <p className="ls-nav-dropdown-kicker">{group.label}</p>
                   <ul className="ls-nav-dropdown-list">
                     {group.items.map((item) => (
                       <li key={item.to}>
@@ -175,9 +204,33 @@ export function HomeHeroNav() {
           <Link to="/#contacto" className="ls-nav-contact" onClick={closeAll}>
             {t('nav.marketing.contact')}
           </Link>
-          <Link to={tryPath} className="ls-nav-register" onClick={closeAll}>
-            {tryLabel}
-          </Link>
+
+          <div className={`ls-nav-try ${openGroup === 'try' ? 'is-open' : ''}`}>
+            <button
+              type="button"
+              className="ls-nav-register"
+              aria-expanded={openGroup === 'try'}
+              aria-controls={`${menuId}-try`}
+              onClick={() => toggleGroup('try')}
+            >
+              {isAuthenticated ? t('nav.desk') : t('nav.marketing.tryFree')}
+              <ChevronDown className="ls-nav-chevron ls-nav-chevron--on-cta" aria-hidden />
+            </button>
+            <div id={`${menuId}-try`} className="ls-nav-dropdown ls-nav-dropdown--try" hidden={openGroup !== 'try'}>
+              <p className="ls-nav-dropdown-kicker">{t('nav.marketing.try.kicker')}</p>
+              <ul className="ls-nav-dropdown-list">
+                {tryItems.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className="ls-nav-dropdown-link" onClick={closeAll}>
+                      <span className="ls-nav-dropdown-label">{item.label}</span>
+                      {item.hint ? <span className="ls-nav-dropdown-hint">{item.hint}</span> : null}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
           <button
             type="button"
             className="ls-nav-burger"
@@ -213,12 +266,21 @@ export function HomeHeroNav() {
               </ul>
             </div>
           ))}
+          <div className="ls-nav-mobile-group">
+            <p className="ls-nav-mobile-heading">{t('nav.marketing.tryFree')}</p>
+            <ul>
+              {tryItems.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} onClick={closeAll}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="ls-nav-mobile-ctas">
             <Link to="/#contacto" className="ls-btn ls-btn--ghost" onClick={closeAll}>
               {t('nav.marketing.contact')}
-            </Link>
-            <Link to={tryPath} className="ls-btn ls-btn--primary" onClick={closeAll}>
-              {tryLabel}
             </Link>
           </div>
         </div>
