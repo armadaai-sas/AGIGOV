@@ -3,32 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#030508" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="AGIGOV — Gobernanza y política verificables para la era post-IA. Modelo genérico, implementaciones nacionales y plataforma ciudadana." />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="AGIGOV" />
     <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
-    <link rel="mask-icon" href="/icons/icon-192.svg" color="#0369a1" />
+    <link rel="mask-icon" href="/icons/icon-192.svg" color="#0052ff" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     />
     <title>AGIGOV — Plataforma institucional</title>
     <style>
-      html, body { margin: 0; background: #030508; }
-      /* Landing oscuro: no heredar tokens claros del skin Trust en el primer paint. */
+      html, body { margin: 0; background: #ffffff; }
       html[data-agigov-landing] {
-        color-scheme: dark;
-        --color-agigov-void: #030508;
-        --color-agigov-text: #f8fafc;
-        --color-agigov-text-muted: #94a3b8;
-        --color-agigov-navy: #0b1220;
-        --color-agigov-console: rgba(6, 10, 18, 0.92);
-        background: #030508;
+        color-scheme: light;
+        --color-agigov-void: #ffffff;
+        --color-agigov-text: #18181b;
+        --color-agigov-text-muted: #71717a;
+        --color-agigov-navy: #ffffff;
+        --color-agigov-console: #fafafa;
+        background: #ffffff;
       }
       #agigov-boot {
         min-height: 100svh;
@@ -39,30 +38,28 @@
         gap: 1.25rem;
         padding: 1.5rem;
         font-family: Inter, system-ui, sans-serif;
-        color: #94a3b8;
+        color: #71717a;
         text-align: center;
       }
-      #agigov-boot svg { width: 56px; height: 56px; display: block; }
+      #agigov-boot svg { width: 48px; height: 48px; display: block; }
       #agigov-boot strong {
         display: block;
         margin-top: 0.35rem;
-        font-family: Outfit, Inter, sans-serif;
-        font-size: 1.35rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: #f8fafc;
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: #18181b;
       }
       #agigov-boot p {
         margin: 0;
-        font-size: 0.875rem;
-        font-weight: 500;
-        letter-spacing: 0.02em;
+        font-size: 0.8125rem;
+        font-weight: 400;
       }
       #agigov-boot .pulse {
-        width: 4rem;
-        height: 0.25rem;
+        width: 3.5rem;
+        height: 0.2rem;
         border-radius: 999px;
-        background: rgba(255,255,255,0.08);
+        background: #f4f4f5;
         overflow: hidden;
         position: relative;
       }
@@ -71,7 +68,7 @@
         position: absolute;
         inset: 0 auto 0 0;
         width: 40%;
-        background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+        background: #18181b;
         animation: agigov-boot-pulse 1.1s ease-in-out infinite;
       }
       @keyframes agigov-boot-pulse {
@@ -85,29 +82,19 @@
       <div id="agigov-boot" role="status" aria-live="polite" aria-busy="true">
         <div>
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="24" cy="24" r="22" fill="url(#bootGlow)" />
-            <circle cx="24" cy="24" r="20" stroke="url(#bootOrbit)" stroke-width="1.25" fill="none" stroke-dasharray="4 3" opacity="0.8" />
-            <path d="M24 10l10.5 6v12L24 34l-10.5-6V16L24 10z" fill="url(#bootCore)" stroke="rgba(255,255,255,0.2)" stroke-width="0.75" />
-            <circle cx="24" cy="22" r="2.75" fill="#f8fafc" opacity="0.95" />
+            <circle cx="24" cy="24" r="20" stroke="#e4e4e7" stroke-width="1" fill="none" />
+            <path d="M24 10l10.5 6v12L24 34l-10.5-6V16L24 10z" fill="url(#bootCore)" />
+            <circle cx="24" cy="22" r="2.5" fill="#ffffff" opacity="0.95" />
             <defs>
-              <linearGradient id="bootOrbit" x1="0" y1="24" x2="48" y2="24">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15" />
-                <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.85" />
-                <stop offset="100%" stop-color="#0369a1" stop-opacity="0.35" />
-              </linearGradient>
               <linearGradient id="bootCore" x1="14" y1="10" x2="34" y2="38">
-                <stop offset="0%" stop-color="#0ea5e9" />
-                <stop offset="100%" stop-color="#0369a1" />
+                <stop offset="0%" stop-color="#0052ff" />
+                <stop offset="100%" stop-color="#003db8" />
               </linearGradient>
-              <radialGradient id="bootGlow" cx="24" cy="24" r="20" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.12" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-              </radialGradient>
             </defs>
           </svg>
           <strong>AGIGOV</strong>
         </div>
-        <p>Cargando la página…</p>
+        <p>Cargando…</p>
         <div class="pulse" aria-hidden="true"></div>
       </div>
     </div>

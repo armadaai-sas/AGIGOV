@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
-import { ArrowRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export function QuickActionCard({
   to,
@@ -8,7 +8,6 @@ export function QuickActionCard({
   title,
   description,
   badge,
-  accent = false,
 }: {
   to: string;
   icon: LucideIcon;
@@ -18,28 +17,16 @@ export function QuickActionCard({
   accent?: boolean;
 }) {
   return (
-    <Link
-      to={to}
-      className={`group agigov-card-interactive flex flex-col gap-4 ${accent ? 'ring-1 ring-amber-500/20' : ''}`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div className="agigov-pillar-icon">
-          <Icon className="h-6 w-6" aria-hidden />
-        </div>
-        {badge ? (
-          <span className={accent ? 'agigov-badge-ven' : 'agigov-badge-global'}>{badge}</span>
-        ) : null}
-      </div>
-      <div>
-        <h3 className="font-display text-lg font-semibold text-agigov-text group-hover:text-sky-100">
-          {title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-agigov-text-muted">{description}</p>
-      </div>
-      <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-sky-400 group-hover:text-sky-300">
-        Explorar
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+    <Link to={to} className="os-workspace-row">
+      <span className="os-workspace-row-icon" aria-hidden>
+        <Icon className="h-4 w-4" />
       </span>
+      <span className="os-workspace-row-body">
+        <span className="os-workspace-row-name">{title}</span>
+        <span className="os-workspace-row-meta">{description}</span>
+      </span>
+      {badge ? <span className="os-workspace-row-status">{badge}</span> : null}
+      <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
     </Link>
   );
 }
@@ -55,12 +42,16 @@ export function PillarCard({
   key?: string;
 }) {
   return (
-    <div className="agigov-card flex flex-col gap-3">
-      <div className="agigov-pillar-icon">
-        <Icon className="h-6 w-6" />
+    <div className="os-panel">
+      <div className="flex items-start gap-3">
+        <span className="os-workspace-row-icon shrink-0" aria-hidden>
+          <Icon className="h-4 w-4" />
+        </span>
+        <div>
+          <h3 className="text-[13px] font-semibold text-zinc-900">{title}</h3>
+          <p className="mt-1 text-[13px] leading-relaxed text-zinc-600">{text}</p>
+        </div>
       </div>
-      <h3 className="font-display text-base font-semibold text-agigov-text">{title}</h3>
-      <p className="text-sm leading-relaxed text-agigov-text-muted">{text}</p>
     </div>
   );
 }

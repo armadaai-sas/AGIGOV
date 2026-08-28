@@ -5,11 +5,13 @@ import { PlatformProvider } from './context/PlatformContext.js';
 import { PanicBanner } from './components/PanicBanner.js';
 import { CommandPalette } from './components/CommandPalette.js';
 import { OnboardingModal } from './components/OnboardingModal.js';
+import { ConciergeDock } from './components/os/ConciergeDock.js';
+import { OsToastProvider } from './components/os/OsToast.js';
 import { LandingBootScreen } from './components/landing/LandingBootScreen.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
 import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
-import { usesAppShell } from './platform/navConfig.js';
+import { usesAppShell, usesConciergeDock } from './platform/navConfig.js';
 /** Home eager: el landing es la superficie principal; evita waterfall de chunks. */
 import HomePage from './pages/HomePage.js';
 
@@ -32,9 +34,15 @@ const ContratosPage = lazy(() => import('./pages/ContratosPage.js'));
 const TransparenciaPage = lazy(() => import('./pages/TransparenciaPage.js'));
 const ModelsCatalogPage = lazy(() => import('./pages/ModelsCatalogPage.js'));
 const ModelDetailPage = lazy(() => import('./pages/ModelDetailPage.js'));
+const ModelWorkspacePage = lazy(() => import('./pages/ModelWorkspacePage.js'));
 const EgsVialConsolePage = lazy(() => import('./pages/EgsVialConsolePage.js'));
+const IaauConsolePage = lazy(() => import('./pages/IaauConsolePage.js'));
+const DataTrustConsolePage = lazy(() => import('./pages/DataTrustConsolePage.js'));
+const EvidenciaConsolePage = lazy(() => import('./pages/EvidenciaConsolePage.js'));
+const SetConsolePage = lazy(() => import('./pages/SetConsolePage.js'));
 const CnePage = lazy(() => import('./pages/CnePage.js'));
 const EscritorioPage = lazy(() => import('./pages/EscritorioPage.js'));
+const DesktopDownloadPage = lazy(() => import('./pages/DesktopDownloadPage.js'));
 
 function AppRoutes() {
   const { pathname } = useLocation();
@@ -46,11 +54,17 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/escritorio" element={<EscritorioPage />} />
+        <Route path="/descargar" element={<DesktopDownloadPage />} />
         <Route path="/gestion" element={<DashboardPage />} />
         <Route path="/propuestas" element={<ProposalsPage />} />
         <Route path="/suministros" element={<SupplyPage />} />
         <Route path="/modelos" element={<ModelsCatalogPage />} />
         <Route path="/modelos/egs/consola" element={<EgsVialConsolePage />} />
+        <Route path="/modelos/iaau/consola" element={<IaauConsolePage />} />
+        <Route path="/modelos/data-trust/consola" element={<DataTrustConsolePage />} />
+        <Route path="/modelos/evidencia-certificada/consola" element={<EvidenciaConsolePage />} />
+        <Route path="/modelos/set/consola" element={<SetConsolePage />} />
+        <Route path="/modelos/:modelId/espacio" element={<ModelWorkspacePage />} />
         <Route path="/modelos/:modelId" element={<ModelDetailPage />} />
         <Route path="/ven/servicios/*" element={<LegacyVenRouteRedirect />} />
         <Route path="/proyectos" element={<ProjectsPage />} />
@@ -109,20 +123,19 @@ function CitizenAppInner() {
   }, [isHome]);
 
   return (
-    <div
-      className={
-        isHome
-          ? 'min-h-screen bg-[#030508] text-slate-100'
-          : 'min-h-screen bg-agigov-void text-agigov-text'
-      }
-    >
-      <PanicBanner />
-      <ScrollToTop />
-      <PageTransition>
-        <AppRoutes />
-      </PageTransition>
-      <CommandPalette />
-      <OnboardingModal />
-    </div>
+    <OsToastProvider>
+      <div
+        className="min-h-screen bg-white text-zinc-900"
+      >
+        <PanicBanner />
+        <ScrollToTop />
+        <PageTransition>
+          <AppRoutes />
+        </PageTransition>
+        <CommandPalette />
+        <OnboardingModal />
+        {usesConciergeDock(pathname) ? <ConciergeDock /> : null}
+      </div>
+    </OsToastProvider>
   );
 }

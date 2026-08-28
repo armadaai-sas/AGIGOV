@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-  ArrowLeft,
   CheckCircle2,
   Circle,
+  Droplets,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -14,22 +17,15 @@ import {
   type ProjectItem,
 } from '../api.js';
 import { ActionReceipt } from '../components/ActionReceipt.js';
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
-  SectionHeader,
   LoadingState,
   DsSpinner,
 } from '../components/PageShell.js';
 import { StatusBadge } from '../components/StatusBadge.js';
-import {
-  Droplets,
-  GraduationCap,
-  HeartPulse,
-  Landmark,
-} from 'lucide-react';
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 
 const SECTOR_ICON: Record<string, LucideIcon> = {
   infraestructura: Droplets,
@@ -49,11 +45,11 @@ export default function ProjectDetailPage() {
   const project = data?.project;
 
   return (
-    <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath(`/proyectos/${id}`)}>
-      <Link to="/proyectos" className="agigov-help-back">
-        <ArrowLeft className="h-4 w-4" />
-        Todos los proyectos
-      </Link>
+    <PageShell shell narrow banner={undefined}>
+      <div className="os-workspace">
+        <Link to="/proyectos?tab=dao" className="os-workspace-foot-link inline-flex items-center gap-1">
+          ← Proyectos DAO
+        </Link>
 
       {error && state === 'error' && !data ? (
         <DataConnectionState
@@ -71,6 +67,7 @@ export default function ProjectDetailPage() {
           onContributed={() => window.setTimeout(() => void reload(), 1200)}
         />
       ) : null}
+      </div>
     </PageShell>
   );
 }
@@ -82,91 +79,45 @@ function ProjectDetail({
   project: ProjectItem & { recentContributions: Array<{ receiptId: string; amount: number; currency: string; committedAt: string }> };
   onContributed: () => void;
 }) {
-  const Icon = SECTOR_ICON[project.sector] ?? Landmark;
   const target = parseFloat(project.targetAmount) || 1;
   const raised = parseFloat(project.raisedAmount) || 0;
   const pct = Math.min(100, Math.round((raised / target) * 100));
 
   return (
     <>
-      <SectionHeader
-        eyebrow="AGIGOV · Prosperidad Compartida (DAO)"
-        title={project.title}
-        lead={`Territorio ${project.territoryCode} · ${project.sector}`}
-        helpTopic="proyectos"
-      />
-
-      <article className="agigov-card">
-        <div className="flex items-start gap-4">
-          <div className="agigov-pillar-icon shrink-0">
-            <Icon className="h-6 w-6" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <StatusBadge status={project.escrow?.status ?? 'PENDING'} />
-              {project.daoApproved ? (
-                <span className="agigov-badge bg-emerald-500/15 text-emerald-200">DAO aprobado</span>
-              ) : null}
-              {project.funded ? (
-                <span className="agigov-badge bg-sky-500/15 text-sky-200">Meta financiada</span>
-              ) : null}
-              <span className="agigov-mono-id">{project.id}</span>
-            </div>
-          </div>
+      <header className="os-workspace-head os-workspace-head--stack">
+        <div className="os-workspace-head-text">
+          <p className="os-workspace-section-title">{project.sector}</p>
+          <h1 className="os-workspace-title">{project.title}</h1>
+          <p className="os-workspace-sub">
+            {raised.toLocaleString('es-VE')} / {target.toLocaleString('es-VE')} {project.currency} · {pct}%
+          </p>
         </div>
+      </header>
 
-        <div className="mt-6">
-          <div className="mb-2 flex justify-between text-sm text-agigov-text-muted">
-            <span>
-              {raised.toLocaleString('es-VE')} / {target.toLocaleString('es-VE')} {project.currency}
-            </span>
-            <span className="font-semibold text-sky-300">{pct}%</span>
-          </div>
-          <div className="agigov-progress-track">
-            <div className="agigov-progress-fill" style={{ width: `${pct}%` }} />
-          </div>
-          <p className="mt-2 text-xs text-agigov-text-muted">{project.contributions} aportes registrados</p>
-        </div>
+      <section className="os-panel">
+        <p className="text-[13px] text-zinc-600">
+          {project.territoryCode} · {project.contributions} aportes ·{' '}
+          <StatusBadge status={project.escrow?.status ?? 'PENDING'} />
+        </p>
 
         {project.milestones.length > 0 ? (
-          <section className="mt-8 border-t border-white/5 pt-6">
-            <h2 className="font-display text-lg font-semibold">Hitos logístico</h2>
-            <ul className="mt-4 space-y-2">
-              {project.milestones.map((m) => (
-                <li key={m.label} className="flex items-center gap-2.5 text-sm text-agigov-text-muted">
-                  {m.done ? (
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                  ) : (
-                    <Circle className="h-4 w-4 shrink-0 text-white/20" />
-                  )}
-                  {m.label}
-                </li>
-              ))}
-            </ul>
-          </section>
+          <ul className="mt-4 space-y-1.5 text-[13px] text-zinc-600">
+            {project.milestones.map((m) => (
+              <li key={m.label} className="flex items-center gap-2">
+                {m.done ? (
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-zinc-500" />
+                ) : (
+                  <Circle className="h-4 w-4 shrink-0 text-zinc-300" />
+                )}
+                {m.label}
+              </li>
+            ))}
+          </ul>
         ) : null}
 
         <ContributeForm project={project} onContributed={onContributed} />
-
-        {project.recentContributions.length > 0 ? (
-          <section className="mt-8 border-t border-white/5 pt-6">
-            <h2 className="font-display text-lg font-semibold">Aportes recientes (agregados)</h2>
-            <ul className="mt-4 space-y-2">
-              {project.recentContributions.map((c) => (
-                <li key={c.receiptId} className="flex flex-wrap justify-between gap-2 text-sm">
-                  <span className="agigov-mono-id">{c.receiptId.slice(0, 16)}…</span>
-                  <span>
-                    {c.amount} {c.currency}
-                  </span>
-                  <time className="text-agigov-text-muted">
-                    {new Date(c.committedAt).toLocaleString('es-VE')}
-                  </time>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-      </article>
+      </section>
     </>
   );
 }
@@ -209,12 +160,8 @@ function ContributeForm({
   }
 
   return (
-    <form onSubmit={(e) => void handleContribute(e)} className="mt-8 border-t border-white/5 pt-6">
-      <p className="text-sm font-medium text-agigov-text">Aportar al proyecto</p>
-      <p className="mt-1 text-xs text-agigov-text-muted">
-        Registro en ledger (piloto). Pasarela fiat real = HMAC listo · proveedor pendiente. Token
-        gobernanza = roadmap (no mainnet).
-      </p>
+    <form onSubmit={(e) => void handleContribute(e)} className="mt-4 border-t border-zinc-200 pt-4">
+      <p className="text-[13px] font-medium text-zinc-900">Aportar al proyecto</p>
       <div className="mt-3 flex flex-col gap-3 sm:flex-row">
         <input
           type="number"
@@ -230,7 +177,7 @@ function ContributeForm({
           Registrar aporte
         </button>
       </div>
-      {formError ? <p className="mt-2 text-sm text-red-300 agigov-enter-up">{formError}</p> : null}
+      {formError ? <p className="mt-2 text-sm text-zinc-600 agigov-enter-up">{formError}</p> : null}
       {receipt ? (
         <ActionReceipt
           className="mt-4"

@@ -432,6 +432,112 @@ export function fetchPilotStatus() {
   return fetchPublic<PilotStatus>('/api/public/pilot');
 }
 
+export interface BillingUsageResponse {
+  updatedAt: string;
+  plan: string;
+  summary: {
+    jurisdictionId: string;
+    period: string;
+    byUnit: Record<string, number>;
+    totalUnits: number;
+    estimatedUsdDemo: number;
+  };
+  reconciliation: {
+    ok: boolean;
+    eventCount: number;
+    billingFrozen: boolean;
+    billable: boolean;
+    plan: string;
+  };
+  invoice: {
+    billable: boolean;
+    amountUsd: number;
+    reason: string;
+  };
+  billingFreeze: { frozen: boolean; reason?: string };
+  disclaimer: string;
+}
+
+export function fetchBillingUsage(jurisdictionId?: string, period?: string) {
+  const params = new URLSearchParams();
+  if (jurisdictionId) params.set('jurisdictionId', jurisdictionId);
+  if (period) params.set('period', period);
+  const q = params.toString();
+  return fetchPublic<BillingUsageResponse>(`/api/public/billing/usage${q ? `?${q}` : ''}`);
+}
+
+export interface BillingCatalogResponse {
+  updatedAt: string;
+  plan: string;
+  lines: Array<{
+    id: string;
+    layer: string;
+    unit: string;
+    priceUsd: number | string;
+    priceNote: string;
+    billable: boolean;
+  }>;
+}
+
+export function fetchBillingCatalog() {
+  return fetchPublic<BillingCatalogResponse>('/api/public/billing/catalog');
+}
+
+export interface DataTrustDatasetMeta {
+  id: string;
+  sector: string;
+  title: string;
+  kAnonymity: number;
+  minCellSize: number;
+  publishedAt: string;
+  sourceHash: string;
+  accessTier: string;
+  metricCount: number;
+}
+
+export interface DataTrustCatalogResponse {
+  updatedAt: string;
+  kAnonymity: number;
+  datasets: DataTrustDatasetMeta[];
+}
+
+export function fetchDataTrustCatalog() {
+  return fetchPublic<DataTrustCatalogResponse>('/api/public/data-trust/datasets');
+}
+
+export interface DataTrustDatasetDetail {
+  updatedAt: string;
+  dataset: {
+    id: string;
+    sector: string;
+    title: string;
+    kAnonymity: number;
+    minCellSize: number;
+    cells: Array<{ sector: string; metric: string; value: number; sampleSize: number }>;
+    publishedAt: string;
+    sourceHash: string;
+    accessTier: string;
+  };
+}
+
+export function fetchDataTrustDataset(id: string) {
+  return fetchPublic<DataTrustDatasetDetail>(
+    `/api/public/data-trust/datasets/${encodeURIComponent(id)}`,
+  );
+}
+
+export async function refreshDataTrustPipeline() {
+  const res = await fetch(`${API_BASE}/api/public/data-trust/refresh`, {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `data-trust refresh → ${res.status}`);
+  }
+  return res.json() as Promise<{ ok: boolean; count: number }>;
+}
+
 export interface MinistryHealthContract {
   id: string;
   title: string;

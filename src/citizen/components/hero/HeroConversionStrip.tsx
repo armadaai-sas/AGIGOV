@@ -20,7 +20,7 @@ export function HeroConversionStrip({ phase }: Props) {
         opacity: 1,
         transform: `translateY(${Math.max(0, (1 - scrollBoost) * 6)}px)`,
       }}
-      aria-label="Piloto Efficiency Gain Share"
+      aria-label="Piloto Reparto del ahorro por eficiencia"
     >
       <p className="hero-conversion-eyebrow">AGIGOV-VEN · Piloto MPPI</p>
       <h1 className="hero-conversion-title">

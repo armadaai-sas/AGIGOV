@@ -19,6 +19,12 @@ npm run build
 npm run lint
 ```
 
+## Procesos estándar (playbook)
+
+Índice maestro para diseño, desarrollo, modelos, mantenimiento OS, deploy y terceros:
+
+**[docs/process/README.md](docs/process/README.md)**
+
 ## Arquitectura de ejecución
 
 ```

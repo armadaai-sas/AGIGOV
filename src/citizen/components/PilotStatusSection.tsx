@@ -4,13 +4,13 @@ import { ShieldCheck } from 'lucide-react';
 import { fetchPilotStatus } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 
-/** Estado multifirma del despliegue demo (Paso 10). */
+/** Estado multifirma del despliegue. */
 export function PilotStatusSection() {
   const { data, error, state } = useCachedFetch('pilot-status', fetchPilotStatus, 60_000);
 
   if (state === 'syncing' && !data) {
     return (
-      <section className="agigov-card mb-10 border border-white/[0.06]">
+      <section className="agigov-card mb-10 border border-zinc-200">
         <p className="text-sm text-agigov-text-muted">Verificando acta multifirma…</p>
       </section>
     );
@@ -18,7 +18,7 @@ export function PilotStatusSection() {
 
   if (error || !data) {
     return (
-      <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-amber-500/20">
+      <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-zinc-200">
         <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multifirma</h2>
         <p className="agigov-lead mt-2">
           Acta multifirma no verificada aún en este entorno. Contacte al operador del despliegue o
@@ -35,17 +35,17 @@ export function PilotStatusSection() {
   const passed = checks.filter(([, ok]) => ok).length;
 
   return (
-    <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-emerald-500/15">
+    <section id="despliegue" className="agigov-card mb-10 scroll-mt-28 border border-zinc-200">
       <div className="flex items-start gap-3">
-        <ShieldCheck className="h-7 w-7 shrink-0 text-emerald-400" aria-hidden />
+        <ShieldCheck className="h-7 w-7 shrink-0 text-zinc-600" aria-hidden />
         <div className="min-w-0 flex-1">
           <h2 className="font-display text-xl font-bold text-agigov-text">Despliegue multifirma verificado</h2>
           <p className="agigov-lead mt-2">
             Acta <span className="agigov-mono-id">{data.processId}</span> —{' '}
             {data.ok ? (
-              <span className="text-emerald-300">verificación OK</span>
+              <span className="text-zinc-700">verificación OK</span>
             ) : (
-              <span className="text-amber-300">pendiente de cierre</span>
+              <span className="text-zinc-600">pendiente de cierre</span>
             )}{' '}
             ({passed}/{checks.length} checks).
           </p>
@@ -53,7 +53,7 @@ export function PilotStatusSection() {
             {checks.map(([name, ok]) => (
               <li key={name} className="flex items-center gap-2 text-sm text-agigov-text-muted">
                 <span
-                  className={`h-2 w-2 rounded-full ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`}
+                  className={`h-2 w-2 rounded-full ${ok ? 'bg-zinc-700' : 'bg-zinc-300'}`}
                   aria-hidden
                 />
                 {name}

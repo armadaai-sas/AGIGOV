@@ -57,7 +57,7 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
       return [
         root,
         modelosRoot,
-        { label: 'Efficiency Gain Share', to: EGS_MODEL_PATH },
+        { label: 'Reparto del ahorro por eficiencia', to: EGS_MODEL_PATH },
         { label: 'Consola operativa' },
       ];
     }
@@ -79,7 +79,7 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
     case '/proyectos':
       return [root, gestion, { label: 'Proyectos DAO' }];
     case '/contratos':
-      return [root, modelosRoot, { label: 'Escrow · Contratos' }];
+      return [root, modelosRoot, { label: 'Custodia · Contratos' }];
     case '/transparencia':
       return [root, modelosRoot, { label: 'Transparencia' }];
     case '/suministros':

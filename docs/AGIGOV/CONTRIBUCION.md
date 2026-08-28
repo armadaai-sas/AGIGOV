@@ -67,6 +67,8 @@ AGIGOV es **código abierto institucional**: el protocolo es genérico; la legit
 
 ## Proceso de contribución técnica
 
+Detalle paso a paso: **[docs/process/02-DEVELOPER-PROCESS.md](../process/02-DEVELOPER-PROCESS.md)**
+
 1. Leer `AGENTS.md` y skill relevante
 2. Issue o propuesta con pilar AGIGOV afectado
 3. PR pequeño, revisable

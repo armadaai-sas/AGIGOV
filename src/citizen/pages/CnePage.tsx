@@ -1,16 +1,16 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { castCneVote, fetchCneConsultation, type CneConsultation } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
-  SectionHeader,
   LoadingState,
   DsSpinner,
 } from '../components/PageShell.js';
 import { ActionReceipt } from '../components/ActionReceipt.js';
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 
 export default function CnePage() {
   const { data, error, state, reload } = useCachedFetch('cne-consultation', fetchCneConsultation, 10_000);
@@ -38,79 +38,93 @@ export default function CnePage() {
   }
 
   return (
-    <PageShell narrow breadcrumbs={breadcrumbsForPath('/cne')}>
-      <SectionHeader
-        eyebrow="AGIGOV · Consulta Ciudadana Verificable"
-        title="Consulta ciudadana demo"
-        lead="Boleta cifrada, commit firmado Ed25519 y recuento reproducible — demo SET-CNE-1-beta, no elección nacional."
-      />
-
-      {error && state === 'error' && !data ? (
-        <DataConnectionState
-          module="cne"
-          error={error}
-          onRetry={() => void reload()}
-        />
-      ) : null}
-
-      {!consultation && state !== 'error' ? <LoadingState /> : null}
-
-      {consultation ? (
-        <div className="space-y-6 agigov-stagger-list">
-          <section className="agigov-card">
-            <h2 className="font-display text-lg font-semibold">{consultation.title}</h2>
-            <p className="agigov-lead mt-2">{consultation.description}</p>
-            <p className="mt-3 text-xs text-agigov-text-muted">
-              Fase {consultation.phase} · {consultation.territoryCode} · Estado: {consultation.status}
+    <PageShell shell narrow>
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">Consulta ciudadana</h1>
+            <p className="os-workspace-sub">
+              Boleta cifrada y recuento reproducible.
             </p>
-          </section>
+          </div>
+          <div className="os-workspace-cta flex flex-wrap gap-2">
+            <Link to={modelWorkspacePath('consulta-ciudadana')} className="ds-btn-secondary ds-btn-app-shape">
+              Espacio consulta
+            </Link>
+            <Link to="/modelos/set/consola" className="os-btn-text text-[13px]">
+              Panel SET
+            </Link>
+          </div>
+        </header>
 
-          <section className="agigov-card">
-            <h2 className="font-display text-lg font-semibold">¿Qué priorizamos?</h2>
-            <ul className="mt-4 space-y-3">
-              {consultation.options.map((opt) => {
-                const total = consultation.options.reduce((s, o) => s + o.votes, 0) || 1;
-                const pct = Math.round((opt.votes / total) * 100);
-                return (
-                  <li key={opt.id} className="agigov-vote-option">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="font-medium">{opt.label}</span>
-                      <span className="text-sm text-agigov-text-muted">
-                        {opt.votes} votos · {pct}%
-                      </span>
-                    </div>
-                    <div className="agigov-progress-track mt-2">
-                      <div className="agigov-progress-fill agigov-progress-fill--vote" style={{ width: `${pct}%` }} />
-                    </div>
-                    {consultation.status === 'open' ? (
-                      <button
-                        type="button"
-                        className="ds-btn-secondary ds-btn-app-shape mt-3"
-                        disabled={voting !== null}
-                        onClick={() => void vote(opt.id)}
-                      >
-                        {voting === opt.id ? <DsSpinner /> : null}
-                        Votar por esta opción
-                      </button>
-                    ) : null}
-                  </li>
-                );
-              })}
-            </ul>
-            {voteError ? <p className="mt-3 text-sm text-red-300 agigov-enter-up">{voteError}</p> : null}
-            {receiptHash ? (
-              <ActionReceipt
-                className="mt-4"
-                title="Voto registrado"
-                monoId={`${receiptHash.slice(0, 24)}…`}
-                onDismiss={() => setReceiptHash(null)}
-              >
-                <p>Recuento agregado actualizado — sin identidad en ledger público.</p>
-              </ActionReceipt>
-            ) : null}
-          </section>
-        </div>
-      ) : null}
+        {error && state === 'error' && !data ? (
+          <DataConnectionState module="cne" error={error} onRetry={() => void reload()} />
+        ) : null}
+
+        {!consultation && state !== 'error' ? <LoadingState /> : null}
+
+        {consultation ? (
+          <>
+            <section className="os-panel">
+              <h2 className="text-[13px] font-semibold text-zinc-900">{consultation.title}</h2>
+              <p className="mt-2 text-[13px] text-zinc-600">{consultation.description}</p>
+              <p className="mt-2 text-xs text-zinc-500">
+                Fase {consultation.phase} · {consultation.territoryCode} · {consultation.status}
+              </p>
+            </section>
+
+            <section className="os-workspace-section">
+              <h2 className="os-workspace-section-title">Opciones</h2>
+              <ul className="os-workspace-list">
+                {consultation.options.map((opt) => {
+                  const total = consultation.options.reduce((s, o) => s + o.votes, 0) || 1;
+                  const pct = Math.round((opt.votes / total) * 100);
+                  return (
+                    <li key={opt.id}>
+                      <div className="os-workspace-row os-workspace-row--static flex-col items-stretch gap-2 py-3">
+                        <div className="flex w-full items-center justify-between gap-3">
+                          <span className="os-workspace-row-name">{opt.label}</span>
+                          <span className="os-workspace-row-status">
+                            {opt.votes} · {pct}%
+                          </span>
+                        </div>
+                        <div className="agigov-progress-track h-1.5">
+                          <div
+                            className="agigov-progress-fill h-full"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        {consultation.status === 'open' ? (
+                          <button
+                            type="button"
+                            className="ds-btn-secondary ds-btn-app-shape mt-1 self-start"
+                            disabled={voting !== null}
+                            onClick={() => void vote(opt.id)}
+                          >
+                            {voting === opt.id ? <DsSpinner /> : null}
+                            Votar
+                          </button>
+                        ) : null}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+              {voteError ? <p className="mt-2 text-[13px] text-zinc-600">{voteError}</p> : null}
+              {receiptHash ? (
+                <ActionReceipt
+                  className="mt-4"
+                  title="Voto registrado"
+                  monoId={`${receiptHash.slice(0, 24)}…`}
+                  onDismiss={() => setReceiptHash(null)}
+                >
+                  <p>Recuento agregado — sin identidad en ledger público.</p>
+                </ActionReceipt>
+              ) : null}
+            </section>
+          </>
+        ) : null}
+      </div>
     </PageShell>
   );
 }

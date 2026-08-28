@@ -56,7 +56,7 @@ function useHeroEgsData() {
   const live = Boolean(health.data);
   const data = health.data ?? DEMO;
   const loading = !health.data && health.state !== 'error';
-  const status = loading ? 'SYNC' : live ? 'EN VIVO' : 'VISTA PREVIA';
+  const status = loading ? 'SINC.' : live ? 'EN VIVO' : 'VISTA PREVIA';
   return { data, live, status };
 }
 
@@ -72,12 +72,12 @@ export function HeroProductReveal() {
           <p className="hero-landing-eyebrow">AGIGOV-VEN · Servicio EGS · MPPI</p>
 
           <h1 className="hero-landing-title">
-            Presupuesto que se <span className="text-emerald-300">ejecuta</span> con prueba
+            Presupuesto que se <span className="text-zinc-700">ejecuta</span> con prueba
           </h1>
 
           <p className="hero-landing-lead">
-            Cierre trimestral automático, hitos en Smart Escrow y ahorro verificable por
-            centinela. Mismo techo presupuestario, más obra publicada — fee AGIGOV solo sobre
+            Cierre trimestral automático, hitos en Custodia inteligente y ahorro verificable por
+            centinela. Mismo techo presupuestario, más obra publicada — comisión AGIGOV solo sobre
             ahorro real.
           </p>
 
@@ -146,7 +146,7 @@ function HeroConsoleMockup({ variant }: { variant: 'compact' | 'full' }) {
 
           <div className="hero-console-mockup-kpis">
             <div className="hero-console-mockup-kpi hero-console-mockup-kpi--accent">
-              {!compact ? <TrendingDown className="h-4 w-4 text-emerald-400" /> : null}
+              {!compact ? <TrendingDown className="h-4 w-4 text-zinc-600" /> : null}
               <p className="hero-console-mockup-kpi-label">Ahorro verificado</p>
               <p className="hero-console-mockup-kpi-value">
                 {formatVes(data.calculoAhorroFinal)}
@@ -154,7 +154,7 @@ function HeroConsoleMockup({ variant }: { variant: 'compact' | 'full' }) {
               </p>
             </div>
             <div className="hero-console-mockup-kpi">
-              <p className="hero-console-mockup-kpi-label">Escrow</p>
+              <p className="hero-console-mockup-kpi-label">Custodia</p>
               <p className="hero-console-mockup-kpi-value">{data.escrowExecutionPct}%</p>
             </div>
             <div className="hero-console-mockup-kpi">
@@ -167,7 +167,7 @@ function HeroConsoleMockup({ variant }: { variant: 'compact' | 'full' }) {
             <>
               <div className="hero-console-mockup-progress">
                 <div className="hero-console-mockup-progress-labels">
-                  <span>Baseline</span>
+                  <span>Línea base</span>
                   <span>Ejecución {data.executionPct}%</span>
                 </div>
                 <div className="hero-console-mockup-progress-track">

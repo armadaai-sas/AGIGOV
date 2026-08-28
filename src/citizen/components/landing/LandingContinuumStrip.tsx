@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import { useSovereignConfig } from '../../context/PlatformContext.js';
-import { TRY_MODEL_ENTRY } from '../../platform/institutionalRoutes.js';
 
-/** Atajos de una palabra — sin “recorrido” ni pasos inventados. */
+/** Atajos de una palabra — sin CTAs duplicados (registro vive en hero + #contacto). */
 const SHORTCUTS = [
-  { to: '/#resultados', key: 'landing.continuum.see' as const },
+  { to: '/#utilidad', key: 'landing.continuum.see' as const },
   { to: '/#autoridad', key: 'landing.continuum.why' as const },
   { to: '/#modelos', key: 'landing.continuum.models' as const },
-  { to: TRY_MODEL_ENTRY, key: 'landing.continuum.try' as const },
+  { to: '/#contacto', key: 'landing.continuum.contact' as const },
 ] as const;
 
 export function LandingContinuumStrip() {

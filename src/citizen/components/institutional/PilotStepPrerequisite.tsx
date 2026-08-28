@@ -16,15 +16,15 @@ export function PilotStepPrerequisite({
 
   return (
     <div
-      className="mb-4 flex gap-3 rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm"
+      className="mb-4 flex gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm"
       role="status"
     >
-      <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden />
+      <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-zinc-500" aria-hidden />
       <div>
-        <p className="text-amber-100/90">{message}</p>
+        <p className="text-zinc-700">{message}</p>
         <button
           type="button"
-          className="mt-2 text-sky-400 underline-offset-2 hover:text-sky-300 hover:underline"
+          className="mt-2 text-zinc-600 underline-offset-2 hover:text-zinc-900 hover:underline"
           onClick={() => setActiveStep(targetStep)}
         >
           {t('pilot.gate.goto')}

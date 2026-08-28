@@ -6,7 +6,7 @@ import { ActionReceipt } from './ActionReceipt.js';
 import { DsSpinner } from './PageShell.js';
 
 const CATEGORIES = [
-  { value: 'escrow', label: 'Escrow / fondos' },
+  { value: 'escrow', label: 'Custodia / fondos' },
   { value: 'ledger', label: 'Integridad ledger' },
   { value: 'propuesta', label: 'Propuesta / dictamen' },
   { value: 'suministro', label: 'Suministros' },
@@ -65,17 +65,17 @@ export function CentinelaReportForm() {
 
   return (
     <div className="agigov-panel-expand">
-      <form onSubmit={(e) => void handleSubmit(e)} className="agigov-card border-red-900/30 bg-red-950/20">
+      <form onSubmit={(e) => void handleSubmit(e)} className="os-panel">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="font-display text-lg font-semibold text-red-100">Centinela ciudadano</h2>
-            <p className="mt-1 text-sm text-red-100/80">
+            <h2 className="font-display text-lg font-semibold text-zinc-900">Centinela ciudadano</h2>
+            <p className="mt-1 text-sm text-zinc-600">
               Describe hechos verificables — sin datos personales. Conciliador revisará el proceso.
             </p>
           </div>
           <button
             type="button"
-            className="text-sm text-red-200/70 transition-colors hover:text-red-100"
+            className="text-sm text-zinc-500 transition-colors hover:text-zinc-900"
             onClick={() => {
               setOpen(false);
               setProcessId(null);
@@ -129,7 +129,7 @@ export function CentinelaReportForm() {
           Enviar reporte
         </button>
 
-        {error ? <p className="mt-2 text-sm text-red-300 agigov-enter-up">{error}</p> : null}
+        {error ? <p className="mt-2 text-sm text-zinc-600 agigov-enter-up">{error}</p> : null}
         {processId ? (
           <ActionReceipt
             className="mt-4"

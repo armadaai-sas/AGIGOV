@@ -25,13 +25,13 @@ export function ModelComparePanel({ left, right, onClear }: Props) {
 
   return (
     <section
-      className="mb-10 rounded-xl border border-sky-500/20 bg-sky-500/[0.04] p-4 md:p-6"
+      className="mb-10 os-panel"
       id="comparar"
       aria-label="Comparación de modelos"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-sky-300/90">
+          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
             Comparador
           </p>
           <h2 className="mt-1 font-display text-lg font-semibold text-agigov-text">
@@ -102,7 +102,7 @@ function CompareHeader({ model }: { model: AgigovModel }) {
   return (
     <th className="pb-3 px-2 text-left align-top">
       <div className="flex items-center gap-2">
-        <Icon className="h-4 w-4 shrink-0 text-sky-400" aria-hidden />
+        <Icon className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
         <span className="font-display font-semibold text-agigov-text">{model.shortName}</span>
       </div>
       <ModelStatusBadge modelId={model.id} status={model.status} size="sm" />
@@ -113,7 +113,7 @@ function CompareHeader({ model }: { model: AgigovModel }) {
 function CompareCell({ value, highlight }: { value: string; highlight?: boolean }) {
   return (
     <td
-      className={`py-3 px-2 align-top text-agigov-text ${highlight ? 'font-medium text-sky-200' : ''}`}
+      className={`py-3 px-2 align-top text-agigov-text ${highlight ? 'font-medium text-zinc-900' : ''}`}
     >
       {value}
     </td>
@@ -139,7 +139,7 @@ function CompareMobileStack({
             className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4"
           >
             <div className="flex items-center gap-2">
-              <Icon className="h-4 w-4 shrink-0 text-sky-400" aria-hidden />
+              <Icon className="h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
               <span className="font-display font-semibold text-agigov-text">{model.shortName}</span>
               <ModelStatusBadge modelId={model.id} status={model.status} size="sm" />
             </div>
@@ -150,7 +150,7 @@ function CompareMobileStack({
                     {row.label}
                   </dt>
                   <dd
-                    className={`mt-1 text-sm text-agigov-text ${row.highlight ? 'font-medium text-sky-600 dark:text-sky-200' : ''}`}
+                    className={`mt-1 text-sm text-agigov-text ${row.highlight ? 'font-medium text-zinc-900' : ''}`}
                   >
                     {model.id === left.id ? row.left : row.right}
                   </dd>
@@ -222,7 +222,7 @@ function buildCompareRows(a: AgigovModel, b: AgigovModel): CompareRow[] {
       right: b.operationalModel.flow,
     },
     {
-      label: 'Consola demo',
+      label: 'Consola operativa',
       left: a.consolePath ? 'Sí' : 'No',
       right: b.consolePath ? 'Sí' : 'No',
     },

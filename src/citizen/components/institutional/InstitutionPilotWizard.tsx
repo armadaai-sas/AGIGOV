@@ -9,7 +9,6 @@ import {
 } from './InstitutionPilotSteps.js';
 import { InstitutionProfileStep } from './InstitutionProfileStep.js';
 import { InstitutionPilotStepper } from './InstitutionPilotStepper.js';
-import { TrustPackShotHint } from './TrustPackShotHint.js';
 import { useInstitutionPilot } from '../../institutional/InstitutionPilotContext.js';
 
 /** Wizard piloto institucional — 7 pasos end-to-end. */
@@ -20,15 +19,14 @@ export function InstitutionPilotWizard() {
   return (
     <div className="inst-pilot-wizard">
       <InstitutionPilotStepper />
-      <TrustPackShotHint />
       {hydrating ? (
         <p className="mb-4 flex items-center gap-2 text-sm text-agigov-text-muted">
-          <span className="inline-block h-3 w-3 animate-pulse rounded-full bg-sky-400" />
+          <span className="inline-block h-3 w-3 animate-pulse rounded-full bg-zinc-400" />
           {t('pilot.wizard.hydrating')}
         </p>
       ) : null}
       {session.slug ? (
-        <p className="mb-4 text-sm text-sky-400">
+        <p className="mb-4 text-sm text-zinc-600">
           Tenant: <span className="font-mono">{session.slug}</span>
           {session.ministryCode ? (
             <span className="text-agigov-text-muted">

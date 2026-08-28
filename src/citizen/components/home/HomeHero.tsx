@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from 'motion/react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
-import { HomeHeroTitleAura } from './HomeHeroTitleAura.js';
 import { HomeHeroTitleRotator, type HeroAudience } from './HomeHeroTitleRotator.js';
 import { HomeHeroInteractiveStage } from './HomeHeroInteractiveStage.js';
 import { HomeHeroGateRail } from './HomeHeroGateRail.js';
@@ -30,10 +29,8 @@ export function HomeHero() {
     <section id="os" className="ls-section ls-section--hero" aria-labelledby="home-hero-title">
       <div className="ls-inner">
         <div className="ls-hero-stack">
-          <HomeHeroTitleAura />
-
           <motion.div className="ls-hero-brand" {...enter(0)}>
-            <AgigovLogo size="lg" showWordmark tagline={copy.HERO_CINEMATIC_TAGLINE} />
+            <AgigovLogo size="lg" showWordmark tagline={copy.HERO_CINEMATIC_TAGLINE} variant="light" />
           </motion.div>
 
           <motion.p className="ls-hero-not-llm" {...enter(0.03)}>

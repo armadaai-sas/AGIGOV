@@ -240,7 +240,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
     <div className="inst-reg-shell inst-reg-shell--simple">
       <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
         {isGovernmentTier ? (
-          <p className="mb-4 rounded-lg border border-amber-600/35 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950">
+          <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-700">
             {t('reg.governmentChannel')}
           </p>
         ) : null}
@@ -261,7 +261,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
                   checked={form.entityType === id}
                   onChange={() => onEntityTypeChange(id)}
                 />
-                <Icon className="h-5 w-5 text-sky-400" aria-hidden />
+                <Icon className="h-5 w-5 text-zinc-500" aria-hidden />
                 <span className="font-medium text-agigov-text">{t(labelKey)}</span>
                 <span className="text-xs text-agigov-text-muted">{t(hintKey)}</span>
               </label>
@@ -432,17 +432,17 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <span className="text-agigov-text-muted">{t('reg.terms')}</span>
         </label>
 
-        {error ? <p className="mt-4 text-sm text-red-500">{error}</p> : null}
+        {error ? <p className="mt-4 text-sm text-zinc-600">{error}</p> : null}
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <button type="submit" className="ds-btn-app" disabled={busy}>
             {t('reg.submit')}
             <ArrowRight className="h-4 w-4" />
           </button>
-          <Link to={INSTITUTION_ROUTES.login} className="text-sm text-agigov-text-muted no-underline hover:text-sky-500">
+          <Link to={INSTITUTION_ROUTES.login} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
             {t('auth.alreadyHaveAccount')}
           </Link>
-          <Link to={INSTITUTION_ROUTES.hub} className="text-sm text-agigov-text-muted no-underline hover:text-sky-500">
+          <Link to={INSTITUTION_ROUTES.hub} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
             {t('reg.backInstitutional')}
           </Link>
         </div>

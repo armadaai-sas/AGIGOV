@@ -1,28 +1,28 @@
 /**
- * AGIGOV — Skin TRUST (institucional claro · Coinbase/NASA inspired)
- * Default desde jul 2026
+ * AGIGOV — Skin TRUST (Cursor-light · neutro institucional)
+ * Default desde 2026
  */
 [data-agigov-skin='trust'] {
   --color-agigov-navy: #ffffff;
-  --color-agigov-navy-light: #f8fafc;
+  --color-agigov-navy-light: #fafafa;
   --color-agigov-surface: #ffffff;
-  --color-agigov-surface-elevated: #f1f5f9;
-  --color-agigov-primary: #0052ff;
-  --color-agigov-primary-hover: #0040cc;
-  --color-agigov-primary-soft: #3b82f6;
-  --color-agigov-accent: #b45309;
-  --color-agigov-accent-soft: #d97706;
-  --color-agigov-success: #059669;
+  --color-agigov-surface-elevated: #f4f4f5;
+  --color-agigov-primary: #18181b;
+  --color-agigov-primary-hover: #27272a;
+  --color-agigov-primary-soft: #3f3f46;
+  --color-agigov-accent: #52525b;
+  --color-agigov-accent-soft: #71717a;
+  --color-agigov-success: #52525b;
   --color-agigov-danger: #dc2626;
-  --color-agigov-text: #0f172a;
-  --color-agigov-text-muted: #475569;
-  --color-agigov-border: rgba(15, 23, 42, 0.1);
+  --color-agigov-text: #18181b;
+  --color-agigov-text-muted: #71717a;
+  --color-agigov-border: #e4e4e7;
   --color-agigov-void: #ffffff;
-  --color-agigov-orbit: #0052ff;
-  --color-agigov-signal: #d97706;
-  --color-agigov-data: #059669;
+  --color-agigov-orbit: #18181b;
+  --color-agigov-signal: #71717a;
+  --color-agigov-data: #52525b;
   --color-agigov-glass: rgba(255, 255, 255, 0.92);
-  --color-agigov-console: #f8fafc;
+  --color-agigov-console: #fafafa;
 }
 
 [data-agigov-skin='trust'] .agigov-card,
@@ -33,8 +33,8 @@
 }
 
 [data-agigov-skin='trust'] .agigov-card-interactive:hover {
-  border-color: rgba(0, 82, 255, 0.25);
-  box-shadow: 0 4px 12px rgba(0, 82, 255, 0.08);
+  border-color: var(--color-agigov-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 [data-agigov-skin='trust'] .agigov-eyebrow {
@@ -116,7 +116,7 @@
 }
 
 [data-agigov-skin='trust'] .app-sidebar {
-  background: #f8fafc;
+  background: #fafafa;
   border-color: var(--color-agigov-border);
 }
 
@@ -180,15 +180,15 @@
 }
 
 [data-agigov-skin='trust'] .model-status-badge--disponible {
-  color: var(--color-agigov-success);
-  background: rgba(5, 150, 105, 0.08);
-  border-color: rgba(5, 150, 105, 0.25);
+  color: #3f3f46;
+  background: #fafafa;
+  border-color: #e4e4e7;
 }
 
 [data-agigov-skin='trust'] .model-status-badge--beta {
-  color: var(--color-agigov-accent-soft);
-  background: rgba(217, 119, 6, 0.08);
-  border-color: rgba(217, 119, 6, 0.25);
+  color: #52525b;
+  background: #fafafa;
+  border-color: #e4e4e7;
 }
 
 [data-agigov-skin='trust'] .model-status-badge--roadmap {
@@ -202,13 +202,13 @@
 }
 
 [data-agigov-skin='trust'] .model-status-sync-alert {
-  border-color: rgba(217, 119, 6, 0.25);
-  background: rgba(255, 251, 235, 0.9);
+  border-color: #e4e4e7;
+  background: #fafafa;
   color: var(--color-agigov-text);
 }
 
 [data-agigov-skin='trust'] .model-catalog-card--status-drift {
-  border-color: rgba(217, 119, 6, 0.3);
+  border-color: #d4d4d8;
 }
 
 [data-agigov-skin='trust'] .legacy-redirect-banner-dismiss {
@@ -221,46 +221,26 @@
   color: var(--color-agigov-primary);
 }
 
-[data-agigov-skin='trust'] .agigov-alert--info {
-  border-color: rgba(0, 82, 255, 0.2);
-  background: rgba(0, 82, 255, 0.06);
-  color: var(--color-agigov-text);
-}
-
+[data-agigov-skin='trust'] .agigov-alert--info,
 [data-agigov-skin='trust'] .agigov-alert--warning,
-[data-agigov-skin='trust'] .agigov-alert--offline {
-  border-color: rgba(217, 119, 6, 0.25);
-  background: rgba(255, 251, 235, 0.95);
-  color: var(--color-agigov-text);
-}
-
-[data-agigov-skin='trust'] .agigov-alert--warning .agigov-alert-icon,
-[data-agigov-skin='trust'] .agigov-alert--offline .agigov-alert-icon {
-  color: var(--color-agigov-accent-soft);
-}
-
-[data-agigov-skin='trust'] .agigov-alert--error {
-  border-color: rgba(220, 38, 38, 0.22);
-  background: rgba(254, 242, 242, 0.95);
-  color: var(--color-agigov-text);
-}
-
-[data-agigov-skin='trust'] .agigov-alert--error .agigov-alert-icon {
-  color: var(--color-agigov-danger);
-}
-
+[data-agigov-skin='trust'] .agigov-alert--offline,
+[data-agigov-skin='trust'] .agigov-alert--error,
 [data-agigov-skin='trust'] .agigov-alert--success {
-  border-color: rgba(5, 150, 105, 0.22);
-  background: rgba(236, 253, 245, 0.95);
+  border-color: #e4e4e7;
+  background: #fafafa;
   color: var(--color-agigov-text);
 }
 
+[data-agigov-skin='trust'] .agigov-alert--info .agigov-alert-icon,
+[data-agigov-skin='trust'] .agigov-alert--warning .agigov-alert-icon,
+[data-agigov-skin='trust'] .agigov-alert--offline .agigov-alert-icon,
+[data-agigov-skin='trust'] .agigov-alert--error .agigov-alert-icon,
 [data-agigov-skin='trust'] .agigov-alert--success .agigov-alert-icon {
-  color: var(--color-agigov-success);
+  color: #71717a;
 }
 
 [data-agigov-skin='trust'] .agigov-alert-hint code {
-  color: var(--color-agigov-primary);
+  color: #52525b;
 }
 
 [data-agigov-skin='trust'] .agigov-alert--banner {
@@ -310,7 +290,7 @@
 }
 
 [data-agigov-skin='trust'] .agigov-mono-id {
-  color: #0369a1;
+  color: #52525b;
 }
 
 [data-agigov-skin='trust'] a.text-sky-400,
@@ -319,23 +299,23 @@
 [data-agigov-skin='trust'] .text-sky-400\/90,
 [data-agigov-skin='trust'] a.text-sky-400\/70,
 [data-agigov-skin='trust'] .text-sky-400\/70 {
-  color: #0369a1;
+  color: #52525b;
 }
 
 [data-agigov-skin='trust'] .inst-reg-hero-badge {
-  border-color: rgba(3, 105, 161, 0.35);
-  background: #e0f2fe;
-  color: #0c4a6e;
+  border-color: #e4e4e7;
+  background: #fafafa;
+  color: #52525b;
 }
 
 [data-agigov-skin='trust'] .inst-reg-entity {
   background: #fff;
-  border-color: #cbd5e1;
+  border-color: #e4e4e7;
 }
 
 [data-agigov-skin='trust'] .inst-reg-entity.is-selected {
-  border-color: #0284c7;
-  background: #f0f9ff;
+  border-color: #a1a1aa;
+  background: #f4f4f5;
 }
 
 [data-agigov-skin='trust'] .inst-reg-form input,
@@ -350,17 +330,17 @@
 }
 
 [data-agigov-skin='trust'] .app-topbar-auth:hover {
-  color: #0369a1;
+  color: #18181b;
 }
 
 [data-agigov-skin='trust'] a.text-sky-300,
 [data-agigov-skin='trust'] .text-sky-300 {
-  color: #0369a1;
+  color: #52525b;
 }
 
 [data-agigov-skin='trust'] a.text-sky-200,
 [data-agigov-skin='trust'] .text-sky-200,
 [data-agigov-skin='trust'] a.text-sky-100,
 [data-agigov-skin='trust'] .text-sky-100 {
-  color: #0c4a6e;
+  color: #71717a;
 }

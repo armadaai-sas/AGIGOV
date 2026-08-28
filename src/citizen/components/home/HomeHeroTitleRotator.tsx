@@ -75,9 +75,11 @@ export function HomeHeroTitleRotator({ audience, onAudienceChange }: Props) {
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: reduceMotion ? 0.15 : 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="ls-hero-title-connector">{beat.connector}</span>{' '}
-            <span className="ls-hero-title-word">{beat.word}</span>
-            <span className="ls-hero-title-end">.</span>
+            <span className="ls-hero-title-phrase">
+              <span className="ls-hero-title-connector">{beat.connector}</span>
+              <span className="ls-hero-title-word">{beat.word}</span>
+              <span className="ls-hero-title-end">.</span>
+            </span>
           </motion.span>
         </AnimatePresence>
       </span>

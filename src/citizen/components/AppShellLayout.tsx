@@ -1,12 +1,10 @@
 import type { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { AppSidebar } from './AppSidebar.js';
-import { CatalogMobileDock, usesCatalogMobileDock } from './models/CatalogMobileDock.js';
 import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
-import { SiteFooterCompact } from './SiteFooterCompact.js';
 import { CommandPaletteButton } from './CommandPalette.js';
 import { InstitutionAccountNav } from './institutional/InstitutionAccountNav.js';
 
@@ -27,27 +25,30 @@ function topbarContext(pathname: string): { prefix: string; label: string } {
   }
   if (pathname.startsWith('/institucional')) {
     if (pathname.startsWith(INSTITUTION_ROUTES.register)) {
-      return { prefix: 'AGIGOV', label: 'Registro institucional' };
+      return { prefix: 'AGIGOV', label: 'Registro' };
     }
     if (pathname.startsWith(INSTITUTION_ROUTES.login)) {
-      return { prefix: 'AGIGOV', label: 'Acceso institucional' };
+      return { prefix: 'AGIGOV', label: 'Acceso' };
     }
     if (pathname.startsWith(INSTITUTION_ROUTES.pilot)) {
-      return { prefix: 'AGIGOV', label: 'Piloto fiscal' };
+      return { prefix: 'AGIGOV', label: 'Piloto' };
     }
     return { prefix: 'AGIGOV', label: 'Institucional' };
   }
-  if (
-    pathname.startsWith('/gestion') ||
-    pathname.startsWith('/propuestas') ||
-    pathname.startsWith('/proyectos') ||
-    pathname.startsWith('/contratos') ||
-    pathname.startsWith('/transparencia') ||
-    pathname.startsWith('/suministros') ||
-    pathname.startsWith('/cne') ||
-    pathname.startsWith('/participar')
-  ) {
-    return { prefix: 'AGIGOV', label: 'Operación' };
+  if (pathname.startsWith('/gestion')) {
+    return { prefix: 'AGIGOV', label: 'Gestión pública' };
+  }
+  if (pathname.startsWith('/participar')) {
+    return { prefix: 'AGIGOV', label: 'Participar' };
+  }
+  if (pathname.startsWith('/propuestas')) {
+    return { prefix: 'AGIGOV', label: 'Propuestas' };
+  }
+  if (pathname.startsWith('/contratos')) {
+    return { prefix: 'AGIGOV', label: 'Contratos' };
+  }
+  if (pathname.startsWith('/ayuda') || pathname.startsWith('/desarrolladores') || pathname.startsWith('/aprender')) {
+    return { prefix: 'AGIGOV', label: 'Ayuda' };
   }
   return { prefix: 'AGIGOV', label: '' };
 }
@@ -58,7 +59,6 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
   const { implementationId } = usePlatform();
   const funnelMode = usesFunnelShell(pathname, implementationId);
   const ctx = topbarContext(pathname);
-  const catalogDock = usesCatalogMobileDock(pathname);
   const showLegacyBanner = pathname.startsWith('/modelos');
 
   return (
@@ -87,15 +87,13 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <p className="app-topbar-context hidden sm:block">
-            <span className="text-agigov-text-muted">{ctx.prefix}</span>
+            <span className="app-topbar-crumb">{ctx.prefix}</span>
             {ctx.label ? (
               <>
-                <span className="mx-2 text-agigov-text-muted/40">/</span>
-                <span className="font-medium text-agigov-text">{ctx.label}</span>
+                <span className="app-topbar-crumb-sep">/</span>
+                <span className="app-topbar-crumb">{ctx.label}</span>
               </>
-            ) : (
-              <span className="ml-0 font-medium text-agigov-text">{ctx.prefix}</span>
-            )}
+            ) : null}
           </p>
           <div className="app-topbar-actions">
             <CommandPaletteButton />
@@ -113,12 +111,10 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
           ) : null}
         </header>
 
-        <div className={`app-shell-content ${catalogDock ? 'app-shell-content--catalog-dock' : ''}`}>
+        <div className="app-shell-content">
           {showLegacyBanner ? <LegacyRedirectBanner /> : null}
           {children}
         </div>
-        <SiteFooterCompact />
-        <CatalogMobileDock />
       </div>
     </div>
   );

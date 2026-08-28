@@ -3,7 +3,6 @@
 @reference "./base.css";
 
 @source "../citizen/components/landing/**/*.{tsx,ts}";
-@source "../citizen/components/HeroWelcome.tsx";
 @source "../citizen/components/HeroMiniTelemetry.tsx";
 @source "../citizen/components/LandingTelemetryPanel.tsx";
 @source "../citizen/components/LandingAcademia.tsx";

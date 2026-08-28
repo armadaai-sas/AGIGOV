@@ -38,7 +38,7 @@ export function LegacyRedirectBanner() {
             </p>
             <p className="mt-2 text-xs text-agigov-text-muted">
               Guarda el nuevo enlace:{' '}
-              <Link to={meta.to} className="text-sky-600 hover:underline dark:text-sky-400">
+              <Link to={meta.to} className="text-zinc-700 underline hover:text-zinc-900">
                 {meta.to}
                 <ArrowRight className="ml-1 inline h-3 w-3" aria-hidden />
               </Link>

@@ -6,7 +6,7 @@ import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { MicroLesson } from './MicroLesson.js';
 
 const METRIC_LESSONS: Record<string, string> = {
-  Registro: 'Ledger inmutable: cada decisión publicada queda firmada y trazable.',
+  Registro: 'Registro inmutable: cada decisión publicada queda firmada y trazable.',
   Reportes: 'Resúmenes de gestión ya validados por centinela — sin datos personales.',
   Propuestas: 'Iniciativas ciudadanas con hechos verificables en el pipeline.',
   Proyectos: 'Economía DAO con fondos en escrow programático.',
@@ -37,7 +37,7 @@ export function LandingTelemetryPanel() {
         <p className="landing-section-lead mx-0 max-w-none text-left">
           Decisiones registradas de forma inmutable — sin datos personales. Solo evidencia ya
           validada y publicada.{' '}
-          <Link to="/aprender/glosario" className="text-sky-400/90 underline-offset-2 hover:underline">
+          <Link to="/aprender/glosario" className="text-zinc-600 underline-offset-2 hover:underline">
             Glosario
           </Link>
         </p>

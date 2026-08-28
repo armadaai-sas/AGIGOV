@@ -71,8 +71,8 @@ export function InstitutionModelStep() {
   return (
     <div className="agigov-card inst-pilot-step">
       <div className="flex gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10">
-          <TrendingDown className="h-6 w-6 text-emerald-400" />
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zinc-100">
+          <TrendingDown className="h-6 w-6 text-zinc-600" />
         </div>
         <div>
           <h3 className="font-display text-lg font-semibold">Trust Pilot Fiscal · EGS</h3>
@@ -82,20 +82,20 @@ export function InstitutionModelStep() {
             <li>· {t('pilot.model.point2')}</li>
             <li>· {t('pilot.model.point3')}</li>
           </ul>
-          <Link to="/modelos/egs" className="mt-3 inline-flex text-sm text-sky-400 no-underline hover:text-sky-300">
+          <Link to="/modelos/egs" className="mt-3 inline-flex text-sm text-zinc-600 no-underline hover:text-zinc-900">
             {t('pilot.model.brief')}
           </Link>
         </div>
       </div>
-      <label className="mt-6 flex cursor-pointer items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
+      <label className="mt-6 flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
         <input
           type="radio"
           name="model"
           checked={selected === 'egs'}
           onChange={() => setSelected('egs')}
         />
-        <span className="text-sm font-medium">Efficiency Gain Share (EGS)</span>
-        <CheckCircle2 className="ml-auto h-5 w-5 text-emerald-400" />
+        <span className="text-sm font-medium">Reparto del ahorro por eficiencia (EGS)</span>
+        <CheckCircle2 className="ml-auto h-5 w-5 text-zinc-600" />
       </label>
       <WizardStepFooter onContinue={confirm} continueDisabled={false} />
     </div>
@@ -150,7 +150,7 @@ export function InstitutionBaselineStep() {
       <p className="text-sm text-agigov-text-muted">{t('pilot.baseline.lead')}</p>
       <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 font-mono text-sm">
         <p>
-          {t('pilot.baseline.status')}: <span className="text-sky-300">{status}</span>
+          {t('pilot.baseline.status')}: <span className="text-zinc-700">{status}</span>
         </p>
         {Array.isArray(onboarding?.institutionSigners) ? (
           <ul className="mt-2 space-y-1 text-xs text-agigov-text-muted">
@@ -160,7 +160,7 @@ export function InstitutionBaselineStep() {
           </ul>
         ) : null}
       </div>
-      {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-zinc-600">{error}</p> : null}
       <div className="mt-6 flex flex-wrap gap-3">
         <button
           type="button"
@@ -285,7 +285,7 @@ export function InstitutionIngestStep() {
       <p className="mb-3 text-sm text-agigov-text-muted">
         Paquete de confianza: descargue el CSV de 3 hitos{' '}
         <a
-          className="text-sky-400 no-underline hover:text-sky-300"
+          className="text-zinc-600 no-underline hover:text-zinc-900"
           href="/docs/sample-ingest-3-hitos.csv"
           download="sample-ingest-3-hitos.csv"
         >
@@ -306,7 +306,7 @@ export function InstitutionIngestStep() {
       />
 
       {skipReasons.length > 0 ? (
-        <p className="mt-3 text-xs text-amber-300/90">
+        <p className="mt-3 text-xs text-zinc-500">
           {t('pilot.ingest.skipReasons')}: {skipReasons.join(', ')}
         </p>
       ) : null}
@@ -351,8 +351,8 @@ export function InstitutionIngestStep() {
       <p className="mt-2 text-xs text-agigov-text-muted">
         {t('pilot.ingest.hint')} · {fmt(Number(amount) || 0, { showCode: true })}
       </p>
-      {msg ? <p className="mt-3 text-sm text-emerald-400">{msg}</p> : null}
-      {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
+      {msg ? <p className="mt-3 text-sm text-zinc-600">{msg}</p> : null}
+      {error ? <p className="mt-3 text-sm text-zinc-600">{error}</p> : null}
       <p className="mt-3 text-xs text-agigov-text-muted">
         {t('pilot.ingest.progress', { count: String(session.ingestAccepted) })}
       </p>
@@ -420,23 +420,23 @@ export function InstitutionReconcileStep() {
     <div className="agigov-card inst-pilot-step">
       <p className="text-sm text-agigov-text-muted">{t('pilot.reconcile.lead')}</p>
       <div
-        className={`mt-4 rounded-xl border p-4 ${ok ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-amber-500/30 bg-amber-500/5'}`}
+        className={`mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4`}
       >
         <p className="font-mono text-sm">
           {t('pilot.reconcile.status')}: {session.reconcileStatus ?? '—'}
         </p>
-        <p className="mt-2 font-mono text-lg text-emerald-400">
+        <p className="mt-2 font-mono text-lg text-zinc-600">
           {t('pilot.reconcile.savings')}: {session.calculoAhorroFinal ?? '—'}
         </p>
         {session.discrepancies.length > 0 ? (
-          <ul className="mt-2 text-xs text-red-300">
+          <ul className="mt-2 text-xs text-zinc-600">
             {session.discrepancies.map((d) => (
               <li key={d}>{d}</li>
             ))}
           </ul>
         ) : null}
       </div>
-      {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-zinc-600">{error}</p> : null}
       <button type="button" className="ds-btn-secondary ds-btn-app-shape mt-4" disabled={busy} onClick={() => void rerun()}>
         {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         {t('pilot.reconcile.rerun')}
@@ -479,7 +479,7 @@ export function InstitutionQCloseStep() {
       <p className="mt-3 font-mono text-sm">
         {t('pilot.close.published')}: {session.published ? t('common.yes') : t('common.no')}
       </p>
-      {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-zinc-600">{error}</p> : null}
       <button type="button" className="ds-btn-app mt-4" disabled={busy || session.published} onClick={() => void publish()}>
         {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         {t('pilot.close.publish')}

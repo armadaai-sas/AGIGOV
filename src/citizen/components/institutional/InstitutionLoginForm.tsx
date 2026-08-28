@@ -83,7 +83,7 @@ export function InstitutionLoginForm() {
     <div className="mx-auto w-full max-w-md">
       <form className="agigov-card space-y-5 p-6 sm:p-8" onSubmit={(e) => void submit(e)}>
         {loggedOut ? (
-          <p className="rounded-lg border border-sky-600/30 bg-sky-50 px-3 py-2 text-sm font-medium text-sky-950">
+          <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm font-medium text-zinc-700">
             {t('auth.loggedOut')}
           </p>
         ) : null}
@@ -115,12 +115,12 @@ export function InstitutionLoginForm() {
           />
         </label>
 
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? <p className="text-sm text-zinc-600">{error}</p> : null}
         {errorCode === 'password_not_set' ? (
           <p>
             <Link
               to={INSTITUTION_ROUTES.register}
-              className="text-sm text-sky-600 underline-offset-2 hover:underline"
+              className="text-sm text-zinc-700 underline-offset-2 hover:underline"
             >
               {t('auth.goRegister')}
             </Link>
@@ -136,7 +136,7 @@ export function InstitutionLoginForm() {
           {t('auth.needRegister')}{' '}
           <Link
             to={INSTITUTION_ROUTES.register}
-            className="font-medium text-sky-600 underline-offset-2 hover:underline"
+            className="font-medium text-zinc-700 underline-offset-2 hover:underline"
           >
             {t('auth.goRegister')}
           </Link>

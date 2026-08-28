@@ -13,7 +13,7 @@ export function PanicBanner() {
     <div className="agigov-panic-banner" role="alert">
       <ShieldAlert className="h-4 w-4 shrink-0" aria-hidden />
       <div>
-        <p className="agigov-panic-banner-title">Sistema en FREEZE</p>
+        <p className="agigov-panic-banner-title">Sistema congelado</p>
         <p className="agigov-panic-banner-lead">
           Centinela suspendió mutaciones al ledger. Propuestas y aportes están pausados hasta
           des-congelamiento autorizado.

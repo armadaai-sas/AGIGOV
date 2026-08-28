@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
+import { InstitutionAccountNav } from '../institutional/InstitutionAccountNav.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
@@ -56,7 +57,7 @@ function DropdownSections({
 }
 
 /**
- * Marketing header — menú por audiencia + Productos, Comenzar gratis seccionado.
+ * Marketing header — audiencias + modelos + Comenzar gratis.
  */
 export function HomeHeroNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -69,57 +70,51 @@ export function HomeHeroNav() {
 
   const groups: NavGroup[] = [
     {
-      id: 'products',
-      label: t('nav.marketing.products'),
+      id: 'modelos',
+      label: t('nav.marketing.apps'),
       sections: [
         {
-          title: t('nav.marketing.products.sec.platform'),
+          title: t('nav.marketing.apps.sec.catalog'),
           items: [
-            { to: '/#os', label: t('nav.marketing.products.os'), hint: t('nav.marketing.products.osHint') },
-            {
-              to: '/#resultados',
-              label: t('nav.marketing.products.results'),
-              hint: t('nav.marketing.products.resultsHint'),
-            },
             {
               to: '/modelos',
-              label: t('nav.marketing.products.apps'),
-              hint: t('nav.marketing.products.appsHint'),
+              label: t('nav.marketing.apps.all'),
+              hint: t('nav.marketing.apps.allHint'),
             },
             {
-              to: EGS_CONSOLE_PATH,
-              label: t('nav.marketing.products.console'),
-              hint: t('nav.marketing.products.consoleHint'),
+              to: EGS_MODEL_PATH,
+              label: t('nav.marketing.apps.egs'),
+              hint: t('nav.marketing.apps.egsHint'),
             },
             {
-              to: '/#desplegar',
-              label: t('nav.marketing.products.deploy'),
-              hint: t('nav.marketing.products.deployHint'),
+              to: '/modelos?audiencia=gubernamental',
+              label: t('nav.marketing.apps.gov'),
+              hint: t('nav.marketing.apps.govHint'),
+            },
+            {
+              to: '/modelos?audiencia=empresarial',
+              label: t('nav.marketing.apps.biz'),
+              hint: t('nav.marketing.apps.bizHint'),
+            },
+            {
+              to: '/modelos?audiencia=ciudadano',
+              label: t('nav.marketing.apps.citizen'),
+              hint: t('nav.marketing.apps.citizenHint'),
             },
           ],
         },
         {
-          title: t('nav.marketing.products.sec.models'),
+          title: t('nav.marketing.apps.sec.operate'),
           items: [
             {
-              to: '/modelos?audiencia=gubernamental',
-              label: t('nav.marketing.products.govModels'),
-              hint: t('nav.marketing.products.govModelsHint'),
+              to: INSTITUTION_ROUTES.desk,
+              label: t('nav.marketing.apps.desk'),
+              hint: t('nav.marketing.apps.deskHint'),
             },
             {
-              to: '/modelos?audiencia=empresarial',
-              label: t('nav.marketing.products.bizModels'),
-              hint: t('nav.marketing.products.bizModelsHint'),
-            },
-            {
-              to: '/modelos?audiencia=ciudadano',
-              label: t('nav.marketing.products.citizenModels'),
-              hint: t('nav.marketing.products.citizenModelsHint'),
-            },
-            {
-              to: EGS_MODEL_PATH,
-              label: t('nav.marketing.products.egs'),
-              hint: t('nav.marketing.products.egsHint'),
+              to: EGS_CONSOLE_PATH,
+              label: t('nav.marketing.apps.console'),
+              hint: t('nav.marketing.apps.consoleHint'),
             },
           ],
         },
@@ -132,11 +127,6 @@ export function HomeHeroNav() {
         {
           title: t('nav.marketing.government.sec.start'),
           items: [
-            {
-              to: INSTITUTION_ROUTES.hub,
-              label: t('nav.marketing.institution.hub'),
-              hint: t('nav.marketing.institution.hubHint'),
-            },
             {
               to: INSTITUTION_ROUTES.register,
               label: t('nav.marketing.institution.register'),
@@ -164,13 +154,13 @@ export function HomeHeroNav() {
             },
             {
               to: EGS_CONSOLE_PATH,
-              label: t('nav.marketing.products.console'),
-              hint: t('nav.marketing.products.consoleHint'),
+              label: t('nav.marketing.apps.console'),
+              hint: t('nav.marketing.apps.consoleHint'),
             },
             {
               to: '/modelos?audiencia=gubernamental',
-              label: t('nav.marketing.products.govModels'),
-              hint: t('nav.marketing.products.govModelsHint'),
+              label: t('nav.marketing.apps.gov'),
+              hint: t('nav.marketing.apps.govHint'),
             },
           ],
         },
@@ -236,8 +226,8 @@ export function HomeHeroNav() {
             },
             {
               to: '/modelos?audiencia=ciudadano',
-              label: t('nav.marketing.products.citizenModels'),
-              hint: t('nav.marketing.products.citizenModelsHint'),
+              label: t('nav.marketing.apps.citizen'),
+              hint: t('nav.marketing.apps.citizenHint'),
             },
           ],
         },
@@ -382,7 +372,7 @@ export function HomeHeroNav() {
 
       <div className="ls-nav-bar">
         <Link to="/" className="ls-nav-logo" aria-label={t('nav.home')} onClick={closeAll}>
-          <AgigovLogo size="sm" showWordmark variant="dark" />
+          <AgigovLogo size="sm" showWordmark variant="light" />
         </Link>
 
         <nav className="ls-nav-menus" aria-label={t('nav.main')}>
@@ -414,9 +404,8 @@ export function HomeHeroNav() {
         </nav>
 
         <div className="ls-nav-actions">
-          <Link to="/#contacto" className="ls-nav-contact" onClick={closeAll}>
-            {t('nav.marketing.contact')}
-          </Link>
+          {/* Contact lives in #contacto + footer — not a peer CTA (LANDING-IA-INTL). */}
+          <InstitutionAccountNav variant="hero" showLabel />
 
           <div className={`ls-nav-try ${openGroup === 'try' ? 'is-open' : ''}`}>
             <button
@@ -497,6 +486,9 @@ export function HomeHeroNav() {
             ))}
           </div>
           <div className="ls-nav-mobile-ctas">
+            <Link to={INSTITUTION_ROUTES.login} className="ls-btn ls-btn--secondary" onClick={closeAll}>
+              {t('nav.login')}
+            </Link>
             <Link to="/#contacto" className="ls-btn ls-btn--ghost" onClick={closeAll}>
               {t('nav.marketing.contact')}
             </Link>

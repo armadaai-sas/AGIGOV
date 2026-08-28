@@ -16,7 +16,7 @@ const GUIDES = [
     icon: BookOpen,
     title: 'Qué es Gobernanza 2.0',
     text: 'Por qué el modelo tradicional ya no alcanza y qué cambia con política post-IA.',
-    to: '/#modelo',
+    to: '/#modelos',
     cta: 'Leer comparación',
   },
   {
@@ -43,7 +43,7 @@ const GUIDES = [
   {
     icon: BookOpen,
     title: 'Glosario ciudadano',
-    text: 'Ledger, propuesta, dictamen y escrow — conceptos clave en lenguaje claro.',
+    text: 'Registro, propuesta, dictamen y custodia — conceptos clave en lenguaje claro.',
     to: '/aprender/glosario',
     cta: 'Abrir glosario',
   },

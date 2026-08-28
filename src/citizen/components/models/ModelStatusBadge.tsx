@@ -39,7 +39,7 @@ export function ModelStatusBadge({
         {!sync.inSync ? <span className="model-status-badge-drift-mark">↻</span> : null}
       </span>
       {showDriftHint && !sync.inSync ? (
-        <span className="text-[10px] text-amber-600 dark:text-amber-200/90">
+        <span className="text-[10px] text-zinc-500">
           Catálogo: {MODEL_STATUS_LABEL[sync.catalogStatus]}
         </span>
       ) : null}
@@ -48,12 +48,8 @@ export function ModelStatusBadge({
 }
 
 export function audienceBadgeClass(audience: 'gubernamental' | 'empresarial' | 'ciudadano'): string {
-  const map = {
-    gubernamental: 'border-sky-500/25 bg-sky-500/10 text-sky-200',
-    empresarial: 'border-violet-500/25 bg-violet-500/10 text-violet-200',
-    ciudadano: 'border-emerald-500/25 bg-emerald-500/10 text-emerald-200',
-  };
-  return map[audience];
+  void audience;
+  return 'border-zinc-200 bg-zinc-50 text-zinc-600';
 }
 
 export { getModelStatusSync, getEffectiveModelStatus } from '../../platform/modelStatusSync.js';

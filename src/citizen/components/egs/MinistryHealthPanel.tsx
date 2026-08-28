@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   Landmark,
-  PiggyBank,
   ShieldCheck,
   TrendingDown,
 } from 'lucide-react';
 
+import { OsCollapsible } from '../os/OsCollapsible.js';
 import type { MinistryHealthResponse } from '../../api.js';
 import { EgsConnectionPanel } from '../services/ServiceConnectionPanel.js';
 import { PlatformAlert } from '../PlatformAlert.js';
@@ -20,13 +20,6 @@ function formatAmount(value: string, formatMoney: (v: string | number, o?: { sho
   return formatMoney(n);
 }
 
-function pctOf(part: string, total: string): number {
-  const p = parseFloat(part);
-  const t = parseFloat(total);
-  if (!t || Number.isNaN(p)) return 0;
-  return Math.round((p / t) * 100);
-}
-
 export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) {
   const { formatMoney, sovereign, t } = useSovereignConfig();
   const unit = data.currency ?? sovereign.currency;
@@ -35,21 +28,15 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
 
   return (
     <div className="space-y-8 agigov-stagger-list">
-      {data.pilotBanner ? (
-        <PlatformAlert variant="warning" title="Aviso piloto">
-          {data.pilotBanner}
-        </PlatformAlert>
-      ) : null}
-
       {!data.reconcileOk ? (
-        <PlatformAlert variant="error" title="Cierre trimestral bloqueado — centinela detectó discrepancia">
-          <ul className="mt-2 list-inside list-disc">
+        <PlatformAlert variant="error" title="Discrepancia detectada — cierre bloqueado">
+          <ul className="mt-2 list-inside list-disc text-[13px]">
             {data.discrepancies.map((d) => (
               <li key={d}>{d}</li>
             ))}
           </ul>
-          <p className="mt-2 text-xs opacity-90">
-            Los pagos a tesorería permanecen congelados hasta resolución humana.
+          <p className="mt-2 text-[12px] text-zinc-600">
+            Pagos congelados hasta resolución humana.
           </p>
         </PlatformAlert>
       ) : null}
@@ -60,11 +47,10 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
           label={t('egs.savings.quarterly')}
           value={formatAmount(data.calculoAhorroFinal, formatMoney)}
           suffix={unit}
-          accent={data.reconcileOk ? 'text-emerald-300' : 'text-red-300'}
         />
         <KpiCard
           icon={ShieldCheck}
-          label="Ejecución en escrow"
+          label="Ejecución en custodia"
           value={`${data.escrowExecutionPct}%`}
           suffix={`${data.releaseCount} hitos`}
         />
@@ -76,119 +62,83 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
         />
       </section>
 
-      <section className="agigov-card">
+      <section className="os-panel">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
+            <p className="text-xs text-agigov-text-muted">
               {data.ministryCode} · {data.fiscalYear} Q{data.quarter}
             </p>
-            <h2 className="mt-1 font-display text-lg font-semibold text-agigov-text">
-              Baseline vs. gasto efectivo
+            <h2 className="mt-1 text-base font-semibold text-agigov-text">
+              Línea base vs. gasto efectivo
             </h2>
             <p className="mt-1 text-sm text-agigov-text-muted">{data.programName}</p>
           </div>
           <StatusBadge status={data.quarterCloseStatus} />
         </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-4">
           <BudgetBar
-            label="Baseline trimestral"
+            label="Línea base trimestral"
             amount={data.baselineTrimestral}
             pct={100}
-            className="bg-sky-500/80"
+            className="bg-zinc-300"
           />
           <BudgetBar
             label="Gasto verificado (centinela)"
             amount={data.gastosVerificados}
             pct={data.executionPct}
-            className="bg-emerald-500/80"
+            className="bg-zinc-600"
           />
           <div className="flex justify-between text-sm">
             <span className="text-agigov-text-muted">{t('egs.savings.generated')}</span>
-            <span className="font-semibold text-emerald-300">
+            <span className="font-semibold text-zinc-900">
               {fmt(data.calculoAhorroFinal)}
             </span>
           </div>
         </div>
       </section>
 
-      <section className="agigov-card">
-        <div className="flex items-center gap-2">
-          <PiggyBank className="h-5 w-5 text-sky-400" />
-          <h2 className="font-display text-lg font-semibold">Reparto EGS 70 / 20 / 10</h2>
-        </div>
-        <p className="mt-1 text-sm text-agigov-text-muted">
-          {t('egs.savings.splitLead')}
-        </p>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <SplitBucket
-            pct={70}
-            label="Re-inversión obra"
-            amount={data.split.reinversion}
-            className="border-emerald-500/30 bg-emerald-500/10"
-          />
-          <SplitBucket
-            pct={20}
-            label="Incentivos mérito"
-            amount={data.split.meritPool}
-            className="border-sky-500/30 bg-sky-500/10"
-          />
-          <SplitBucket
-            pct={10}
-            label="Fee AGIGOV"
-            amount={data.split.agigovFee}
-            className="border-violet-500/30 bg-violet-500/10"
-          />
-        </div>
-
-        <div className="mt-6 flex h-3 overflow-hidden rounded-full bg-white/5">
-          <div
-            className="bg-emerald-500/80"
-            style={{ width: `${pctOf(data.split.reinversion, data.calculoAhorroFinal)}%` }}
-          />
-          <div
-            className="bg-sky-500/80"
-            style={{ width: `${pctOf(data.split.meritPool, data.calculoAhorroFinal)}%` }}
-          />
-          <div
-            className="bg-violet-500/80"
-            style={{ width: `${pctOf(data.split.agigovFee, data.calculoAhorroFinal)}%` }}
-          />
-        </div>
-
-        {data.feeShare ? (
-          <p className="mt-4 text-xs text-agigov-text-muted">
-            Fee del protocolo → builder {data.feeShare.builderAmount} · kernel{' '}
-            {data.feeShare.protocolAmount} · reserva {data.feeShare.reserveAmount} (
-            {data.feeShare.publisherId})
-          </p>
-        ) : null}
-      </section>
-
-      <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <h2 className="font-display text-lg font-semibold">Contratos en escrow</h2>
-            <p className="text-sm text-agigov-text-muted">
-              {data.contracts.length} contratos · clic para cadena de custodia
+      <OsCollapsible title="Reparto EGS y comisiones" hint="70 / 20 / 10">
+        <div className="space-y-4 pt-2">
+          <p className="text-sm text-agigov-text-muted">{t('egs.savings.splitLead')}</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <SplitBucket
+              pct={70}
+              label="Re-inversión obra"
+              amount={data.split.reinversion}
+            />
+            <SplitBucket
+              pct={20}
+              label="Incentivos mérito"
+              amount={data.split.meritPool}
+            />
+            <SplitBucket pct={10} label="Comisión AGIGOV" amount={data.split.agigovFee} />
+          </div>
+          {data.feeShare ? (
+            <p className="text-xs text-agigov-text-muted">
+              Comisión del protocolo → constructor {data.feeShare.builderAmount} · kernel{' '}
+              {data.feeShare.protocolAmount}
             </p>
-          </div>
-          <div className="flex gap-3 text-xs text-agigov-text-muted">
-            <span className="flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" /> Validado
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-red-400" /> Discrepancia
-            </span>
-          </div>
+          ) : null}
+        </div>
+      </OsCollapsible>
+
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-base font-semibold text-agigov-text">Contratos en custodia</h2>
+          <p className="text-sm text-agigov-text-muted">
+            {data.contracts.length} contratos · siguiente paso: revisar hito
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {data.contracts.map((contract) => (
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {data.contracts.slice(0, 6).map((contract) => (
             <ContractTile key={contract.id} contract={contract} />
           ))}
         </div>
+        {data.contracts.length > 6 ? (
+          <p className="text-xs text-agigov-text-muted">+ {data.contracts.length - 6} más en custodia</p>
+        ) : null}
       </section>
     </div>
   );
@@ -197,7 +147,7 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
 export function MinistryHealthUnavailable() {
   return (
     <EgsConnectionPanel
-      title="Efficiency Gain Share (EGS)"
+      title="Reparto del ahorro por eficiencia (EGS)"
       showConsoleLink={false}
       autoVerify
     />
@@ -209,23 +159,21 @@ function KpiCard({
   label,
   value,
   suffix,
-  accent,
   badge,
 }: {
   icon: typeof TrendingDown;
   label: string;
   value: string;
   suffix?: string;
-  accent?: string;
   badge?: string;
 }) {
   return (
     <div className="agigov-stat text-center sm:text-left">
-      <Icon className="mx-auto mb-2 h-5 w-5 text-sky-400 sm:mx-0" />
+      <Icon className="mx-auto mb-2 h-5 w-5 text-zinc-500 sm:mx-0" />
       <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
         {label}
       </p>
-      <p className={`mt-1 font-display text-lg font-bold sm:text-xl ${accent ?? 'text-agigov-text'}`}>
+      <p className="mt-1 font-display text-lg font-bold text-zinc-900 sm:text-xl">
         {value}
         {suffix ? (
           <span className="ml-1 text-xs font-normal text-agigov-text-muted">{suffix}</span>
@@ -274,16 +222,14 @@ function SplitBucket({
   pct,
   label,
   amount,
-  className,
 }: {
   pct: number;
   label: string;
   amount: string;
-  className: string;
 }) {
   const { formatMoney, sovereign } = useSovereignConfig();
   return (
-    <div className={`rounded-xl border px-4 py-3 ${className}`}>
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3">
       <p className="text-2xl font-bold text-agigov-text">{pct}%</p>
       <p className="text-xs text-agigov-text-muted">{label}</p>
       <p className="mt-2 font-display text-sm font-semibold text-agigov-text">
@@ -293,11 +239,7 @@ function SplitBucket({
   );
 }
 
-const TILE_STYLES: Record<string, string> = {
-  ok: 'border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400/60',
-  partial: 'border-amber-500/40 bg-amber-500/10 hover:border-amber-400/60',
-  discrepancy: 'border-red-500/40 bg-red-500/10 hover:border-red-400/60',
-};
+const TILE_STYLE = 'border-zinc-200 bg-zinc-50 hover:border-zinc-300';
 
 function ContractTile({
   contract,
@@ -308,7 +250,7 @@ function ContractTile({
   return (
     <Link
       to={`/proyectos/contrato/${encodeURIComponent(contract.id)}`}
-      className={`group block rounded-xl border p-3 transition ${TILE_STYLES[contract.status] ?? TILE_STYLES.partial}`}
+      className={`group block rounded-lg border p-3 transition ${TILE_STYLE}`}
     >
       <p className="font-display text-sm font-semibold text-agigov-text">{contract.title}</p>
       <p className="mt-1 text-[10px] text-agigov-text-muted">{contract.territoryCode}</p>
@@ -318,7 +260,7 @@ function ContractTile({
       <p className="mt-1 text-xs font-medium text-agigov-text">
         {formatMoney(contract.spentAmount)} {sovereign.currency}
       </p>
-      <span className="mt-3 flex items-center gap-1 text-[10px] text-sky-300 opacity-0 transition group-hover:opacity-100">
+      <span className="mt-3 flex items-center gap-1 text-[10px] text-zinc-500 opacity-0 transition group-hover:opacity-100">
         Ver custodia <ArrowRight className="h-3 w-3" />
       </span>
     </Link>

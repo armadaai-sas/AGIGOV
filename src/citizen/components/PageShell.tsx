@@ -15,18 +15,29 @@ export function PageShell({
   narrow = true,
   banner,
   breadcrumbs,
+  shell = false,
 }: {
   children: ReactNode;
   narrow?: boolean;
   banner?: { state: NetworkSyncState; lastUpdated: string | null };
   breadcrumbs?: BreadcrumbItem[];
+  /** Shell de trabajo: sin breadcrumbs, padding tipo canvas Cursor */
+  shell?: boolean;
 }) {
+  const frameClass = shell
+    ? narrow
+      ? 'os-shell os-shell--narrow'
+      : 'os-shell'
+    : narrow
+      ? 'agigov-shell-narrow'
+      : 'agigov-shell';
+
   return (
     <>
       {banner ? <NetworkBanner state={banner.state} lastUpdated={banner.lastUpdated} /> : null}
-      <div className={narrow ? 'agigov-shell-narrow' : 'agigov-shell'}>
-        {breadcrumbs?.length ? <AppBreadcrumbs items={breadcrumbs} /> : null}
-        <div className="agigov-page-content">{children}</div>
+      <div className={frameClass}>
+        {!shell && breadcrumbs?.length ? <AppBreadcrumbs items={breadcrumbs} /> : null}
+        <div className={shell ? 'os-page-content' : 'agigov-page-content'}>{children}</div>
       </div>
     </>
   );
@@ -46,18 +57,18 @@ export function SectionHeader({
   helpTopic?: HelpTopicSlug;
 }) {
   return (
-    <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between agigov-enter-up">
-      <div className="max-w-2xl">
-        {eyebrow ? <p className="agigov-eyebrow">{eyebrow}</p> : null}
-        <h1 className={`agigov-page-title ${eyebrow ? 'mt-2' : ''}`}>{title}</h1>
-        {lead ? <p className="agigov-lead mt-3">{lead}</p> : null}
+    <header className="os-workspace-head os-workspace-head--stack">
+      <div className="os-workspace-head-text">
+        {eyebrow ? <p className="os-workspace-section-title">{eyebrow}</p> : null}
+        <h1 className={`os-workspace-title ${eyebrow ? 'mt-1' : ''}`}>{title}</h1>
+        {lead ? <p className="os-workspace-sub">{lead}</p> : null}
         {helpTopic ? (
-          <p className="mt-3">
+          <p className="mt-2">
             <HelpTopicLink topic={helpTopic} />
           </p>
         ) : null}
       </div>
-      {action ? <div className="shrink-0">{action}</div> : null}
+      {action ? <div className="os-workspace-cta">{action}</div> : null}
     </header>
   );
 }
@@ -199,7 +210,7 @@ export function LoadingState({ label = 'Cargando…' }: { label?: string }) {
   return (
     <div className="agigov-loading-state agigov-enter-up" aria-live="polite" aria-busy="true">
       <p className="agigov-page-state-kicker">{label}</p>
-      <DsSpinner className="h-5 w-5 text-sky-400/80" />
+      <DsSpinner className="h-5 w-5 text-zinc-400" />
       <div className="agigov-skeleton h-24" />
       <div className="agigov-skeleton h-32" />
       <div className="agigov-skeleton h-32" />

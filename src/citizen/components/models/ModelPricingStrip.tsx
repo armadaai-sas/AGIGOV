@@ -1,22 +1,13 @@
 import type { AgigovModel } from '../../platform/agigovModels.js';
-import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
-import { getModelValidation } from '../../platform/modelValidationState.js';
 
 type Props = {
   model: AgigovModel;
 };
 
 export function ModelPricingStrip({ model }: Props) {
-  const validation = getModelValidation(model.id);
-  const effectiveStatus = getEffectiveModelStatus(model.id, model.status);
-  const isDemo =
-    effectiveStatus !== 'disponible' ||
-    (validation && !validation.approved) ||
-    validation?.stages.operacional === 'partial';
-
   return (
     <section
-      className="rounded-xl border border-white/[0.08] bg-gradient-to-r from-sky-500/[0.06] to-transparent p-5"
+      className="os-panel"
       id="negocio"
     >
       <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
@@ -27,11 +18,6 @@ export function ModelPricingStrip({ model }: Props) {
         <PricingCell label="Mecanismo" value={model.businessModel.mechanism} highlight />
         <PricingCell label="Métrica de verdad" value={model.businessModel.metric} />
       </div>
-      {isDemo ? (
-        <p className="mt-4 text-xs text-amber-200/90">
-          Pricing orientativo — demo técnica. Validar fee final con CSO y marco institucional antes de contrato.
-        </p>
-      ) : null}
     </section>
   );
 }
@@ -49,7 +35,7 @@ function PricingCell({
     <div>
       <dt className="text-xs text-agigov-text-muted">{label}</dt>
       <dd
-        className={`mt-1 text-sm leading-snug ${highlight ? 'font-medium text-sky-200' : 'text-agigov-text'}`}
+        className={`mt-1 text-sm leading-snug ${highlight ? 'font-medium text-zinc-900' : 'text-zinc-700'}`}
       >
         {value}
       </dd>

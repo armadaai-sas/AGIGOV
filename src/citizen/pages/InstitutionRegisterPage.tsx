@@ -1,14 +1,12 @@
 import { Camera } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { InstitutionRegistrationForm } from '../components/institutional/InstitutionRegistrationForm.js';
-import { PageShell, SectionHeader } from '../components/PageShell.js';
+import { PageShell } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
-/** Registro institucional — paso 1 para probar el modelo. */
 export default function InstitutionRegisterPage() {
   const { t } = useSovereignConfig();
   const { isAuthenticated } = useInstitutionAuth();
@@ -18,26 +16,26 @@ export default function InstitutionRegisterPage() {
   }
 
   return (
-    <PageShell narrow breadcrumbs={breadcrumbsForPath('/institucional/registro')}>
-      <aside className="mb-6 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3">
-        <Camera className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden />
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-amber-200/90">
-            Paquete de confianza · paso B1
-          </p>
-          <p className="mt-1 text-sm text-agigov-text">
-            Tras crear cuenta, captura el escritorio o esta pantalla.
-          </p>
-          <p className="mt-1 font-mono text-xs text-amber-100/80">artifacts/01-registro.png</p>
+    <PageShell shell narrow>
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">{t('reg.title')}</h1>
+            <p className="os-workspace-sub">{t('reg.lead')}</p>
+          </div>
+        </header>
+
+        <div className="os-panel flex items-start gap-3">
+          <Camera className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
+          <div className="text-[13px] text-zinc-600">
+            <p className="font-medium text-zinc-900">Paquete de confianza · paso B1</p>
+            <p className="mt-1">Tras crear cuenta, captura el escritorio o esta pantalla.</p>
+            <p className="mt-1 font-mono text-xs text-zinc-500">artifacts/01-registro.png</p>
+          </div>
         </div>
-      </aside>
-      <SectionHeader
-        eyebrow={t('reg.kicker')}
-        title={t('reg.title')}
-        lead={t('reg.lead')}
-        helpTopic="institucional"
-      />
-      <InstitutionRegistrationForm />
+
+        <InstitutionRegistrationForm />
+      </div>
     </PageShell>
   );
 }

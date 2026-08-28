@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { Building2, LogIn, LogOut } from 'lucide-react';
 
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
@@ -9,16 +9,21 @@ type Variant = 'topbar' | 'hero';
 
 type Props = {
   variant?: Variant;
+  /** Desktop marketing header: show text label next to icon (international Sign in pattern). */
+  showLabel?: boolean;
 };
 
 /**
- * Navegación de cuenta institucional — patrón estándar:
- * sin sesión → Iniciar sesión + Registrarse · con sesión → Escritorio + Cerrar sesión
+ * Un solo control de cuenta:
+ * — sin sesión → entrar (icono; opcional label)
+ * — con sesión → institución (escritorio) + salir
  */
-export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
+export function InstitutionAccountNav({ variant = 'topbar', showLabel = false }: Props) {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
   const { session, isAuthenticated, logout } = useInstitutionAuth();
+  const isHero = variant === 'hero';
+  const withLabel = showLabel || isHero;
 
   async function handleLogout() {
     await logout();
@@ -29,80 +34,47 @@ export function InstitutionAccountNav({ variant = 'topbar' }: Props) {
   }
 
   if (isAuthenticated && session) {
-    if (variant === 'hero') {
-      return (
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            to={INSTITUTION_ROUTES.desk}
-            className="hero-trust-nav-ghost inline-flex items-center gap-1.5"
-          >
-            <Building2 className="h-4 w-4" aria-hidden />
-            <span className="hidden sm:inline max-w-[8rem] truncate">{session.institutionName}</span>
-            <span className="sm:hidden">{t('nav.desk')}</span>
-          </Link>
-          <button
-            type="button"
-            className="hero-trust-nav-ghost inline-flex items-center gap-1.5 border-0 bg-transparent p-0 font-inherit cursor-pointer"
-            onClick={() => void handleLogout()}
-          >
-            <LogOut className="h-4 w-4" aria-hidden />
-            {t('nav.logout')}
-          </button>
-        </div>
-      );
-    }
-
     return (
-      <div className="app-topbar-account">
+      <div className={`app-topbar-account${withLabel ? ' app-topbar-account--labeled' : ''}`}>
         <Link
           to={INSTITUTION_ROUTES.desk}
-          className="app-topbar-account-link"
-          title={session.institutionName}
+          className={
+            withLabel
+              ? 'ls-nav-signin app-btn app-btn--ghost'
+              : 'app-btn app-btn--ghost app-btn--icon'
+          }
+          title={session.institutionName || t('nav.desk')}
+          aria-label={session.institutionName || t('nav.desk')}
         >
-          <Building2 className="h-4 w-4 shrink-0" aria-hidden />
-          <span className="hidden lg:inline max-w-[10rem] truncate">{session.institutionName}</span>
-          <span className="lg:hidden">{t('nav.desk')}</span>
+          <Building2 className="h-4 w-4" aria-hidden />
+          {withLabel ? <span>{t('nav.desk')}</span> : null}
         </Link>
         <button
           type="button"
-          className="app-topbar-account-logout"
+          className="app-btn app-btn--ghost app-btn--icon"
           onClick={() => void handleLogout()}
           title={t('nav.logout')}
+          aria-label={t('nav.logout')}
         >
           <LogOut className="h-4 w-4" aria-hidden />
-          <span className="hidden md:inline">{t('nav.logout')}</span>
         </button>
       </div>
     );
   }
 
-  if (variant === 'hero') {
-    return (
-      <div className="flex items-center gap-2 sm:gap-3">
-        <Link to={INSTITUTION_ROUTES.login} className="hero-trust-nav-ghost inline-flex items-center gap-1.5">
-          <LogIn className="h-4 w-4" aria-hidden />
-          {t('nav.login')}
-        </Link>
-        <Link
-          to={INSTITUTION_ROUTES.register}
-          className="hero-brand-btn hero-brand-btn--primary hero-brand-btn--nav"
-        >
-          {t('nav.register')}
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div className="app-topbar-account app-topbar-account--guest">
-      <Link to={INSTITUTION_ROUTES.login} className="app-topbar-auth app-topbar-auth--primary">
-        <LogIn className="h-4 w-4" aria-hidden />
-        <span>{t('nav.login')}</span>
-      </Link>
-      <Link to={INSTITUTION_ROUTES.register} className="app-topbar-auth app-topbar-auth--secondary">
-        <UserPlus className="h-4 w-4" aria-hidden />
-        <span>{t('nav.register')}</span>
-      </Link>
-    </div>
+    <Link
+      to={INSTITUTION_ROUTES.login}
+      className={
+        withLabel
+          ? 'ls-nav-signin app-btn app-btn--ghost'
+          : 'app-btn app-btn--ghost app-btn--icon'
+      }
+      title={t('nav.login')}
+      aria-label={t('nav.login')}
+    >
+      <LogIn className="h-4 w-4" aria-hidden />
+      {withLabel ? <span>{t('nav.login')}</span> : null}
+    </Link>
   );
 }

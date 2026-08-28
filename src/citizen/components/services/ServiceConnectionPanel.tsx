@@ -68,7 +68,7 @@ export function PublicApiConnectionPanel({
   );
 }
 
-/** Verifica API + Postgres + datos EGS (escrow, consola EGS). */
+/** Verifica API + Postgres + datos EGS (custodia, consola EGS). */
 export function EgsConnectionPanel({
   title,
   onReadyChange,
@@ -123,17 +123,17 @@ export function EgsConnectionPanel({
         },
         {
           icon: Database,
-          label: 'Ledger / Postgres',
+          label: 'Registro / Postgres',
           ok: status?.postgresOk,
           pending: checking && !status,
           detail: status?.postgresOk ? 'Activo' : status?.apiOk ? 'Sin verificar' : '—',
         },
         {
           icon: Shield,
-          label: 'Datos EGS en ledger',
+          label: 'Datos EGS en el registro',
           ok: status?.egsDataOk,
           pending: checking && !status,
-          detail: status?.egsDataOk ? 'Contratos demo disponibles' : 'Sin datos publicados',
+          detail: status?.egsDataOk ? 'Contratos disponibles' : 'Sin datos publicados',
         },
       ]}
     />
@@ -147,7 +147,7 @@ export function ServiceConnectionPanel(props: {
 }) {
   return (
     <EgsConnectionPanel
-      title="Efficiency Gain Share (EGS)"
+      title="Reparto del ahorro por eficiencia (EGS)"
       onReadyChange={props.onReadyChange}
       showConsoleLink={props.showConsoleLink ?? true}
     />
@@ -178,7 +178,7 @@ function ConnectionPanelShell({
   }>;
 }) {
   return (
-    <div className="agigov-card service-connection-panel">
+    <div className="os-panel service-connection-panel">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
@@ -186,8 +186,8 @@ function ConnectionPanelShell({
           </p>
           <h2 className="mt-1 font-display text-lg font-semibold text-agigov-text">{title}</h2>
           <p className="mt-2 text-sm text-agigov-text-muted">
-            Comprueba si el nodo API público de este despliegue está activo. No abre cuentas ni
-            conecta wallets — solo valida que el servicio responda aquí.
+            Comprueba que el nodo responde en este entorno. Para subir documentos o conectar su
+            sistema, use el espacio de trabajo del modelo.
           </p>
         </div>
         <button
@@ -218,14 +218,14 @@ function ConnectionPanelShell({
               Abrir consola operativa
             </Link>
           ) : null}
-          <p className="flex items-center gap-2 text-sm text-emerald-300">
+          <p className="flex items-center gap-2 text-sm text-zinc-600">
             <CheckCircle2 className="h-4 w-4" />
             Servicio listo — recargando datos…
           </p>
         </div>
       ) : (
         <PlatformAlert
-          variant="warning"
+          variant="info"
           title="Servicio pendiente"
           className="mt-6"
           hint={
@@ -263,11 +263,11 @@ function StatusRow({
   return (
     <li className="flex items-center gap-3 text-sm">
       {pending ? (
-        <Loader2 className="h-4 w-4 shrink-0 animate-spin text-sky-400" />
+        <Loader2 className="h-4 w-4 shrink-0 animate-spin text-zinc-400" />
       ) : ok ? (
-        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+        <CheckCircle2 className="h-4 w-4 shrink-0 text-zinc-600" />
       ) : (
-        <Circle className="h-4 w-4 shrink-0 text-white/25" />
+        <Circle className="h-4 w-4 shrink-0 text-zinc-300" />
       )}
       <Icon className="h-4 w-4 shrink-0 text-agigov-text-muted" />
       <span className="min-w-[9rem] font-medium text-agigov-text">{label}</span>
@@ -279,11 +279,11 @@ function StatusRow({
 export function EgsServiceUnavailable({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
-      <PlatformAlert variant="warning" title="Servicio EGS no disponible">
+      <PlatformAlert variant="info" title="Servicio EGS no disponible">
         Verifique el nodo API público antes de continuar.
       </PlatformAlert>
     );
   }
 
-  return <EgsConnectionPanel title="Efficiency Gain Share (EGS)" />;
+  return <EgsConnectionPanel title="Reparto del ahorro por eficiencia (EGS)" />;
 }

@@ -58,7 +58,7 @@ export const EGS_CONSOLE_PATH = `${BASE}/egs/consola`;
 export const AGIGOV_MODELS: readonly AgigovModel[] = [
   {
     id: 'egs',
-    name: 'Efficiency Gain Share',
+    name: 'Reparto del ahorro por eficiencia',
     shortName: 'EGS',
     audience: 'gubernamental',
     status: 'disponible',
@@ -67,12 +67,12 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'El Estado ejecuta presupuesto con opacidad: pagos sin hito, sobrecostos no detectados y cierres trimestrales manuales propensos a discrepancia.',
     purpose:
-      'Reconciliar baseline presupuestario vs gasto trazado en ledger, calcular el ahorro verificado y repartirlo bajo reglas publicadas (re-inversión, mérito, comisión del operador).',
+      'Reconciliar baseline presupuestario vs gasto trazado en el registro, calcular el ahorro verificado y repartirlo bajo reglas publicadas (re-inversión, mérito, comisión del operador).',
     whyVital:
-      'Permite defender ante contraloría y ciudadanía que cada unidad monetaria ahorrada es auditable — sin fee si no hay ahorro real. Alinea incentivos del operador con eficiencia, no con gasto.',
+      'Permite defender ante contraloría y ciudadanía que cada unidad monetaria ahorrada es auditable — sin comisión si no hay ahorro real. Alinea incentivos del operador con eficiencia, no con gasto.',
     benefits: [
       'Cierre trimestral automático con centinela',
-      'Smart Escrow ligado a hitos verificables',
+      'Custodia inteligente ligado a hitos verificables',
       'Reparto configurable sobre ahorro verificado (ej. 70/20/10)',
       'Congelamiento humano ante discrepancia',
     ],
@@ -80,17 +80,17 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Acta línea base multifirma fija el techo presupuestario',
       'Logístico registra ejecución e hitos en escrow',
       'Centinela reconcilia antes del Cierre trimestral',
-      'Comunicador publica ahorro y reparto en dashboard',
+      'Comunicador publica ahorro y reparto en panel',
     ],
     businessModel: {
       payer: 'Entidad pública (tesorería / ministerio)',
-      mechanism: 'Success fee sobre ahorro certificado — típico 5–15% del ahorro',
+      mechanism: 'Comisión de éxito sobre ahorro certificado — típico 5–15% del ahorro',
       metric: 'Ahorro neto verificable vs baseline firmada',
     },
     operationalModel: {
       agents: 'Centinela · Logístico · Soberano · Comunicador',
-      flow: 'Baseline → ejecución → reconciliación → Cierre trimestral → reparto',
-      evidence: 'Ledger inmutable + acta multifirma + hashes de hitos',
+      flow: 'Línea base → ejecución → reconciliación → Cierre trimestral → reparto',
+      evidence: 'Registro inmutable + acta multifirma + hashes de hitos',
     },
     productPath: `${BASE}/egs`,
     consolePath: `${BASE}/egs/consola`,
@@ -107,14 +107,14 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'Los procesos electorales tradicionales concentran confianza en actas opacas, recuentos no reproducibles y vulnerabilidad a fraude cibernético o manipulación manual.',
     purpose:
-      'Emitir votos cifrados, registrar commits en ledger sin PII pública, permitir recuento reproducible y verificación ciudadana del sufragio sin comprometer el secreto del voto.',
+      'Emitir votos cifrados, registrar commits en el registro sin datos personales públicos, permitir recuento reproducible y verificación ciudadana del sufragio sin comprometer el secreto del voto.',
     whyVital:
       'La legitimidad del Estado depende de elecciones auditables. SET separa identidad (off-chain) de boleta (hash-linked) y congela el proceso ante anomalías — requisito para democracia verificable en era digital.',
     benefits: [
-      'Voto cifrado end-to-end sin PII en ledger público',
+      'Voto cifrado end-to-end sin datos personales en el registro público',
       'Recuento reproducible por auditores independientes',
       'Receipt verificable por el ciudadano',
-      'FREEZE centinela ante patrones anómalos',
+      'Congelación centinela ante patrones anómalos',
     ],
     howItWorks: [
       'Ciudadano emite voto con DID wallet-less',
@@ -129,16 +129,17 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     },
     operationalModel: {
       agents: 'Centinela · Soberano · Comunicador',
-      flow: 'Emisión → commit → recuento → publicación → auditoría',
+      flow: 'Emisión → registro → recuento → publicación → auditoría',
       evidence: 'Hash chain por mesa/territorio + acta multifirma',
     },
     productPath: `${BASE}/set`,
+    consolePath: `${BASE}/set/consola`,
     keywords: 'elecciones voto recuento auditoría electoral',
   },
   {
     id: 'escrow-institucional',
-    name: 'Escrow Institucional',
-    shortName: 'Escrow',
+    name: 'Custodia institucional',
+    shortName: 'Custodia',
     audience: 'gubernamental',
     status: 'disponible',
     icon: ShieldCheck,
@@ -146,7 +147,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'Contratos públicos pagan por adelantado o sin trazabilidad de entrega: capital inmovilizado, sobrefacturación y disputas sin prueba compartida.',
     purpose:
-      'Bloquear fondos en smart escrow, liberar tramos solo cuando centinela valida evidencia (IoT, documental, auditores), manteniendo cadena de custodia publicable.',
+      'Bloquear fondos en smart custodia, liberar tramos solo cuando centinela valida evidencia (IoT, documental, auditores), manteniendo cadena de custodia publicable.',
     whyVital:
       'Reduce corrupcción estructural en cadena de pagos: el proveedor cobra al cumplir, el Estado no pierde leverage y la contraloría ve el mismo ledger que el ministerio.',
     benefits: [
@@ -163,7 +164,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     ],
     businessModel: {
       payer: 'Ministerio / entidad contratante',
-      mechanism: 'Fee por contrato activo o % sobre monto liberado verificado',
+      mechanism: 'Comisión por contrato activo o % sobre monto liberado verificado',
       metric: 'Hitos liberados sin discrepancia centinela',
     },
     operationalModel: {
@@ -178,7 +179,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
   {
     id: 'gestion-verificable',
     name: 'Gestión Pública Verificable',
-    shortName: 'Ledger',
+    shortName: 'Registro',
     audience: 'gubernamental',
     status: 'disponible',
     icon: Landmark,
@@ -190,15 +191,15 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     whyVital:
       'Sin rendición de cuentas verificable no hay confianza fiscal ni política. Este modelo es la capa de transparencia mínima antes de EGS o escrow avanzado.',
     benefits: [
-      'Dashboard público sin PII',
-      'Pipeline institucional auditable',
+      'Panel público sin datos personales',
+      'Flujo institucional auditable',
       'Sincronización offline-first en nodos',
       'Base para auditoría continua',
     ],
     howItWorks: [
       'Agentes procesan actos con evidenceBundle',
       'Solo estado published llega a API pública',
-      'Centinela bloquea irregularidades (FREEZE)',
+      'Centinela bloquea irregularidades (congelación)',
       'Comunicador renderiza telemetría ciudadana',
     ],
     businessModel: {
@@ -208,12 +209,12 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     },
     operationalModel: {
       agents: 'Comunicador · Centinela · Soberano',
-      flow: 'Acto → validación → commit → publicación',
-      evidence: 'Ledger entries + reportes publicados',
+      flow: 'Acto → validación → registro → publicación',
+      evidence: 'Entradas del registro + reportes publicados',
     },
     productPath: `${BASE}/gestion-verificable`,
     consolePath: '/gestion',
-    keywords: 'transparencia telemetría dashboard ledger público',
+    keywords: 'transparencia telemetría panel registro público',
   },
   {
     id: 'iaau',
@@ -226,9 +227,9 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'Governments e integradores compran suites monolíticas caras con baja utilización; el costo marginal de una firma, un hito o un sync no está alineado al uso real.',
     purpose:
-      'Facturar micro-unidades verificables: firma IAP, commit ledger, validación hito, sync nodo, consulta API certificada — modelo cloud utility sobre protocolo AGIGOV.',
+      'Facturar micro-unidades verificables: firma IAP, asiento en el registro, validación hito, sync nodo, consulta API certificada — modelo de utilidad en la nube sobre protocolo AGIGOV.',
     whyVital:
-      'Escala adopción sin CAPEX inicial: estados pequeños e integradores pagan lo que consumen; AGIGOV sostiene infra sin depender de un solo success fee fiscal.',
+      'Escala adopción sin CAPEX inicial: estados pequeños e integradores pagan lo que consumen; AGIGOV sostiene infra sin depender de un solo comisión de éxito fiscal.',
     benefits: [
       'Costo predecible por volumen',
       'Metering auditable vs ledger',
@@ -243,7 +244,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     ],
     businessModel: {
       payer: 'Estado + integradores B2G',
-      mechanism: 'Micro-fee por unidad verificada (firma, hito, sync, API)',
+      mechanism: 'Micro-comisión por unidad verificada (firma, hito, sync, API)',
       metric: 'Tx/día firmadas vs costo infra + margen',
     },
     operationalModel: {
@@ -252,20 +253,21 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       evidence: 'Registro metering + hash ledger',
     },
     productPath: `${BASE}/iaau`,
+    consolePath: `${BASE}/iaau/consola`,
     keywords: 'api nodo utility metering integradores',
   },
   {
     id: 'data-trust',
-    name: 'Data Trust Partnership',
-    shortName: 'Data Trust',
+    name: 'Alianza de fideicomiso de datos',
+    shortName: 'Fideicomiso',
     audience: 'empresarial',
     status: 'beta',
     icon: Database,
-    tagline: 'Agregados verificables sin PII para decisiones de mercado',
+    tagline: 'Agregados verificables sin datos personales para decisiones de mercado',
     problem:
       'Empresas operan con datos país/sector poco confiables; el Estado tiene agregados útiles pero no puede compartirlos sin riesgo de re-identificación o captura.',
     purpose:
-      'Publicar agregados k-anonymizados derivados del ledger (tiempos de pago, ejecución por rubro, índices de integridad) bajo licencia y dictamen soberano.',
+      'Publicar agregados k-anonymizados derivados del registro (tiempos de pago, ejecución por rubro, índices de integridad) bajo licencia y dictamen soberano.',
     whyVital:
       'Monetiza transparencia sin vender ciudadanos: financia infra pública y mejora ecosistema B2G cuando marco legal y centinela garantizan privacidad.',
     benefits: [
@@ -275,10 +277,10 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Ingreso al tesoro o DAO sectorial',
     ],
     howItWorks: [
-      'Pipeline ETL de agregación',
+      'Flujo ETL de agregación',
       'Centinela + dictamen soberano previo',
       'Licencia por sector / dataset',
-      'Publicación de metadatos de uso en ledger',
+      'Publicación de metadatos de uso en el registro',
     ],
     businessModel: {
       payer: 'Empresas privadas (analytics, seguros, logística)',
@@ -291,6 +293,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       evidence: 'Dictamen conforme + logs de acceso',
     },
     productPath: `${BASE}/data-trust`,
+    consolePath: `${BASE}/data-trust/consola`,
     keywords: 'datos agregados privacidad enterprise analytics',
   },
   {
@@ -311,17 +314,17 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       'Envelopes IAP firmados',
       'Anti-replay y DID registry',
       'Aviso automático a escrow al validar',
-      'OpenAPI para integradores',
+      'Especificación OpenAPI para integradores',
     ],
     howItWorks: [
       'Integrador registra DID en registry',
       'Envía evidencia vía API / bus MQTT',
       'Centinela valida firma y frescura',
-      'Escrow recibe señal de liberación',
+      'Custodia recibe señal de liberación',
     ],
     businessModel: {
       payer: 'Integradores / contratistas certificados',
-      mechanism: 'Certificación anual + fee por evidencia aceptada',
+      mechanism: 'Certificación anual + comisión por evidencia aceptada',
       metric: 'Tiempo medio validación hito ↓ vs manual',
     },
     operationalModel: {
@@ -330,7 +333,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       evidence: 'SignedAgentEnvelope v1',
     },
     productPath: `${BASE}/evidencia-certificada`,
-    consolePath: '/desarrolladores',
+    consolePath: `${BASE}/evidencia-certificada/consola`,
     keywords: 'api integradores contratistas openapi iap',
   },
   {
@@ -344,24 +347,24 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     problem:
       'Comunidades aportan a obras o causas sin visibilidad del destino del dinero: desconfianza, duplicidad de esfuerzos y captura de fondos.',
     purpose:
-      'Agrupar aportes ciudadanos en escrow programático, liberar por hitos publicados y mostrar avance en dashboard — democratizando inversión social trazable.',
+      'Agrupar aportes ciudadanos en escrow programático, liberar por hitos publicados y mostrar avance en panel — democratizando inversión social trazable.',
     whyVital:
       'Recupera confianza horizontal entre ciudadanos cuando el vertical institucional falla; complementa presupuesto público sin opacidad de crowdfunding tradicional.',
     benefits: [
       'Aportes trazables por proyecto',
-      'Escrow LOCKED hasta hito',
+      'Custodia BLOQUEADA hasta hito',
       'Voto DAO sobre propuestas',
       'Recibos verificables de aporte',
     ],
     howItWorks: [
       'Propuesta publicada tras dictamen',
       'Ciudadanos aportan (demo o fiat según marco)',
-      'Escrow acumula hasta umbral',
+      'Custodia acumula hasta umbral',
       'Hitos liberan fondos con evidencia',
     ],
     businessModel: {
       payer: 'Ciudadanos + patrocinadores institucionales',
-      mechanism: 'Fee simbólico sobre aporte o patrocinio institucional del pool',
+      mechanism: 'Comisión simbólica sobre aporte o patrocinio institucional del pool',
       metric: 'Fondos liberados / fondos comprometidos',
     },
     operationalModel: {
@@ -386,7 +389,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     purpose:
       'Canalizar propuestas con pipeline institucional, dictamen soberano y publicación — cerrando el ciclo received → validated → decided → published.',
     whyVital:
-      'Sin cierre visible del ciclo participativo, la democracia deliberativa es teatro. Este modelo obliga al Estado a responder con hechos en ledger, no con comunicados.',
+      'Sin cierre visible del ciclo participativo, la democracia deliberativa es teatro. Este modelo obliga al Estado a responder con hechos en el registro, no con comunicados.',
     benefits: [
       'Estado visible por propuesta',
       'Dictamen vinculante según carta',
@@ -406,7 +409,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     },
     operationalModel: {
       agents: 'Soberano · Conciliador · Comunicador',
-      flow: 'Propuesta → dictamen → commit → publicación',
+      flow: 'Propuesta → dictamen → registro → publicación',
       evidence: 'evidenceBundle + dictamen hash',
     },
     productPath: `${BASE}/participacion`,
@@ -430,7 +433,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     benefits: [
       'Recuento reproducible',
       'Participación remote + edge offline',
-      'Resultados publicados en PWA',
+      'Registro publicado en PWA',
       'Escalable a consultas no electorales',
     ],
     howItWorks: [
@@ -441,8 +444,8 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     ],
     businessModel: {
       payer: 'Municipio / ente convocante',
-      mechanism: 'Fee por consulta + módulo SET lite',
-      metric: 'Consultas cerradas sin incidente FREEZE',
+      mechanism: 'Comisión por consulta + módulo SET lite',
+      metric: 'Consultas cerradas sin incidente de congelación',
     },
     operationalModel: {
       agents: 'Centinela · Comunicador · Soberano',

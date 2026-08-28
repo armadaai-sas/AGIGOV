@@ -6,8 +6,10 @@ import App from './App.tsx';
 import './styles/cascade-order.css';
 import './styles/base.css';
 
-/** Activate new SW ASAP so deploys aren't trapped behind stale precache. */
-registerSW({ immediate: true });
+if (import.meta.env.VITE_DESKTOP !== '1') {
+  /** Activate new SW ASAP so deploys aren't trapped behind stale precache. */
+  registerSW({ immediate: true });
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

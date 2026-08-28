@@ -103,7 +103,7 @@ export function validateModelManifest(m: ModelManifestV1): ManifestValidationIss
 export const EGS_MODEL_MANIFEST: ModelManifestV1 = {
   manifestVersion: MODEL_MANIFEST_VERSION,
   id: 'egs',
-  name: 'Efficiency Gain Share',
+  name: 'Reparto del ahorro por eficiencia',
   shortName: 'EGS',
   publisherId: 'did:agigov:publisher:armada',
   audience: 'gubernamental',

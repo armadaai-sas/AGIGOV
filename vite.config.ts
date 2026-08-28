@@ -6,11 +6,15 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+  const isDesktop = process.env.VITE_DESKTOP === '1';
+
   return {
+    base: isDesktop ? './' : '/',
     plugins: [
       react(),
       tailwindcss(),
       VitePWA({
+        disable: isDesktop,
         registerType: 'autoUpdate',
         includeAssets: ['icons/*.svg'],
         manifest: {

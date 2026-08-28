@@ -129,7 +129,7 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
   {
     slug: 'institucional',
     title: 'Institucional y gobiernos',
-    tagline: 'Adopción del modelo: sandbox autoservicio o hablar con el equipo.',
+    tagline: 'Adopción del modelo: entorno de prueba autoservicio o hablar con el equipo.',
     category: 'institucional',
     whatIs:
       'Hub para instituciones que adoptan AGIGOV: abrir entorno de prueba (registro) o escribir al equipo para piloto guiado. Implementaciones nacionales (ej. Venezuela) viven aquí, no en el logo global.',

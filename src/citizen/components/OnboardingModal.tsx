@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LifeBuoy, ArrowRight, Compass, Landmark, Users, X } from 'lucide-react';
+import { Briefcase, Compass, Landmark, LifeBuoy, Users, X, ArrowRight } from 'lucide-react';
 
 import { usePlatform, type OnboardingPersona } from '../context/PlatformContext.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
@@ -31,6 +31,13 @@ const PATHS: Array<{
     title: 'Represento un gobierno',
     text: 'Crear cuenta institucional y abrir el escritorio — consola EGS y modelos.',
     to: INSTITUTION_ROUTES.register,
+  },
+  {
+    persona: 'business',
+    icon: Briefcase,
+    title: 'Represento una empresa',
+    text: 'Evidencia certificada, IAAU y fideicomiso de datos — registro o catálogo.',
+    to: '/modelos?audiencia=empresarial',
   },
 ];
 

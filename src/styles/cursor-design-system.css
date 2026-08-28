@@ -1,0 +1,102 @@
+/**
+ * AGIGOV · Cursor-inspired design system (light, neutral, app-first)
+ * Shared: landing `/`, work shell `.app-shell`, modals, apps.
+ */
+:root,
+[data-agigov-skin='trust'] {
+  --cursor-bg: #ffffff;
+  --cursor-bg-subtle: #fafafa;
+  --cursor-bg-muted: #f4f4f5;
+  --cursor-bg-hover: #f4f4f5;
+  --cursor-border: #e4e4e7;
+  --cursor-border-strong: #d4d4d8;
+  --cursor-text: #18181b;
+  --cursor-text-muted: #71717a;
+  --cursor-text-subtle: #a1a1aa;
+  --cursor-primary: #18181b;
+  --cursor-primary-hover: #27272a;
+  --cursor-primary-text: #ffffff;
+  --cursor-radius: 6px;
+  --cursor-radius-lg: 8px;
+  --cursor-font: 13px;
+  --cursor-font-sm: 12px;
+  --cursor-font-title: 15px;
+  --cursor-line: 1.5;
+  --cursor-icon: 16px;
+}
+
+@layer components {
+  /* ===== App buttons (Cursor-style) ===== */
+  .app-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: var(--cursor-radius);
+    border: 1px solid transparent;
+    font-family: var(--font-sans);
+    font-size: var(--cursor-font);
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .app-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--cursor-bg), 0 0 0 4px var(--cursor-border-strong);
+  }
+
+  .app-btn--primary {
+    background: var(--cursor-primary);
+    color: var(--cursor-primary-text);
+    border-color: var(--cursor-primary);
+  }
+
+  .app-btn--primary:hover {
+    background: var(--cursor-primary-hover);
+    border-color: var(--cursor-primary-hover);
+  }
+
+  .app-btn--secondary {
+    background: var(--cursor-bg);
+    color: var(--cursor-text);
+    border-color: var(--cursor-border);
+  }
+
+  .app-btn--secondary:hover {
+    background: var(--cursor-bg-hover);
+    border-color: var(--cursor-border-strong);
+  }
+
+  .app-btn--ghost {
+    background: transparent;
+    color: var(--cursor-text-muted);
+    border-color: transparent;
+  }
+
+  .app-btn--ghost:hover {
+    background: var(--cursor-bg-hover);
+    color: var(--cursor-text);
+  }
+
+  .app-btn--sm {
+    min-height: 28px;
+    padding: 0 10px;
+    font-size: var(--cursor-font-sm);
+  }
+
+  .app-btn--lg {
+    min-height: 36px;
+    padding: 0 14px;
+  }
+
+  .app-btn--icon {
+    min-width: 32px;
+    padding: 0;
+  }
+}

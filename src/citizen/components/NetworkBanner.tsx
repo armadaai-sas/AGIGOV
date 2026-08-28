@@ -1,23 +1,22 @@
 import type { NetworkSyncState } from '../api.js';
 import { PlatformAlert } from './PlatformAlert.js';
 
-const LABELS: Record<NetworkSyncState, string> = {
-  offline: 'Sin conexión — mostrando datos guardados',
-  syncing: 'Sincronizando con el nodo…',
-  synced: 'Actualizado desde ledger público',
-  error: 'Error al sincronizar — el nodo de demostración no responde',
+const LABELS: Record<Exclude<NetworkSyncState, 'synced'>, string> = {
+  offline: 'Sin conexión — datos guardados',
+  syncing: 'Sincronizando…',
+  error: 'Error al sincronizar',
 };
 
 const VARIANTS: Record<
-  NetworkSyncState,
-  'offline' | 'info' | 'success' | 'error'
+  Exclude<NetworkSyncState, 'synced'>,
+  'offline' | 'info' | 'error'
 > = {
   offline: 'offline',
   syncing: 'info',
-  synced: 'success',
   error: 'error',
 };
 
+/** Solo avisa cuando hay problema — no banner en cada sync OK. */
 export function NetworkBanner({
   state,
   lastUpdated,
@@ -25,6 +24,8 @@ export function NetworkBanner({
   state: NetworkSyncState;
   lastUpdated: string | null;
 }) {
+  if (state === 'synced') return null;
+
   return (
     <PlatformAlert variant={VARIANTS[state]} title={LABELS[state]} banner>
       {lastUpdated && state !== 'syncing' ? (

@@ -66,7 +66,7 @@ export const MODEL_VALIDATION: Record<string, ModelValidationRecord> = {
     "approved": false,
     "recommendedStatus": "beta",
     "notes": [
-      "SET demo: boleta cifrada + commit firmado + recuento reproducible — no elección nacional."
+      "SET demo: boleta cifrada + asiento firmado + recuento reproducible — no elección nacional."
     ]
   },
   "participacion": {
@@ -104,7 +104,7 @@ export const MODEL_VALIDATION: Record<string, ModelValidationRecord> = {
     "approved": false,
     "recommendedStatus": "beta",
     "notes": [
-      "SET demo: boleta cifrada + commit firmado + recuento reproducible — no elección nacional."
+      "SET demo: boleta cifrada + asiento firmado + recuento reproducible — no elección nacional."
     ]
   },
   "evidencia-certificada": {
@@ -144,7 +144,7 @@ export const MODEL_VALIDATION: Record<string, ModelValidationRecord> = {
     "approved": false,
     "recommendedStatus": "beta",
     "notes": [
-      "Pipeline demo k-anonymized — dictamen soberano + sandbox legal pendiente."
+      "Flujo demo k-anonimizado — dictamen soberano + entorno legal pendiente."
     ]
   }
 };

@@ -21,7 +21,7 @@ export function LandingModelsInteractiveSection() {
   return (
     <section
       id="modelos"
-      className="ls-section ls-section--focus ls-section--tone ls-section--tone-amber"
+      className="ls-section ls-section--focus ls-section--tone"
       aria-labelledby="landing-models-title"
     >
       <div className="ls-inner">

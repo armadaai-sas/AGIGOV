@@ -23,9 +23,9 @@ export function CatalogSyncStrip() {
     <StateHint>
       <div className="flex flex-wrap items-start gap-3">
         {synced ? (
-          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" aria-hidden />
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-zinc-600" aria-hidden />
         ) : (
-          <RefreshCw className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" aria-hidden />
+          <RefreshCw className="mt-0.5 h-5 w-5 shrink-0 text-zinc-400" aria-hidden />
         )}
         <div className="min-w-0 flex-1">
           <p className="agigov-page-state-kicker">
@@ -43,7 +43,7 @@ export function CatalogSyncStrip() {
                 const sync = getModelStatusSync(id, model.status);
                 return (
                   <li key={id}>
-                    <Link to={model.productPath} className="text-sky-600 hover:underline dark:text-sky-400">
+                    <Link to={model.productPath} className="text-zinc-600 hover:underline">
                       {model.shortName}
                     </Link>
                     : listado{' '}

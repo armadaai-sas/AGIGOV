@@ -14,27 +14,36 @@
   }
 
 .ds-btn-app {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-agigov-primary px-5 py-3 text-sm font-semibold text-white shadow-md shadow-sky-950/30 transition-all hover:bg-agigov-primary-hover hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-primary-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-md px-3 text-[13px] font-medium text-white shadow-none transition-colors hover:bg-agigov-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50 disabled:pointer-events-none disabled:opacity-50;
+    background: var(--cursor-primary, #18181b);
   }
 
 .ds-btn-secondary {
-    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-white/15 px-8 text-[15px] font-medium text-slate-100 transition-colors hover:border-white/30 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50;
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-md border px-3 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40;
+    border-color: var(--cursor-border, #e4e4e7);
+    background: var(--cursor-bg, #fff);
+    color: var(--cursor-text, #18181b);
+  }
+
+.ds-btn-secondary:hover {
+    background: var(--cursor-bg-hover, #f4f4f5);
   }
 
 .ds-btn-app-shape {
-    @apply min-h-[48px] rounded-xl px-5 py-3 text-sm text-agigov-text;
+    @apply min-h-9 rounded-md px-3 py-2 text-[13px];
   }
 
 .ds-btn-secondary.ds-btn-app-shape {
-    @apply border-white/[0.14] bg-white/[0.04] hover:border-white/25 hover:bg-white/[0.08] focus-visible:ring-agigov-primary focus-visible:ring-offset-agigov-void;
+    @apply border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50;
   }
 
 .ds-btn-accent {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-agigov-accent to-amber-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/25 transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-agigov-accent-soft focus-visible:ring-offset-2 focus-visible:ring-offset-agigov-void;
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-md px-3 text-[13px] font-medium text-white transition-colors hover:bg-agigov-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50;
+    background: var(--cursor-primary, #18181b);
   }
 
 .ds-btn-ghost {
-    @apply text-[15px] font-medium text-slate-300 underline-offset-4 transition-colors hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400;
+    @apply text-[13px] font-medium text-zinc-600 underline-offset-4 transition-colors hover:text-zinc-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40;
   }
 
 .ds-btn-sm {
@@ -534,11 +543,11 @@
   }
 
 .inst-pilot-step.is-active {
-    @apply border-sky-500/40 bg-sky-500/10 text-sky-200;
+    @apply border-zinc-300 bg-zinc-100 text-zinc-900;
   }
 
 .inst-pilot-step.is-done {
-    @apply border-emerald-500/30 text-emerald-300/90;
+    @apply border-zinc-200 text-zinc-700;
   }
 
 .inst-pilot-step.is-upcoming {
@@ -562,93 +571,215 @@
   }
 
 .inst-reg-hero-badge {
-    @apply inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-300;
+    @apply inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs font-medium text-zinc-600;
   }
 
 .inst-reg-entity {
-    @apply flex cursor-pointer flex-col gap-0.5 rounded-lg border border-agigov-border bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-sky-500/30;
+    @apply flex cursor-pointer flex-col gap-0.5 rounded-lg border border-agigov-border bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-zinc-300;
   }
 
 .inst-reg-entity.is-selected {
-    @apply border-sky-500/50 bg-sky-500/10 ring-1 ring-sky-500/30;
+    @apply border-zinc-400 bg-zinc-50 ring-1 ring-zinc-200;
   }
 
 .inst-reg-form fieldset {
     @apply border-0 p-0;
   }
 
-/* Escritorio OS — home simple (estilo Cursor) */
-.os-desk {
-    @apply mx-auto flex w-full max-w-2xl flex-col items-stretch gap-8 py-4 md:py-8;
+/* Escritorio OS — canvas de trabajo (estilo Cursor) */
+.os-shell {
+    @apply mx-auto w-full max-w-4xl px-4 pb-8 pt-5 md:px-6 md:pt-6;
   }
 
-.os-desk-head {
-    @apply text-center;
+.os-shell--narrow {
+    @apply max-w-3xl;
   }
 
-.os-desk-kicker {
-    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-agigov-text-muted;
+.os-page-content {
+    @apply min-w-0;
   }
 
-.os-desk-title {
-    @apply mt-2 font-display text-2xl font-semibold tracking-tight text-agigov-text sm:text-3xl;
+.os-workspace {
+    @apply flex w-full flex-col gap-6;
   }
 
-.os-desk-lead {
-    @apply mx-auto mt-2 max-w-md text-sm text-agigov-text-muted;
+.os-workspace-head {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between;
   }
 
-.os-desk-actions {
-    @apply m-0 list-none space-y-3 p-0;
+.os-workspace-head--stack {
+    @apply sm:flex-col;
   }
 
-.os-desk-card {
-    @apply flex items-center gap-4 rounded-xl border border-agigov-border bg-agigov-surface px-4 py-4 no-underline transition
-      hover:border-sky-500/40 hover:bg-sky-500/[0.04];
+.os-workspace-head-text {
+    @apply min-w-0;
   }
 
-.os-desk-card--primary {
-    @apply border-sky-500/45 bg-sky-500/[0.08];
+.os-workspace-title {
+    @apply text-lg font-semibold tracking-tight sm:text-xl;
+    color: var(--cursor-text, #18181b);
   }
 
-.os-desk-card-icon {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-agigov-border bg-white/[0.03] text-sky-600;
+.os-workspace-sub {
+    @apply mt-1 text-[13px];
+    color: var(--cursor-text-muted, #71717a);
   }
 
-.os-desk-card--primary .os-desk-card-icon {
-    @apply border-sky-500/35 bg-sky-500/15 text-sky-700;
+.os-workspace-cta {
+    @apply shrink-0;
   }
 
-.os-desk-card-text {
-    @apply min-w-0 flex-1 text-left;
+.os-workspace-list {
+    @apply m-0 list-none divide-y rounded-lg border p-0;
+    border-color: var(--cursor-border, #e4e4e7);
   }
 
-.os-desk-card-title {
-    @apply block text-sm font-semibold text-agigov-text;
+.os-workspace-row {
+    @apply flex items-center gap-3 px-3 py-2.5 no-underline transition-colors;
+    color: inherit;
   }
 
-.os-desk-card-body {
-    @apply mt-0.5 block text-xs leading-relaxed text-agigov-text-muted;
+.os-workspace-row:hover {
+    background: var(--cursor-bg-hover, #f4f4f5);
   }
 
-.os-desk-card-arrow {
-    @apply shrink-0 text-agigov-text-muted opacity-50;
+.os-workspace-row--static {
+    @apply cursor-default;
   }
 
-.os-desk-card:hover .os-desk-card-arrow {
-    @apply text-sky-600 opacity-100;
+.os-workspace-row-icon {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-md border;
+    border-color: var(--cursor-border, #e4e4e7);
+    color: var(--cursor-text-muted, #71717a);
   }
 
-.os-desk-foot {
-    @apply text-center;
+.os-workspace-row-body {
+    @apply min-w-0 flex-1;
   }
 
-.os-desk-foot-link {
-    @apply inline-flex items-center gap-1.5 text-xs font-medium text-agigov-text-muted no-underline transition hover:text-sky-600;
+.os-workspace-row-name {
+    @apply block truncate text-[13px] font-medium;
+    color: var(--cursor-text, #18181b);
+  }
+
+.os-workspace-row-meta {
+    @apply mt-0.5 block truncate text-xs;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-row-status {
+    @apply shrink-0 text-xs;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-row-chevron {
+    @apply shrink-0 opacity-40;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-row:hover .os-workspace-row-chevron {
+    @apply opacity-100;
+  }
+
+.os-workspace-foot {
+    @apply pt-2;
+  }
+
+.os-workspace-foot-link {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium no-underline transition;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-foot-link:hover {
+    color: var(--cursor-text, #18181b);
+  }
+
+.os-workspace-section {
+    @apply flex flex-col gap-3;
+  }
+
+.os-workspace-section--border {
+    @apply border-t pt-6;
+    border-color: var(--cursor-border, #e4e4e7);
+  }
+
+.os-workspace-section-title {
+    @apply text-[13px] font-medium;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-assurance {
+    @apply flex items-start gap-2 rounded-lg border px-3 py-2.5 text-[13px] leading-relaxed text-zinc-600;
+    border-color: var(--cursor-border, #e4e4e7);
+    background: #fafafa;
+  }
+
+.os-workspace-intro {
+    @apply mt-3 text-[13px] text-zinc-600;
+  }
+
+.os-workspace-actions {
+    @apply mt-4 space-y-6;
+  }
+
+.os-workspace-action-block {
+    @apply pt-2;
+  }
+
+.os-workspace-action-block--primary {
+    @apply pt-0;
+  }
+
+.os-workspace-action-block:not(.os-workspace-action-block--primary) {
+    @apply mt-2 border-t pt-6;
+    border-color: var(--cursor-border, #e4e4e7);
+  }
+
+.os-workspace-action-head {
+    @apply mb-2 px-0.5;
+  }
+
+.os-workspace-action-title {
+    @apply text-[11px] font-medium uppercase tracking-wide text-zinc-500;
+  }
+
+.os-workspace-action-block--primary .os-workspace-action-title {
+    @apply text-zinc-700;
+  }
+
+.os-workspace-action-lead {
+    @apply mt-1 text-[12px] text-zinc-500;
+  }
+
+.os-workspace-row--active {
+    background: #fafafa;
+  }
+
+.os-workspace-row--active .os-workspace-row-name {
+    font-weight: 600;
+  }
+
+.os-metrics-row {
+    @apply grid grid-cols-2 gap-4 rounded-lg border px-4 py-3;
+    border-color: var(--cursor-border, #e4e4e7);
+  }
+
+.os-metrics-label {
+    @apply text-xs;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-metrics-value {
+    @apply mt-1 text-2xl font-semibold tabular-nums;
+    color: var(--cursor-text, #18181b);
+  }
+
+.os-mono-id {
+    @apply font-mono text-[11px];
   }
 
 .app-topbar-auth {
-    @apply inline-flex items-center gap-2 rounded-lg border border-agigov-border px-3 py-1.5 text-sm text-agigov-text no-underline transition hover:border-sky-500/40 hover:text-sky-300;
+    @apply inline-flex items-center gap-2 rounded-md border border-agigov-border px-3 py-1.5 text-[13px] text-agigov-text no-underline transition hover:border-zinc-300 hover:bg-zinc-50;
   }
 
 .app-topbar-account {
@@ -656,7 +787,7 @@
   }
 
 .app-topbar-account-link {
-    @apply inline-flex max-w-[12rem] items-center gap-2 rounded-lg border border-agigov-border px-3 py-1.5 text-sm text-agigov-text no-underline transition hover:border-sky-500/40;
+    @apply inline-flex max-w-[12rem] items-center gap-2 rounded-md border border-agigov-border px-3 py-1.5 text-[13px] text-agigov-text no-underline transition hover:border-zinc-300 hover:bg-zinc-50;
   }
 
 .app-topbar-account--guest {
@@ -664,15 +795,15 @@
   }
 
 .app-topbar-auth--primary {
-    @apply border-sky-500/40 bg-sky-500/10 text-sky-200 hover:border-sky-400/60 hover:bg-sky-500/20;
+    @apply border-zinc-900 bg-zinc-900 text-white hover:border-zinc-800 hover:bg-zinc-800;
   }
 
 .app-topbar-auth--secondary {
-    @apply border-transparent bg-transparent text-agigov-text-muted hover:text-agigov-text;
+    @apply border-transparent bg-transparent text-agigov-text-muted hover:bg-zinc-50 hover:text-agigov-text;
   }
 
 .app-topbar-account-logout {
-    @apply inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-agigov-text-muted transition hover:text-red-400;
+    @apply inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-[13px] text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900;
   }
 
 .inst-file-ingest {
@@ -713,6 +844,11 @@
 
 .app-shell {
     @apply flex min-h-[calc(100dvh-0px)];
+    background-color: var(--cursor-bg, #ffffff);
+    color: var(--cursor-text, #18181b);
+    font-family: var(--font-sans);
+    font-size: var(--cursor-font, 13px);
+    line-height: var(--cursor-line, 1.5);
   }
 
 .app-sidebar-desktop {
@@ -736,7 +872,9 @@
   }
 
 .app-sidebar {
-    @apply flex h-full w-[260px] flex-col border-r border-agigov-border bg-agigov-navy-light;
+    @apply flex h-full w-[220px] flex-col border-r;
+    border-color: var(--cursor-border, #e4e4e7);
+    background: var(--cursor-bg-subtle, #fafafa);
   }
 
 .app-sidebar--collapsed {
@@ -744,7 +882,8 @@
   }
 
 .app-sidebar-head {
-    @apply flex items-center justify-between gap-2 border-b border-agigov-border px-4 py-4;
+    @apply flex items-center justify-between gap-2 border-b px-3 py-3;
+    border-color: var(--cursor-border, #e4e4e7);
   }
 
 .app-sidebar-collapse {
@@ -752,19 +891,19 @@
   }
 
 .app-sidebar-nav {
-    @apply flex-1 overflow-y-auto px-3 py-4;
+    @apply flex-1 overflow-y-auto px-2 py-3;
   }
 
 .app-sidebar-section {
-    @apply mb-6;
+    @apply mb-4;
   }
 
 .app-sidebar-section--modelo {
-    @apply rounded-xl border border-agigov-primary/10 bg-agigov-primary/[0.03] px-1 pb-2 pt-1;
+    @apply rounded-xl border border-zinc-200 bg-zinc-50 px-1 pb-2 pt-1;
   }
 
 .app-sidebar-section--ven {
-    @apply rounded-xl border border-amber-500/20 bg-amber-500/[0.04] px-1 pb-2 pt-1;
+    @apply rounded-xl border border-zinc-200 bg-zinc-50 px-1 pb-2 pt-1;
   }
 
 .app-sidebar-group {
@@ -776,7 +915,7 @@
   }
 
 .app-sidebar-cta {
-    @apply mx-2 mt-3 flex items-center justify-center gap-2 rounded-xl bg-agigov-primary px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/15 transition-all hover:bg-agigov-primary-hover;
+    @apply mx-2 mt-3 flex items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white shadow-none transition-all hover:bg-zinc-800;
   }
 
 .app-sidebar-section--ven .app-sidebar-section-title {
@@ -788,27 +927,36 @@
   }
 
 .app-sidebar-section-title {
-    @apply block text-xs font-bold uppercase tracking-wider text-agigov-text;
-  }
-
-.app-sidebar-section-sub {
-    @apply block text-[10px] text-agigov-text-muted;
+    @apply mb-1 block px-2 text-[11px] font-medium uppercase tracking-wide;
+    color: var(--cursor-text-subtle, #a1a1aa);
   }
 
 .app-sidebar-list {
-    @apply space-y-0.5;
+    @apply m-0 list-none space-y-0.5 p-0;
   }
 
 .app-sidebar-link {
-    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-agigov-text-muted transition-colors hover:bg-black/[0.04] hover:text-agigov-text;
+    @apply flex items-center gap-2.5 rounded-md px-2 py-1.5 text-[13px] font-normal no-underline transition-colors;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.app-sidebar-link:hover {
+    background: var(--cursor-bg-hover, #f4f4f5);
+    color: var(--cursor-text, #18181b);
   }
 
 .app-sidebar-link--active {
-    @apply bg-agigov-primary/10 font-semibold text-agigov-primary;
+    @apply font-medium;
+    background: var(--cursor-bg-muted, #f4f4f5);
+    color: var(--cursor-text, #18181b);
   }
 
 .app-sidebar-link-icon {
-    @apply h-[18px] w-[18px] shrink-0;
+    @apply h-4 w-4 shrink-0 opacity-70;
+  }
+
+.app-sidebar-link--active .app-sidebar-link-icon {
+    @apply opacity-100;
   }
 
 .app-sidebar-foot {
@@ -828,7 +976,10 @@
   }
 
 .app-topbar {
-    @apply sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-agigov-border bg-agigov-void/90 px-4 backdrop-blur-md;
+    @apply sticky top-0 z-30 flex h-10 items-center gap-2 border-b px-3;
+    border-color: var(--cursor-border, #e4e4e7);
+    background-color: color-mix(in srgb, var(--cursor-bg, #fff) 94%, transparent);
+    backdrop-filter: blur(8px);
   }
 
 .app-topbar-menu,
@@ -837,11 +988,20 @@
   }
 
 .app-topbar-context {
-    @apply flex-1 text-sm;
+    @apply flex-1 text-[13px];
+  }
+
+.app-topbar-crumb {
+    color: #a1a1aa;
+  }
+
+.app-topbar-crumb-sep {
+    @apply mx-1.5;
+    color: #d4d4d8;
   }
 
 .app-topbar-actions {
-    @apply ml-auto flex items-center gap-2;
+    @apply ml-auto flex items-center gap-1;
   }
 
 .app-topbar-home {
@@ -897,19 +1057,23 @@
   }
 
 .model-status-badge--disponible {
-    @apply border-emerald-500/35 bg-emerald-500/10 text-emerald-200;
+    @apply border-zinc-200 bg-zinc-50 text-zinc-700;
   }
 
 .model-status-badge--beta {
-    @apply border-amber-500/35 bg-amber-500/10 text-amber-200;
+    @apply border-zinc-200 bg-zinc-50 text-zinc-600;
   }
 
 .model-status-badge--roadmap {
-    @apply border-white/15 bg-white/[0.04] text-agigov-text-muted;
+    @apply border-zinc-200 bg-white text-zinc-500;
+  }
+
+.model-catalog-filter-chip--active {
+    @apply border-zinc-300 bg-zinc-100 font-medium text-zinc-900;
   }
 
 .model-status-badge--drift {
-    @apply ring-2 ring-amber-500/30 ring-offset-1 ring-offset-agigov-void;
+    @apply ring-2 ring-zinc-300 ring-offset-1 ring-offset-agigov-void;
   }
 
 .model-status-badge-drift-mark {
@@ -917,15 +1081,15 @@
   }
 
 .model-catalog-card--status-drift {
-    @apply border-amber-500/20;
+    @apply border-zinc-200;
   }
 
 .model-status-sync-alert {
-    @apply rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-4 py-3;
+    @apply rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3;
   }
 
 .model-status-sync-ok {
-    @apply rounded-lg border border-emerald-500/20 bg-emerald-500/[0.04] px-3 py-2;
+    @apply rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2;
   }
 
 .legacy-redirect-banner-dismiss {
@@ -1046,7 +1210,7 @@
   }
 
 .hero-model-card-live-dot.is-on {
-    @apply bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)];
+    @apply bg-zinc-700;
   }
 
 .hero-model-card-live-label {
@@ -1078,7 +1242,7 @@
   }
 
 .hero-model-card-metric--accent {
-    @apply border-emerald-200 bg-emerald-50;
+    @apply border-zinc-300 bg-zinc-100;
   }
 
 .hero-model-card-metric-label {
@@ -1094,7 +1258,7 @@
   }
 
 .hero-model-card-bar-fill {
-    @apply h-full rounded-full bg-emerald-600 transition-[width] duration-700;
+    @apply h-full rounded-full bg-zinc-600 transition-[width] duration-700;
   }
 
 .hero-model-card-bar-caption {
@@ -1138,11 +1302,11 @@
   }
 
 .hero-model-card .model-status-badge--disponible {
-    @apply border-emerald-600/20 bg-emerald-50 text-emerald-700;
+    @apply border-zinc-200 bg-zinc-50 text-zinc-700;
   }
 
 .hero-model-card .model-status-badge--beta {
-    @apply border-amber-600/20 bg-amber-50 text-amber-800;
+    @apply border-zinc-200 bg-zinc-50 text-zinc-600;
   }
 
 .hero-story-stage {
@@ -1837,5 +2001,311 @@
 
 .markdown-body {
   @apply max-w-none;
+}
+
+/* ===== OS minimal tokens ===== */
+.os-btn-primary {
+  @apply inline-flex min-h-8 items-center justify-center gap-2 rounded-md px-3 text-[13px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50 disabled:opacity-50;
+  background: var(--cursor-primary, #18181b);
+  color: var(--cursor-primary-text, #fff);
+}
+
+.os-btn-primary:hover {
+  background: var(--cursor-primary-hover, #27272a);
+}
+
+.os-btn-secondary {
+  @apply inline-flex min-h-8 items-center justify-center gap-2 rounded-md border px-3 text-[13px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/40 disabled:opacity-50;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
+}
+
+.os-btn-secondary:hover {
+  background: var(--cursor-bg-hover, #f4f4f5);
+}
+
+.os-btn-ghost {
+  @apply inline-flex min-h-8 items-center justify-center gap-2 rounded-md px-2 text-[13px] transition;
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.os-btn-ghost:hover {
+  background: var(--cursor-bg-hover, #f4f4f5);
+  color: var(--cursor-text, #18181b);
+}
+
+.os-btn-text {
+  @apply text-[13px] text-[#0052ff] underline-offset-2 hover:underline hover:text-[#0040cc];
+}
+
+.os-btn-icon {
+  @apply min-h-9 min-w-9 p-0;
+}
+
+.os-panel {
+  @apply rounded-lg border p-4;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+}
+
+.os-collapsible {
+  @apply rounded-lg border;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+}
+
+.os-collapsible-trigger {
+  @apply flex w-full items-center gap-2 px-4 py-3 text-left text-sm font-medium text-agigov-text;
+}
+
+.os-collapsible-hint {
+  @apply ml-1 text-xs font-normal text-agigov-text-muted;
+}
+
+.os-collapsible-chevron {
+  @apply ml-auto h-4 w-4 text-agigov-text-muted transition;
+}
+
+.os-collapsible-chevron.is-open {
+  @apply rotate-180;
+}
+
+.os-collapsible-panel {
+  @apply border-t px-4 pb-4;
+  border-color: var(--cursor-border, #e4e4e7);
+}
+
+.os-modal-root {
+  @apply fixed inset-0 z-[100] flex items-center justify-center p-4;
+}
+
+.os-modal-backdrop {
+  @apply absolute inset-0 bg-black/60;
+}
+
+.os-modal-panel {
+  @apply relative z-10 w-full max-w-md rounded-lg border bg-white shadow-xl;
+  border-color: var(--cursor-border, #e4e4e7);
+}
+
+.os-modal-panel--narrow {
+  @apply max-w-sm;
+}
+
+.os-modal-head {
+  @apply flex items-center justify-between border-b px-4 py-3;
+  border-color: var(--cursor-border, #e4e4e7);
+}
+
+.os-modal-title {
+  @apply text-sm font-semibold text-agigov-text;
+}
+
+.os-modal-close {
+  @apply rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900;
+}
+
+.os-modal-body {
+  @apply p-4;
+}
+
+.os-field {
+  @apply flex flex-col gap-1.5 text-sm;
+}
+
+.os-field select {
+  @apply rounded-md border px-3 py-2 text-[13px];
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
+}
+
+.os-form {
+  @apply space-y-4 rounded-lg border p-4;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+}
+
+.os-form-label {
+  @apply block text-[13px] font-medium text-zinc-900;
+}
+
+.os-form-input {
+  @apply mt-1.5 w-full rounded-md border px-3 py-2 text-[13px];
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
+}
+
+.os-form-input:focus-visible {
+  @apply outline-none ring-2 ring-zinc-300/60;
+}
+
+.os-glossary-row {
+  @apply border-b py-4 last:border-b-0;
+  border-color: var(--cursor-border, #e4e4e7);
+}
+
+.os-glossary-term {
+  @apply text-[13px] font-semibold text-zinc-900;
+}
+
+.os-glossary-def {
+  @apply mt-1 text-[13px] leading-relaxed text-zinc-600;
+}
+
+.os-glossary-example {
+  @apply mt-2 rounded-md border px-3 py-2 text-xs text-zinc-500;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg-subtle, #fafafa);
+}
+
+.os-field-advanced summary {
+  @apply cursor-pointer text-xs text-agigov-text-muted;
+}
+
+.os-toast-stack {
+  @apply fixed bottom-4 right-4 z-[110] flex max-w-sm flex-col gap-2;
+}
+
+.os-toast {
+  @apply rounded-lg border border-white/[0.1] bg-[#18181b] px-4 py-2 text-sm text-agigov-text shadow-lg;
+}
+
+.os-toast--error {
+  @apply border-amber-500/30 text-amber-100;
+}
+
+.os-toast--success {
+  @apply border-emerald-500/30 text-emerald-100;
+}
+
+.os-concierge {
+  @apply fixed bottom-4 right-4 z-[90];
+}
+
+.os-concierge-fab {
+  @apply flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#18181b] px-4 py-2.5 text-sm text-agigov-text shadow-lg transition hover:border-sky-500/30;
+}
+
+.os-concierge-fab-label {
+  @apply hidden sm:inline;
+}
+
+.os-concierge-panel {
+  @apply mb-3 w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-white/[0.1] bg-[#111113] p-4 shadow-xl;
+}
+
+.os-concierge-head {
+  @apply flex items-center justify-between;
+}
+
+.os-concierge-title {
+  @apply text-sm font-semibold;
+}
+
+.os-concierge-lead {
+  @apply mt-2 text-xs text-agigov-text-muted;
+}
+
+.os-concierge-reply {
+  @apply mt-3 rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-agigov-text;
+}
+
+.os-concierge-faq {
+  @apply mt-3 space-y-2 text-sm;
+}
+
+.os-concierge-faq-q {
+  @apply block w-full text-left text-sky-400 hover:underline;
+}
+
+.os-concierge-link {
+  @apply ml-2 text-xs;
+}
+
+.os-concierge-chips {
+  @apply mt-3 flex flex-wrap gap-2;
+}
+
+.os-concierge-chip {
+  @apply rounded-full border border-white/[0.08] px-2.5 py-1 text-xs text-agigov-text-muted hover:border-white/20 hover:text-agigov-text;
+}
+
+.os-concierge-form {
+  @apply mt-3 flex gap-2;
+}
+
+.os-concierge-input {
+  @apply min-h-9 flex-1 rounded-lg border border-white/[0.1] bg-black/30 px-3 text-sm text-agigov-text;
+}
+
+.model-catalog-filters-minimal {
+  @apply border-b border-zinc-200 pb-4;
+}
+
+.model-catalog-filters-row {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-center;
+}
+
+.model-catalog-tabs {
+  @apply flex flex-wrap gap-1;
+}
+
+.model-catalog-more-wrap {
+  @apply relative;
+}
+
+.model-catalog-search {
+  @apply min-h-8 flex-1 rounded-md border border-zinc-200 bg-white px-3 text-[13px] text-zinc-900 sm:max-w-xs;
+}
+
+.model-catalog-more-panel {
+  @apply absolute right-0 top-full z-20 mt-1 w-56 rounded-lg border border-zinc-200 bg-white p-3 shadow-md;
+}
+
+.model-catalog-tab {
+  @apply rounded-md px-3 py-1.5 text-[13px] text-zinc-500 transition hover:text-zinc-900;
+}
+
+.model-catalog-tab--active {
+  @apply bg-zinc-100 text-zinc-900;
+}
+
+.os-dev-quick {
+  @apply rounded-xl border border-white/[0.08] p-4;
+}
+
+.os-dev-code {
+  @apply mt-2 overflow-x-auto rounded-lg bg-black/40 p-3 font-mono text-xs text-agigov-text;
+}
+
+.os-endpoint-list {
+  @apply divide-y divide-white/[0.06] rounded-xl border border-white/[0.08];
+}
+
+.os-endpoint-row {
+  @apply grid gap-2 px-3 py-2.5 text-sm sm:grid-cols-[4rem_1fr_auto] sm:items-center;
+}
+
+.os-endpoint-method {
+  @apply font-mono text-xs font-semibold uppercase;
+}
+
+.os-endpoint-method--get {
+  @apply text-zinc-700;
+}
+
+.os-endpoint-method--post {
+  @apply text-zinc-600;
+}
+
+.os-endpoint-path {
+  @apply font-mono text-xs text-agigov-text;
+}
+
+.os-endpoint-desc {
+  @apply text-xs text-agigov-text-muted sm:text-right;
 }
 }

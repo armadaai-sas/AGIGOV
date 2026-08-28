@@ -63,7 +63,7 @@ export function PolicyComparator() {
         label: 'Respuesta ante anomalías',
         v1: 'Manual, tardía',
         v2: health?.panicMode
-          ? 'FREEZE activo (centinela)'
+          ? 'Congelación activa (centinela)'
           : platformOk
             ? 'Centinela operativo'
             : 'Revisar API',
@@ -86,7 +86,7 @@ export function PolicyComparator() {
           'Métricas lado a lado — modelo tradicional vs AGIGOV verificable (datos vivos cuando la API está activa).'}
       </p>
       {comunicador?.headline ? (
-        <p className="mt-2 text-sm font-medium text-sky-200/90">{comunicador.headline}</p>
+        <p className="mt-2 text-sm font-medium text-zinc-700">{comunicador.headline}</p>
       ) : null}
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-white/[0.06]">
@@ -103,7 +103,7 @@ export function PolicyComparator() {
               <tr key={label}>
                 <td className="font-medium text-agigov-text">{label}</td>
                 <td className="text-agigov-text-muted">{v1}</td>
-                <td className="text-sky-200/90">{v2}</td>
+                <td className="text-zinc-700">{v2}</td>
               </tr>
             ))}
           </tbody>

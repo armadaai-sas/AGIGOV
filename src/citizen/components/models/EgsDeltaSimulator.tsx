@@ -31,7 +31,7 @@ export function EgsDeltaSimulator() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <label className="block text-sm">
-          <span className="text-agigov-text-muted">Baseline presupuestario (USD)</span>
+          <span className="text-agigov-text-muted">Línea base presupuestaria (USD)</span>
           <input
             type="number"
             min={0}
@@ -42,7 +42,7 @@ export function EgsDeltaSimulator() {
           />
         </label>
         <label className="block text-sm">
-          <span className="text-agigov-text-muted">Gasto trazado en ledger (USD)</span>
+          <span className="text-agigov-text-muted">Gasto trazado en el registro (USD)</span>
           <input
             type="number"
             min={0}
@@ -62,7 +62,7 @@ export function EgsDeltaSimulator() {
             onChange={(e) => setFeePct(Number(e.target.value))}
             className="mt-2 w-full"
           />
-          <span className="mt-1 block font-mono text-sky-300">{feePct}%</span>
+          <span className="mt-1 block font-mono text-zinc-600">{feePct}%</span>
         </label>
         <label className="block text-sm">
           <span className="text-agigov-text-muted">{t('egs.simulator.splitPct')}</span>
@@ -92,16 +92,12 @@ export function EgsDeltaSimulator() {
         </label>
       </div>
 
-      <dl className="mt-6 grid gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.04] p-4 sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="mt-6 grid gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 sm:grid-cols-2 lg:grid-cols-4">
         <Metric label={t('egs.simulator.metric')} value={result.delta} highlight />
-        <Metric label="Fee EGS" value={result.fee} />
+        <Metric label="Comisión EGS" value={result.fee} />
         <Metric label="→ Ciudadano" value={result.citizen} />
         <Metric label="→ Operador" value={result.operator} />
       </dl>
-
-      <p className="mt-4 text-xs text-amber-200/80">
-        Demo ilustrativa. Cierre trimestral real requiere línea base multifirma, reconciliación centinela y acta publicada.
-      </p>
     </section>
   );
 }
@@ -124,7 +120,7 @@ function Metric({
   return (
     <div>
       <dt className="text-xs text-agigov-text-muted">{label}</dt>
-      <dd className={`mt-1 font-mono text-lg ${highlight ? 'text-emerald-300' : 'text-agigov-text'}`}>
+      <dd className={`mt-1 font-mono text-lg ${highlight ? 'text-zinc-900' : 'text-agigov-text'}`}>
         {formatted}
       </dd>
     </div>

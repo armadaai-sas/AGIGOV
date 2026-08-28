@@ -1,25 +1,25 @@
 const STATUS: Record<string, { label: string; className: string }> = {
-  received: { label: 'Recibida', className: 'bg-slate-500/20 text-slate-300' },
-  validated: { label: 'Validada', className: 'bg-sky-500/20 text-sky-200' },
-  decided: { label: 'Decidida', className: 'bg-indigo-500/20 text-indigo-200' },
-  committed: { label: 'Comprometida', className: 'bg-emerald-500/20 text-emerald-200' },
-  published: { label: 'Publicada', className: 'bg-emerald-500/20 text-emerald-200' },
-  frozen: { label: 'Congelada', className: 'bg-red-500/20 text-red-200' },
-  PENDING: { label: 'Pendiente', className: 'bg-slate-500/20 text-slate-300' },
-  LOCKED: { label: 'En escrow', className: 'bg-sky-500/20 text-sky-200' },
-  RELEASED: { label: 'Completado', className: 'bg-emerald-500/20 text-emerald-200' },
-  FROZEN: { label: 'Congelado', className: 'bg-red-500/20 text-red-200' },
-  VALIDATED: { label: 'Validado', className: 'bg-amber-500/20 text-amber-200' },
-  DELTA_CALCULATED: { label: 'Ahorro calculado', className: 'bg-emerald-500/20 text-emerald-200' },
-  PENDING_VALIDATION: { label: 'Pendiente validación', className: 'bg-sky-500/20 text-sky-200' },
-  COLLECTING: { label: 'Recopilando', className: 'bg-sky-500/20 text-sky-200' },
-  PUBLISHED: { label: 'Publicado', className: 'bg-emerald-500/20 text-emerald-200' },
+  received: { label: 'Recibida', className: 'border border-zinc-200 bg-zinc-50 text-zinc-700' },
+  validated: { label: 'Validada', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  decided: { label: 'Decidida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  committed: { label: 'Comprometida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  published: { label: 'Publicada', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  frozen: { label: 'Congelada', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
+  PENDING: { label: 'Pendiente', className: 'border border-zinc-200 bg-zinc-50 text-zinc-600' },
+  LOCKED: { label: 'En escrow', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
+  RELEASED: { label: 'Completado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  FROZEN: { label: 'Congelado', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
+  VALIDATED: { label: 'Validado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  DELTA_CALCULATED: { label: 'Ahorro calculado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  PENDING_VALIDATION: { label: 'Pendiente validación', className: 'border border-zinc-200 bg-zinc-50 text-zinc-700' },
+  COLLECTING: { label: 'Recopilando', className: 'border border-zinc-200 bg-zinc-50 text-zinc-700' },
+  PUBLISHED: { label: 'Publicado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
 };
 
 export function StatusBadge({ status }: { status: string }) {
   const meta = STATUS[status] ?? {
     label: status,
-    className: 'bg-white/10 text-agigov-text-muted',
+    className: 'border border-zinc-200 bg-zinc-50 text-zinc-600',
   };
 
   return (

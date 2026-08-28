@@ -201,9 +201,9 @@ export function LandingOutcomesSection() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (window.location.hash !== '#resultados') return;
+    if (window.location.hash !== '#utilidad' && window.location.hash !== '#resultados') return;
     window.requestAnimationFrame(() => {
-      document.getElementById('resultados')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('utilidad')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }, [fromUrl]);
 
@@ -212,8 +212,8 @@ export function LandingOutcomesSection() {
   return (
     <section
       ref={sectionRef}
-      id="resultados"
-      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-sky ${inView ? 'is-inview' : ''}`}
+      id="utilidad"
+      className={`ls-section ls-section--focus ls-section--tone ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-outcomes-title"
     >
       <div className="ls-inner">

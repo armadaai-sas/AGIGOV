@@ -9,7 +9,7 @@ export type LegacyRedirectMeta = {
 /** Rutas legacy VEN → catálogo AGIGOV. */
 export const LEGACY_VEN_REDIRECTS: Record<string, { to: string; label: string }> = {
   '/ven/servicios': { to: MODELS_BASE, label: 'Modelos' },
-  '/ven/servicios/egs-vial': { to: `${MODELS_BASE}/egs`, label: 'Efficiency Gain Share (EGS)' },
+  '/ven/servicios/egs-vial': { to: `${MODELS_BASE}/egs`, label: 'Reparto del ahorro por eficiencia (EGS)' },
   '/ven/servicios/egs-vial/consola': {
     to: `${MODELS_BASE}/egs/consola`,
     label: 'Consola EGS',

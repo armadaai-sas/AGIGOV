@@ -37,7 +37,7 @@ const IMPLEMENTATION_KEY = 'agigov-implementation';
 const SOVEREIGN_PREF_KEY = 'agigov-sovereign-pref-v1';
 const GEO_APPLIED_KEY = 'agigov-geo-hint-applied-v1';
 
-export type OnboardingPersona = 'citizen' | 'explorer' | 'government';
+export type OnboardingPersona = 'citizen' | 'explorer' | 'government' | 'business';
 
 export type SkinId = 'trust' | 'legacy';
 

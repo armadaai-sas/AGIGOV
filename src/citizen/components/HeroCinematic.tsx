@@ -8,7 +8,7 @@ const PIPELINE = [
   { icon: Radio, label: 'Sensores', sub: 'Evidencia' },
   { icon: Shield, label: 'Centinela', sub: 'Validación' },
   { icon: Scale, label: 'Soberano', sub: 'Dictamen' },
-  { icon: Eye, label: 'Ledger', sub: 'Inmutable' },
+  { icon: Eye, label: 'Registro', sub: 'Inmutable' },
   { icon: Megaphone, label: 'Comunicador', sub: 'Ciudadanía' },
 ] as const;
 
@@ -63,7 +63,7 @@ export function HeroModelStrip() {
           en cada implementación.
         </p>
         <ul className="cinematic-strip-list">
-          <li>Estado transparente — ledger público verificable</li>
+          <li>Estado transparente — registro público verificable</li>
           <li>Participación continua — más allá del ciclo electoral</li>
           <li>Economía trazada — escrow programático, sin captura</li>
         </ul>

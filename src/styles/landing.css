@@ -19,7 +19,7 @@
 
 @layer components {
   .landing-manifest {
-    @apply relative overflow-x-clip bg-[#030508] text-slate-100;
+    @apply relative overflow-x-clip bg-white text-zinc-900;
   }
 
   @media (min-width: 1280px) {
@@ -30,7 +30,7 @@
   }
 
   .landing-display-title {
-    @apply font-display font-semibold leading-[1.05] tracking-[-0.04em] text-white;
+    @apply font-sans font-semibold leading-[1.05] tracking-[-0.03em] text-zinc-900;
     font-size: clamp(1.85rem, 6.5vw, 4.5rem);
   }
 
@@ -46,8 +46,52 @@
     @apply pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-90;
   }
 
+  .hero-title-aura-glow {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    width: min(42rem, 92vw);
+    height: min(18rem, 46vw);
+    translate: -50% -50%;
+    border-radius: 50%;
+    background:
+      radial-gradient(
+        ellipse 55% 48% at 50% 50%,
+        rgba(56, 189, 248, 0.22) 0%,
+        rgba(14, 165, 233, 0.1) 38%,
+        rgba(3, 105, 161, 0.04) 62%,
+        transparent 78%
+      );
+    filter: blur(28px);
+    opacity: 0.55;
+    will-change: transform, opacity;
+  }
+
+  .hero-title-aura-glow--soft {
+    width: min(28rem, 70vw);
+    height: min(12rem, 34vw);
+    background:
+      radial-gradient(
+        ellipse 50% 45% at 50% 50%,
+        rgba(125, 211, 252, 0.18) 0%,
+        rgba(14, 165, 233, 0.06) 45%,
+        transparent 72%
+      );
+    filter: blur(18px);
+    opacity: 0.4;
+  }
+
+  .hero-title-aura.is-alive .hero-title-aura-glow {
+    animation: hero-aura-breathe 9.5s ease-in-out infinite;
+  }
+
+  .hero-title-aura.is-alive .hero-title-aura-glow--soft {
+    animation: hero-aura-breathe-soft 12.5s ease-in-out infinite;
+    animation-delay: -3.2s;
+  }
+
   .hero-title-aura-svg {
-    @apply h-full w-full max-h-[15rem];
+    @apply relative z-[1] h-full w-full max-h-[15rem];
   }
 
   .hero-title-aura-path {
@@ -72,6 +116,30 @@
 
   .hero-title-aura.is-alive .hero-title-aura-node {
     animation: hero-aura-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes hero-aura-breathe {
+    0%,
+    100% {
+      transform: scale(0.92);
+      opacity: 0.38;
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 0.72;
+    }
+  }
+
+  @keyframes hero-aura-breathe-soft {
+    0%,
+    100% {
+      transform: scale(1.04);
+      opacity: 0.28;
+    }
+    50% {
+      transform: scale(0.9);
+      opacity: 0.52;
+    }
   }
 
   @keyframes hero-aura-flow {
@@ -579,6 +647,7 @@ html.landing-snap-root {
 
     .hero-title-aura.is-alive .hero-title-aura-path,
     .hero-title-aura.is-alive .hero-title-aura-node,
+    .hero-title-aura.is-alive .hero-title-aura-glow,
     .hero-os-edge.is-alive {
       animation: none;
     }

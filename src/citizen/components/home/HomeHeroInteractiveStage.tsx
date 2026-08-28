@@ -94,7 +94,7 @@ export function HomeHeroInteractiveStage({ audience, onAudienceChange }: Props) 
         title={t('hero.card.gov.title')}
         what={t('hero.card.gov.what')}
         does={t('hero.card.gov.does')}
-        href="/?resultado=gubernamental#resultados"
+        href="/?resultado=gubernamental#utilidad"
         cta={t('hero.card.learnMore')}
         spotlight={audience === 'government'}
         onFocusAudience={() => onAudienceChange('government')}
@@ -111,7 +111,7 @@ export function HomeHeroInteractiveStage({ audience, onAudienceChange }: Props) 
         title={t('hero.card.biz.title')}
         what={t('hero.card.biz.what')}
         does={t('hero.card.biz.does')}
-        href="/?resultado=empresarial#resultados"
+        href="/?resultado=empresarial#utilidad"
         cta={t('hero.card.learnMore')}
         spotlight={audience === 'business'}
         onFocusAudience={() => onAudienceChange('business')}
@@ -128,7 +128,7 @@ export function HomeHeroInteractiveStage({ audience, onAudienceChange }: Props) 
         title={t('hero.card.citizen.title')}
         what={t('hero.card.citizen.what')}
         does={t('hero.card.citizen.does')}
-        href="/?resultado=ciudadano#resultados"
+        href="/?resultado=ciudadano#utilidad"
         cta={t('hero.card.learnMore')}
         spotlight={audience === 'citizen'}
         onFocusAudience={() => onAudienceChange('citizen')}

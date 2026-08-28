@@ -43,9 +43,9 @@ export class InstitutionPilotErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.error) {
       return (
-        <div className="agigov-card border-red-500/30 bg-red-500/5 p-6">
+        <div className="agigov-card border border-zinc-200 bg-zinc-50 p-6">
           <div className="flex gap-3">
-            <AlertTriangle className="h-6 w-6 shrink-0 text-red-400" aria-hidden />
+            <AlertTriangle className="h-6 w-6 shrink-0 text-zinc-500" aria-hidden />
             <div>
               <h2 className="font-display text-lg font-semibold text-agigov-text">
                 No se pudo cargar el piloto institucional

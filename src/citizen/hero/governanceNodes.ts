@@ -3,7 +3,7 @@ export const GOVERNANCE_NODES = [
   { id: 'sensores', label: 'Sensores', sub: 'Evidencia' },
   { id: 'centinela', label: 'Centinela', sub: 'Validación' },
   { id: 'soberano', label: 'Soberano', sub: 'Dictamen' },
-  { id: 'ledger', label: 'Ledger', sub: 'Inmutable' },
+  { id: 'ledger', label: 'Registro', sub: 'Inmutable' },
   { id: 'comunicador', label: 'Comunicador', sub: 'Ciudadanía' },
 ] as const;
 

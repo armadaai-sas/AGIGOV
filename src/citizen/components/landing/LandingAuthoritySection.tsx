@@ -14,7 +14,7 @@ export function LandingAuthoritySection() {
     <section
       ref={sectionRef}
       id="autoridad"
-      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-cyan ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--focus ls-section--tone ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-authority-title"
     >
       <div className="ls-inner">
@@ -40,7 +40,7 @@ export function LandingAuthoritySection() {
           <div className="ls-authority-gate" aria-hidden>
             <span className="ls-authority-gate-label">Centinela</span>
             <ArrowRight className="ls-authority-gate-arrow h-4 w-4" />
-            <span className="ls-authority-gate-chip">FREEZE / PERMITIR</span>
+            <span className="ls-authority-gate-chip">CONGELAR / PERMITIR</span>
           </div>
 
           <article className="ls-authority-col ls-authority-col--os" role="listitem">

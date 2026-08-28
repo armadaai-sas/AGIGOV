@@ -87,7 +87,7 @@ export function InstitutionFileIngestPanel({ onRowsReady }: Props) {
               if (f) void onCsvFile(f);
             }}
           />
-          <FileSpreadsheet className="h-8 w-8 text-emerald-400" aria-hidden />
+          <FileSpreadsheet className="h-8 w-8 text-zinc-500" aria-hidden />
           <span className="font-medium text-agigov-text">{t('pilot.ingest.csvLabel')}</span>
           <span className="text-xs text-agigov-text-muted">{t('pilot.ingest.csvHint')}</span>
           <Upload className="mt-2 h-4 w-4 text-agigov-text-muted" aria-hidden />
@@ -104,7 +104,7 @@ export function InstitutionFileIngestPanel({ onRowsReady }: Props) {
               if (f) void onPdfFile(f);
             }}
           />
-          <FileText className="h-8 w-8 text-sky-400" aria-hidden />
+          <FileText className="h-8 w-8 text-zinc-500" aria-hidden />
           <span className="font-medium text-agigov-text">{t('pilot.ingest.pdfLabel')}</span>
           <span className="text-xs text-agigov-text-muted">{t('pilot.ingest.pdfHint')}</span>
           <Upload className="mt-2 h-4 w-4 text-agigov-text-muted" aria-hidden />
@@ -113,7 +113,7 @@ export function InstitutionFileIngestPanel({ onRowsReady }: Props) {
 
       {csv ? (
         <div className="inst-file-chip">
-          <FileSpreadsheet className="h-4 w-4 text-emerald-400" aria-hidden />
+          <FileSpreadsheet className="h-4 w-4 text-zinc-500" aria-hidden />
           <span>
             {csv.fileName} · {csv.rows.length} {t('pilot.ingest.rows')}
           </span>
@@ -125,7 +125,7 @@ export function InstitutionFileIngestPanel({ onRowsReady }: Props) {
 
       {pdf ? (
         <div className="inst-file-chip">
-          <FileText className="h-4 w-4 text-sky-400" aria-hidden />
+          <FileText className="h-4 w-4 text-zinc-500" aria-hidden />
           <span>
             {pdf.fileName} · {(pdf.sizeBytes / 1024).toFixed(1)} KB
           </span>
@@ -138,17 +138,17 @@ export function InstitutionFileIngestPanel({ onRowsReady }: Props) {
       {validation ? (
         <div className="mt-4 space-y-2 text-sm">
           {validation.errors.map((e) => (
-            <p key={e} className="text-red-400">
+            <p key={e} className="text-zinc-600">
               · {e}
             </p>
           ))}
           {validation.warnings.map((w) => (
-            <p key={w} className="text-amber-300/90">
+            <p key={w} className="text-zinc-500">
               · {w}
             </p>
           ))}
           {validation.ok ? (
-            <p className="text-emerald-400">{t('pilot.ingest.filesOk')}</p>
+            <p className="text-zinc-500">{t('pilot.ingest.filesOk')}</p>
           ) : null}
         </div>
       ) : null}

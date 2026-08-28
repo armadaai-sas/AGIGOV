@@ -281,9 +281,7 @@ export async function getMinistryHealth(ministryCode = 'MPPI'): Promise<PublicMi
     treasuryPayload,
     ledgerProcessId: refreshed.ledgerProcessId,
     published,
-    pilotBanner: published
-      ? ''
-      : 'Piloto técnico — datos validados por centinela, pendiente promulgación pública',
+    pilotBanner: '',
   };
 }
 

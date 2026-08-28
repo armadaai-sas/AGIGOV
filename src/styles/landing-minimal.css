@@ -1,0 +1,239 @@
+/**
+ * Landing minimal — misma disciplina que os-workspace (filas, zinc, iconos 16px).
+ */
+
+.ls-root--minimal {
+  min-height: 100dvh;
+  background: #fff;
+  color: #18181b;
+}
+
+.ls-min-inner {
+  width: min(42rem, 100% - 2rem);
+  margin-inline: auto;
+}
+
+.ls-min-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid #e4e4e7;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.ls-min-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.25rem;
+}
+
+.ls-min-logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ls-min-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ls-min-nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #52525b;
+  text-decoration: none;
+}
+
+.ls-min-nav-link:hover {
+  color: #18181b;
+}
+
+.ls-min-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2.25rem;
+  padding: 0 0.875rem;
+  border-radius: 0.375rem;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  background: #18181b;
+  color: #fff;
+  border: 1px solid #18181b;
+}
+
+.ls-min-btn:hover {
+  background: #27272a;
+}
+
+.ls-min-btn--ghost {
+  background: #fff;
+  color: #18181b;
+  border-color: #e4e4e7;
+}
+
+.ls-min-btn--ghost:hover {
+  background: #fafafa;
+}
+
+.ls-min-hero {
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.ls-min-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.ls-min-title {
+  margin-top: 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #18181b;
+}
+
+.ls-min-lead {
+  margin-top: 0.75rem;
+  max-width: 36rem;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #52525b;
+}
+
+.ls-min-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+
+.ls-min-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.ls-min-section-head {
+  margin-bottom: 0.75rem;
+}
+
+.ls-min-section-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.ls-min-section-lead {
+  margin-top: 0.375rem;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #52525b;
+}
+
+.ls-min-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.ls-min-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #e4e4e7;
+  transition: background 0.12s ease;
+}
+
+.ls-min-row:last-child {
+  border-bottom: none;
+}
+
+.ls-min-row:hover {
+  background: #fafafa;
+}
+
+.ls-min-row-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 0.375rem;
+  border: 1px solid #e4e4e7;
+  color: #52525b;
+  background: #fafafa;
+}
+
+.ls-min-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ls-min-row-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #18181b;
+}
+
+.ls-min-row-meta {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 12px;
+  color: #71717a;
+}
+
+.ls-min-row-chevron {
+  flex-shrink: 0;
+  color: #a1a1aa;
+}
+
+.ls-min-row:hover .ls-min-row-chevron {
+  color: #52525b;
+}
+
+.site-footer--minimal .site-footer-map {
+  display: block;
+}
+
+.site-footer--minimal .site-footer-cols {
+  display: none;
+}
+
+.site-footer--minimal .site-footer-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 13px;
+}
+
+.site-footer--minimal .site-footer-links-row a {
+  color: #52525b;
+  text-decoration: none;
+}
+
+.site-footer--minimal .site-footer-links-row a:hover {
+  color: #18181b;
+}

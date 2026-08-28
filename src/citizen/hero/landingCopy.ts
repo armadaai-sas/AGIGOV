@@ -6,7 +6,7 @@ export const HERO_EYEBROW = 'Organización oficial';
 export const HERO_CINEMATIC_TITLE = 'El OS multi-agente del Estado.';
 export const HERO_CINEMATIC_TAGLINE = 'Gobernanza 2.0';
 export const HERO_CINEMATIC_SUBLINE =
-  'Kernel de evidencia · FREEZE · apps operativas (EGS…). El LLM es opcional — y siempre subordinado al Centinela.';
+  'Kernel de evidencia · congelación · apps operativas (EGS…). El LLM es opcional — y siempre subordinado al Centinela.';
 export const HERO_CINEMATIC_LIVE_CAPTION = 'Consola en vivo · datos del entorno de prueba MPPI';
 
 export const HERO_SCREEN_LABELS = ['Demo', 'Ruta', 'Piloto'] as const;
@@ -63,7 +63,7 @@ export const HERO_REASSURANCE = [
 export const HERO_FIRST_MODEL = {
   kicker: 'Primer modelo',
   name: 'Trust Pilot Fiscal',
-  subtitle: 'Efficiency Gain Share',
+  subtitle: 'Reparto del ahorro por eficiencia',
   description:
     'Cierre verificable de un rubro en 90 días. comisión solo si hay ahorro real verificado.',
   cta: 'Primer modelo',
@@ -86,7 +86,7 @@ export const HERO_GOVERNANCE_COMPARE = {
     },
     {
       id: 'results',
-      label: 'Resultados',
+      label: 'Utilidad',
       traditional: 'Difícil demostrar ahorro real o priorizar obra publicada',
       governance2: 'Ahorro verificable, reparto EGS y comisión solo sobre ahorro certificado',
     },
@@ -94,13 +94,13 @@ export const HERO_GOVERNANCE_COMPARE = {
       id: 'security',
       label: 'Seguridad',
       traditional: 'PDFs sin trazabilidad; versiones del dato por área',
-      governance2: 'Firmas Ed25519, centinela FREEZE, actas antes de publicar',
+      governance2: 'Firmas Ed25519, centinela congela, actas antes de publicar',
     },
     {
       id: 'citizens',
       label: 'Para el pueblo',
       traditional: 'Transparencia en teatro — datos sin contexto verificable',
-      governance2: 'Publicación acordada, sin PII; gestión defendible ante la ciudadanía',
+      governance2: 'Publicación acordada, sin datos personales; gestión defendible ante la ciudadanía',
     },
   ],
   traditionalLabel: 'Tradicional',
@@ -144,7 +144,7 @@ export const LANDING_CHALLENGE_BODY = '';
 export const HERO_PRICING_STRIP = HERO_VALUE_STRIP;
 export const HERO_INSPIRATION_LINE = '';
 export const LANDING_EXECUTION_KICKER = 'Ejecución';
-export const LANDING_EXECUTION_TITLE = 'Pipeline institucional';
+export const LANDING_EXECUTION_TITLE = 'Flujo institucional';
 export const LANDING_EXECUTION_BODY = HERO_PIPELINE_CAPTION;
 export const LANDING_INFRA_KICKER = LANDING_EXECUTION_KICKER;
 export const LANDING_INFRA_TITLE = LANDING_EXECUTION_TITLE;

@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Download, ExternalLink, FileText, Scale, ShieldCheck } from 'lucide-react';
+import { Download, ExternalLink, ChevronRight, FileText, Scale, ShieldCheck } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
-import { PlatformAlert } from '../components/PlatformAlert.js';
-import { PageShell, SectionHeader } from '../components/PageShell.js';
-import { EGS_MODEL_PATH } from '../services/egs-vial-service.js';
+import { PageShell } from '../components/PageShell.js';
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 
 const DOCS: Array<{
   id: string;
@@ -12,23 +11,20 @@ const DOCS: Array<{
   description: string;
   href: string;
   download: string;
-  icon: typeof ShieldCheck;
-  primary?: boolean;
+  icon: LucideIcon;
 }> = [
   {
     id: 'ciudadano',
     title: 'Contrato de Eficiencia Pública',
-    description:
-      'Versión ciudadana de 1 página — reparto 70/20/10, transparencia y protección del ejecutor.',
+    description: 'Versión ciudadana — reparto 70/20/10 y transparencia.',
     href: '/docs/contrato-eficiencia-publica.md',
     download: 'Contrato-Eficiencia-Publica-AGIGOV.md',
     icon: ShieldCheck,
-    primary: true,
   },
   {
     id: 'aei',
     title: 'AEI Anexo I — Piloto Vial v0.1',
-    description: 'Acuerdo marco legal vinculante — Smart Escrow y Efficiency Gain Share.',
+    description: 'Acuerdo marco legal — escrow y reparto del ahorro.',
     href: '/docs/aei-piloto-vial-v0.1.md',
     download: 'AEI-Piloto-Vial-v0.1.md',
     icon: Scale,
@@ -36,7 +32,7 @@ const DOCS: Array<{
   {
     id: 'dictamen',
     title: 'Dictamen Soberano — CONFORME',
-    description: 'Validación institucional del AEI con condiciones previas a firma.',
+    description: 'Validación institucional del AEI.',
     href: '/docs/dictamen-soberano-aei-v0.1.md',
     download: 'Dictamen-Soberano-AEI-v0.1.md',
     icon: FileText,
@@ -45,66 +41,65 @@ const DOCS: Array<{
 
 export default function TransparenciaPage() {
   return (
-    <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath('/transparencia')}>
-      <SectionHeader
-        eyebrow="AGIGOV · EGS · Transparencia"
-        title="Transparencia institucional"
-        lead="Documentos públicos del modelo EGS — marco legal, versión ciudadana y dictamen de conformidad."
-        helpTopic="proyectos"
-      />
+    <PageShell shell>
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">Transparencia</h1>
+            <p className="os-workspace-sub">Documentos públicos — marco legal y dictamen.</p>
+          </div>
+        </header>
 
-      <PlatformAlert variant="warning" title="Demo técnica" className="mb-6">
-        Promulgación pública sujeta a firma multifirma del marco contractual.
-      </PlatformAlert>
+        <ul className="os-workspace-list">
+          {DOCS.map((doc) => {
+            const Icon = doc.icon;
+            return (
+              <li key={doc.id}>
+                <div className="os-workspace-row os-workspace-row--static flex-col items-stretch gap-3 py-3 sm:flex-row sm:items-center">
+                  <span className="os-workspace-row-icon shrink-0" aria-hidden>
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span className="os-workspace-row-body">
+                    <span className="os-workspace-row-name">{doc.title}</span>
+                    <span className="os-workspace-row-meta">{doc.description}</span>
+                  </span>
+                  <span className="flex shrink-0 flex-wrap gap-2">
+                    <a
+                      href={doc.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ds-btn-secondary ds-btn-app-shape"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Leer
+                    </a>
+                    <a href={doc.href} download={doc.download} className="ds-btn-app">
+                      <Download className="h-3.5 w-3.5" />
+                      Descargar
+                    </a>
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {DOCS.map((doc) => {
-          const Icon = doc.icon;
-          return (
-            <article
-              key={doc.id}
-              className={`agigov-card flex flex-col ${doc.primary ? 'border-sky-500/30' : ''}`}
-            >
-              <Icon className="h-6 w-6 text-sky-400" />
-              <h2 className="mt-4 font-display text-lg font-semibold text-agigov-text">
-                {doc.title}
-              </h2>
-              <p className="mt-2 flex-1 text-sm text-agigov-text-muted">{doc.description}</p>
-              <div className="mt-6 flex flex-col gap-2">
-                <a
-                  href={doc.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ui-btn-secondary w-full"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Leer en línea
-                </a>
-                <a href={doc.href} download={doc.download} className="ui-btn-primary w-full">
-                  <Download className="h-4 w-4" />
-                  Descargar
-                </a>
-              </div>
-            </article>
-          );
-        })}
+        <section className="os-workspace-section os-workspace-section--border">
+          <h2 className="os-workspace-section-title">Operación</h2>
+          <p className="text-[13px] text-zinc-600">
+            Los documentos describen las reglas. El panel muestra ejecución trimestral reconciliada.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link to={modelWorkspacePath('egs')} className="ds-btn-app">
+              Espacio EGS
+            </Link>
+            <Link to="/contratos" className="ds-btn-secondary ds-btn-app-shape">
+              Contratos
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </section>
       </div>
-
-      <section className="agigov-card mt-8">
-        <h2 className="font-display text-lg font-semibold">Verdad operativa en vivo</h2>
-        <p className="mt-2 text-sm text-agigov-text-muted">
-          Los documentos describen las reglas. El panel muestra la ejecución trimestral con datos
-          reconciliados por centinela.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link to={EGS_MODEL_PATH} className="ui-btn-primary">
-            Ver servicio EGS
-          </Link>
-          <Link to="/contratos" className="ui-btn-secondary">
-            Ver contratos
-          </Link>
-        </div>
-      </section>
     </PageShell>
   );
 }

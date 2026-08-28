@@ -23,7 +23,7 @@ export function LandingContactSection() {
     <section
       ref={sectionRef}
       id="contacto"
-      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-cyan ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--focus ls-section--tone ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-contact-title"
     >
       <div className="ls-inner">

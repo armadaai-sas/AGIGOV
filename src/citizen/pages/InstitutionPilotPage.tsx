@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { InstitutionPilotErrorBoundary } from '../components/institutional/InstitutionPilotErrorBoundary.js';
 import { InstitutionPilotWizard } from '../components/institutional/InstitutionPilotWizard.js';
-import { LoadingState, PageShell, SectionHeader } from '../components/PageShell.js';
+import { LoadingState, PageShell } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { InstitutionPilotProvider } from '../institutional/InstitutionPilotContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
-/** Piloto institucional EGS — requiere sesión server activa. */
+/** Piloto institucional — subir documentos y configurar baseline. */
 export default function InstitutionPilotPage() {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ export default function InstitutionPilotPage() {
 
   if (!isAuthenticated) {
     return (
-      <PageShell narrow={false}>
+      <PageShell shell narrow>
         <LoadingState label={t('auth.redirecting')} />
       </PageShell>
     );
@@ -36,33 +35,30 @@ export default function InstitutionPilotPage() {
   const verification = session?.verificationStatus ?? 'pending_verification';
 
   return (
-    <PageShell narrow={false} breadcrumbs={breadcrumbsForPath('/institucional/piloto')}>
-      <SectionHeader
-        eyebrow={t('pilot.wizard.kicker')}
-        title={t('pilot.wizard.title')}
-        lead={t('pilot.wizard.lead')}
-        helpTopic="institucional"
-      />
-      {verification === 'pending_verification' || verification === 'unverified' ? (
-        <p className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90">
-          {t('pilot.verify.banner')}
-        </p>
-      ) : null}
-      {verification === 'verified' ? (
-        <p className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100/90">
-          {t('pilot.verify.verified')}
-        </p>
-      ) : null}
-      {verification === 'rejected' ? (
-        <p className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100/90">
-          {t('pilot.verify.rejected')}
-        </p>
-      ) : null}
-      <InstitutionPilotProvider>
-        <InstitutionPilotErrorBoundary>
-          <InstitutionPilotWizard />
-        </InstitutionPilotErrorBoundary>
-      </InstitutionPilotProvider>
+    <PageShell shell narrow>
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <p className="os-workspace-section-title">{t('pilot.wizard.kicker')}</p>
+            <h1 className="os-workspace-title">{t('pilot.wizard.title')}</h1>
+            <p className="os-workspace-sub">{t('pilot.wizard.lead')}</p>
+          </div>
+        </header>
+
+        {verification !== 'verified' ? (
+          <p className="os-panel text-[13px] text-zinc-600">
+            {verification === 'rejected' ? t('pilot.verify.rejected') : t('pilot.verify.banner')}
+          </p>
+        ) : (
+          <p className="os-panel text-[13px] text-zinc-600">{t('pilot.verify.verified')}</p>
+        )}
+
+        <InstitutionPilotProvider>
+          <InstitutionPilotErrorBoundary>
+            <InstitutionPilotWizard />
+          </InstitutionPilotErrorBoundary>
+        </InstitutionPilotProvider>
+      </div>
     </PageShell>
   );
 }

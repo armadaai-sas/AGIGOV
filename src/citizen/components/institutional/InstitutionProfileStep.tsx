@@ -279,7 +279,7 @@ export function InstitutionProfileStep() {
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-agigov-text-muted">{t('pilot.profile.annualBaseline')}</dt>
-              <dd className="font-mono text-emerald-400">
+              <dd className="font-mono text-zinc-600">
                 {formatMoney(profile.annualBaselineEstimate, { showCode: true })}
               </dd>
             </div>
@@ -296,17 +296,17 @@ export function InstitutionProfileStep() {
         </aside>
       </div>
 
-      {message ? <p className="mt-4 text-sm text-emerald-400">{message}</p> : null}
-      {error ? <p className="mt-4 text-sm text-red-400">{error}</p> : null}
+      {message ? <p className="mt-4 text-sm text-zinc-600">{message}</p> : null}
+      {error ? <p className="mt-4 text-sm text-zinc-700">{error}</p> : null}
       {session.slug ? (
         <div
-          className="mt-4 rounded-xl border border-sky-500/35 bg-sky-500/10 px-4 py-3"
+          className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3"
           data-testid="pilot-slug-banner"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200/90">
-            Identificador de cuenta (captura Paquete de confianza)
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            Identificador de cuenta
           </p>
-          <p className="mt-1 break-all font-mono text-lg text-sky-100">{session.slug}</p>
+          <p className="mt-1 break-all font-mono text-lg text-zinc-900">{session.slug}</p>
           {session.firstEscrowRef ? (
             <p className="mt-1 font-mono text-xs text-agigov-text-muted">
               escrow: {session.firstEscrowRef}
@@ -315,7 +315,7 @@ export function InstitutionProfileStep() {
         </div>
       ) : null}
       {tokenHint ? (
-        <p className="mt-2 break-all font-mono text-xs text-amber-300/90">
+        <p className="mt-2 break-all font-mono text-xs text-zinc-600">
           Bearer (guardar): {tokenHint}
         </p>
       ) : null}
@@ -347,7 +347,7 @@ export function InstitutionProfileStep() {
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3"
               >
                 <div>
-                  <p className="font-mono text-sm text-sky-300">{tenant.slug}</p>
+                  <p className="font-mono text-sm text-zinc-700">{tenant.slug}</p>
                   <p className="text-xs text-agigov-text-muted">
                     {tenant.ministry} · {tenant.onboardingStatus} · Q{tenant.quarter}
                   </p>

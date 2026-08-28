@@ -1,24 +1,16 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 
 import { fetchMinistryHealth } from '../api.js';
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
-  SectionHeader,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
-import { EGS_CONSOLE_PATH } from '../platform/agigovModels.js';
-
-const TILE_STYLES: Record<string, string> = {
-  ok: 'border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400/60',
-  partial: 'border-amber-500/40 bg-amber-500/10 hover:border-amber-400/60',
-  discrepancy: 'border-red-500/40 bg-red-500/10 hover:border-red-400/60',
-};
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 
 export default function ContratosPage() {
   const { sovereign, formatMoney } = useSovereignConfig();
@@ -31,73 +23,73 @@ export default function ContratosPage() {
   const fatalError = Boolean(error && state === 'error' && !data);
 
   return (
-    <PageShell
-      banner={fatalError ? undefined : { state, lastUpdated }}
-      breadcrumbs={breadcrumbsForPath('/contratos')}
-    >
-      <SectionHeader
-        eyebrow="AGIGOV · Apps"
-        title="Contratos"
-        lead="Escrow por hitos: solo se libera pago con evidencia verificada."
-        helpTopic="proyectos"
-        action={
-          <Link to={EGS_CONSOLE_PATH} className="ds-btn-secondary ds-btn-app-shape">
-            Consola EGS
-          </Link>
-        }
-      />
-
-      {fatalError ? (
-        <DataConnectionState
-          module="escrow"
-          error={error!}
-          onRetry={() => void reload()}
-        />
-      ) : null}
-
-      {!data && state !== 'error' ? <LoadingState label="Cargando contratos…" /> : null}
-
-      {data ? (
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-3 text-xs text-agigov-text-muted">
-            <span>
-              {data.fiscalYear} Q{data.quarter} · {data.ministryCode}
-            </span>
-            <span>{data.contracts.length} contratos</span>
-            <span>{data.releaseCount} hitos</span>
+    <PageShell shell banner={fatalError ? undefined : { state, lastUpdated }}>
+      <div className="os-workspace">
+        <header className="os-workspace-head">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">Contratos</h1>
+            <p className="os-workspace-sub">
+              Custodia por hitos — pago solo con evidencia verificada.
+            </p>
           </div>
+          <div className="os-workspace-cta">
+            <Link to={modelWorkspacePath('egs')} className="ds-btn-secondary ds-btn-app-shape">
+              Espacio EGS
+            </Link>
+          </div>
+        </header>
 
-          {data.contracts.length === 0 ? (
-            <EmptyState
-              title="No hay contratos activos"
-              description="Cuando el ministerio publique contratos con hitos verificables, aparecerán aquí."
-            />
-          ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {data.contracts.map((contract) => (
-                <Link
-                  key={contract.id}
-                  to={`/proyectos/contrato/${encodeURIComponent(contract.id)}`}
-                  className={`group block rounded-lg border p-5 transition ${TILE_STYLES[contract.status] ?? TILE_STYLES.partial}`}
-                >
-                  <p className="font-display text-lg font-semibold text-agigov-text">
-                    {contract.title}
-                  </p>
-                  <p className="mt-1 text-xs text-agigov-text-muted">{contract.territoryCode}</p>
-                  <p className="mt-4 text-sm text-agigov-text-muted">
-                    {contract.milestonesReleased}/{contract.milestonesTotal} hitos ·{' '}
-                    {formatMoney(contract.spentAmount)}
-                  </p>
-                  <span className="mt-4 flex items-center gap-1 text-xs text-sky-300">
-                    Ver cadena de custodia
-                    <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      ) : null}
+        {fatalError ? (
+          <DataConnectionState module="escrow" error={error!} onRetry={() => void reload()} />
+        ) : null}
+
+        {!data && state !== 'error' ? <LoadingState label="Cargando contratos…" /> : null}
+
+        {data ? (
+          <>
+            <dl className="os-metrics-row">
+              <div className="os-metrics-item">
+                <dt className="os-metrics-label">Periodo</dt>
+                <dd className="os-metrics-value text-base">
+                  {data.fiscalYear} Q{data.quarter}
+                </dd>
+              </div>
+              <div className="os-metrics-item">
+                <dt className="os-metrics-label">Contratos</dt>
+                <dd className="os-metrics-value">{data.contracts.length}</dd>
+              </div>
+            </dl>
+
+            {data.contracts.length === 0 ? (
+              <EmptyState
+                title="No hay contratos activos"
+                description="Cuando el ministerio publique contratos con hitos verificables, aparecerán aquí."
+              />
+            ) : (
+              <ul className="os-workspace-list">
+                {data.contracts.map((contract) => (
+                  <li key={contract.id}>
+                    <Link
+                      to={`/proyectos/contrato/${encodeURIComponent(contract.id)}`}
+                      className="os-workspace-row"
+                    >
+                      <span className="os-workspace-row-body">
+                        <span className="os-workspace-row-name">{contract.title}</span>
+                        <span className="os-workspace-row-meta">
+                          {contract.territoryCode} · {contract.milestonesReleased}/
+                          {contract.milestonesTotal} hitos · {formatMoney(contract.spentAmount)}
+                        </span>
+                      </span>
+                      <span className="os-workspace-row-status capitalize">{contract.status}</span>
+                      <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        ) : null}
+      </div>
     </PageShell>
   );
 }

@@ -1,12 +1,10 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Link, Navigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import {
   fetchMinistryHealth,
   fetchProjects,
-  submitContribution,
-  type ContributionReceipt,
   type MinistryHealthResponse,
   type ProjectItem,
 } from '../api.js';
@@ -15,32 +13,22 @@ import {
   MinistryHealthUnavailable,
 } from '../components/egs/MinistryHealthPanel.js';
 import { EGS_CONSOLE_PATH } from '../services/egs-vial-service.js';
-import { ActionReceipt } from '../components/ActionReceipt.js';
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
-import { applyContributionOptimistic } from '../utils/optimisticProjects.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
-  SectionHeader,
   LoadingState,
   EmptyState,
-  DsSpinner,
 } from '../components/PageShell.js';
-import { StatusBadge } from '../components/StatusBadge.js';
-import { usePlatform } from '../context/PlatformContext.js';
-import { usesFunnelNav } from '../platform/navConfig.js';
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 import {
   Droplets,
   GraduationCap,
   HeartPulse,
   Landmark,
-  Coins,
-  Users,
-  CheckCircle2,
-  Circle,
   Activity,
   Briefcase,
+  ChevronRight,
 } from 'lucide-react';
 
 type ProjectsTab = 'salud' | 'dao';
@@ -55,10 +43,8 @@ const SECTOR_ICON: Record<string, LucideIcon> = {
 export default function ProjectsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const { implementationId } = usePlatform();
-  const funnelNav = usesFunnelNav(implementationId);
   const [tab, setTab] = useState<ProjectsTab>(
-    tabParam === 'dao' ? 'dao' : 'salud',
+    tabParam === 'dao' ? 'dao' : tabParam === 'salud' ? 'salud' : 'dao',
   );
 
   const health = useCachedFetch('ministry-health', () => fetchMinistryHealth('MPPI'), 15_000);
@@ -69,21 +55,14 @@ export default function ProjectsPage() {
       setTab('dao');
       return;
     }
-    if (tabParam === 'salud' || tabParam === null) {
+    if (tabParam === 'salud') {
       setTab('salud');
     }
   }, [tabParam]);
 
   function selectTab(next: ProjectsTab) {
     setTab(next);
-    setSearchParams(next === 'salud' ? {} : { tab: 'dao' }, { replace: true });
-  }
-
-  function handleContributed(projectId: string, receipt: ContributionReceipt) {
-    if (dao.data) {
-      dao.setData(applyContributionOptimistic(dao.data, projectId, receipt));
-    }
-    window.setTimeout(() => void dao.reload(), 1200);
+    setSearchParams(next === 'dao' ? { tab: 'dao' } : { tab: 'salud' }, { replace: true });
   }
 
   const bannerState =
@@ -103,80 +82,71 @@ export default function ProjectsPage() {
     tab === 'dao' && Boolean(dao.error && dao.state === 'error' && !dao.data);
   const suppressBanner = healthFatal || daoFatal;
 
-  if (funnelNav && tabParam !== 'dao') {
-    return <Navigate to={EGS_CONSOLE_PATH} replace />;
-  }
-
   return (
     <PageShell
+      shell
+      narrow
       banner={suppressBanner ? undefined : { state: bannerState, lastUpdated: bannerUpdated }}
-      breadcrumbs={breadcrumbsForPath('/proyectos')}
     >
-      <SectionHeader
-        eyebrow="AGIGOV · Prosperidad Compartida (DAO)"
-        title={tab === 'salud' ? 'Salud presupuestaria EGS' : 'Proyectos DAO'}
-        lead={
-          tab === 'salud' ? (
-            <>
-              Cierre trimestral EGS · baseline, gasto verificado y ahorro verificado en tiempo real.
-            </>
-          ) : (
-            <>Proyectos con escrow programático y aportes ciudadanos trazables.</>
-          )
-        }
-        helpTopic="proyectos"
-      />
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <p className="os-workspace-section-title">Prosperidad compartida</p>
+            <h1 className="os-workspace-title">
+              {tab === 'salud' ? 'Salud presupuestaria' : 'Proyectos DAO'}
+            </h1>
+            <p className="os-workspace-sub">
+              {tab === 'salud'
+                ? 'Cierre trimestral EGS · baseline y gasto verificado.'
+                : 'Escrow programático y aportes trazables.'}
+            </p>
+          </div>
+          <div className="os-workspace-cta">
+            <Link
+              to={modelWorkspacePath(tab === 'salud' ? 'egs' : 'dao-ciudadano')}
+              className="ds-btn-secondary ds-btn-app-shape"
+            >
+              Espacio {tab === 'salud' ? 'EGS' : 'DAO'}
+            </Link>
+          </div>
+        </header>
 
-      {!funnelNav || tab === 'dao' ? (
-        <div className="mb-8 flex gap-2 rounded-lg border border-white/5 bg-white/[0.02] p-1">
-          <TabButton
-            active={tab === 'salud'}
-            onClick={() => selectTab('salud')}
-            icon={Activity}
-            label="Salud del Ministerio"
-          />
-          <TabButton
-            active={tab === 'dao'}
-            onClick={() => selectTab('dao')}
-            icon={Briefcase}
-            label="Proyectos DAO"
-          />
-        </div>
-      ) : null}
+        <ul className="os-workspace-list">
+            <li>
+              <button
+                type="button"
+                onClick={() => selectTab('salud')}
+                className={`os-workspace-row w-full text-left${tab === 'salud' ? ' os-workspace-row--active' : ''}`}
+              >
+                <span className="os-workspace-row-icon" aria-hidden>
+                  <Activity className="h-4 w-4" />
+                </span>
+                <span className="os-workspace-row-body">
+                  <span className="os-workspace-row-name">Salud del ministerio</span>
+                  <span className="os-workspace-row-meta">EGS · cierre trimestral</span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => selectTab('dao')}
+                className={`os-workspace-row w-full text-left${tab === 'dao' ? ' os-workspace-row--active' : ''}`}
+              >
+                <span className="os-workspace-row-icon" aria-hidden>
+                  <Briefcase className="h-4 w-4" />
+                </span>
+                <span className="os-workspace-row-body">
+                  <span className="os-workspace-row-name">Proyectos DAO</span>
+                  <span className="os-workspace-row-meta">Financiación verificable</span>
+                </span>
+              </button>
+            </li>
+          </ul>
 
-      {tab === 'salud' ? (
-        <SaludTab health={health} />
-      ) : (
-        <DaoTab dao={dao} onContributed={handleContributed} />
-      )}
+        {tab === 'salud' ? <SaludTab health={health} /> : <DaoTab dao={dao} />}
+      </div>
     </PageShell>
-  );
-}
-
-function TabButton({
-  active,
-  onClick,
-  icon: Icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: LucideIcon;
-  label: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition ${
-        active
-          ? 'bg-sky-500/20 text-sky-100 shadow-sm'
-          : 'text-agigov-text-muted hover:bg-white/5 hover:text-agigov-text'
-      }`}
-    >
-      <Icon className="h-4 w-4" />
-      {label}
-    </button>
   );
 }
 
@@ -200,18 +170,32 @@ function SaludTab({
   }
 
   if (health.data) {
-    return <MinistryHealthPanel data={health.data} />;
+    return (
+      <>
+        <MinistryHealthPanel data={health.data} />
+        <Link to={EGS_CONSOLE_PATH} className="os-workspace-foot-link mt-4 inline-flex items-center gap-1">
+          Consola EGS completa
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+      </>
+    );
   }
 
-  return <MinistryHealthUnavailable />;
+  return (
+    <>
+      <MinistryHealthUnavailable />
+      <Link to={EGS_CONSOLE_PATH} className="os-workspace-foot-link mt-4 inline-flex items-center gap-1">
+        Abrir consola EGS
+        <ChevronRight className="h-4 w-4" />
+      </Link>
+    </>
+  );
 }
 
 function DaoTab({
   dao,
-  onContributed,
 }: {
   dao: ReturnType<typeof useCachedFetch<Awaited<ReturnType<typeof fetchProjects>>>>;
-  onContributed: (projectId: string, receipt: ContributionReceipt) => void;
 }) {
   return (
     <>
@@ -226,209 +210,63 @@ function DaoTab({
       {!dao.data && dao.state !== 'error' ? <LoadingState /> : null}
 
       {dao.data ? (
-        <div className="space-y-8 agigov-stagger-list">
-          <section className="grid grid-cols-3 gap-3">
-            <SummaryStat icon={Landmark} label="Proyectos" value={String(dao.data.summary.projectCount)} />
-            <SummaryStat
-              icon={Coins}
-              label="Recaudado"
-              value={`${parseFloat(dao.data.summary.totalRaised).toLocaleString('es-VE')}`}
-              suffix={dao.data.summary.currency}
-            />
-            <SummaryStat
-              icon={Users}
-              label="Aportes"
-              value={String(dao.data.summary.totalContributions)}
-            />
-          </section>
+        <div className="os-workspace-section">
+          <dl className="os-metrics-row">
+            <div className="os-metrics-item">
+              <dt className="os-metrics-label">Proyectos</dt>
+              <dd className="os-metrics-value">{dao.data.summary.projectCount}</dd>
+            </div>
+            <div className="os-metrics-item">
+              <dt className="os-metrics-label">Recaudado</dt>
+              <dd className="os-metrics-value text-base">
+                {parseFloat(dao.data.summary.totalRaised).toLocaleString('es-VE')}{' '}
+                {dao.data.summary.currency}
+              </dd>
+            </div>
+            <div className="os-metrics-item">
+              <dt className="os-metrics-label">Aportes</dt>
+              <dd className="os-metrics-value">{dao.data.summary.totalContributions}</dd>
+            </div>
+          </dl>
 
-          <section className="space-y-5">
-            {dao.data.projects.length === 0 ? (
-              <EmptyState
-                title="Sin proyectos publicados"
-                description="Proyectos aprobados con fondos en escrow se listarán aquí cuando estén publicados."
-              />
-            ) : (
-              dao.data.projects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onContributed={onContributed}
-                />
-              ))
-            )}
-          </section>
+          {dao.data.projects.length === 0 ? (
+            <EmptyState
+              title="Sin proyectos publicados"
+              description="Proyectos aprobados con fondos en escrow se listarán aquí cuando estén publicados."
+            />
+          ) : (
+            <ul className="os-workspace-list">
+              {dao.data.projects.map((project) => (
+                <li key={project.id}>
+                  <ProjectRow project={project} />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ) : null}
     </>
   );
 }
 
-function SummaryStat({
-  icon: Icon,
-  label,
-  value,
-  suffix,
-}: {
-  icon: LucideIcon;
-  label: string;
-  value: string;
-  suffix?: string;
-}) {
-  return (
-    <div className="agigov-stat text-center sm:text-left">
-      <Icon className="mx-auto mb-2 h-5 w-5 text-sky-400 sm:mx-0" />
-      <p className="text-[10px] font-medium uppercase tracking-wide text-agigov-text-muted">
-        {label}
-      </p>
-      <p className="mt-1 font-display text-lg font-bold text-agigov-text sm:text-xl">
-        {value}
-        {suffix ? (
-          <span className="ml-1 text-xs font-normal text-agigov-text-muted">{suffix}</span>
-        ) : null}
-      </p>
-    </div>
-  );
-}
-
-function ProjectCard({
-  project,
-  onContributed,
-}: {
-  project: ProjectItem;
-  onContributed: (projectId: string, receipt: ContributionReceipt) => void;
-}) {
+function ProjectRow({ project }: { project: ProjectItem }) {
   const Icon = SECTOR_ICON[project.sector] ?? Landmark;
   const target = parseFloat(project.targetAmount) || 1;
   const raised = parseFloat(project.raisedAmount) || 0;
   const pct = Math.min(100, Math.round((raised / target) * 100));
-  const escrowStatus = project.escrow?.status ?? 'PENDING';
-
-  const [amount, setAmount] = useState('100');
-  const [loading, setLoading] = useState(false);
-  const [receipt, setReceipt] = useState<ContributionReceipt | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
-
-  async function handleContribute(e: FormEvent) {
-    e.preventDefault();
-    setFormError(null);
-    setReceipt(null);
-    const value = parseFloat(amount);
-    if (Number.isNaN(value) || value <= 0) {
-      setFormError('Ingresa un monto válido');
-      return;
-    }
-    setLoading(true);
-    try {
-      const result = await submitContribution({
-        projectId: project.id,
-        amount: value,
-        territoryCode: project.territoryCode || 'MAR_NORTH_01',
-      });
-      setReceipt(result.receipt);
-      onContributed(project.id, result.receipt);
-    } catch (err) {
-      setFormError(err instanceof Error ? err.message : 'Error al aportar');
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
-    <article className="agigov-card agigov-card-interactive">
-      <div className="flex items-start gap-4">
-        <div className="agigov-pillar-icon shrink-0">
-          <Icon className="h-6 w-6" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="agigov-badge-global">{project.sector}</span>
-            <span className="agigov-mono-id">{project.territoryCode}</span>
-            {project.daoApproved ? (
-              <span className="agigov-badge bg-emerald-500/15 text-emerald-200">DAO aprobado</span>
-            ) : null}
-          </div>
-          <h2 className="mt-3 font-display text-xl font-semibold text-agigov-text">
-            <Link to={`/proyectos/${project.id}`} className="agigov-link-hover">
-              {project.title}
-            </Link>
-          </h2>
-          <p className="mt-1 agigov-mono-id">{project.id}</p>
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <div className="mb-2 flex justify-between text-sm text-agigov-text-muted">
-          <span>
-            {raised.toLocaleString('es-VE')} / {target.toLocaleString('es-VE')} {project.currency}
-          </span>
-          <span className="font-semibold text-sky-300">{pct}%</span>
-        </div>
-        <div className="agigov-progress-track">
-          <div
-            className="agigov-progress-fill"
-            style={{ width: `${pct}%` }}
-            role="progressbar"
-            aria-valuenow={pct}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          />
-        </div>
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <span className="text-xs text-agigov-text-muted">{project.contributions} aportes</span>
-          <StatusBadge status={escrowStatus} />
-        </div>
-      </div>
-
-      {project.milestones.length > 0 ? (
-        <ul className="mt-6 space-y-2 border-t border-white/5 pt-5">
-          {project.milestones.map((m) => (
-            <li key={m.label} className="flex items-center gap-2.5 text-sm text-agigov-text-muted">
-              {m.done ? (
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-              ) : (
-                <Circle className="h-4 w-4 shrink-0 text-white/20" />
-              )}
-              {m.label}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-
-      <form onSubmit={(e) => void handleContribute(e)} className="mt-6 border-t border-white/5 pt-5">
-        <p className="text-sm font-medium text-agigov-text">Aportar al proyecto (demo)</p>
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-          <input
-            type="number"
-            min="1"
-            max="10000"
-            step="1"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="agigov-input sm:max-w-[140px]"
-            placeholder="Monto demo"
-            aria-label="Monto en bolívares"
-          />
-          <button type="submit" disabled={loading} className="ds-btn-app w-full sm:flex-1">
-            {loading ? <DsSpinner /> : null}
-            Registrar aporte
-          </button>
-        </div>
-        {formError ? <p className="mt-2 text-sm text-red-300 agigov-enter-up">{formError}</p> : null}
-        {receipt ? (
-          <ActionReceipt
-            className="mt-4"
-            title="Aporte registrado en ledger"
-            monoId={receipt.receiptId}
-            onDismiss={() => setReceipt(null)}
-            action={{ label: 'Ver detalle del proyecto', to: `/proyectos/${project.id}` }}
-          >
-            <p>
-              {receipt.amount} {receipt.currency} · {receipt.territoryCode}
-            </p>
-          </ActionReceipt>
-        ) : null}
-      </form>
-    </article>
+    <Link to={`/proyectos/${project.id}`} className="os-workspace-row">
+      <span className="os-workspace-row-icon" aria-hidden>
+        <Icon className="h-4 w-4" />
+      </span>
+      <span className="os-workspace-row-body">
+        <span className="os-workspace-row-name">{project.title}</span>
+        <span className="os-workspace-row-meta">
+          {pct}% · {project.contributions} aportes · {project.territoryCode}
+        </span>
+      </span>
+      <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+    </Link>
   );
 }

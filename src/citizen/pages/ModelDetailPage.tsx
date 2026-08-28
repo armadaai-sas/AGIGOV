@@ -1,23 +1,21 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ChevronRight, Rocket } from 'lucide-react';
 
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
-import { EgsDeltaSimulator } from '../components/models/EgsDeltaSimulator.js';
-import { ModelPricingStrip } from '../components/models/ModelPricingStrip.js';
 import { ModelStatusBadge, audienceBadgeClass } from '../components/models/ModelStatusBadge.js';
-import { ModelValidationPanel } from '../components/models/ModelValidationPanel.js';
-import { ServiceConnectionPanel } from '../components/services/ServiceConnectionPanel.js';
-import { PageShell, SectionHeader } from '../components/PageShell.js';
-import { getAgigovModel, MODEL_AUDIENCE_LABEL } from '../platform/agigovModels.js';
-import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { PageShell } from '../components/PageShell.js';
+import {
+  getAgigovModel,
+  MODEL_AUDIENCE_LABEL,
+  type AgigovModel,
+  type ModelStatus,
+} from '../platform/agigovModels.js';
+import {
+  getModelDeployExplanation,
+  modelWorkspacePath,
+} from '../platform/modelWorkspace.js';
 import { getEffectiveModelStatus } from '../platform/modelStatusSync.js';
 
-const SECTION_NAV = [
-  { id: 'problema', label: 'Problema' },
-  { id: 'beneficios', label: 'Beneficios' },
-  { id: 'operacion', label: 'Operación' },
-] as const;
-
+/** Ficha del modelo: descripción, qué incluye, desplegar → espacio de trabajo. */
 export default function ModelDetailPage() {
   const { modelId } = useParams<{ modelId: string }>();
   const model = modelId ? getAgigovModel(modelId) : undefined;
@@ -28,166 +26,91 @@ export default function ModelDetailPage() {
 
   const Icon = model.icon;
   const effectiveStatus = getEffectiveModelStatus(model.id, model.status);
-  const showConnection =
-    model.id === 'egs' && (effectiveStatus === 'disponible' || effectiveStatus === 'beta');
+  const deploy = resolveDeployAction(model, effectiveStatus);
+  const highlights = model.benefits.slice(0, 3);
 
   return (
-    <PageShell banner={undefined} breadcrumbs={breadcrumbsForPath(model.productPath)}>
-      <Link to="/modelos" className="agigov-help-back">
-        <ArrowLeft className="h-4 w-4" />
-        Modelos
-      </Link>
+    <PageShell shell narrow>
+      <div className="os-workspace">
+        <Link to="/modelos" className="os-workspace-foot-link inline-flex items-center gap-1">
+          ← Modelos
+        </Link>
 
-      <header className="mt-4">
-        <SectionHeader
-          eyebrow={`AGIGOV · ${model.shortName}`}
-          title={model.name}
-          lead={model.tagline}
-        />
-        <div className="mt-5 flex flex-wrap items-center gap-3">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">{model.name}</h1>
+            <p className="os-workspace-sub">{model.tagline}</p>
+          </div>
+        </header>
+
+        <div className="flex flex-wrap items-center gap-2">
           <span
-            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${audienceBadgeClass(model.audience)}`}
+            className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs font-medium ${audienceBadgeClass(model.audience)}`}
           >
-            <Icon className="h-4 w-4" aria-hidden />
+            <Icon className="h-3.5 w-3.5" aria-hidden />
             {MODEL_AUDIENCE_LABEL[model.audience]}
           </span>
-          <ModelStatusBadge modelId={model.id} status={model.status} size="md" />
+          <ModelStatusBadge modelId={model.id} status={model.status} size="sm" />
         </div>
-      </header>
 
-      <nav
-        className="mt-8 hidden flex-wrap gap-2 lg:flex"
-        aria-label="Secciones de la ficha"
-      >
-        {SECTION_NAV.map((s) => (
-          <a
-            key={s.id}
-            href={`#${s.id}`}
-            className="rounded-full border border-agigov-border px-3 py-1 text-xs text-agigov-text-muted no-underline transition hover:border-agigov-primary/30 hover:text-agigov-primary"
-          >
-            {s.label}
-          </a>
-        ))}
-        {model.id === 'egs' ? (
-          <a
-            href="#simulador-delta"
-            className="rounded-full border border-agigov-border px-3 py-1 text-xs text-agigov-text-muted no-underline transition hover:border-agigov-primary/30 hover:text-agigov-primary"
-          >
-            Simulador
-          </a>
-        ) : null}
-      </nav>
-
-      <section id="problema" className="mt-8 scroll-mt-24 space-y-6">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <ModelBlock title="Problema que resolvemos" body={model.problem} />
-          <ModelBlock title="Para qué sirve" body={model.purpose} />
-        </div>
-        <ModelBlock title="Por qué es vital" body={model.whyVital} accent />
-      </section>
-
-      <section id="beneficios" className="agigov-card mt-8 scroll-mt-24">
-        <h2 className="font-display text-lg font-semibold">Beneficios clave</h2>
-        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-          {model.benefits.map((b) => (
-            <li key={b} className="flex gap-2 text-sm text-agigov-text-muted">
-              <span className="text-emerald-400" aria-hidden>
-                ✓
-              </span>
-              {b}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section id="operacion" className="agigov-card mt-6 scroll-mt-24">
-        <h2 className="font-display text-lg font-semibold">Modelo operacional</h2>
-        <ol className="mt-4 space-y-3">
-          {model.howItWorks.map((step, i) => (
-            <li key={step} className="flex gap-3 text-sm text-agigov-text-muted">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sky-500/15 font-mono text-xs text-sky-300">
-                {i + 1}
-              </span>
-              {step}
-            </li>
-          ))}
-        </ol>
-        <dl className="mt-6 grid gap-4 border-t border-white/[0.06] pt-6 sm:grid-cols-3">
-          <div>
-            <dt className="text-xs text-agigov-text-muted">Agentes</dt>
-            <dd className="mt-1 text-sm text-agigov-text">{model.operationalModel.agents}</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-agigov-text-muted">Flujo</dt>
-            <dd className="mt-1 text-sm text-agigov-text">{model.operationalModel.flow}</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-agigov-text-muted">Evidencia</dt>
-            <dd className="mt-1 text-sm text-agigov-text">{model.operationalModel.evidence}</dd>
-          </div>
-        </dl>
-      </section>
-
-      <div className="mt-6">
-        <ModelPricingStrip model={model} />
-      </div>
-
-      {model.id === 'egs' ? (
-        <div className="mt-6">
-          <EgsDeltaSimulator />
-        </div>
-      ) : null}
-
-      <div className="mt-6">
-        <ModelValidationPanel modelId={model.id} catalogStatus={model.status} />
-      </div>
-
-      {showConnection ? (
-        <section className="mt-8">
-          <SectionHeader
-            eyebrow="Activación"
-            title="Estado del servicio"
-            lead="Verifique nodo API y datos antes de abrir la consola operativa."
-          />
-          <ServiceConnectionPanel />
+        <section className="os-panel">
+          <h2 className="text-[13px] font-semibold text-zinc-900">Descripción</h2>
+          <p className="mt-2 text-[13px] leading-relaxed text-zinc-600">{model.purpose}</p>
         </section>
-      ) : null}
 
-      <div className="mt-10 flex flex-wrap gap-3">
-        {model.consolePath ? (
-          <Link to={model.consolePath} className="ds-btn-app">
-            {effectiveStatus === 'beta' ? 'Abrir demo' : 'Abrir consola'}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+        {highlights.length > 0 ? (
+          <section className="os-workspace-section">
+            <h2 className="os-workspace-section-title">Incluye</h2>
+            <ul className="space-y-1.5 text-[13px] text-zinc-600">
+              {highlights.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="text-zinc-400" aria-hidden>
+                    ·
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {deploy ? (
+          <>
+            <p className="text-[13px] text-zinc-500">{getModelDeployExplanation(model)}</p>
+            <ul className="os-workspace-list">
+              <li>
+                <Link to={deploy.to} className="os-workspace-row">
+                  <span className="os-workspace-row-icon" aria-hidden>
+                    <Rocket className="h-4 w-4" />
+                  </span>
+                  <span className="os-workspace-row-body">
+                    <span className="os-workspace-row-name">{deploy.label}</span>
+                    <span className="os-workspace-row-meta">{deploy.hint}</span>
+                  </span>
+                  <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+                </Link>
+              </li>
+            </ul>
+          </>
         ) : (
-          <Link to={INSTITUTION_ROUTES.register} className="ds-btn-app">
-            {effectiveStatus === 'beta' ? 'Probar en el entorno de prueba' : 'Abrir entorno de prueba'}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <p className="text-[13px] text-zinc-500">
+            Este modelo está en roadmap — aún no hay despliegue disponible.
+          </p>
         )}
-        <Link to="/modelos" className="ds-btn-secondary ds-btn-app-shape">
-          Volver al catálogo
-        </Link>
       </div>
     </PageShell>
   );
 }
 
-function ModelBlock({
-  title,
-  body,
-  accent,
-}: {
-  title: string;
-  body: string;
-  accent?: boolean;
-}) {
-  return (
-    <section
-      className={`agigov-card ${accent ? 'border-emerald-500/20 bg-emerald-500/[0.04]' : ''}`}
-    >
-      <h2 className="font-display text-lg font-semibold">{title}</h2>
-      <p className="mt-3 text-sm leading-relaxed text-agigov-text-muted">{body}</p>
-    </section>
-  );
+function resolveDeployAction(
+  model: AgigovModel,
+  status: ModelStatus,
+): { to: string; label: string; hint: string } | null {
+  if (status === 'roadmap') return null;
+
+  return {
+    to: modelWorkspacePath(model.id),
+    label: status === 'beta' ? 'Desplegar (beta)' : 'Desplegar',
+    hint: 'Funciones del modelo',
+  };
 }

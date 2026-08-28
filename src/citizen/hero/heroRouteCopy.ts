@@ -11,7 +11,7 @@ export const HERO_ROUTE_STEPS = [
   {
     id: 'os',
     label: 'Motor AGIGOV',
-    hint: 'Pipeline institucional',
+    hint: 'Flujo institucional',
     path: '/institucional',
     detail: 'Recibido → validado → decidido → comprometido → publicado. Centinela congela si algo no cuadra.',
     stat: '5 estados · ledger inmutable',
@@ -37,7 +37,7 @@ export const HERO_ROUTE_STEPS = [
     label: 'Cierre publicado',
     hint: 'Gestión + ciudadanía',
     path: '/modelos/egs/consola',
-    detail: 'Acta firmada, hashes reproducibles y dashboard publicable sin exponer datos personales.',
+    detail: 'Acta firmada, hashes reproducibles y panel publicable sin exponer datos personales.',
     stat: 'Ed25519 · decisión humana',
   },
 ] as const;

@@ -4,12 +4,9 @@ import { useInView } from 'motion/react';
 import { Cloud, Server } from 'lucide-react';
 
 import { useLandingCopy } from '../../hero/useLandingCopy.js';
-import { TRY_MODEL_ENTRY } from '../../platform/institutionalRoutes.js';
-import { LandingDeployCta } from './LandingDeployCta.js';
 
 /**
- * Desplegar — dónde corre el OS + CTA único: abrir sandbox (registro).
- * Sin anclas muertas (#construir / #consola).
+ * Desplegar — dónde corre el OS. CTA único en hero + #contacto (sin duplicar registro).
  */
 export function LandingDeploySection() {
   const copy = useLandingCopy();
@@ -21,7 +18,7 @@ export function LandingDeploySection() {
     <section
       ref={sectionRef}
       id="desplegar"
-      className={`ls-section ls-section--focus ls-section--tone ls-section--tone-coral ${inView ? 'is-inview' : ''}`}
+      className={`ls-section ls-section--focus ls-section--tone ${inView ? 'is-inview' : ''}`}
       aria-labelledby="landing-deploy-title"
     >
       <div className="ls-inner">
@@ -67,14 +64,15 @@ export function LandingDeploySection() {
               {where === 'cloud' ? copy.LANDING_DEPLOY_CLOUD : copy.LANDING_DEPLOY_LOCAL}
             </p>
 
-            <LandingDeployCta to={TRY_MODEL_ENTRY} impact />
-            <p className="ls-build-micro">{copy.LANDING_DEPLOY_CTA_MICRO}</p>
             <div className="ls-build-links">
               <Link to="/#modelos" className="ls-btn ls-btn--secondary">
                 {copy.LANDING_DEPLOY_BACK_BUILD}
               </Link>
-              <Link to="/#resultados" className="ls-btn ls-btn--secondary">
+              <Link to="/#utilidad" className="ls-btn ls-btn--secondary">
                 {copy.LANDING_DEPLOY_SEE_RESULTS}
+              </Link>
+              <Link to="/#contacto" className="ls-btn ls-btn--primary">
+                {copy.LANDING_DEPLOY_CTA}
               </Link>
             </div>
           </div>

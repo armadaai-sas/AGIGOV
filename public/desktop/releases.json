@@ -1,0 +1,98 @@
+{
+  "version": "0.1.0",
+  "releasedAt": "2026-08-28T00:00:00.000Z",
+  "channel": "stable",
+  "releasePageUrl": "https://github.com/armadaai-sas/Armada-VZLA/releases",
+  "notes": "Primera versión del cliente de escritorio AGIGOV. Conecta al servicio en la nube; incluye catálogo de modelos, EGS, contratos y gestión pública.",
+  "minRequirements": {
+    "windows": "Windows 10 o superior (64-bit)",
+    "macos": "macOS 11 Big Sur o superior",
+    "linux": "Ubuntu 20.04+, Fedora 38+ u otra distro con glibc 2.31+"
+  },
+  "downloads": [
+    {
+      "id": "win-x64",
+      "platform": "windows",
+      "arch": "x64",
+      "label": "Windows (64-bit)",
+      "format": "Instalador NSIS",
+      "filename": "AGIGOV-Setup-0.1.0-win-x64.exe",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "win-arm64",
+      "platform": "windows",
+      "arch": "arm64",
+      "label": "Windows (ARM64)",
+      "format": "Instalador NSIS",
+      "filename": "AGIGOV-Setup-0.1.0-win-arm64.exe",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "mac-x64",
+      "platform": "macos",
+      "arch": "x64",
+      "label": "macOS (Intel)",
+      "format": "Disco DMG",
+      "filename": "AGIGOV-0.1.0-mac-x64.dmg",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "mac-arm64",
+      "platform": "macos",
+      "arch": "arm64",
+      "label": "macOS (Apple Silicon)",
+      "format": "Disco DMG",
+      "filename": "AGIGOV-0.1.0-mac-arm64.dmg",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "linux-x64-appimage",
+      "platform": "linux",
+      "arch": "x64",
+      "label": "Linux (64-bit)",
+      "format": "AppImage",
+      "filename": "AGIGOV-0.1.0-linux-x64.AppImage",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "linux-arm64-appimage",
+      "platform": "linux",
+      "arch": "arm64",
+      "label": "Linux (ARM64)",
+      "format": "AppImage",
+      "filename": "AGIGOV-0.1.0-linux-arm64.AppImage",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    },
+    {
+      "id": "linux-x64-deb",
+      "platform": "linux",
+      "arch": "x64",
+      "label": "Linux (Debian/Ubuntu)",
+      "format": "Paquete .deb",
+      "filename": "AGIGOV-0.1.0-linux-x64.deb",
+      "url": "",
+      "available": false,
+      "sizeBytes": null,
+      "sha256": null
+    }
+  ]
+}

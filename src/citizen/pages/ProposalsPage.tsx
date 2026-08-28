@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
 
 import { fetchProposals } from '../api.js';
-import { breadcrumbsForPath } from '../components/AppBreadcrumbs.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import {
   PageShell,
-  SectionHeader,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
 import { StatusBadge } from '../components/StatusBadge.js';
 import { DictamenBadge, inferDictamen } from '../components/DictamenBadge.js';
+import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 
 export default function ProposalsPage() {
   const { data, error, state, lastUpdated, reload } = useCachedFetch(
@@ -20,68 +19,73 @@ export default function ProposalsPage() {
   );
 
   return (
-    <PageShell banner={{ state, lastUpdated }} breadcrumbs={breadcrumbsForPath('/propuestas')}>
-      <SectionHeader
-        eyebrow="AGIGOV · Ciudadano"
-        title="Propuestas"
-        lead="Dictámenes publicados con lenguaje claro y trazabilidad en el ledger."
-        helpTopic="propuestas"
-        action={
-          <Link to="/participar" className="ds-btn-app">
-            Enviar propuesta
-          </Link>
-        }
-      />
+    <PageShell shell banner={{ state, lastUpdated }}>
+      <div className="os-workspace">
+        <header className="os-workspace-head os-workspace-head--stack">
+          <div className="os-workspace-head-text">
+            <h1 className="os-workspace-title">Propuestas</h1>
+            <p className="os-workspace-sub">
+              Dictámenes publicados con trazabilidad en el registro.
+            </p>
+          </div>
+          <div className="os-workspace-cta flex flex-wrap gap-2">
+            <Link to={modelWorkspacePath('participacion')} className="ds-btn-secondary ds-btn-app-shape">
+              Espacio participación
+            </Link>
+            <Link to="/participar" className="ds-btn-app">
+              Enviar propuesta
+            </Link>
+          </div>
+        </header>
 
-      {error && state === 'error' && !data ? (
-        <DataConnectionState
-          module="proposals"
-          error={error}
-          onRetry={() => void reload()}
-        />
-      ) : null}
+        {error && state === 'error' && !data ? (
+          <DataConnectionState
+            module="proposals"
+            error={error}
+            onRetry={() => void reload()}
+          />
+        ) : null}
 
-      {!data && state !== 'error' ? <LoadingState /> : null}
+        {!data && state !== 'error' ? <LoadingState /> : null}
 
-      {data ? (
-        <ul className="space-y-4 agigov-stagger-list">
-          {data.proposals.length === 0 ? (
-            <li>
-              <EmptyState
-                title="No hay propuestas publicadas"
-                description="Las propuestas validadas por el pipeline aparecerán aquí con resumen ciudadano y trazabilidad en ledger."
-                action={
-                  <Link to="/participar" className="ds-btn-secondary ds-btn-app-shape">
-                    Enviar propuesta
-                  </Link>
-                }
-              />
-            </li>
+        {data ? (
+          data.proposals.length === 0 ? (
+            <EmptyState
+              title="No hay propuestas publicadas"
+              description="Las propuestas validadas aparecerán aquí con resumen ciudadano."
+              action={
+                <Link to="/participar" className="ds-btn-secondary ds-btn-app-shape">
+                  Enviar propuesta
+                </Link>
+              }
+            />
           ) : (
-            data.proposals.map((p) => {
-              const dictamen = p.dictamen ?? inferDictamen(p.citizenSummary);
-              return (
-              <li key={p.id} className="agigov-card agigov-card-interactive">
-                <div className="flex flex-wrap items-center gap-2">
-                  <StatusBadge status={p.status} />
-                  {dictamen ? <DictamenBadge dictamen={dictamen} /> : null}
-                  <span className="agigov-mono-id">{p.id}</span>
-                </div>
-                <h2 className="mt-3 font-display text-lg font-semibold text-agigov-text">
-                  {p.title}
-                </h2>
-                <p className="mt-2 text-base leading-relaxed text-agigov-text-muted">
-                  {p.citizenSummary}
-                </p>
-                <p className="mt-3 text-xs text-agigov-text-muted/70">
-                  {new Date(p.updatedAt).toLocaleString('es-VE')}
-                </p>
-              </li>
-              );
-            })
-          )}
-        </ul>
-      ) : null}
+            <ul className="os-workspace-list">
+              {data.proposals.map((p) => {
+                const dictamen = p.dictamen ?? inferDictamen(p.citizenSummary);
+                return (
+                  <li key={p.id}>
+                    <article className="os-workspace-row os-workspace-row--static flex-col items-stretch gap-2 py-3 sm:flex-row sm:items-center">
+                      <span className="os-workspace-row-body w-full">
+                        <span className="os-workspace-row-name">{p.title}</span>
+                        <span className="os-workspace-row-meta line-clamp-2">{p.citizenSummary}</span>
+                        <span className="os-mono-id mt-1 block">{p.id}</span>
+                      </span>
+                      <span className="flex shrink-0 flex-wrap items-center gap-2">
+                        <StatusBadge status={p.status} />
+                        {dictamen ? <DictamenBadge dictamen={dictamen} /> : null}
+                        <time className="os-workspace-row-status" dateTime={p.updatedAt}>
+                          {new Date(p.updatedAt).toLocaleDateString('es-VE')}
+                        </time>
+                      </span>
+                    </article>
+                  </li>
+                );
+              })}
+            </ul>
+          )
+        ) : null}
+      </div>
     </PageShell>
   );
 }
