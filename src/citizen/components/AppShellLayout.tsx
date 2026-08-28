@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import '../../styles/app.css';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 

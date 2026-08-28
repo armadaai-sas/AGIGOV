@@ -13,6 +13,7 @@ import {
   type NavItem,
 } from '../platform/navConfig.js';
 import { usePlatform } from '../context/PlatformContext.js';
+import { prefetchRoute } from '../platform/routePrefetch.js';
 
 export function AppSidebar() {
   const { pathname, hash, search } = useLocation();
@@ -191,6 +192,8 @@ function NavLinkList({
               to={to}
               className={`app-sidebar-link ${active ? 'app-sidebar-link--active' : ''}`}
               title={collapsed ? label : hint}
+              onMouseEnter={() => prefetchRoute(to)}
+              onFocus={() => prefetchRoute(to)}
             >
               <Icon className="app-sidebar-link-icon" aria-hidden />
               {!collapsed ? <span className="app-sidebar-link-label">{label}</span> : null}

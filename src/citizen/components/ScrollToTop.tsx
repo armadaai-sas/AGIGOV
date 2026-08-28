@@ -19,13 +19,13 @@ export function ScrollToTop() {
       tryScroll();
       return;
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [pathname, hash]);
 
   return null;
 }
 
-/** Entrada suave al navegar — sin wrapper en home (evita pelear con nav/rail fixed). */
+/** Entrada suave al navegar — sin remount por ruta. */
 export function PageTransition({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
 
@@ -33,9 +33,5 @@ export function PageTransition({ children }: { children: ReactNode }) {
     return children;
   }
 
-  return (
-    <div key={pathname} className="agigov-page-transition">
-      {children}
-    </div>
-  );
+  return <div className="agigov-page-transition">{children}</div>;
 }

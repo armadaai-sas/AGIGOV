@@ -31,7 +31,7 @@ export default function EvidenciaConsolePage() {
           subtitle="Publicaciones verificadas — hashes anclados al ledger."
         />
 
-        {loading ? <LoadingState label="Cargando registro…" /> : null}
+        {!data && state === 'syncing' ? <LoadingState label="Cargando registro…" compact /> : null}
 
         {dashboard.data ? (
           <section className="os-workspace-section">

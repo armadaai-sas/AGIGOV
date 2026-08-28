@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 import { submitProposal, type ProposalReceipt } from '../api.js';
 import { ActionReceipt } from '../components/ActionReceipt.js';
+import { DictamenBadge } from '../components/DictamenBadge.js';
 import { PageShell, DsSpinner } from '../components/PageShell.js';
 import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 

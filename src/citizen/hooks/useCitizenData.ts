@@ -66,19 +66,25 @@ export function useCachedFetch<T>(
 
   useEffect(() => {
     let cancelled = false;
-    void readCache<T>(key).then((cached) => {
-      if (cancelled || !cached) return;
-      dataRef.current = cached;
-      setData(cached);
-      setState(navigator.onLine ? 'synced' : 'offline');
-    });
+
+    void (async () => {
+      const cached = await readCache<T>(key);
+      if (cancelled) return;
+      if (cached) {
+        dataRef.current = cached;
+        setData(cached);
+        setState(navigator.onLine ? 'synced' : 'offline');
+      }
+      await load({ background: Boolean(cached) });
+    })();
+
     return () => {
       cancelled = true;
     };
-  }, [key]);
+  }, [key, load]);
 
   useEffect(() => {
-    const onOnline = () => void load();
+    const onOnline = () => void load({ background: true });
     const onOffline = () => setState('offline');
     window.addEventListener('online', onOnline);
     window.addEventListener('offline', onOffline);
@@ -89,7 +95,6 @@ export function useCachedFetch<T>(
   }, [load]);
 
   useEffect(() => {
-    void load();
     const id = setInterval(() => void load({ background: true }), pollMs);
     return () => clearInterval(id);
   }, [load, pollMs]);

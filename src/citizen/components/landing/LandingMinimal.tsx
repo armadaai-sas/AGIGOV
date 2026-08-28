@@ -7,6 +7,7 @@ import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
 import { modelWorkspacePath } from '../../platform/modelWorkspace.js';
+import { prefetchRoute } from '../../platform/routePrefetch.js';
 
 export type LandingRow = {
   to: string;
@@ -94,7 +95,7 @@ export function LandingRowList({ rows }: { rows: LandingRow[] }) {
         const Icon = row.icon;
         return (
           <li key={`${row.to}-${row.label}`}>
-            <Link to={row.to} className="ls-min-row">
+            <Link to={row.to} className="ls-min-row" onMouseEnter={() => prefetchRoute(row.to)} onFocus={() => prefetchRoute(row.to)}>
               <span className="ls-min-row-icon" aria-hidden>
                 <Icon className="h-4 w-4" />
               </span>

@@ -271,7 +271,55 @@
   }
 
 .agigov-loading-state {
-    @apply space-y-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-left shadow-lg shadow-black/5 backdrop-blur-sm md:p-8;
+    @apply rounded-xl border border-zinc-200/80 bg-zinc-50/80 p-5 text-left;
+  }
+
+.agigov-loading-state--compact {
+    @apply flex flex-col items-center gap-3 border-0 bg-transparent p-4 text-center;
+  }
+
+.route-loading {
+    @apply w-full;
+  }
+
+.route-loading--bare {
+    @apply flex min-h-[40vh] items-center justify-center;
+  }
+
+.route-loading--shell {
+    @apply px-1 py-2;
+  }
+
+.route-loading-spinner {
+    @apply h-6 w-6 animate-spin text-zinc-400;
+  }
+
+.route-loading-head {
+    @apply mb-6 space-y-2;
+  }
+
+.route-loading-bar {
+    @apply animate-pulse rounded-md bg-zinc-200;
+  }
+
+.route-loading-bar--title {
+    @apply h-7 w-48 max-w-[70%];
+  }
+
+.route-loading-bar--sub {
+    @apply h-4 w-64 max-w-[85%];
+  }
+
+.route-loading-list {
+    @apply m-0 list-none space-y-2 p-0;
+  }
+
+.route-loading-row {
+    @apply h-14 animate-pulse rounded-lg bg-zinc-100;
+  }
+
+.route-loading-row--wide {
+    @apply h-10 w-full;
   }
 
 .agigov-loading-state > svg:first-child {
@@ -712,7 +760,7 @@
   }
 
 .agigov-page-transition {
-    animation: agigov-page-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: agigov-page-in 0.12s ease-out both;
   }
 
 .agigov-page-content {

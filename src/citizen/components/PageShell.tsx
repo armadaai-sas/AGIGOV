@@ -206,14 +206,26 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
   );
 }
 
-export function LoadingState({ label = 'Cargando…' }: { label?: string }) {
+export function LoadingState({ label = 'Cargando…', compact = false }: { label?: string; compact?: boolean }) {
+  if (compact) {
+    return (
+      <div
+        className="agigov-loading-state agigov-loading-state--compact"
+        aria-live="polite"
+        aria-busy="true"
+      >
+        <DsSpinner className="h-5 w-5 text-zinc-400" />
+        <p className="text-sm text-zinc-500">{label}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="agigov-loading-state agigov-enter-up" aria-live="polite" aria-busy="true">
-      <p className="agigov-page-state-kicker">{label}</p>
+    <div className="agigov-loading-state agigov-loading-state--compact" aria-live="polite" aria-busy="true">
       <DsSpinner className="h-5 w-5 text-zinc-400" />
-      <div className="agigov-skeleton h-24" />
-      <div className="agigov-skeleton h-32" />
-      <div className="agigov-skeleton h-32" />
+      <p className="text-sm text-zinc-500">{label}</p>
+      <div className="route-loading-row route-loading-row--wide" aria-hidden />
+      <div className="route-loading-row" aria-hidden />
     </div>
   );
 }

@@ -7,15 +7,24 @@ import { CommandPalette } from './components/CommandPalette.js';
 import { OnboardingModal } from './components/OnboardingModal.js';
 import { ConciergeDock } from './components/os/ConciergeDock.js';
 import { OsToastProvider } from './components/os/OsToast.js';
-import { LandingBootScreen } from './components/landing/LandingBootScreen.js';
+import { RouteLoadingFallback } from './components/RouteLoadingFallback.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
 import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
 import { usesAppShell, usesConciergeDock } from './platform/navConfig.js';
-/** Home eager: el landing es la superficie principal; evita waterfall de chunks. */
+import { prefetchWarmRoutes } from './platform/routePrefetch.js';
+/** Home eager: landing sin chunk extra. */
 import HomePage from './pages/HomePage.js';
+/** Rutas OS frecuentes — eager para evitar flash al navegar. */
+import EscritorioPage from './pages/EscritorioPage.js';
+import ModelsCatalogPage from './pages/ModelsCatalogPage.js';
+import DesktopDownloadPage from './pages/DesktopDownloadPage.js';
+import ModelWorkspacePage from './pages/ModelWorkspacePage.js';
+import EgsVialConsolePage from './pages/EgsVialConsolePage.js';
+import ContratosPage from './pages/ContratosPage.js';
+import DashboardPage from './pages/DashboardPage.js';
+import ModelDetailPage from './pages/ModelDetailPage.js';
 
-const DashboardPage = lazy(() => import('./pages/DashboardPage.js'));
 const ProposalsPage = lazy(() => import('./pages/ProposalsPage.js'));
 const SupplyPage = lazy(() => import('./pages/SupplyPage.js'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage.js'));
@@ -30,19 +39,18 @@ const HelpTutorialPage = lazy(() => import('./pages/HelpTutorialPage.js'));
 const DevelopersPage = lazy(() => import('./pages/DevelopersPage.js'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage.js'));
 const EgsContractDetailPage = lazy(() => import('./pages/EgsContractDetailPage.js'));
-const ContratosPage = lazy(() => import('./pages/ContratosPage.js'));
 const TransparenciaPage = lazy(() => import('./pages/TransparenciaPage.js'));
-const ModelsCatalogPage = lazy(() => import('./pages/ModelsCatalogPage.js'));
-const ModelDetailPage = lazy(() => import('./pages/ModelDetailPage.js'));
-const ModelWorkspacePage = lazy(() => import('./pages/ModelWorkspacePage.js'));
-const EgsVialConsolePage = lazy(() => import('./pages/EgsVialConsolePage.js'));
 const IaauConsolePage = lazy(() => import('./pages/IaauConsolePage.js'));
 const DataTrustConsolePage = lazy(() => import('./pages/DataTrustConsolePage.js'));
 const EvidenciaConsolePage = lazy(() => import('./pages/EvidenciaConsolePage.js'));
 const SetConsolePage = lazy(() => import('./pages/SetConsolePage.js'));
 const CnePage = lazy(() => import('./pages/CnePage.js'));
-const EscritorioPage = lazy(() => import('./pages/EscritorioPage.js'));
-const DesktopDownloadPage = lazy(() => import('./pages/DesktopDownloadPage.js'));
+
+function RouteSuspenseFallback() {
+  const { pathname } = useLocation();
+  const withShell = usesAppShell(pathname) && pathname !== '/';
+  return <RouteLoadingFallback shell={withShell} />;
+}
 
 function AppRoutes() {
   const { pathname } = useLocation();
@@ -50,7 +58,7 @@ function AppRoutes() {
   const withShell = usesAppShell(pathname);
 
   const routes = (
-    <Suspense fallback={<LandingBootScreen label="Cargando la página…" />}>
+    <Suspense fallback={<RouteSuspenseFallback />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/escritorio" element={<EscritorioPage />} />
@@ -113,10 +121,8 @@ function CitizenAppInner() {
   const isHome = pathname === '/';
 
   useEffect(() => {
-    if (pathname !== '/') {
-      void import('../styles/app.css');
-    }
-  }, [pathname]);
+    prefetchWarmRoutes();
+  }, []);
 
   useEffect(() => {
     document.documentElement.toggleAttribute('data-agigov-landing', isHome);
@@ -124,9 +130,7 @@ function CitizenAppInner() {
 
   return (
     <OsToastProvider>
-      <div
-        className="min-h-screen bg-white text-zinc-900"
-      >
+      <div className="min-h-screen bg-white text-zinc-900">
         <PanicBanner />
         <ScrollToTop />
         <PageTransition>
