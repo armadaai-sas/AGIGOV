@@ -9,7 +9,7 @@ const sizes: Record<LogoSize, string> = {
   xl: 'h-16 w-16',
 };
 
-/** Marca AGIGOV — azul solo en el isotipo; wordmark negro o blanco según fondo. */
+/** Marca AGIGOV — sobria, imponente; acento mínimo de fuerza en el isotipo. */
 export function AgigovLogo({
   size = 'md',
   showWordmark = false,
@@ -26,11 +26,11 @@ export function AgigovLogo({
 }) {
   const uid = useId().replace(/:/g, '');
   const coreGrad = `agigov-core-${uid}`;
-  const wordmarkClass = variant === 'light' ? 'text-zinc-900' : 'text-white';
+  const wordmarkClass = variant === 'light' ? 'text-zinc-950' : 'text-white';
   const taglineClass = variant === 'light' ? 'text-zinc-500' : 'text-zinc-400';
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2.5">
       <div className={`relative shrink-0 ${sizes[size]}`}>
         <svg
           viewBox="0 0 48 48"
@@ -41,31 +41,41 @@ export function AgigovLogo({
           aria-label="AGIGOV"
         >
           <defs>
-            <linearGradient id={coreGrad} x1="14" y1="10" x2="34" y2="38">
-              <stop offset="0%" stopColor="#0052ff" />
-              <stop offset="100%" stopColor="#003db8" />
+            <linearGradient id={coreGrad} x1="16" y1="8" x2="32" y2="40">
+              <stop offset="0%" stopColor="#1a3a8f" />
+              <stop offset="55%" stopColor="#0f2557" />
+              <stop offset="100%" stopColor="#091a3d" />
             </linearGradient>
           </defs>
-          <circle
-            cx="24"
-            cy="24"
-            r="20"
-            stroke="#e4e4e7"
-            strokeWidth="1"
-            fill="none"
-          />
+          <circle cx="24" cy="24" r="20" stroke="#d4d4d8" strokeWidth="0.75" fill="#fafafa" />
           <path
             d="M24 10l10.5 6v12L24 34l-10.5-6V16L24 10z"
             fill={`url(#${coreGrad})`}
           />
-          <circle cx="24" cy="22" r="2.5" fill="#ffffff" opacity="0.95" />
+          <path
+            d="M24 10l10.5 6v12L24 34l-10.5-6V16L24 10z"
+            stroke="#061028"
+            strokeWidth="0.35"
+            strokeOpacity="0.22"
+            fill="none"
+          />
+          <path
+            d="M24 10v4.5M24 33.5V34"
+            stroke="#ffffff"
+            strokeWidth="0.65"
+            strokeLinecap="round"
+            strokeOpacity="0.35"
+          />
+          <circle cx="24" cy="22" r="1.75" fill="#ffffff" opacity="0.88" />
         </svg>
       </div>
 
       {showWordmark ? (
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <p className={`font-sans text-lg font-semibold tracking-[-0.02em] md:text-xl ${wordmarkClass}`}>
+            <p
+              className={`font-sans text-lg font-bold tracking-[-0.04em] md:text-xl ${wordmarkClass}`}
+            >
               AGIGOV
             </p>
             {showVenBadge ? <span className="agigov-badge-ven">VEN</span> : null}

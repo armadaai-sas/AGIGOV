@@ -41,35 +41,6 @@
   color: var(--color-agigov-primary);
 }
 
-[data-agigov-skin='trust'] .site-header {
-  border-color: var(--color-agigov-border);
-  background: rgba(255, 255, 255, 0.9);
-}
-
-[data-agigov-skin='trust'] .site-nav-link {
-  color: var(--color-agigov-text-muted);
-}
-
-[data-agigov-skin='trust'] .site-nav-link--active,
-[data-agigov-skin='trust'] .site-nav-link:hover {
-  color: var(--color-agigov-text);
-}
-
-[data-agigov-skin='trust'] .agigov-sovereign-settings {
-  border-color: var(--color-agigov-border);
-  background: #f8fafc;
-}
-
-[data-agigov-skin='trust'] .agigov-sovereign-field select {
-  border-color: #cbd5e1;
-  background: #fff;
-  color: #0f172a;
-}
-
-[data-agigov-skin='trust'] .agigov-sovereign-hint {
-  color: #475569;
-}
-
 [data-agigov-skin='trust'] .ui-btn-primary {
   background: var(--color-agigov-primary);
   border-color: var(--color-agigov-primary);
@@ -128,17 +99,6 @@
   border-color: rgba(0, 82, 255, 0.15);
 }
 
-[data-agigov-skin='trust'] .site-header--landing {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-[data-agigov-skin='trust'] .cinematic-hero-glass {
-  background: rgba(255, 255, 255, 0.82);
-  border-color: rgba(255, 255, 255, 0.9);
-}
-
 [data-agigov-skin='trust'] .app-topbar {
   background: rgba(255, 255, 255, 0.92);
 }
@@ -161,16 +121,6 @@
 
 [data-agigov-skin='trust'] .agigov-skeleton {
   background: #e2e8f0;
-}
-
-[data-agigov-skin='trust'] .catalog-mobile-dock {
-  background: rgba(255, 255, 255, 0.96);
-  border-color: var(--color-agigov-border);
-}
-
-[data-agigov-skin='trust'] .catalog-mobile-dock-link--active {
-  color: var(--color-agigov-primary);
-  background: rgba(0, 82, 255, 0.08);
 }
 
 [data-agigov-skin='trust'] .model-catalog-filter-chip--active {
@@ -299,12 +249,6 @@
 [data-agigov-skin='trust'] .text-sky-400\/90,
 [data-agigov-skin='trust'] a.text-sky-400\/70,
 [data-agigov-skin='trust'] .text-sky-400\/70 {
-  color: #52525b;
-}
-
-[data-agigov-skin='trust'] .inst-reg-hero-badge {
-  border-color: #e4e4e7;
-  background: #fafafa;
   color: #52525b;
 }
 

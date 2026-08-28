@@ -666,6 +666,8 @@ const es: Record<MessageKey, string> = {
   'landing.footer.link.pqc': 'PQC',
   'landing.footer.link.devs': 'Desarrolladores',
   'landing.footer.link.github': 'GitHub',
+  'landing.footer.link.x': 'X',
+  'landing.footer.link.youtube': 'YouTube',
   'landing.footer.link.discord': 'Discord',
   'landing.footer.link.docs': 'Documentación',
   'landing.footer.link.help': 'Centro de ayuda',
@@ -917,6 +919,7 @@ const es: Record<MessageKey, string> = {
   'reg.error.legalName': 'Indique el nombre oficial de la institución.',
   'reg.error.email': 'Indique un correo institucional válido.',
   'reg.error.terms': 'Acepte los términos del piloto institucional.',
+  'reg.optionalDetails': 'Datos adicionales (opcional)',
 
   'auth.kicker': 'Acceso',
   'auth.badge': 'Cuenta institucional',
@@ -939,6 +942,13 @@ const es: Record<MessageKey, string> = {
   'auth.error.passwordShort': 'La contraseña debe tener al menos 8 caracteres.',
   'auth.error.passwordMatch': 'Las contraseñas no coinciden.',
   'auth.loggedOut': 'Sesión cerrada. Puede volver a iniciar sesión con su correo institucional.',
+  'auth.alreadyLoggedIn': 'Ya tiene sesión iniciada',
+  'auth.alreadyLoggedInLead': 'Cierre sesión para usar otra cuenta, o vaya al escritorio.',
+  'auth.goDesk': 'Ir al escritorio',
+  'auth.securityNote': 'La sesión está cifrada y vinculada a su correo institucional.',
+  'auth.error.invalidCredentials': 'Correo o contraseña incorrectos.',
+  'auth.error.emailAlreadyRegistered': 'Este correo ya está registrado.',
+  'auth.error.serverError': 'No se pudo completar la solicitud. Intente de nuevo en un momento.',
   'auth.error.passwordNotSet':
     'Su registro es anterior y no tiene contraseña. Vuelva a registrarse para actualizar la cuenta.',
 };

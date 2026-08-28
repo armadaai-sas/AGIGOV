@@ -27,7 +27,7 @@ export function InstitutionAccountNav({ variant = 'topbar', showLabel = false }:
 
   async function handleLogout() {
     await logout();
-    navigate(INSTITUTION_ROUTES.desk, {
+    navigate(INSTITUTION_ROUTES.login, {
       replace: true,
       state: { loggedOut: true },
     });
@@ -40,7 +40,7 @@ export function InstitutionAccountNav({ variant = 'topbar', showLabel = false }:
           to={INSTITUTION_ROUTES.desk}
           className={
             withLabel
-              ? 'ls-nav-signin app-btn app-btn--ghost'
+              ? 'app-btn app-btn--ghost'
               : 'app-btn app-btn--ghost app-btn--icon'
           }
           title={session.institutionName || t('nav.desk')}
@@ -51,12 +51,13 @@ export function InstitutionAccountNav({ variant = 'topbar', showLabel = false }:
         </Link>
         <button
           type="button"
-          className="app-btn app-btn--ghost app-btn--icon"
+          className="app-topbar-account-logout"
           onClick={() => void handleLogout()}
           title={t('nav.logout')}
           aria-label={t('nav.logout')}
         >
-          <LogOut className="h-4 w-4" aria-hidden />
+          <LogOut className="h-4 w-4 shrink-0" aria-hidden />
+          <span>{t('nav.logout')}</span>
         </button>
       </div>
     );
@@ -67,7 +68,7 @@ export function InstitutionAccountNav({ variant = 'topbar', showLabel = false }:
       to={INSTITUTION_ROUTES.login}
       className={
         withLabel
-          ? 'ls-nav-signin app-btn app-btn--ghost'
+          ? 'app-btn app-btn--ghost'
           : 'app-btn app-btn--ghost app-btn--icon'
       }
       title={t('nav.login')}

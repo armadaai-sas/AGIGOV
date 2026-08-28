@@ -174,7 +174,7 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
         text: 'Explorar datos, participar, abrir entorno de prueba o hablar con el equipo.',
       },
     ],
-    actionRoute: '/#autoridad',
+    actionRoute: '/#que-es',
     actionLabel: 'Ver en la home',
   },
 ] as const;

@@ -252,41 +252,6 @@ export async function fetchGlobalNetworkMetrics(): Promise<GlobalNetworkMetrics>
   };
 }
 
-export interface LandingTelemetry {
-  updatedAt: string;
-  ledgerEntries: number;
-  reportCount: number;
-  proposalCount: number;
-  projectCount: number;
-  totalRaised: string;
-  cartaRatified: boolean;
-  platformOk: boolean;
-  recentReports: DashboardReport[];
-  recentProposals: ProposalItem[];
-}
-
-export async function fetchLandingTelemetry(): Promise<LandingTelemetry> {
-  const [dashboard, proposals, projects, carta, health] = await Promise.all([
-    fetchDashboard().catch(() => null),
-    fetchProposals().catch(() => null),
-    fetchProjects().catch(() => null),
-    fetchCartaStatus().catch(() => null),
-    fetchHealth().catch(() => null),
-  ]);
-
-  return {
-    updatedAt: dashboard?.updatedAt ?? new Date().toISOString(),
-    ledgerEntries: dashboard?.ledgerEntries ?? 0,
-    reportCount: dashboard?.reports.length ?? 0,
-    proposalCount: proposals?.proposals.length ?? 0,
-    projectCount: projects?.summary.projectCount ?? 0,
-    totalRaised: projects?.summary.totalRaised ?? '0',
-    cartaRatified: carta?.ratified ?? false,
-    platformOk: health?.ok ?? false,
-    recentReports: dashboard?.reports.slice(0, 4) ?? [],
-    recentProposals: proposals?.proposals.slice(0, 3) ?? [],
-  };
-}
 
 export interface ProposalReceipt {
   processId: string;

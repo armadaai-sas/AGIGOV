@@ -3,7 +3,6 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "../citizen/theme/trust-light.css";
-@import "../citizen/theme/hero-trust.css";
 @import "./cursor-design-system.css";
 @import "./agigov-trust-palette.css";
 
@@ -198,18 +197,6 @@
     @apply inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-sky-200;
   }
 
-.agigov-hero {
-    @apply relative overflow-hidden rounded-3xl border border-white/[0.1] bg-gradient-to-br from-agigov-surface via-agigov-navy-light to-agigov-navy p-6 shadow-2xl shadow-black/30 md:p-10;
-  }
-
-.agigov-hero-glow {
-    @apply pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl;
-  }
-
-.agigov-hero-glow-gold {
-    @apply pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl;
-  }
-
 .agigov-pillar-icon {
     @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-agigov-primary/20 to-sky-400/5 text-sky-300 ring-1 ring-sky-500/20;
   }
@@ -326,49 +313,12 @@
     @apply mb-1;
   }
 
-.landing-boot-screen {
-    @apply flex min-h-[100svh] w-full flex-col items-center justify-center gap-5 bg-[#030508] px-6 text-center;
-  }
-
-.landing-boot-screen-label {
-    @apply m-0 text-sm font-medium tracking-wide text-slate-400;
-  }
-
-.landing-boot-screen-pulse {
-    @apply mt-1 h-1 w-16 rounded-full bg-white/10;
-    background-image: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.85), transparent);
-    background-size: 40% 100%;
-    background-repeat: no-repeat;
-    animation: landing-boot-pulse 1.1s ease-in-out infinite;
-  }
-
-@keyframes landing-boot-pulse {
-  0% {
-    background-position: -40% 0;
-  }
-  100% {
-    background-position: 140% 0;
-  }
-}
-
 .agigov-glass {
     @apply border border-white/[0.08] bg-agigov-glass backdrop-blur-xl backdrop-saturate-150;
   }
 
 .agigov-mission-label {
     @apply text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400/90;
-  }
-
-.agigov-display-hero {
-    @apply font-display text-[clamp(2rem,5vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-white;
-  }
-
-.agigov-orbit-grid {
-    background-image:
-      linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, black 20%, transparent 100%);
   }
 
 .agigov-stat-mission {
@@ -876,10 +826,6 @@
     @apply shrink-0 rounded-lg p-1.5 text-emerald-200/60 transition-colors hover:bg-white/5 hover:text-emerald-100;
   }
 
-[data-agigov-skin='legacy'] .app-sidebar-section--ven .app-sidebar-section-title {
-    @apply text-amber-300;
-  }
-
 .app-shell-content .agigov-shell,
   .app-shell-content .agigov-shell-narrow {
     @apply mx-auto max-w-4xl pb-16 pt-6;
@@ -949,38 +895,6 @@
 .agigov-alert--banner.agigov-alert--error,
 .agigov-alert--banner.agigov-alert--success {
     @apply border-zinc-200 bg-zinc-50 text-zinc-700;
-  }
-
-[data-agigov-skin='legacy'] .hero-narrative-line {
-    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
-  }
-
-[data-agigov-skin='legacy'] .cinematic-vision {
-    @apply bg-agigov-navy-light;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-brand-mark {
-    @apply text-white;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-narrative-card {
-    @apply border-white/15 bg-slate-950/90;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-narrative-act {
-    @apply text-sky-300;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-narrative-line {
-    @apply text-white;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-scroll-cta {
-    @apply border-white/20 bg-slate-900/90 text-white hover:bg-slate-800;
-  }
-
-[data-agigov-skin='legacy'] .cinematic-hero-glass {
-    @apply border-white/10 bg-slate-900/75;
   }
 
 [data-agigov-mode='funnel'] .ds-btn-app,

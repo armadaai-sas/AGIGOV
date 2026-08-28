@@ -1,6 +1,18 @@
 import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
-import { ChevronRight, LayoutDashboard, Package, Rocket } from 'lucide-react';
+import {
+  Apple,
+  Building2,
+  ChevronRight,
+  LayoutDashboard,
+  Mail,
+  Monitor,
+  Package,
+  Plug,
+  Rocket,
+  Terminal,
+  UserPlus,
+} from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
@@ -14,6 +26,7 @@ export type LandingRow = {
   label: string;
   meta: string;
   icon: LucideIcon;
+  external?: boolean;
 };
 
 /** Barra superior — logo + 2 acciones. */
@@ -93,18 +106,37 @@ export function LandingRowList({ rows }: { rows: LandingRow[] }) {
     <ul className="ls-min-list">
       {rows.map((row) => {
         const Icon = row.icon;
+        const isExternal =
+          row.external ?? (row.to.startsWith('mailto:') || row.to.startsWith('http'));
+        const inner = (
+          <>
+            <span className="ls-min-row-icon" aria-hidden>
+              <Icon className="h-4 w-4" />
+            </span>
+            <span className="ls-min-row-body">
+              <span className="ls-min-row-name">{row.label}</span>
+              <span className="ls-min-row-meta">{row.meta}</span>
+            </span>
+            <ChevronRight className="ls-min-row-chevron h-4 w-4" aria-hidden />
+          </>
+        );
+
         return (
           <li key={`${row.to}-${row.label}`}>
-            <Link to={row.to} className="ls-min-row" onMouseEnter={() => prefetchRoute(row.to)} onFocus={() => prefetchRoute(row.to)}>
-              <span className="ls-min-row-icon" aria-hidden>
-                <Icon className="h-4 w-4" />
-              </span>
-              <span className="ls-min-row-body">
-                <span className="ls-min-row-name">{row.label}</span>
-                <span className="ls-min-row-meta">{row.meta}</span>
-              </span>
-              <ChevronRight className="ls-min-row-chevron h-4 w-4" aria-hidden />
-            </Link>
+            {isExternal ? (
+              <a href={row.to} className="ls-min-row">
+                {inner}
+              </a>
+            ) : (
+              <Link
+                to={row.to}
+                className="ls-min-row"
+                onMouseEnter={() => prefetchRoute(row.to)}
+                onFocus={() => prefetchRoute(row.to)}
+              >
+                {inner}
+              </Link>
+            )}
           </li>
         );
       })}
@@ -129,7 +161,7 @@ const WHAT_IS_ROWS: LandingRow[] = [
     to: '/institucional',
     label: 'Institucional',
     meta: 'Registro, piloto y soporte humano',
-    icon: Rocket,
+    icon: Building2,
   },
 ];
 
@@ -194,28 +226,64 @@ export function LandingStartSection() {
       to: INSTITUTION_ROUTES.register,
       label: 'Crear cuenta',
       meta: 'Institución o integrador',
-      icon: Rocket,
+      icon: UserPlus,
     },
     {
       to: '/desarrolladores',
       label: 'Conectar API',
       meta: 'Documentación y health del nodo',
-      icon: Package,
+      icon: Plug,
     },
     {
-      to: '/#contacto',
+      to: 'mailto:info@armadaai.co',
       label: 'Contacto',
       meta: 'Piloto guiado con el equipo',
-      icon: Rocket,
+      icon: Mail,
     },
   ];
 
   return (
     <LandingSection
-      id="contacto"
+      id="empezar"
       title="Empezar"
       lead="Desde el primer clic: orden, simpleza y estructura."
       rows={rows}
     />
+  );
+}
+
+const PLATFORM_ICONS = [
+  { Icon: Monitor, label: 'Windows' },
+  { Icon: Apple, label: 'macOS' },
+  { Icon: Terminal, label: 'Linux' },
+] as const;
+
+/** Franja compacta antes del footer — descarga desktop. */
+export function LandingDownloadStrip() {
+  return (
+    <section className="ls-min-download" aria-labelledby="landing-download-title">
+      <div className="ls-min-inner">
+        <div className="ls-min-download-inner">
+          <div className="ls-min-download-copy">
+            <p id="landing-download-title" className="ls-min-download-title">
+              App de escritorio
+            </p>
+            <p className="ls-min-download-meta">Windows · macOS · Linux</p>
+          </div>
+          <div className="ls-min-download-actions">
+            <Link to="/descargar" className="ls-min-btn ls-min-btn--compact">
+              Descargar
+            </Link>
+            <div className="ls-min-platform-icons" aria-hidden>
+              {PLATFORM_ICONS.map(({ Icon, label }) => (
+                <span key={label} className="ls-min-platform-icon" title={label}>
+                  <Icon className="h-3.5 w-3.5" />
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

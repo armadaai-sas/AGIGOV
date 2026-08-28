@@ -118,15 +118,10 @@ export default function CitizenApp() {
 
 function CitizenAppInner() {
   const { pathname } = useLocation();
-  const isHome = pathname === '/';
 
   useEffect(() => {
     prefetchWarmRoutes();
   }, []);
-
-  useEffect(() => {
-    document.documentElement.toggleAttribute('data-agigov-landing', isHome);
-  }, [isHome]);
 
   return (
     <OsToastProvider>

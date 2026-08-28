@@ -62,6 +62,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
   const [regionCode, setRegionCode] = useState(form.regionCode ?? '');
   const [entityCatalogId, setEntityCatalogId] = useState(form.entityCatalogId ?? '');
   const [error, setError] = useState<string | null>(null);
+  const [emailAlreadyRegistered, setEmailAlreadyRegistered] = useState(false);
   const [busy, setBusy] = useState(false);
 
   const isGovernmentTier =
@@ -85,6 +86,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
   function patch(partial: Partial<InstitutionRegistration>) {
     setForm((prev) => ({ ...prev, ...partial }));
     setError(null);
+    setEmailAlreadyRegistered(false);
   }
 
   function onCountryChange(nextIso: JurisdictionIso) {
@@ -182,11 +184,12 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
       });
       if (authResult.ok === false) {
         if (authResult.error === 'email_already_registered') {
-          setError(t('auth.error.unknownEmail'));
+          setEmailAlreadyRegistered(true);
+          setError(t('auth.error.emailAlreadyRegistered'));
         } else if (authResult.error === 'password_too_short') {
           setError(t('auth.error.passwordShort'));
         } else {
-          setError(t('auth.error.badPassword'));
+          setError(t('auth.error.serverError'));
         }
         return;
       }
@@ -244,7 +247,9 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             {t('reg.governmentChannel')}
           </p>
         ) : null}
-        <p className="mb-4 text-xs text-agigov-text-muted">{t('reg.verificationNotice')}</p>
+        <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
+          {t('reg.verificationNotice')}
+        </p>
 
         <fieldset>
           <legend className="text-sm font-semibold text-agigov-text">{t('reg.entityType')}</legend>
@@ -328,7 +333,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             <span className="text-agigov-text-muted">{t('reg.legalName')}</span>
             <input
               required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
               value={form.legalName}
               onChange={(e) => patch({ legalName: e.target.value })}
               placeholder={t('reg.legalNamePlaceholder')}
@@ -336,41 +341,13 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             />
           </label>
 
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('reg.officialCode')}</span>
-            <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 font-mono text-sm text-agigov-text"
-              value={form.officialCode}
-              onChange={(e) => patch({ officialCode: e.target.value })}
-              placeholder="RIF / código rubro"
-            />
-          </label>
-
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('reg.phone')}</span>
-            <div className="mt-1 flex gap-2">
-              <input
-                className="w-20 rounded-xl border border-agigov-border bg-agigov-surface px-2 py-2.5 font-mono text-sm text-agigov-text"
-                value={phoneCode}
-                onChange={(e) => patch({ phoneCountryCode: e.target.value })}
-                aria-label={t('reg.phoneCode')}
-              />
-              <input
-                type="tel"
-                className="min-w-0 flex-1 rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-                value={form.phone ?? ''}
-                onChange={(e) => patch({ phone: e.target.value })}
-                placeholder={t('reg.phonePlaceholder')}
-              />
-            </div>
-          </label>
-
           <label className="block text-sm sm:col-span-2">
             <span className="text-agigov-text-muted">{t('reg.officialEmail')}</span>
             <input
               type="email"
               required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+              autoComplete="username"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
               value={form.officialEmail}
               onChange={(e) => patch({ officialEmail: e.target.value })}
               placeholder="finanzas@alcaldia.gob.ve"
@@ -378,31 +355,13 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           </label>
 
           <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('reg.contactName')}</span>
-            <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-              value={form.contactName}
-              onChange={(e) => patch({ contactName: e.target.value })}
-            />
-          </label>
-
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('reg.contactRole')}</span>
-            <input
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-              value={form.contactRole}
-              onChange={(e) => patch({ contactRole: e.target.value })}
-              placeholder={t('reg.contactRolePlaceholder')}
-            />
-          </label>
-          <label className="block text-sm">
             <span className="text-agigov-text-muted">{t('auth.password')}</span>
             <input
               type="password"
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -415,12 +374,67 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </label>
         </div>
+
+        <details className="mt-6 rounded-xl border border-agigov-border bg-agigov-surface/50 px-4 py-3">
+          <summary className="cursor-pointer text-sm font-medium text-agigov-text">
+            {t('reg.optionalDetails')}
+          </summary>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="block text-sm sm:col-span-2">
+              <span className="text-agigov-text-muted">{t('reg.officialCode')}</span>
+              <input
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 font-mono text-sm text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+                value={form.officialCode}
+                onChange={(e) => patch({ officialCode: e.target.value })}
+                placeholder="RIF / código rubro"
+              />
+            </label>
+
+            <label className="block text-sm sm:col-span-2">
+              <span className="text-agigov-text-muted">{t('reg.phone')}</span>
+              <div className="mt-1 flex gap-2">
+                <input
+                  className="w-20 rounded-xl border border-agigov-border bg-agigov-surface px-2 py-2.5 font-mono text-sm text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+                  value={phoneCode}
+                  onChange={(e) => patch({ phoneCountryCode: e.target.value })}
+                  aria-label={t('reg.phoneCode')}
+                />
+                <input
+                  type="tel"
+                  className="min-w-0 flex-1 rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+                  value={form.phone ?? ''}
+                  onChange={(e) => patch({ phone: e.target.value })}
+                  placeholder={t('reg.phonePlaceholder')}
+                />
+              </div>
+            </label>
+
+            <label className="block text-sm">
+              <span className="text-agigov-text-muted">{t('reg.contactName')}</span>
+              <input
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+                value={form.contactName}
+                onChange={(e) => patch({ contactName: e.target.value })}
+              />
+            </label>
+
+            <label className="block text-sm">
+              <span className="text-agigov-text-muted">{t('reg.contactRole')}</span>
+              <input
+                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+                value={form.contactRole}
+                onChange={(e) => patch({ contactRole: e.target.value })}
+                placeholder={t('reg.contactRolePlaceholder')}
+              />
+            </label>
+          </div>
+        </details>
 
         <label className="mt-6 flex cursor-pointer items-start gap-3 text-sm">
           <input
@@ -432,7 +446,21 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           <span className="text-agigov-text-muted">{t('reg.terms')}</span>
         </label>
 
-        {error ? <p className="mt-4 text-sm text-zinc-600">{error}</p> : null}
+        {error ? (
+          <p className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700" role="alert">
+            {error}
+          </p>
+        ) : null}
+        {emailAlreadyRegistered ? (
+          <p className="mt-2">
+            <Link
+              to={INSTITUTION_ROUTES.login}
+              className="text-sm font-medium text-zinc-700 underline-offset-2 hover:underline"
+            >
+              {t('auth.alreadyHaveAccount')}
+            </Link>
+          </p>
+        ) : null}
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <button type="submit" className="ds-btn-app" disabled={busy}>

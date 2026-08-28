@@ -1,5 +1,6 @@
-import { Settings2, X } from 'lucide-react';
+import { LogOut, Settings2, X } from 'lucide-react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   JURISDICTIONS,
@@ -9,7 +10,9 @@ import {
   type SovereignLocale,
   type SupportedCurrency,
 } from '../../../config/sovereign/index.js';
-import { usePlatform, useSovereignConfig } from '../../context/PlatformContext.js';
+import { useSovereignConfig } from '../../context/PlatformContext.js';
+import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
+import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 const LOCALE_LABELS: Record<SovereignLocale, string> = {
   en: 'English',
@@ -27,7 +30,17 @@ type Props = {
 /** Preferencias — fuera del sidebar (patrón industria). */
 export function OsPreferencesModal({ open, onClose }: Props) {
   const { sovereign, setSovereignPref, t } = useSovereignConfig();
-  const { skinId, setSkinId } = usePlatform();
+  const navigate = useNavigate();
+  const { session, isAuthenticated, logout } = useInstitutionAuth();
+
+  async function handleLogout() {
+    await logout();
+    onClose();
+    navigate(INSTITUTION_ROUTES.login, {
+      replace: true,
+      state: { loggedOut: true },
+    });
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -57,16 +70,22 @@ export function OsPreferencesModal({ open, onClose }: Props) {
         </header>
 
         <div className="os-modal-body space-y-4">
-          <label className="os-field">
-            <span>{t('settings.appearance')}</span>
-            <select
-              value={skinId}
-              onChange={(e) => setSkinId(e.target.value === 'legacy' ? 'legacy' : 'trust')}
-            >
-              <option value="trust">{t('settings.theme.light')}</option>
-              <option value="legacy">{t('settings.theme.dark')}</option>
-            </select>
-          </label>
+          {isAuthenticated && session ? (
+            <section className="rounded-xl border border-agigov-border bg-agigov-surface/50 p-4">
+              <p className="text-sm font-medium text-agigov-text">{t('auth.badge')}</p>
+              <p className="mt-1 text-sm text-agigov-text-muted">
+                {session.institutionName?.trim() || session.email}
+              </p>
+              <button
+                type="button"
+                className="app-topbar-account-logout mt-3 w-full justify-center"
+                onClick={() => void handleLogout()}
+              >
+                <LogOut className="h-4 w-4 shrink-0" aria-hidden />
+                <span>{t('nav.logout')}</span>
+              </button>
+            </section>
+          ) : null}
 
           <label className="os-field">
             <span>{t('settings.language')}</span>

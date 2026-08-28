@@ -1,19 +1,12 @@
-import { Camera } from 'lucide-react';
-import { Navigate } from 'react-router-dom';
-
+import { InstitutionAlreadyLoggedIn } from '../components/institutional/InstitutionAlreadyLoggedIn.js';
 import { InstitutionRegistrationForm } from '../components/institutional/InstitutionRegistrationForm.js';
 import { PageShell } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
-import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 export default function InstitutionRegisterPage() {
   const { t } = useSovereignConfig();
   const { isAuthenticated } = useInstitutionAuth();
-
-  if (isAuthenticated) {
-    return <Navigate to={INSTITUTION_ROUTES.desk} replace />;
-  }
 
   return (
     <PageShell shell narrow>
@@ -25,16 +18,11 @@ export default function InstitutionRegisterPage() {
           </div>
         </header>
 
-        <div className="os-panel flex items-start gap-3">
-          <Camera className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" aria-hidden />
-          <div className="text-[13px] text-zinc-600">
-            <p className="font-medium text-zinc-900">Paquete de confianza · paso B1</p>
-            <p className="mt-1">Tras crear cuenta, captura el escritorio o esta pantalla.</p>
-            <p className="mt-1 font-mono text-xs text-zinc-500">artifacts/01-registro.png</p>
-          </div>
-        </div>
-
-        <InstitutionRegistrationForm />
+        {isAuthenticated ? (
+          <InstitutionAlreadyLoggedIn />
+        ) : (
+          <InstitutionRegistrationForm />
+        )}
       </div>
     </PageShell>
   );

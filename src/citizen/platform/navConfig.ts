@@ -56,7 +56,7 @@ export const NAV_SECTION_MODELO: NavSection = {
   items: [
     { to: '/', label: 'Inicio', hint: 'Sistema operativo del Estado', icon: LayoutGrid },
     { to: '/institucional', label: 'Institucional', hint: 'Sandbox · hablar · cuenta', icon: Landmark },
-    { to: '/#autoridad', label: 'Por qué OS', hint: 'OS vs agentes / LLMs', icon: Layers },
+    { to: '/#que-es', label: 'Por qué OS', hint: 'OS vs agentes / LLMs', icon: Layers },
     { to: '/ayuda/institucional', label: 'Qué es AGIGOV', hint: 'Tutorial · protocolo · Carta', icon: ScrollText },
     { to: '/modelos', label: 'Modelos', hint: 'Catálogo · gobierno · empresa · ciudadano', icon: Package },
     { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API · especificación · integradores', icon: Code2 },
@@ -235,7 +235,7 @@ export const NAV_SECTION_INSTITUTIONAL: NavSection = {
       icon: LifeBuoy,
     },
     {
-      to: '/#contacto',
+      to: '/#empezar',
       label: 'Contacto',
       hint: 'Entorno de prueba o hablar con el equipo',
       icon: Landmark,

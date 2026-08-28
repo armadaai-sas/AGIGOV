@@ -10,7 +10,7 @@ import {
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
-/** Inicio de sesión institucional — solo correo + contraseña (sin hero engañoso). */
+/** Inicio de sesión institucional — correo + contraseña. */
 export function InstitutionLoginForm() {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export function InstitutionLoginForm() {
         await refresh();
         navigate(redirectTo, { replace: true });
       } else {
-        setError(t('auth.error.badPassword'));
+        setError(t('auth.error.invalidCredentials'));
         setMagicBusy(false);
       }
     })();
@@ -63,7 +63,11 @@ export function InstitutionLoginForm() {
           break;
         case false:
           setErrorCode(result.error);
-          setError(t('auth.error.badPassword'));
+          setError(
+            result.error === 'invalid_credentials'
+              ? t('auth.error.invalidCredentials')
+              : t('auth.error.serverError'),
+          );
           break;
       }
     } finally {
@@ -78,6 +82,9 @@ export function InstitutionLoginForm() {
       </div>
     );
   }
+
+  const INPUT_CLASS =
+    'mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2';
 
   return (
     <div className="mx-auto w-full max-w-md">
@@ -95,7 +102,7 @@ export function InstitutionLoginForm() {
             required
             autoComplete="username"
             autoFocus
-            className="mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-sky-500/40 focus:ring-2"
+            className={INPUT_CLASS}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="finanzas@alcaldia.gob.ve"
@@ -109,13 +116,17 @@ export function InstitutionLoginForm() {
             required
             autoComplete="current-password"
             minLength={8}
-            className="mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-sky-500/40 focus:ring-2"
+            className={INPUT_CLASS}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
 
-        {error ? <p className="text-sm text-zinc-600">{error}</p> : null}
+        {error ? (
+          <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700" role="alert">
+            {error}
+          </p>
+        ) : null}
         {errorCode === 'password_not_set' ? (
           <p>
             <Link
@@ -141,6 +152,8 @@ export function InstitutionLoginForm() {
             {t('auth.goRegister')}
           </Link>
         </p>
+
+        <p className="text-center text-xs text-agigov-text-muted">{t('auth.securityNote')}</p>
       </form>
     </div>
   );

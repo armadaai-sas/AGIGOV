@@ -1,142 +1,58 @@
 import { Link } from 'react-router-dom';
-import { Github } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
+import { IconDiscord, IconGitHub, IconX, IconYouTube } from './SocialBrandIcons.js';
 import { usePlatform } from '../context/PlatformContext.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { SOCIAL_LINKS } from '../platform/socialLinks.js';
 
-const GITHUB_ORG = 'https://github.com/armadaai-sas';
+const SOCIAL_ITEMS = [
+  { href: SOCIAL_LINKS.x, labelKey: 'landing.footer.link.x' as const, Icon: IconX },
+  { href: SOCIAL_LINKS.youtube, labelKey: 'landing.footer.link.youtube' as const, Icon: IconYouTube },
+  { href: SOCIAL_LINKS.github, labelKey: 'landing.footer.link.github' as const, Icon: IconGitHub },
+  { href: SOCIAL_LINKS.discord, labelKey: 'landing.footer.link.discord' as const, Icon: IconDiscord },
+];
 
-type Props = {
-  minimal?: boolean;
-};
-
-/** Footer — mapa completo o fila mínima en landing. */
-export function SiteFooter({ minimal = false }: Props) {
+/** Footer del landing — aislado de estilos globales oscuros. */
+export function SiteFooter() {
   const { t } = usePlatform();
   const year = new Date().getFullYear();
 
-  if (minimal) {
-    return (
-      <footer className="site-footer site-footer--minimal" aria-label="Pie de página">
-        <div className="site-footer-map ls-min-inner">
-          <AgigovLogo size="md" showWordmark variant="light" />
-          <p className="site-footer-tagline">{t('landing.footer.tagline')}</p>
-          <nav className="site-footer-links-row" aria-label="Enlaces">
+  return (
+    <footer className="ls-footer" aria-label="Pie de página">
+      <div className="ls-footer-rule" aria-hidden />
+      <div className="ls-min-inner ls-footer-inner">
+        <div className="ls-footer-main">
+          <div className="ls-footer-brand">
+            <AgigovLogo size="sm" showWordmark variant="light" />
+            <p className="ls-footer-tagline">{t('landing.footer.tagline')}</p>
+          </div>
+
+          <nav className="ls-footer-links" aria-label="Enlaces">
             <Link to={INSTITUTION_ROUTES.desk}>{t('landing.footer.link.desk')}</Link>
             <Link to="/modelos">{t('landing.footer.link.modelsAll')}</Link>
             <Link to="/descargar">{t('landing.footer.link.desktop')}</Link>
             <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
             <Link to="/desarrolladores">{t('landing.footer.link.devs')}</Link>
-            <Link to={INSTITUTION_ROUTES.register}>{t('landing.footer.link.deploy')}</Link>
-            <a href={GITHUB_ORG} target="_blank" rel="noopener noreferrer">
-              {t('landing.footer.link.github')}
-            </a>
           </nav>
-          <div className="site-footer-bottom">
-            <p>{t('landing.footer.legal', { year: String(year) })}</p>
-          </div>
-        </div>
-      </footer>
-    );
-  }
 
-  return (
-    <footer className="site-footer site-footer--map" aria-label="Pie de página">
-      <div className="site-footer-map">
-        <div className="site-footer-brand-col">
-          <AgigovLogo size="md" showWordmark variant="light" />
-          <p className="site-footer-tagline">{t('landing.footer.tagline')}</p>
-          <nav className="site-footer-social" aria-label="Código y comunidad">
-            <a
-              href={GITHUB_ORG}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="site-footer-social-link"
-              aria-label={t('landing.footer.link.github')}
-            >
-              <Github className="h-4 w-4" />
-            </a>
+          <nav className="ls-footer-social" aria-label={t('landing.footer.community')}>
+            {SOCIAL_ITEMS.map(({ href, labelKey, Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ls-footer-social-link"
+                aria-label={t(labelKey)}
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
           </nav>
         </div>
 
-        <div className="site-footer-cols">
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.product')}</p>
-            <ul>
-              <li>
-                <Link to={INSTITUTION_ROUTES.desk}>{t('landing.footer.link.desk')}</Link>
-              </li>
-              <li>
-                <Link to="/modelos/egs/espacio">{t('landing.footer.link.egsConsole')}</Link>
-              </li>
-              <li>
-                <Link to="/gestion">{t('landing.footer.link.ledger')}</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.models')}</p>
-            <ul>
-              <li>
-                <Link to="/modelos">{t('landing.footer.link.modelsAll')}</Link>
-              </li>
-              <li>
-                <Link to="/modelos/egs">{t('landing.footer.link.egs')}</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.citizen')}</p>
-            <ul>
-              <li>
-                <Link to="/participar">{t('landing.footer.link.participate')}</Link>
-              </li>
-              <li>
-                <Link to="/propuestas">{t('landing.footer.link.proposals')}</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.start')}</p>
-            <ul>
-              <li>
-                <Link to={INSTITUTION_ROUTES.register}>{t('landing.footer.link.deploy')}</Link>
-              </li>
-              <li>
-                <Link to={INSTITUTION_ROUTES.login}>{t('landing.footer.link.access')}</Link>
-              </li>
-              <li>
-                <Link to="/#contacto">{t('landing.footer.link.contact')}</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer-col">
-            <p className="site-footer-heading">{t('landing.footer.resources')}</p>
-            <ul>
-              <li>
-                <Link to="/descargar">App de escritorio</Link>
-              </li>
-              <li>
-                <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
-              </li>
-              <li>
-                <Link to="/desarrolladores">{t('landing.footer.link.devs')}</Link>
-              </li>
-              <li>
-                <Link to="/aprender/glosario">{t('landing.footer.link.glossary')}</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="site-footer-bottom">
-        <p>{t('landing.footer.legal', { year: String(year) })}</p>
+        <p className="ls-footer-legal">{t('landing.footer.legal', { year: String(year) })}</p>
       </div>
     </footer>
   );

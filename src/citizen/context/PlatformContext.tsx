@@ -21,10 +21,6 @@ import {
 } from '../../config/sovereign/index.js';
 import { createTranslator, type MessageKey, type TFunction } from '../../i18n/index.js';
 import {
-  HERO_STORY_BEATS,
-  type HeroStoryBeat,
-} from '../hero/heroConfig.js';
-import {
   getImplementation,
   implementationIdFromIso,
   type ImplementationId,
@@ -38,10 +34,6 @@ const SOVEREIGN_PREF_KEY = 'agigov-sovereign-pref-v1';
 const GEO_APPLIED_KEY = 'agigov-geo-hint-applied-v1';
 
 export type OnboardingPersona = 'citizen' | 'explorer' | 'government' | 'business';
-
-export type SkinId = 'trust' | 'legacy';
-
-const SKIN_KEY = 'agigov-skin';
 
 export type SovereignUserPref = {
   iso?: JurisdictionIso;
@@ -61,30 +53,14 @@ type PlatformContextValue = {
   formatMoney: (value: string | number, options?: { showCode?: boolean }) => string;
   t: TFunction;
   nodeConfigLoaded: boolean;
-  skinId: SkinId;
-  setSkinId: (id: SkinId) => void;
-  heroBeatIndex: number;
-  heroBeat: HeroStoryBeat;
-  heroScrollProgress: number;
-  heroPathDraw: number;
-  setHeroNarrative: (index: number, scrollProgress: number, pathDraw: number) => void;
-  heroChoreographyPhase: number;
-  setHeroChoreographyPhase: (phase: number) => void;
-  heroChromeRevealed: boolean;
 };
 
 const PlatformContext = createContext<PlatformContextValue | null>(null);
 
-function readSkinId(): SkinId {
-  if (typeof window === 'undefined') return 'trust';
-  const stored = localStorage.getItem(SKIN_KEY);
-  if (stored === 'legacy' || stored === 'trust') return stored;
-  return 'trust';
-}
-
-function applySkin(id: SkinId) {
+function applyTrustSkin() {
   if (typeof document === 'undefined') return;
-  document.documentElement.setAttribute('data-agigov-skin', id);
+  document.documentElement.setAttribute('data-agigov-skin', 'trust');
+  localStorage.setItem('agigov-skin', 'trust');
 }
 
 function readImplementationId(): ImplementationId {
@@ -160,21 +136,10 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   });
   const [nodeConfig, setNodeConfig] = useState<PublicConfigResponse | null>(null);
   const [nodeConfigLoaded, setNodeConfigLoaded] = useState(false);
-  const [skinId, setSkinIdState] = useState<SkinId>(() => {
-    const id = readSkinId();
-    applySkin(id);
-    return id;
-  });
-  const [heroBeatIndex, setHeroBeatIndex] = useState(0);
-  const [heroScrollProgress, setHeroScrollProgress] = useState(0);
-  const [heroPathDraw, setHeroPathDraw] = useState(0);
-  const [heroChoreographyPhase, setHeroChoreographyPhaseState] = useState(0);
 
   useEffect(() => {
-    if (skinId === 'legacy') {
-      void import('../theme/legacy-dark.css');
-    }
-  }, [skinId]);
+    applyTrustSkin();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -226,29 +191,6 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute('data-agigov-jurisdiction', sovereign.iso);
     document.documentElement.setAttribute('data-agigov-currency', sovereign.currency);
   }, [sovereign.locale, sovereign.iso, sovereign.currency]);
-
-  const setHeroChoreographyPhase = useCallback((phase: number) => {
-    setHeroChoreographyPhaseState(Math.min(1, Math.max(0, phase)));
-  }, []);
-
-  const heroChromeRevealed = heroChoreographyPhase > 0.72;
-
-  const setHeroNarrative = useCallback((index: number, scrollProgress: number, pathDraw: number) => {
-    setHeroBeatIndex(index);
-    setHeroScrollProgress(scrollProgress);
-    setHeroPathDraw(pathDraw);
-  }, []);
-
-  const heroBeat = HERO_STORY_BEATS[heroBeatIndex] ?? HERO_STORY_BEATS[0];
-
-  const setSkinId = useCallback((id: SkinId) => {
-    setSkinIdState(id);
-    localStorage.setItem(SKIN_KEY, id);
-    applySkin(id);
-    if (id === 'legacy') {
-      void import('../theme/legacy-dark.css');
-    }
-  }, []);
 
   const setImplementationId = useCallback((id: ImplementationId) => {
     setImplementationIdState(id);
@@ -308,16 +250,6 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
       formatMoney,
       t,
       nodeConfigLoaded,
-      skinId,
-      setSkinId,
-      heroBeatIndex,
-      heroBeat,
-      heroScrollProgress,
-      heroPathDraw,
-      setHeroNarrative,
-      heroChoreographyPhase,
-      setHeroChoreographyPhase,
-      heroChromeRevealed,
     }),
     [
       onboardingDone,
@@ -330,16 +262,6 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
       formatMoney,
       t,
       nodeConfigLoaded,
-      skinId,
-      setSkinId,
-      heroBeatIndex,
-      heroBeat,
-      heroScrollProgress,
-      heroPathDraw,
-      setHeroNarrative,
-      heroChoreographyPhase,
-      setHeroChoreographyPhase,
-      heroChromeRevealed,
     ],
   );
 

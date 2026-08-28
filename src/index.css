@@ -1,3 +1,0 @@
-/* Compat entry (full). Prod uses styles/base + landing-system/app splits via JS imports. */
-@import "./styles/base.css";
-@import "./styles/app.css";

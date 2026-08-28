@@ -660,6 +660,8 @@ const en = {
   'landing.footer.link.pqc': 'PQC',
   'landing.footer.link.devs': 'Developers',
   'landing.footer.link.github': 'GitHub',
+  'landing.footer.link.x': 'X',
+  'landing.footer.link.youtube': 'YouTube',
   'landing.footer.link.discord': 'Discord',
   'landing.footer.link.docs': 'Documentation',
   'landing.footer.link.help': 'Help center',
@@ -911,6 +913,7 @@ const en = {
   'reg.error.legalName': 'Enter the official institution name.',
   'reg.error.email': 'Enter a valid official email.',
   'reg.error.terms': 'Accept the institutional pilot terms.',
+  'reg.optionalDetails': 'Additional details (optional)',
 
   'auth.kicker': 'Access',
   'auth.badge': 'Institutional account',
@@ -933,6 +936,13 @@ const en = {
   'auth.error.passwordShort': 'Password must be at least 8 characters.',
   'auth.error.passwordMatch': 'Passwords do not match.',
   'auth.loggedOut': 'Signed out. Sign in again with your institutional email.',
+  'auth.alreadyLoggedIn': 'You are already signed in',
+  'auth.alreadyLoggedInLead': 'Close session to use another account, or go to your desk.',
+  'auth.goDesk': 'Open desk',
+  'auth.securityNote': 'Session is encrypted and tied to your institutional email.',
+  'auth.error.invalidCredentials': 'Incorrect email or password.',
+  'auth.error.emailAlreadyRegistered': 'This email is already registered.',
+  'auth.error.serverError': 'Could not complete the request. Try again in a moment.',
   'auth.error.passwordNotSet':
     'Your registration predates passwords. Please register again to update your account.',
 } as const;

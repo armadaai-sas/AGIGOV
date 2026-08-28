@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { ChevronDown, PanelLeftClose, PanelLeft, Moon, Sun, Settings2 } from 'lucide-react';
+import { ChevronDown, PanelLeftClose, PanelLeft, Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
@@ -17,7 +17,7 @@ import { prefetchRoute } from '../platform/routePrefetch.js';
 
 export function AppSidebar() {
   const { pathname, hash, search } = useLocation();
-  const { skinId, setSkinId, implementationId } = usePlatform();
+  const { implementationId } = usePlatform();
   const [collapsed, setCollapsed] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [prefsOpen, setPrefsOpen] = useState(false);
@@ -68,15 +68,6 @@ export function AppSidebar() {
               onClick={() => setPrefsOpen(true)}
             >
               <Settings2 className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              className="app-sidebar-skin-btn"
-              title={skinId === 'trust' ? 'Tema oscuro' : 'Tema claro'}
-              aria-label="Cambiar tema"
-              onClick={() => setSkinId(skinId === 'trust' ? 'legacy' : 'trust')}
-            >
-              {skinId === 'trust' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </button>
           </div>
         </div>

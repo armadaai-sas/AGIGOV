@@ -1,4 +1,5 @@
 import {
+  LandingDownloadStrip,
   LandingHero,
   LandingModelsSection,
   LandingNav,
@@ -18,8 +19,9 @@ export default function HomePage() {
         <LandingWhatSection />
         <LandingModelsSection />
         <LandingStartSection />
+        <LandingDownloadStrip />
       </main>
-      <SiteFooter minimal />
+      <SiteFooter />
     </div>
   );
 }
