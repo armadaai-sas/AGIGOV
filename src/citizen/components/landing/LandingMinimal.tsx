@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   Apple,
+  Briefcase,
   Building2,
   ChevronRight,
   Code2,
@@ -29,6 +30,8 @@ import {
   landingPersonaHintKey,
   landingPersonaLabelKey,
   landingPersonaPath,
+  landingRoleMapCapabilitiesKey,
+  landingRoleMapPricingKey,
   landingRotorWords,
   landingUtilityGeneral,
   type LandingPersonaId,
@@ -41,6 +44,7 @@ export type LandingRow = {
   meta: string;
   icon: LucideIcon;
   external?: boolean;
+  pricing?: string;
 };
 
 const ROTOR_MS = 4000;
@@ -48,6 +52,7 @@ const ROTOR_MS = 4000;
 const PERSONA_ICONS: Record<LandingPersonaId, LucideIcon> = {
   state: Building2,
   citizen: Users,
+  enterprise: Briefcase,
   integrator: Plug,
 };
 
@@ -249,7 +254,17 @@ export function LandingRowList({ rows }: { rows: LandingRow[] }) {
             </span>
             <span className="ls-min-row-body">
               <span className="ls-min-row-name">{row.label}</span>
-              <span className="ls-min-row-meta">{row.meta}</span>
+              <span className="ls-min-row-meta">
+                {row.meta}
+                {row.pricing ? (
+                  <>
+                    <span className="ls-min-row-meta-dot" aria-hidden>
+                      {' · '}
+                    </span>
+                    <span className="ls-min-row-pricing">{row.pricing}</span>
+                  </>
+                ) : null}
+              </span>
             </span>
             <ChevronRight className="ls-min-row-chevron h-4 w-4" aria-hidden />
           </>
@@ -444,21 +459,22 @@ export function LandingModelsSection() {
   );
 }
 
-/** Caminos alineados a persona — sin duplicar CTAs del hero. */
-export function LandingPersonaPathsSection() {
+/** Mapa de utilidad — qué puede cada rol y cómo se paga. */
+export function LandingUtilityByRoleSection() {
   const { t } = useSovereignConfig();
   const rows: LandingRow[] = LANDING_PERSONA_IDS.map((id) => ({
     to: landingPersonaPath(id),
     label: t(landingPersonaLabelKey(id)),
-    meta: t(landingPersonaHintKey(id)),
+    meta: t(landingRoleMapCapabilitiesKey(id)),
+    pricing: t(landingRoleMapPricingKey(id)),
     icon: PERSONA_ICONS[id],
   }));
 
   return (
     <LandingSection
-      id="caminos"
-      title={t('landing.min.paths.title')}
-      lead={t('landing.min.paths.lead')}
+      id="utilidad-rol"
+      title={t('landing.min.roleMap.title')}
+      lead={t('landing.min.roleMap.lead')}
       rows={rows}
     />
   );

@@ -638,16 +638,31 @@ const es: Record<MessageKey, string> = {
   'landing.min.persona.label': 'Eres',
   'landing.min.persona.state': 'Estado',
   'landing.min.persona.citizen': 'Ciudadano',
+  'landing.min.persona.enterprise': 'Empresa',
   'landing.min.persona.integrator': 'Integrador',
   'landing.min.persona.hint.state':
     'Un ministerio, un rubro, un cierre — evidencia que puede defender mañana, no un informe que nadie revisa.',
   'landing.min.persona.hint.citizen':
     'Vea lo publicado y participe con hechos — su identidad no va al registro público.',
+  'landing.min.persona.hint.enterprise':
+    'DATA agregada, evidencia de hitos e infra por uso — utilidad B2B sin datos personales en lo publicado.',
   'landing.min.persona.hint.integrator':
     'API en vivo y protocolo abierto — conecte sus sistemas con trazabilidad, no con promesas.',
   'landing.min.persona.cta.state': 'Institucional',
   'landing.min.persona.cta.citizen': 'Gestión pública',
+  'landing.min.persona.cta.enterprise': 'Modelos empresariales',
   'landing.min.persona.cta.integrator': 'Desarrolladores',
+  'landing.min.roleMap.title': 'Utilidad por rol',
+  'landing.min.roleMap.lead':
+    'Qué puede hacer cada quien — y cómo se paga, con honestidad. Aprender vive en Explorar, gratis para todos.',
+  'landing.min.roleMap.state.capabilities': 'EGS · Custodia · Gestión',
+  'landing.min.roleMap.state.pricing': 'Piloto / éxito',
+  'landing.min.roleMap.citizen.capabilities': 'Ver · Participar · Aprender',
+  'landing.min.roleMap.citizen.pricing': 'Gratis',
+  'landing.min.roleMap.enterprise.capabilities': 'DATA · Evidencia API · IaaU',
+  'landing.min.roleMap.enterprise.pricing': 'Por uso',
+  'landing.min.roleMap.integrator.capabilities': 'API · Protocolo · Nodo',
+  'landing.min.roleMap.integrator.pricing': 'OSS + metering',
   'landing.min.trust.data': 'Solo lo necesario',
   'landing.min.trust.public': 'Nada personal en lo publicado',
   'landing.min.trust.guard': 'Centinela pausa si algo no cuadra',

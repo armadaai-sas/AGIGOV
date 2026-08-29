@@ -4,7 +4,7 @@ import {
   LandingModelsSection,
   LandingNav,
   LandingOpenSourceSection,
-  LandingPersonaPathsSection,
+  LandingUtilityByRoleSection,
   LandingUtilitySection,
   LandingWhatSection,
 } from '../components/landing/LandingMinimal.js';
@@ -21,8 +21,8 @@ export default function HomePage() {
         <LandingWhatSection />
         <LandingOpenSourceSection />
         <LandingUtilitySection />
+        <LandingUtilityByRoleSection />
         <LandingModelsSection />
-        <LandingPersonaPathsSection />
         <LandingDownloadStrip />
       </main>
       <SiteFooter />

@@ -632,16 +632,31 @@ const en = {
   'landing.min.persona.label': 'You are',
   'landing.min.persona.state': 'Government',
   'landing.min.persona.citizen': 'Citizen',
+  'landing.min.persona.enterprise': 'Enterprise',
   'landing.min.persona.integrator': 'Integrator',
   'landing.min.persona.hint.state':
     'One ministry, one line item, one close — evidence you can defend tomorrow, not a report no one reads.',
   'landing.min.persona.hint.citizen':
     'See what is published and participate with facts — your identity does not go on the public registry.',
+  'landing.min.persona.hint.enterprise':
+    'Aggregated DATA, milestone evidence and pay-as-you-go infra — B2B utility without personal data in what is published.',
   'landing.min.persona.hint.integrator':
     'Live API and open protocol — connect your systems with traceability, not promises.',
   'landing.min.persona.cta.state': 'Institutional',
   'landing.min.persona.cta.citizen': 'Public management',
+  'landing.min.persona.cta.enterprise': 'Enterprise models',
   'landing.min.persona.cta.integrator': 'Developers',
+  'landing.min.roleMap.title': 'Utility by role',
+  'landing.min.roleMap.lead':
+    'What each role can do — and how it is paid, honestly. Learn lives under Explore, free for everyone.',
+  'landing.min.roleMap.state.capabilities': 'EGS · Custody · Management',
+  'landing.min.roleMap.state.pricing': 'Pilot / success fee',
+  'landing.min.roleMap.citizen.capabilities': 'View · Participate · Learn',
+  'landing.min.roleMap.citizen.pricing': 'Free',
+  'landing.min.roleMap.enterprise.capabilities': 'DATA · Evidence API · IaaU',
+  'landing.min.roleMap.enterprise.pricing': 'Pay per use',
+  'landing.min.roleMap.integrator.capabilities': 'API · Protocol · Node',
+  'landing.min.roleMap.integrator.pricing': 'OSS + metering',
   'landing.min.trust.data': 'Only what is needed',
   'landing.min.trust.public': 'Nothing personal in what is published',
   'landing.min.trust.guard': 'Centinela pauses if something does not match',

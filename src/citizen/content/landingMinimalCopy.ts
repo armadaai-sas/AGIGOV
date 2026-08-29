@@ -5,13 +5,17 @@ import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 export const GITHUB_RELEASES_URL = 'https://github.com/armadaai-sas/Armada-VZLA/releases';
 
-export type LandingPersonaId = 'state' | 'citizen' | 'integrator';
+export type LandingPersonaId = 'state' | 'citizen' | 'enterprise' | 'integrator';
 
+/** Orden alineado al hero y al footer. */
 export const LANDING_PERSONA_IDS: readonly LandingPersonaId[] = [
   'state',
   'citizen',
+  'enterprise',
   'integrator',
 ] as const;
+
+export const ENTERPRISE_MODELS_PATH = '/modelos?audiencia=empresarial';
 
 export function landingPersonaPath(id: LandingPersonaId): string {
   switch (id) {
@@ -19,6 +23,8 @@ export function landingPersonaPath(id: LandingPersonaId): string {
       return INSTITUTION_ROUTES.hub;
     case 'citizen':
       return '/gestion';
+    case 'enterprise':
+      return ENTERPRISE_MODELS_PATH;
     case 'integrator':
       return '/desarrolladores';
   }
@@ -34,6 +40,14 @@ export function landingPersonaHintKey(id: LandingPersonaId): MessageKey {
 
 export function landingPersonaCtaKey(id: LandingPersonaId): MessageKey {
   return `landing.min.persona.cta.${id}` as MessageKey;
+}
+
+export function landingRoleMapCapabilitiesKey(id: LandingPersonaId): MessageKey {
+  return `landing.min.roleMap.${id}.capabilities` as MessageKey;
+}
+
+export function landingRoleMapPricingKey(id: LandingPersonaId): MessageKey {
+  return `landing.min.roleMap.${id}.pricing` as MessageKey;
 }
 
 export function landingRotorWords(t: TFunction): readonly string[] {
