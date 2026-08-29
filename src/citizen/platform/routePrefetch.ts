@@ -14,6 +14,7 @@ const LOADERS: Array<{ test: (path: string) => boolean; load: Loader }> = [
   { test: (p) => p.startsWith('/institucional/registro'), load: () => import('../pages/InstitutionRegisterPage.js') },
   { test: (p) => p.startsWith('/institucional/acceso'), load: () => import('../pages/InstitutionAccessPage.js') },
   { test: (p) => p.startsWith('/institucional'), load: () => import('../pages/InstitutionalPage.js') },
+  { test: (p) => p.startsWith('/empresas'), load: () => import('../pages/EnterpriseHubPage.js') },
   { test: (p) => p.startsWith('/ayuda/'), load: () => import('../pages/HelpTutorialPage.js') },
   { test: (p) => p.startsWith('/ayuda'), load: () => import('../pages/HelpCenterPage.js') },
   { test: (p) => p.startsWith('/proyectos'), load: () => import('../pages/ProjectsPage.js') },
@@ -51,6 +52,7 @@ export function prefetchRoute(path: string): void {
 export function prefetchWarmRoutes(): void {
   const run = () => {
     prefetchRoute('/institucional/piloto');
+    prefetchRoute('/empresas');
     prefetchRoute('/proyectos');
     prefetchRoute('/desarrolladores');
   };

@@ -383,6 +383,7 @@ export function usesConciergeDock(pathname: string): boolean {
   return (
     pathname.startsWith('/ayuda') ||
     pathname.startsWith('/institucional') ||
+    pathname.startsWith('/empresas') ||
     pathname === '/desarrolladores'
   );
 }

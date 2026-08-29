@@ -8,6 +8,7 @@ import {
   landingPersonaPath,
   LANDING_PERSONA_IDS,
 } from '../content/landingMinimalCopy.js';
+import { ENTERPRISE_ROUTES } from '../platform/enterpriseRoutes.js';
 import { INSTITUTION_ROUTES, TEAM_CONTACT_MAILTO } from '../platform/institutionalRoutes.js';
 import { SOCIAL_LINKS } from '../platform/socialLinks.js';
 
@@ -49,6 +50,7 @@ export function SiteFooter() {
             <Link to={INSTITUTION_ROUTES.desk}>{t('landing.footer.link.desk')}</Link>
             <Link to="/modelos">{t('landing.footer.link.modelsAll')}</Link>
             <Link to={INSTITUTION_ROUTES.hub}>{t('landing.footer.link.institutional')}</Link>
+            <Link to={ENTERPRISE_ROUTES.hub}>{t('landing.footer.link.enterprise')}</Link>
             <Link to="/descargar">{t('landing.footer.link.desktop')}</Link>
           </nav>
 

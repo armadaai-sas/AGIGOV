@@ -30,6 +30,7 @@ const SupplyPage = lazy(() => import('./pages/SupplyPage.js'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage.js'));
 const ParticiparPage = lazy(() => import('./pages/ParticiparPage.js'));
 const InstitutionalPage = lazy(() => import('./pages/InstitutionalPage.js'));
+const EnterpriseHubPage = lazy(() => import('./pages/EnterpriseHubPage.js'));
 const InstitutionPilotPage = lazy(() => import('./pages/InstitutionPilotPage.js'));
 const InstitutionRegisterPage = lazy(() => import('./pages/InstitutionRegisterPage.js'));
 const InstitutionAccessPage = lazy(() => import('./pages/InstitutionAccessPage.js'));
@@ -91,6 +92,7 @@ function AppRoutes() {
         <Route path="/institucional/acceso" element={<InstitutionAccessPage />} />
         <Route path="/institucional/piloto" element={<InstitutionPilotPage />} />
         <Route path="/institucional" element={<InstitutionalPage />} />
+        <Route path="/empresas" element={<EnterpriseHubPage />} />
         <Route path="/legal/privacidad" element={<LegalPrivacyPage />} />
         <Route path="/legal/piloto" element={<LegalPilotPage />} />
         <Route path="/aprender/glosario" element={<GlosarioPage />} />

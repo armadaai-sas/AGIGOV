@@ -2,6 +2,7 @@ import type { TFunction } from '../../i18n/index.js';
 import type { MessageKey } from '../../i18n/index.js';
 import { LANDING_OPEN_SOURCE } from './landingOutcomes.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
+import { ENTERPRISE_ROUTES } from '../platform/enterpriseRoutes.js';
 
 export const GITHUB_RELEASES_URL = 'https://github.com/armadaai-sas/Armada-VZLA/releases';
 
@@ -15,7 +16,7 @@ export const LANDING_PERSONA_IDS: readonly LandingPersonaId[] = [
   'integrator',
 ] as const;
 
-export const ENTERPRISE_MODELS_PATH = '/modelos?audiencia=empresarial';
+export const ENTERPRISE_MODELS_PATH = ENTERPRISE_ROUTES.catalog;
 
 export function landingPersonaPath(id: LandingPersonaId): string {
   switch (id) {
@@ -24,7 +25,7 @@ export function landingPersonaPath(id: LandingPersonaId): string {
     case 'citizen':
       return '/gestion';
     case 'enterprise':
-      return ENTERPRISE_MODELS_PATH;
+      return ENTERPRISE_ROUTES.hub;
     case 'integrator':
       return '/desarrolladores';
   }

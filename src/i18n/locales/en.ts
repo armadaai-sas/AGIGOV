@@ -639,12 +639,12 @@ const en = {
   'landing.min.persona.hint.citizen':
     'See what is published and participate with facts — your identity does not go on the public registry.',
   'landing.min.persona.hint.enterprise':
-    'Aggregated DATA, milestone evidence and pay-as-you-go infra — B2B utility without personal data in what is published.',
+    'Aggregated DATA, milestone evidence and pay-as-you-go infra — a guided A-to-Z journey without PII in what is published.',
   'landing.min.persona.hint.integrator':
     'Live API and open protocol — connect your systems with traceability, not promises.',
   'landing.min.persona.cta.state': 'Institutional',
   'landing.min.persona.cta.citizen': 'Public management',
-  'landing.min.persona.cta.enterprise': 'Enterprise models',
+  'landing.min.persona.cta.enterprise': 'Enterprise journey',
   'landing.min.persona.cta.integrator': 'Developers',
   'landing.min.roleMap.title': 'Utility by role',
   'landing.min.roleMap.lead':
@@ -657,6 +657,30 @@ const en = {
   'landing.min.roleMap.enterprise.pricing': 'Pay per use',
   'landing.min.roleMap.integrator.capabilities': 'API · Protocol · Node',
   'landing.min.roleMap.integrator.pricing': 'OSS + metering',
+
+  'enterprise.journey.title': 'Enterprise',
+  'enterprise.journey.lead':
+    'From utility to deploy — DATA, evidence and pay-as-you-go infrastructure, with privacy respected.',
+  'enterprise.journey.intro':
+    'Follow the journey in order or jump to the step you need. Nothing published exposes personal data; Centinela may pause if something does not match.',
+  'enterprise.journey.track': 'A → Z journey',
+  'enterprise.journey.footerCta': 'Start with DATA Trust',
+  'enterprise.journey.discover.title': 'Discover utility',
+  'enterprise.journey.discover.meta': 'Enterprise catalog — what fits your operation',
+  'enterprise.journey.data.title': 'DATA Trust',
+  'enterprise.journey.data.meta': 'Verifiable sector aggregates, no re-identification',
+  'enterprise.journey.evidence.title': 'Evidence API',
+  'enterprise.journey.evidence.meta': 'Contractors prove milestones — get paid with less friction',
+  'enterprise.journey.iaau.title': 'Pay-as-you-go infra (IaaU)',
+  'enterprise.journey.iaau.meta': 'Signature, milestone, sync and API — pay for what you use',
+  'enterprise.journey.integrate.title': 'Integrate',
+  'enterprise.journey.integrate.meta': 'Live health, OpenAPI and sandbox to connect',
+  'enterprise.journey.contact.title': 'Talk to the team',
+  'enterprise.journey.contact.meta': 'B2B pilot, DATA licenses and guided onboarding',
+  'enterprise.journey.pricing.free': 'Free',
+  'enterprise.journey.pricing.usage': 'Pay per use',
+  'enterprise.journey.pricing.contact': 'Contact',
+
   'landing.min.trust.data': 'Only what is needed',
   'landing.min.trust.public': 'Nothing personal in what is published',
   'landing.min.trust.guard': 'Centinela pauses if something does not match',
@@ -789,6 +813,7 @@ const en = {
   'landing.footer.group.utility': 'Utility',
   'landing.footer.group.explore': 'Explore',
   'landing.footer.link.institutional': 'Institutional',
+  'landing.footer.link.enterprise': 'Enterprise',
   'landing.footer.link.releases': 'Updates',
   'landing.footer.link.privacy': 'Privacy',
   'landing.footer.link.pilotTerms': 'Pilot terms',

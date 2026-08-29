@@ -645,12 +645,12 @@ const es: Record<MessageKey, string> = {
   'landing.min.persona.hint.citizen':
     'Vea lo publicado y participe con hechos — su identidad no va al registro público.',
   'landing.min.persona.hint.enterprise':
-    'DATA agregada, evidencia de hitos e infra por uso — utilidad B2B sin datos personales en lo publicado.',
+    'DATA agregada, evidencia de hitos e infra por uso — recorrido guiado de la A a la Z, sin PII en lo publicado.',
   'landing.min.persona.hint.integrator':
     'API en vivo y protocolo abierto — conecte sus sistemas con trazabilidad, no con promesas.',
   'landing.min.persona.cta.state': 'Institucional',
   'landing.min.persona.cta.citizen': 'Gestión pública',
-  'landing.min.persona.cta.enterprise': 'Modelos empresariales',
+  'landing.min.persona.cta.enterprise': 'Recorrido empresas',
   'landing.min.persona.cta.integrator': 'Desarrolladores',
   'landing.min.roleMap.title': 'Utilidad por rol',
   'landing.min.roleMap.lead':
@@ -663,6 +663,30 @@ const es: Record<MessageKey, string> = {
   'landing.min.roleMap.enterprise.pricing': 'Por uso',
   'landing.min.roleMap.integrator.capabilities': 'API · Protocolo · Nodo',
   'landing.min.roleMap.integrator.pricing': 'OSS + metering',
+
+  'enterprise.journey.title': 'Empresas',
+  'enterprise.journey.lead':
+    'De la utilidad al despliegue — DATA, evidencia e infraestructura por uso, con privacidad respetada.',
+  'enterprise.journey.intro':
+    'Siga el recorrido en orden o salte al paso que necesite. Lo publicado nunca expone datos personales; Centinela puede pausar si algo no cuadra.',
+  'enterprise.journey.track': 'Recorrido A → Z',
+  'enterprise.journey.footerCta': 'Empezar por DATA Trust',
+  'enterprise.journey.discover.title': 'Descubrir utilidad',
+  'enterprise.journey.discover.meta': 'Catálogo empresarial — qué encaja con su operación',
+  'enterprise.journey.data.title': 'DATA Trust',
+  'enterprise.journey.data.meta': 'Agregados sectoriales verificables, sin re-identificación',
+  'enterprise.journey.evidence.title': 'Evidencia API',
+  'enterprise.journey.evidence.meta': 'Contratistas demuestran hitos — cobran con menos fricción',
+  'enterprise.journey.iaau.title': 'Infra por uso (IaaU)',
+  'enterprise.journey.iaau.meta': 'Firma, hito, sync y API — paga lo que consume',
+  'enterprise.journey.integrate.title': 'Integrar',
+  'enterprise.journey.integrate.meta': 'Health en vivo, OpenAPI y sandbox para conectar',
+  'enterprise.journey.contact.title': 'Hablar con el equipo',
+  'enterprise.journey.contact.meta': 'Piloto B2B, licencias DATA y onboarding guiado',
+  'enterprise.journey.pricing.free': 'Gratis',
+  'enterprise.journey.pricing.usage': 'Por uso',
+  'enterprise.journey.pricing.contact': 'Contacto',
+
   'landing.min.trust.data': 'Solo lo necesario',
   'landing.min.trust.public': 'Nada personal en lo publicado',
   'landing.min.trust.guard': 'Centinela pausa si algo no cuadra',
@@ -795,6 +819,7 @@ const es: Record<MessageKey, string> = {
   'landing.footer.group.utility': 'Utilidad',
   'landing.footer.group.explore': 'Explorar',
   'landing.footer.link.institutional': 'Institucional',
+  'landing.footer.link.enterprise': 'Empresas',
   'landing.footer.link.releases': 'Actualizaciones',
   'landing.footer.link.privacy': 'Privacidad',
   'landing.footer.link.pilotTerms': 'Términos del piloto',
