@@ -99,10 +99,6 @@ export function LandingHero() {
     <section className="ls-min-hero" aria-labelledby="landing-title">
       <div className="ls-min-hero-bg" aria-hidden />
       <div className="ls-min-inner ls-min-hero-inner">
-        <p className="ls-min-hero-signal">
-          <span className="ls-min-hero-signal-dot" aria-hidden />
-          Plataforma verificable
-        </p>
         <h1 id="landing-title" className="ls-min-title">
           <span className="ls-min-title-base">Gobernanza</span>
           <LandingHeroTitleRotor />
