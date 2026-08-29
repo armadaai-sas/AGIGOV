@@ -4,6 +4,7 @@ import {
   LandingModelsSection,
   LandingNav,
   LandingStartSection,
+  LandingUtilitySection,
   LandingWhatSection,
 } from '../components/landing/LandingMinimal.js';
 import { SiteFooter } from '../components/SiteFooter.js';
@@ -17,6 +18,7 @@ export default function HomePage() {
       <main>
         <LandingHero />
         <LandingWhatSection />
+        <LandingUtilitySection />
         <LandingModelsSection />
         <LandingStartSection />
         <LandingDownloadStrip />

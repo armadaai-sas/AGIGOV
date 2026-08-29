@@ -56,7 +56,7 @@ export const NAV_SECTION_MODELO: NavSection = {
   items: [
     { to: '/', label: 'Inicio', hint: 'Gobernanza 2.0 · modelos verificables', icon: LayoutGrid },
     { to: '/institucional', label: 'Institucional', hint: 'Sandbox · hablar · cuenta', icon: Landmark },
-    { to: '/#que-es', label: 'Quiénes somos', hint: 'AGIGOV · multi-agente verificable', icon: Layers },
+    { to: '/#utilidad', label: 'Qué obtienes', hint: 'Hoy → resultado por modelo', icon: Layers },
     { to: '/ayuda/institucional', label: 'Qué es AGIGOV', hint: 'Tutorial · protocolo · Carta', icon: ScrollText },
     { to: '/modelos', label: 'Modelos', hint: 'Catálogo · gobierno · empresa · ciudadano', icon: Package },
     { to: '/desarrolladores', label: 'Desarrolladores', hint: 'API · especificación · integradores', icon: Code2 },

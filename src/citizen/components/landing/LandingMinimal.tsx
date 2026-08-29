@@ -19,6 +19,10 @@ import { AgigovLogo } from '../AgigovLogo.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
+import {
+  LANDING_UTILITY_GENERAL,
+  MODEL_OUTCOME_COPIES,
+} from '../../content/landingOutcomes.js';
 import { modelWorkspacePath } from '../../platform/modelWorkspace.js';
 import { prefetchRoute } from '../../platform/routePrefetch.js';
 
@@ -207,6 +211,66 @@ export function LandingWhatSection() {
   );
 }
 
+function LandingOutcomeList() {
+  const items = MODEL_OUTCOME_COPIES.map((copy) => {
+    const model = AGIGOV_MODELS.find((m) => m.id === copy.modelId);
+    if (!model || getEffectiveModelStatus(model.id, model.status) === 'roadmap') {
+      return null;
+    }
+    const Icon = model.icon;
+    return (
+      <li key={copy.modelId}>
+        <Link
+          to={model.productPath}
+          className="ls-min-outcome"
+          onMouseEnter={() => prefetchRoute(model.productPath)}
+          onFocus={() => prefetchRoute(model.productPath)}
+        >
+          <span className="ls-min-row-icon" aria-hidden>
+            <Icon className="h-4 w-4" />
+          </span>
+          <span className="ls-min-outcome-body">
+            <span className="ls-min-outcome-name">{model.shortName}</span>
+            <span className="ls-min-outcome-line">
+              <span className="ls-min-outcome-kicker">Hoy</span> {copy.today}
+            </span>
+            <span className="ls-min-outcome-line ls-min-outcome-line--gain">
+              <span className="ls-min-outcome-kicker">Obtiene</span> {copy.outcome}
+            </span>
+            <span className="ls-min-outcome-benefit">
+              Ciudadano: {copy.citizen} · Estado: {copy.state}
+            </span>
+          </span>
+          <ChevronRight className="ls-min-row-chevron h-4 w-4 shrink-0" aria-hidden />
+        </Link>
+      </li>
+    );
+  }).filter((item): item is JSX.Element => item !== null);
+
+  return <ul className="ls-min-list ls-min-list--outcomes">{items}</ul>;
+}
+
+/** Utilidad general + por modelo (hoy → resultado). */
+export function LandingUtilitySection() {
+  return (
+    <section id="utilidad" className="ls-min-section" aria-labelledby="utilidad-title">
+      <div className="ls-min-inner">
+        <header className="ls-min-section-head">
+          <h2 id="utilidad-title" className="ls-min-section-title">
+            {LANDING_UTILITY_GENERAL.title}
+          </h2>
+          <p className="ls-min-section-lead">{LANDING_UTILITY_GENERAL.lead}</p>
+        </header>
+        <header className="ls-min-subsection-head">
+          <h3 className="ls-min-subsection-title">Qué hace · Qué obtienes</h3>
+          <p className="ls-min-subsection-lead">Por modelo — hoy tiene X, despliega y obtiene Y.</p>
+        </header>
+        <LandingOutcomeList />
+      </div>
+    </section>
+  );
+}
+
 export function LandingModelsSection() {
   const deployable = AGIGOV_MODELS.filter(
     (m) => getEffectiveModelStatus(m.id, m.status) !== 'roadmap',
@@ -233,7 +297,7 @@ export function LandingModelsSection() {
     <LandingSection
       id="modelos"
       title="Modelos operativos"
-      lead="Cada modelo tiene funciones claras. Despliegue y elija qué hacer."
+      lead="Elija según el resultado que necesita — cada ficha detalla agentes, flujo y evidencia."
       rows={rows}
     />
   );
