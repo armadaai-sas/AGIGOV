@@ -60,14 +60,12 @@ export function LandingNav() {
 
 const HERO_TITLE_ROTOR = [
   '2.0',
-  'verificable',
-  'evidencia publicada',
-  'ciudadanos',
-  'confianza',
-  'transparencia',
+  'Estado',
+  'ciudadanía',
+  'evidencia',
 ] as const;
 
-const ROTOR_MS = 3200;
+const ROTOR_MS = 4000;
 
 function LandingHeroTitleRotor() {
   const [index, setIndex] = useState(0);
