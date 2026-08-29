@@ -294,11 +294,50 @@
   color: #52525b;
 }
 
-.ls-min-triage {
-  margin-top: 1.25rem;
+.ls-min-trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.625rem;
+  margin-top: 1rem;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #71717a;
 }
 
-.ls-min-triage-label {
+.ls-min-trust-icon {
+  color: #a1a1aa;
+  flex-shrink: 0;
+}
+
+.ls-min-trust-items {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.375rem;
+}
+
+.ls-min-trust-dot {
+  color: #d4d4d8;
+  user-select: none;
+}
+
+.ls-min-trust-link {
+  font-weight: 500;
+  color: #52525b;
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+
+.ls-min-trust-link:hover {
+  color: var(--ls-ink);
+}
+
+.ls-min-persona {
+  margin-top: 1.375rem;
+}
+
+.ls-min-persona-label {
   margin: 0 0 0.5rem;
   font-size: 11px;
   font-weight: 500;
@@ -307,85 +346,74 @@
   color: var(--ls-muted);
 }
 
-.ls-min-triage-list {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 640px) {
-  .ls-min-triage-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.ls-min-triage-card {
-  display: flex;
+.ls-min-persona-row {
+  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid rgba(228, 228, 231, 0.9);
-  border-radius: 0.625rem;
-  background: rgba(255, 255, 255, 0.72);
-  text-decoration: none;
+  gap: 0.125rem;
+  padding: 0.1875rem;
+  border: 1px solid rgba(228, 228, 231, 0.85);
+  border-radius: 999px;
+  background: rgba(250, 250, 250, 0.85);
+}
+
+.ls-min-persona-btn {
+  padding: 0.4375rem 0.875rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: #71717a;
+  cursor: pointer;
   transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    transform 0.12s ease;
+    color 0.16s var(--ls-ease),
+    background 0.16s var(--ls-ease),
+    box-shadow 0.16s var(--ls-ease);
 }
 
-.ls-min-triage-card:hover {
-  border-color: #d4d4d8;
+.ls-min-persona-btn:hover {
+  color: #3f3f46;
+}
+
+.ls-min-persona-btn--active {
   background: #fff;
-  transform: translateY(-1px);
+  color: var(--ls-ink);
+  box-shadow: 0 1px 2px rgba(15, 37, 87, 0.06);
 }
 
-.ls-min-triage-icon {
+.ls-min-persona-panel {
+  margin-top: 0.875rem;
+}
+
+.ls-min-persona-hint {
+  margin: 0 0 0.75rem;
+  max-width: 32rem;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #52525b;
+}
+
+.ls-min-btn--persona {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  background: #f4f4f5;
-  color: #52525b;
-  flex-shrink: 0;
+  gap: 0.25rem;
 }
 
-.ls-min-triage-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  min-width: 0;
-  flex: 1;
+.ls-min-explore {
+  margin: 1rem 0 0;
 }
 
-.ls-min-triage-name {
+.ls-min-explore-link {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--ls-ink);
-}
-
-.ls-min-triage-meta {
-  font-size: 11px;
-  line-height: 1.35;
+  font-weight: 500;
   color: #71717a;
+  text-decoration: none;
+  transition: color 0.12s ease;
 }
 
-.ls-min-triage-chevron {
-  color: #a1a1aa;
-  flex-shrink: 0;
-}
-
-.ls-min-hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(228, 228, 231, 0.75);
+.ls-min-explore-link:hover {
+  color: var(--ls-ink);
 }
 
 .ls-min-section {
@@ -701,47 +729,44 @@
 .ls-footer-inner {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.ls-footer-main {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-@media (min-width: 640px) {
-  .ls-footer-main {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1.5rem 2rem;
-  }
+  gap: 1.75rem;
 }
 
 .ls-footer-brand {
-  flex: 1 1 12rem;
   min-width: 0;
 }
 
 .ls-footer-tagline {
   margin: 0.5rem 0 0;
-  max-width: 22rem;
+  max-width: 24rem;
   font-size: 13px;
   line-height: 1.55;
   color: #71717a;
 }
 
-.ls-footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.375rem 1.125rem;
-  flex: 1 1 auto;
+.ls-footer-grid {
+  display: grid;
+  gap: 1.5rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
 }
 
-.ls-footer-links a {
+.ls-footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4375rem;
+}
+
+.ls-footer-col-title {
+  margin: 0 0 0.25rem;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.ls-footer-col a {
   font-size: 13px;
   font-weight: 500;
   color: #52525b;
@@ -749,8 +774,18 @@
   transition: color 0.12s ease;
 }
 
-.ls-footer-links a:hover {
+.ls-footer-col a:hover {
   color: #18181b;
+}
+
+.ls-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f4f4f5;
 }
 
 .ls-footer-social {
@@ -758,50 +793,6 @@
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
-}
-
-.ls-footer-aside {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.75rem;
-  flex-shrink: 0;
-}
-
-.ls-footer-locale {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.125rem;
-  border: 1px solid #e4e4e7;
-  border-radius: 0.5rem;
-  background: #fafafa;
-}
-
-.ls-footer-locale-btn {
-  min-width: 2rem;
-  padding: 0.25rem 0.5rem;
-  border: none;
-  border-radius: 0.375rem;
-  background: transparent;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #71717a;
-  cursor: pointer;
-  transition:
-    color 0.12s ease,
-    background 0.12s ease;
-}
-
-.ls-footer-locale-btn:hover {
-  color: #18181b;
-}
-
-.ls-footer-locale-btn--active {
-  background: #fff;
-  color: #18181b;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .ls-footer-social-link {
@@ -831,8 +822,6 @@
 
 .ls-footer-legal {
   margin: 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid #f4f4f5;
   font-size: 11px;
   color: #a1a1aa;
 }

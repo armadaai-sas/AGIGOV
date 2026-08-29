@@ -8,28 +8,31 @@ import {
   Code2,
   Github,
   LayoutDashboard,
-  Mail,
   Monitor,
   Package,
   Plug,
-  Rocket,
+  Shield,
   Terminal,
-  UserPlus,
   Users,
 } from 'lucide-react';
 
 import { AgigovLogo } from '../AgigovLogo.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
-import { INSTITUTION_ROUTES, TEAM_CONTACT_MAILTO } from '../../platform/institutionalRoutes.js';
+import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
 import {
+  LANDING_PERSONA_IDS,
   landingModelOutcomes,
   landingOpenSourceCopy,
+  landingPersonaCtaKey,
+  landingPersonaHintKey,
+  landingPersonaLabelKey,
+  landingPersonaPath,
   landingRotorWords,
   landingUtilityGeneral,
+  type LandingPersonaId,
 } from '../../content/landingMinimalCopy.js';
-import { modelWorkspacePath } from '../../platform/modelWorkspace.js';
 import { prefetchRoute } from '../../platform/routePrefetch.js';
 
 export type LandingRow = {
@@ -42,7 +45,13 @@ export type LandingRow = {
 
 const ROTOR_MS = 4000;
 
-/** Barra superior — logo + acceso rápido. */
+const PERSONA_ICONS: Record<LandingPersonaId, LucideIcon> = {
+  state: Building2,
+  citizen: Users,
+  integrator: Plug,
+};
+
+/** Barra superior — explorar y volver. */
 export function LandingNav() {
   const { t } = useSovereignConfig();
 
@@ -58,9 +67,6 @@ export function LandingNav() {
           </Link>
           <Link to={INSTITUTION_ROUTES.login} className="ls-min-nav-link">
             {t('landing.min.nav.access')}
-          </Link>
-          <Link to={INSTITUTION_ROUTES.register} className="ls-min-btn">
-            {t('landing.min.nav.register')}
           </Link>
         </nav>
       </div>
@@ -93,63 +99,71 @@ function LandingHeroTitleRotor({ words }: { words: readonly string[] }) {
   );
 }
 
-function LandingAudienceTriage() {
+function LandingPersonaSelector({
+  persona,
+  onPersonaChange,
+}: {
+  persona: LandingPersonaId;
+  onPersonaChange: (id: LandingPersonaId) => void;
+}) {
   const { t } = useSovereignConfig();
-  const items = [
-    {
-      to: INSTITUTION_ROUTES.hub,
-      label: t('landing.min.triage.state.label'),
-      meta: t('landing.min.triage.state.meta'),
-      icon: Building2,
-    },
-    {
-      to: '/gestion',
-      label: t('landing.min.triage.citizen.label'),
-      meta: t('landing.min.triage.citizen.meta'),
-      icon: Users,
-    },
-    {
-      to: '/desarrolladores',
-      label: t('landing.min.triage.integrator.label'),
-      meta: t('landing.min.triage.integrator.meta'),
-      icon: Plug,
-    },
-  ] as const;
 
   return (
-    <div className="ls-min-triage" aria-labelledby="landing-triage-label">
-      <p id="landing-triage-label" className="ls-min-triage-label">
-        {t('landing.min.triage.label')}
+    <div className="ls-min-persona" aria-labelledby="landing-persona-label">
+      <p id="landing-persona-label" className="ls-min-persona-label">
+        {t('landing.min.persona.label')}
       </p>
-      <ul className="ls-min-triage-list">
-        {items.map(({ to, label, meta, icon: Icon }) => (
-          <li key={to}>
-            <Link
-              to={to}
-              className="ls-min-triage-card"
-              onMouseEnter={() => prefetchRoute(to)}
-              onFocus={() => prefetchRoute(to)}
+      <div className="ls-min-persona-row" role="tablist" aria-label={t('landing.min.persona.label')}>
+        {LANDING_PERSONA_IDS.map((id) => {
+          const active = persona === id;
+          return (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              className={`ls-min-persona-btn${active ? ' ls-min-persona-btn--active' : ''}`}
+              onClick={() => onPersonaChange(id)}
             >
-              <span className="ls-min-triage-icon" aria-hidden>
-                <Icon className="h-4 w-4" />
-              </span>
-              <span className="ls-min-triage-body">
-                <span className="ls-min-triage-name">{label}</span>
-                <span className="ls-min-triage-meta">{meta}</span>
-              </span>
-              <ChevronRight className="ls-min-triage-chevron h-4 w-4" aria-hidden />
-            </Link>
-          </li>
-        ))}
-      </ul>
+              {t(landingPersonaLabelKey(id))}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-/** Hero — una promesa, triaje y dos CTAs. */
+function LandingTrustLine() {
+  const { t } = useSovereignConfig();
+
+  return (
+    <p className="ls-min-trust" aria-label={t('landing.footer.group.trust')}>
+      <Shield className="ls-min-trust-icon h-3.5 w-3.5" aria-hidden />
+      <span className="ls-min-trust-items">
+        <span>{t('landing.min.trust.data')}</span>
+        <span className="ls-min-trust-dot" aria-hidden>
+          ·
+        </span>
+        <span>{t('landing.min.trust.public')}</span>
+        <span className="ls-min-trust-dot" aria-hidden>
+          ·
+        </span>
+        <span>{t('landing.min.trust.guard')}</span>
+      </span>
+      <Link to="/legal/privacidad" className="ls-min-trust-link">
+        {t('landing.min.trust.privacy')}
+      </Link>
+    </p>
+  );
+}
+
+/** Hero — promesa, camino y una acción clara. */
 export function LandingHero() {
   const { t } = useSovereignConfig();
   const rotorWords = useMemo(() => landingRotorWords(t), [t]);
+  const [persona, setPersona] = useState<LandingPersonaId>('state');
+  const personaPath = landingPersonaPath(persona);
 
   return (
     <section className="ls-min-hero" aria-labelledby="landing-title">
@@ -160,17 +174,30 @@ export function LandingHero() {
           <LandingHeroTitleRotor words={rotorWords} />
         </h1>
         <p className="ls-min-lead">{t('landing.min.hero.lead')}</p>
-        <LandingAudienceTriage />
-        <div className="ls-min-hero-cta">
-          <Link to={INSTITUTION_ROUTES.desk} className="ls-min-btn ls-min-btn--primary">
-            <LayoutDashboard className="h-4 w-4" aria-hidden />
-            {t('landing.min.hero.cta.desk')}
-          </Link>
-          <Link to="/modelos" className="ls-min-btn ls-min-btn--ghost">
-            <Package className="h-4 w-4" aria-hidden />
-            {t('landing.min.hero.cta.models')}
+        <LandingTrustLine />
+        <LandingPersonaSelector persona={persona} onPersonaChange={setPersona} />
+        <div className="ls-min-persona-panel" role="tabpanel">
+          <p className="ls-min-persona-hint">{t(landingPersonaHintKey(persona))}</p>
+          <Link
+            to={personaPath}
+            className="ls-min-btn ls-min-btn--primary ls-min-btn--persona"
+            onMouseEnter={() => prefetchRoute(personaPath)}
+            onFocus={() => prefetchRoute(personaPath)}
+          >
+            {t(landingPersonaCtaKey(persona))}
+            <ChevronRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
+        <p className="ls-min-explore">
+          <Link
+            to={INSTITUTION_ROUTES.desk}
+            className="ls-min-explore-link"
+            onMouseEnter={() => prefetchRoute(INSTITUTION_ROUTES.desk)}
+            onFocus={() => prefetchRoute(INSTITUTION_ROUTES.desk)}
+          >
+            {t('landing.min.hero.explore')}
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -413,47 +440,21 @@ export function LandingModelsSection() {
   );
 }
 
-export function LandingStartSection() {
+/** Caminos alineados a persona — sin duplicar CTAs del hero. */
+export function LandingPersonaPathsSection() {
   const { t } = useSovereignConfig();
-  const rows: LandingRow[] = [
-    {
-      to: INSTITUTION_ROUTES.desk,
-      label: t('landing.min.start.desk.label'),
-      meta: t('landing.min.start.desk.meta'),
-      icon: LayoutDashboard,
-    },
-    {
-      to: modelWorkspacePath('egs'),
-      label: t('landing.min.start.egs.label'),
-      meta: t('landing.min.start.egs.meta'),
-      icon: Rocket,
-    },
-    {
-      to: INSTITUTION_ROUTES.register,
-      label: t('landing.min.start.register.label'),
-      meta: t('landing.min.start.register.meta'),
-      icon: UserPlus,
-    },
-    {
-      to: '/desarrolladores',
-      label: t('landing.min.start.api.label'),
-      meta: t('landing.min.start.api.meta'),
-      icon: Plug,
-    },
-    {
-      to: TEAM_CONTACT_MAILTO,
-      label: t('landing.min.start.contact.label'),
-      meta: t('landing.min.start.contact.meta'),
-      icon: Mail,
-      external: true,
-    },
-  ];
+  const rows: LandingRow[] = LANDING_PERSONA_IDS.map((id) => ({
+    to: landingPersonaPath(id),
+    label: t(landingPersonaLabelKey(id)),
+    meta: t(landingPersonaHintKey(id)),
+    icon: PERSONA_ICONS[id],
+  }));
 
   return (
     <LandingSection
-      id="empezar"
-      title={t('landing.min.start.title')}
-      lead={t('landing.min.start.lead')}
+      id="caminos"
+      title={t('landing.min.paths.title')}
+      lead={t('landing.min.paths.lead')}
       rows={rows}
     />
   );

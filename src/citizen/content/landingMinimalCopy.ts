@@ -1,7 +1,40 @@
 import type { TFunction } from '../../i18n/index.js';
+import type { MessageKey } from '../../i18n/index.js';
 import { LANDING_OPEN_SOURCE } from './landingOutcomes.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 export const GITHUB_RELEASES_URL = 'https://github.com/armadaai-sas/Armada-VZLA/releases';
+
+export type LandingPersonaId = 'state' | 'citizen' | 'integrator';
+
+export const LANDING_PERSONA_IDS: readonly LandingPersonaId[] = [
+  'state',
+  'citizen',
+  'integrator',
+] as const;
+
+export function landingPersonaPath(id: LandingPersonaId): string {
+  switch (id) {
+    case 'state':
+      return INSTITUTION_ROUTES.hub;
+    case 'citizen':
+      return '/gestion';
+    case 'integrator':
+      return '/desarrolladores';
+  }
+}
+
+export function landingPersonaLabelKey(id: LandingPersonaId): MessageKey {
+  return `landing.min.persona.${id}` as MessageKey;
+}
+
+export function landingPersonaHintKey(id: LandingPersonaId): MessageKey {
+  return `landing.min.persona.hint.${id}` as MessageKey;
+}
+
+export function landingPersonaCtaKey(id: LandingPersonaId): MessageKey {
+  return `landing.min.persona.cta.${id}` as MessageKey;
+}
 
 export function landingRotorWords(t: TFunction): readonly string[] {
   return ['2.0', t('landing.min.rotor.state'), t('landing.min.rotor.citizenship'), t('landing.min.rotor.evidence')];
