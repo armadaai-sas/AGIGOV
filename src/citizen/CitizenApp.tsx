@@ -6,6 +6,7 @@ import { PanicBanner } from './components/PanicBanner.js';
 import { CommandPalette } from './components/CommandPalette.js';
 import { OnboardingModal } from './components/OnboardingModal.js';
 import { ConciergeDock } from './components/os/ConciergeDock.js';
+import { SwUpdateBanner } from './components/SwUpdateBanner.js';
 import { OsToastProvider } from './components/os/OsToast.js';
 import { RouteLoadingFallback } from './components/RouteLoadingFallback.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
@@ -133,6 +134,7 @@ function CitizenAppInner() {
     <OsToastProvider>
       <div className={`min-h-screen bg-white text-zinc-900${usesConciergeDock(pathname) ? ' has-concierge-dock' : ''}`}>
         <PanicBanner />
+        <SwUpdateBanner />
         <ScrollToTop />
         <PageTransition>
           <AppRoutes />

@@ -673,19 +673,123 @@
   }
 
 .app-sidebar--collapsed .app-sidebar-foot {
-    @apply flex justify-center px-2;
+    @apply flex flex-col items-center px-2;
   }
+
+.app-sidebar-foot-actions {
+  @apply flex items-center justify-center gap-1.5;
+}
+
+.app-sidebar-essential-btn {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors;
+  border-color: var(--cursor-border, #e4e4e7);
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.app-sidebar-essential-btn:hover {
+  background: var(--cursor-bg-hover, #f4f4f5);
+  color: var(--cursor-text, #18181b);
+}
+
+.app-sidebar-essential-btn--on {
+  background: rgb(255 255 255 / 0.92);
+  color: var(--cursor-text, #18181b);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+}
+
+.app-sidebar-essential-note {
+  @apply mt-2 text-center text-[10px] leading-snug;
+  color: var(--cursor-text-subtle, #a1a1aa);
+}
+
+.app-sidebar-tooltip-wrap {
+  @apply relative flex justify-center;
+}
+
+.app-sidebar-tooltip {
+  @apply pointer-events-none absolute left-[calc(100%+0.5rem)] top-1/2 z-[70] min-w-[9rem] max-w-[12rem] rounded-lg border px-2.5 py-2 opacity-0 shadow-lg transition;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  transform: translateY(-50%) translateX(-4px);
+  transition-duration: 0.16s;
+}
+
+.app-sidebar-tooltip-wrap:hover .app-sidebar-tooltip,
+.app-sidebar-tooltip-wrap:focus-within .app-sidebar-tooltip {
+  @apply opacity-100;
+  transform: translateY(-50%) translateX(0);
+}
+
+.app-sidebar-tooltip-label {
+  @apply block text-[12px] font-medium leading-snug;
+  color: var(--cursor-text, #18181b);
+}
+
+.app-sidebar-tooltip-hint {
+  @apply mt-0.5 block text-[11px] leading-snug;
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.app-sidebar-tooltip-anchor:focus-visible {
+  @apply outline-none ring-2 ring-zinc-300/80 ring-offset-2 ring-offset-[#fafafa];
+}
+
+.sw-update-banner {
+  @apply fixed bottom-4 left-4 right-4 z-[120] mx-auto flex max-w-md flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3 shadow-lg sm:left-auto;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+}
+
+.has-concierge-dock .sw-update-banner {
+  @apply bottom-20;
+}
+
+.sw-update-banner-text {
+  @apply m-0 text-[13px];
+  color: var(--cursor-text, #18181b);
+}
+
+.sw-update-banner-actions {
+  @apply flex shrink-0 items-center gap-1.5;
+}
+
+.sw-update-banner-btn {
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border transition-colors;
+  border-color: var(--cursor-border, #e4e4e7);
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.sw-update-banner-btn:hover {
+  background: var(--cursor-bg-hover, #f4f4f5);
+}
+
+.sw-update-banner-btn--primary {
+  @apply h-auto w-auto gap-1.5 px-3 text-[12px] font-medium;
+  border-color: var(--cursor-text, #18181b);
+  background: var(--cursor-text, #18181b);
+  color: #fff;
+}
+
+.sw-update-banner-btn--primary:hover {
+  background: #27272a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-sidebar-tooltip {
+    transition: none;
+  }
+}
 
 .app-sidebar-skin-btn {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors;
-    border-color: var(--cursor-border, #e4e4e7);
-    color: var(--cursor-text-muted, #71717a);
-  }
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors;
+  border-color: var(--cursor-border, #e4e4e7);
+  color: var(--cursor-text-muted, #71717a);
+}
 
 .app-sidebar-skin-btn:hover {
-    background: var(--cursor-bg-hover, #f4f4f5);
-    color: var(--cursor-text, #18181b);
-  }
+  background: var(--cursor-bg-hover, #f4f4f5);
+  color: var(--cursor-text, #18181b);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .app-sidebar,

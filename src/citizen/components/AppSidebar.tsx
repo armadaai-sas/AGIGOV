@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ChevronDown, PanelLeftClose, PanelLeft, Settings2 } from 'lucide-react';
+import { ChevronDown, LayoutList, PanelLeftClose, PanelLeft, Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
+import { SidebarTooltip } from './SidebarTooltip.js';
 import {
   getNavSidebarSections,
   isNavActive,
@@ -16,11 +17,14 @@ import { prefetchRoute } from '../platform/routePrefetch.js';
 
 const SIDEBAR_COLLAPSED_KEY = 'agigov.sidebar.collapsed';
 const SIDEBAR_SECTIONS_KEY = 'agigov.sidebar.sections';
+const SIDEBAR_ESSENTIAL_KEY = 'agigov.sidebar.essential';
+
+const ESSENTIAL_SECTION_IDS = new Set(['modelos', 'operar']);
 
 const DEFAULT_SECTION_OPEN: Record<string, boolean> = {
   modelos: true,
   operar: true,
-  acceso: true,
+  acceso: false,
   explorar: false,
   'ven-more': false,
 };
@@ -58,8 +62,29 @@ export function AppSidebar() {
     return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1';
   });
   const [openSections, setOpenSections] = useState(readStoredSections);
+  const [essentialMode, setEssentialMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem(SIDEBAR_ESSENTIAL_KEY) === '1';
+  });
   const [prefsOpen, setPrefsOpen] = useState(false);
   const sections = getNavSidebarSections(implementationId);
+
+  const visibleSections = useMemo(() => {
+    if (!essentialMode) return sections;
+    return sections.filter(
+      (section) =>
+        ESSENTIAL_SECTION_IDS.has(section.id) ||
+        sectionHasActive(section, pathname, hash, search),
+    );
+  }, [essentialMode, sections, pathname, hash, search]);
+
+  const toggleEssential = useCallback(() => {
+    setEssentialMode((prev) => {
+      const next = !prev;
+      window.localStorage.setItem(SIDEBAR_ESSENTIAL_KEY, next ? '1' : '0');
+      return next;
+    });
+  }, []);
 
   const toggleSection = useCallback((id: string) => {
     setOpenSections((prev) => {
@@ -97,7 +122,9 @@ export function AppSidebar() {
   return (
     <>
       <aside
-        className={`app-sidebar ${collapsed ? 'app-sidebar--collapsed' : ''}`}
+        className={`app-sidebar ${collapsed ? 'app-sidebar--collapsed' : ''} ${
+          essentialMode ? 'app-sidebar--essential' : ''
+        }`}
         aria-label="Navegación AGIGOV"
       >
         <div className="app-sidebar-head">
@@ -115,7 +142,7 @@ export function AppSidebar() {
         </div>
 
         <nav className="app-sidebar-nav">
-          {sections.map((section, index) => (
+          {visibleSections.map((section, index) => (
             <SidebarSection
               key={section.id}
               section={section}
@@ -123,7 +150,7 @@ export function AppSidebar() {
               hash={hash}
               search={search}
               collapsed={collapsed}
-              open={openSections[section.id] ?? false}
+              open={openSections[section.id] ?? ESSENTIAL_SECTION_IDS.has(section.id)}
               onToggle={() => toggleSection(section.id)}
               showDivider={index > 0}
             />
@@ -131,15 +158,36 @@ export function AppSidebar() {
         </nav>
 
         <div className="app-sidebar-foot">
-          <button
-            type="button"
-            className="app-sidebar-skin-btn"
-            title="Preferencias"
-            aria-label="Preferencias"
-            onClick={() => setPrefsOpen(true)}
-          >
-            <Settings2 className="h-4 w-4" />
-          </button>
+          <div className="app-sidebar-foot-actions">
+            <SidebarTooltip
+              label={essentialMode ? 'Menú completo' : 'Modo esencial'}
+              hint={essentialMode ? 'Mostrar Acceso, Explorar y Más' : 'Solo Modelos y Operar'}
+              enabled={collapsed}
+            >
+              <button
+                type="button"
+                className={`app-sidebar-essential-btn ${essentialMode ? 'app-sidebar-essential-btn--on' : ''}`}
+                aria-pressed={essentialMode}
+                aria-label={essentialMode ? 'Mostrar menú completo' : 'Activar modo esencial'}
+                onClick={toggleEssential}
+              >
+                <LayoutList className="h-4 w-4" />
+              </button>
+            </SidebarTooltip>
+            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={collapsed}>
+              <button
+                type="button"
+                className="app-sidebar-skin-btn"
+                aria-label="Preferencias"
+                onClick={() => setPrefsOpen(true)}
+              >
+                <Settings2 className="h-4 w-4" />
+              </button>
+            </SidebarTooltip>
+          </div>
+          {!collapsed && essentialMode ? (
+            <p className="app-sidebar-essential-note">Modo esencial — Modelos y Operar</p>
+          ) : null}
         </div>
       </aside>
       <OsPreferencesModal open={prefsOpen} onClose={() => setPrefsOpen(false)} />
@@ -275,18 +323,19 @@ function NavLinkList({
         const active = isNavActive(pathname, hash, to, search);
         return (
           <li key={to}>
-            <Link
-              to={to}
-              className={`app-sidebar-link ${active ? 'app-sidebar-link--active' : ''}`}
-              title={collapsed ? label : hint}
-              onMouseEnter={() => prefetchRoute(to)}
-              onFocus={() => prefetchRoute(to)}
-            >
-              <span className="app-sidebar-link-icon-wrap" aria-hidden>
-                <Icon className="app-sidebar-link-icon" />
-              </span>
-              {!collapsed ? <span className="app-sidebar-link-label">{label}</span> : null}
-            </Link>
+            <SidebarTooltip label={label} hint={hint} enabled={collapsed}>
+              <Link
+                to={to}
+                className={`app-sidebar-link ${active ? 'app-sidebar-link--active' : ''}`}
+                onMouseEnter={() => prefetchRoute(to)}
+                onFocus={() => prefetchRoute(to)}
+              >
+                <span className="app-sidebar-link-icon-wrap" aria-hidden>
+                  <Icon className="app-sidebar-link-icon" />
+                </span>
+                {!collapsed ? <span className="app-sidebar-link-label">{label}</span> : null}
+              </Link>
+            </SidebarTooltip>
           </li>
         );
       })}
