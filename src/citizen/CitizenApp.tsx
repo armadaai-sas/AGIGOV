@@ -131,7 +131,7 @@ function CitizenAppInner() {
 
   return (
     <OsToastProvider>
-      <div className="min-h-screen bg-white text-zinc-900">
+      <div className={`min-h-screen bg-white text-zinc-900${usesConciergeDock(pathname) ? ' has-concierge-dock' : ''}`}>
         <PanicBanner />
         <ScrollToTop />
         <PageTransition>

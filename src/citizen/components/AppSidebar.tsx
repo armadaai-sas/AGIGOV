@@ -100,6 +100,23 @@ function SidebarSection({
     : 'app-sidebar-section';
 
   if (isMore) {
+    if (collapsed) {
+      return (
+        <div className={sectionClass}>
+          {section.groups?.map((group) => (
+            <NavLinkList
+              key={group.label}
+              items={group.items}
+              pathname={pathname}
+              hash={hash}
+              search={search}
+              collapsed={collapsed}
+            />
+          ))}
+        </div>
+      );
+    }
+
     return (
       <div className={sectionClass}>
         <button
@@ -119,13 +136,11 @@ function SidebarSection({
             </>
           ) : null}
         </button>
-        {moreOpen || collapsed ? (
-          <div className={moreOpen ? 'app-sidebar-more-panel' : 'sr-only'}>
+        {moreOpen ? (
+          <div className="app-sidebar-more-panel">
             {section.groups?.map((group) => (
               <div key={group.label} className="app-sidebar-group">
-                {!collapsed && moreOpen ? (
-                  <p className="app-sidebar-group-label">{group.label}</p>
-                ) : null}
+                <p className="app-sidebar-group-label">{group.label}</p>
                 <NavLinkList
                   items={group.items}
                   pathname={pathname}

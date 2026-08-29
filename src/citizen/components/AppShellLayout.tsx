@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import '../../styles/app.css';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AppSidebar } from './AppSidebar.js';
 import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
@@ -24,6 +24,9 @@ function topbarContext(pathname: string): { prefix: string; label: string } {
   }
   if (pathname.startsWith('/modelos')) {
     return { prefix: 'AGIGOV', label: 'Modelos' };
+  }
+  if (pathname.startsWith('/empresas')) {
+    return { prefix: 'AGIGOV', label: 'Empresas' };
   }
   if (pathname.startsWith('/institucional')) {
     if (pathname.startsWith(INSTITUTION_ROUTES.register)) {
@@ -63,6 +66,10 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
   const ctx = topbarContext(pathname);
   const showLegacyBanner = pathname.startsWith('/modelos');
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   return (
     <div className="app-shell" data-agigov-mode={funnelMode ? 'funnel' : 'full'}>
       <div className={`app-sidebar-drawer ${mobileOpen ? 'app-sidebar-drawer--open' : ''}`}>
@@ -83,17 +90,18 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
           <button
             type="button"
             className="app-topbar-menu lg:hidden"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Abrir menú"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
           >
-            <Menu className="h-5 w-5" />
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
-          <p className="app-topbar-context hidden sm:block">
+          <p className="app-topbar-context min-w-0 truncate">
             <span className="app-topbar-crumb">{ctx.prefix}</span>
             {ctx.label ? (
               <>
                 <span className="app-topbar-crumb-sep">/</span>
-                <span className="app-topbar-crumb">{ctx.label}</span>
+                <span className="app-topbar-crumb app-topbar-crumb--active">{ctx.label}</span>
               </>
             ) : null}
           </p>
@@ -101,16 +109,6 @@ export function AppShellLayout({ children }: { children: ReactNode }) {
             <CommandPaletteButton />
             <InstitutionAccountNav variant="topbar" />
           </div>
-          {mobileOpen ? (
-            <button
-              type="button"
-              className="app-topbar-close lg:hidden"
-              onClick={() => setMobileOpen(false)}
-              aria-label="Cerrar menú"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          ) : null}
         </header>
 
         <div className="app-shell-content">

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
-import { PageShell } from '../components/PageShell.js';
+import { PageShell, SectionHeader } from '../components/PageShell.js';
 import { ENTERPRISE_JOURNEY_STEPS } from '../content/enterpriseJourney.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { ENTERPRISE_ROUTES } from '../platform/enterpriseRoutes.js';
@@ -15,19 +15,16 @@ export default function EnterpriseHubPage() {
   return (
     <PageShell shell narrow>
       <div className="os-workspace">
-        <header className="os-workspace-head os-workspace-head--stack">
-          <div className="os-workspace-head-text">
-            <h1 className="os-workspace-title">{t('enterprise.journey.title')}</h1>
-            <p className="os-workspace-sub">{t('enterprise.journey.lead')}</p>
-            <p className="mt-2 text-[13px] leading-relaxed text-zinc-600">
-              {t('enterprise.journey.intro')}
-            </p>
-          </div>
-        </header>
-
-        <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-400">
-          {t('enterprise.journey.track')}
-        </p>
+        <SectionHeader
+          eyebrow={t('enterprise.journey.track')}
+          title={t('enterprise.journey.title')}
+          lead={
+            <>
+              {t('enterprise.journey.lead')}
+              <span className="os-workspace-intro">{t('enterprise.journey.intro')}</span>
+            </>
+          }
+        />
 
         <ul className="os-workspace-list">
           {ENTERPRISE_JOURNEY_STEPS.map(
@@ -41,10 +38,10 @@ export default function EnterpriseHubPage() {
                     <span className="os-workspace-row-name">{t(titleKey)}</span>
                     <span className="os-workspace-row-meta">
                       {t(metaKey)}
-                      <span className="text-zinc-400"> · {t(pricingKey)}</span>
+                      <span className="os-workspace-row-pricing"> · {t(pricingKey)}</span>
                     </span>
                   </span>
-                  <span className="os-workspace-row-status">{order}</span>
+                  <span className="os-workspace-row-status os-workspace-row-status--step">{order}</span>
                   <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
                 </>
               );

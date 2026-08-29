@@ -182,23 +182,51 @@
   }
 
 .os-workspace-row-meta {
-    @apply mt-0.5 block truncate text-xs;
+    @apply mt-0.5 block text-xs;
     color: var(--cursor-text-muted, #71717a);
+  }
+
+.os-workspace-row-meta,
+  .os-workspace-row-name {
+    @apply truncate;
+  }
+
+.os-workspace-row-pricing {
+    color: var(--cursor-text-subtle, #a1a1aa);
   }
 
 .os-workspace-row-status {
-    @apply shrink-0 text-xs;
+    @apply shrink-0 text-xs tabular-nums;
     color: var(--cursor-text-muted, #71717a);
   }
 
+.os-workspace-row-status--step {
+    @apply hidden rounded-md border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide sm:inline-flex;
+    border-color: var(--cursor-border, #e4e4e7);
+    color: var(--cursor-text-subtle, #a1a1aa);
+  }
+
 .os-workspace-row-chevron {
-    @apply shrink-0 opacity-40;
+    @apply hidden shrink-0 opacity-40 sm:block;
     color: var(--cursor-text-muted, #71717a);
   }
 
 .os-workspace-row:hover .os-workspace-row-chevron {
     @apply opacity-100;
   }
+
+@media (max-width: 639px) {
+  .os-workspace-row {
+    @apply py-3;
+  }
+
+  .os-workspace-row-meta,
+  .os-workspace-row-name {
+    @apply whitespace-normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+}
 
 .os-workspace-foot {
     @apply pt-2;
@@ -234,7 +262,8 @@
   }
 
 .os-workspace-intro {
-    @apply mt-3 text-[13px] text-zinc-600;
+    @apply mt-2 block text-[13px] leading-relaxed;
+    color: var(--cursor-text-muted, #71717a);
   }
 
 .os-workspace-actions {
@@ -495,19 +524,22 @@
   }
 
 .app-topbar {
-    @apply sticky top-0 z-30 flex h-10 items-center gap-2 border-b px-3;
+    @apply sticky top-0 z-30 flex h-11 min-h-11 items-center gap-2 border-b px-3;
     border-color: var(--cursor-border, #e4e4e7);
     background-color: color-mix(in srgb, var(--cursor-bg, #fff) 94%, transparent);
     backdrop-filter: blur(8px);
   }
 
-.app-topbar-menu,
-  .app-topbar-close {
-    @apply inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg text-agigov-text-muted hover:bg-black/[0.04];
+.app-topbar-menu {
+    @apply inline-flex h-9 w-9 min-h-9 min-w-9 shrink-0 items-center justify-center rounded-lg text-agigov-text-muted hover:bg-black/[0.04];
   }
 
 .app-topbar-context {
-    @apply flex-1 text-[13px];
+    @apply min-w-0 flex-1 truncate text-[13px];
+  }
+
+.app-topbar-crumb--active {
+    color: var(--cursor-text, #18181b);
   }
 
 .app-topbar-crumb {
@@ -611,15 +643,27 @@
   }
 
 .app-sidebar-more-toggle {
-    @apply flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-agigov-text-muted transition hover:bg-white/5 hover:text-agigov-text;
+    @apply flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-[13px] font-medium transition;
+    color: var(--cursor-text-muted, #71717a);
+  }
+
+.app-sidebar-more-toggle:hover {
+    background: var(--cursor-bg-hover, #f4f4f5);
+    color: var(--cursor-text, #18181b);
   }
 
 .app-sidebar-more-panel {
-    @apply mt-1 space-y-1 border-l border-white/5 pl-2 ml-2;
+    @apply mt-1 space-y-2 border-l pl-2 ml-2;
+    border-color: var(--cursor-border, #e4e4e7);
   }
 
 .app-sidebar-section--more {
-    @apply mt-2 border-t border-white/5 pt-3;
+    @apply mt-3 border-t pt-3;
+    border-color: var(--cursor-border, #e4e4e7);
+  }
+
+.has-concierge-dock .os-shell {
+    @apply pb-24;
   }
 
 
@@ -810,7 +854,15 @@
 }
 
 .os-concierge-fab {
-  @apply flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#18181b] px-4 py-2.5 text-sm text-agigov-text shadow-lg transition hover:border-sky-500/30;
+  @apply flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm shadow-md transition;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
+}
+
+.os-concierge-fab:hover {
+  border-color: #d4d4d8;
+  background: var(--cursor-bg-hover, #fafafa);
 }
 
 .os-concierge-fab-label {
@@ -818,7 +870,10 @@
 }
 
 .os-concierge-panel {
-  @apply mb-3 w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-white/[0.1] bg-[#111113] p-4 shadow-xl;
+  @apply mb-3 w-[min(22rem,calc(100vw-2rem))] rounded-xl border p-4 shadow-xl;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
 }
 
 .os-concierge-head {
@@ -830,11 +885,15 @@
 }
 
 .os-concierge-lead {
-  @apply mt-2 text-xs text-agigov-text-muted;
+  @apply mt-2 text-xs;
+  color: var(--cursor-text-muted, #71717a);
 }
 
 .os-concierge-reply {
-  @apply mt-3 rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-agigov-text;
+  @apply mt-3 rounded-lg border px-3 py-2 text-sm;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg-subtle, #fafafa);
+  color: var(--cursor-text, #18181b);
 }
 
 .os-concierge-faq {
@@ -842,7 +901,8 @@
 }
 
 .os-concierge-faq-q {
-  @apply block w-full text-left text-sky-400 hover:underline;
+  @apply block w-full text-left transition hover:underline;
+  color: var(--cursor-text, #18181b);
 }
 
 .os-concierge-link {
@@ -854,7 +914,14 @@
 }
 
 .os-concierge-chip {
-  @apply rounded-full border border-white/[0.08] px-2.5 py-1 text-xs text-agigov-text-muted hover:border-white/20 hover:text-agigov-text;
+  @apply rounded-full border px-2.5 py-1 text-xs transition;
+  border-color: var(--cursor-border, #e4e4e7);
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.os-concierge-chip:hover {
+  border-color: #d4d4d8;
+  color: var(--cursor-text, #18181b);
 }
 
 .os-concierge-form {
@@ -862,7 +929,10 @@
 }
 
 .os-concierge-input {
-  @apply min-h-9 flex-1 rounded-lg border border-white/[0.1] bg-black/30 px-3 text-sm text-agigov-text;
+  @apply min-h-9 flex-1 rounded-lg border px-3 text-sm;
+  border-color: var(--cursor-border, #e4e4e7);
+  background: var(--cursor-bg, #fff);
+  color: var(--cursor-text, #18181b);
 }
 
 .model-catalog-filters-minimal {

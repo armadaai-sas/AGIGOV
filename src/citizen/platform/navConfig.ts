@@ -24,6 +24,7 @@ import {
 import type { ImplementationId } from './implementations.js';
 import { EGS_MODEL_PATH } from './agigovModels.js';
 import { modelWorkspacePath } from './modelWorkspace.js';
+import { ENTERPRISE_ROUTES } from './enterpriseRoutes.js';
 import { INSTITUTION_ROUTES } from './institutionalRoutes.js';
 
 export type NavItem = {
@@ -158,6 +159,12 @@ export const NAV_SECTION_ACCOUNT: NavSection = {
       label: 'Institucional',
       hint: 'Protocolo y contacto',
       icon: Landmark,
+    },
+    {
+      to: ENTERPRISE_ROUTES.hub,
+      label: 'Empresas',
+      hint: 'Recorrido B2B A→Z',
+      icon: Briefcase,
     },
   ],
 } as const;
