@@ -5,7 +5,6 @@ import { Link, useLocation } from 'react-router-dom';
 import '../../styles/app.css';
 import '../../styles/desk.css';
 
-import { AgigovLogo } from './AgigovLogo.js';
 import { AppSidebar } from './AppSidebar.js';
 import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
 import { CommandPaletteButton } from './CommandPalette.js';
@@ -31,7 +30,7 @@ function deskPageTitle(pathname: string): string {
   }
   if (pathname.startsWith('/gestion')) return 'Gestión pública';
   if (pathname.startsWith('/participar')) return 'Participar';
-  if (pathname.startsWith('/propuestas')) return 'Propuestas';
+  if (pathname.startsWith('/propuestas')) return 'Dictámenes';
   if (pathname.startsWith('/contratos')) return 'Contratos';
   if (pathname.startsWith('/proyectos')) return 'Proyectos';
   if (pathname.startsWith('/desarrolladores')) return 'Desarrolladores';
@@ -82,9 +81,6 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((open) => !open)}
             />
-            <Link to="/escritorio" className="app-topbar-mark lg:hidden" aria-label="Escritorio">
-              <AgigovLogo size="sm" variant="light" />
-            </Link>
             <span className="app-topbar-title">{pageTitle}</span>
           </div>
           <div className="app-topbar-actions">

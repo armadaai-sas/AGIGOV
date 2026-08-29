@@ -3,6 +3,8 @@ const STATUS: Record<string, { label: string; className: string }> = {
   validated: { label: 'Validada', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   decided: { label: 'Decidida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   committed: { label: 'Comprometida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  COMPROMETIDA: { label: 'Comprometida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
+  comprometida: { label: 'Comprometida', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   published: { label: 'Publicada', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   frozen: { label: 'Congelada', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
   PENDING: { label: 'Pendiente', className: 'border border-zinc-200 bg-zinc-50 text-zinc-600' },
@@ -17,10 +19,15 @@ const STATUS: Record<string, { label: string; className: string }> = {
 };
 
 export function StatusBadge({ status }: { status: string }) {
-  const meta = STATUS[status] ?? {
-    label: status,
-    className: 'border border-zinc-200 bg-zinc-50 text-zinc-600',
-  };
+  const key = status.trim();
+  const normalized = key.toLowerCase().replace(/\s+/g, '_');
+  const meta =
+    STATUS[key] ??
+    STATUS[normalized] ??
+    STATUS[normalized.toUpperCase()] ?? {
+      label: key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      className: 'border border-zinc-200 bg-zinc-50 text-zinc-600',
+    };
 
   return (
     <span className={`agigov-badge ${meta.className}`}>{meta.label}</span>

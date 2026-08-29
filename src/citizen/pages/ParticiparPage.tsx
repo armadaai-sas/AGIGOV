@@ -5,8 +5,9 @@ import { ArrowRight } from 'lucide-react';
 import { submitProposal, type ProposalReceipt } from '../api.js';
 import { ActionReceipt } from '../components/ActionReceipt.js';
 import { DictamenBadge } from '../components/DictamenBadge.js';
+import { DeskPageHeader } from '../components/desk/DeskPageHeader.js';
 import { PageShell, DsSpinner } from '../components/PageShell.js';
-import { modelWorkspacePath } from '../platform/modelWorkspace.js';
+import { getDeskPageMeta } from '../platform/deskPageMeta.js';
 
 const SECTORS = [
   { value: 'salud', label: 'Salud' },
@@ -16,6 +17,8 @@ const SECTORS = [
   { value: 'gobernanza', label: 'Gobernanza' },
   { value: 'otro', label: 'Otro' },
 ] as const;
+
+const meta = getDeskPageMeta('/participar')!;
 
 export default function ParticiparPage() {
   const [title, setTitle] = useState('');
@@ -55,93 +58,94 @@ export default function ParticiparPage() {
 
   return (
     <PageShell shell narrow>
-      <div className="os-workspace">
-        <header className="os-workspace-head">
-          <div className="os-workspace-head-text">
-            <h1 className="os-workspace-title">Participar</h1>
-            <p className="os-workspace-sub">
-              Envía una propuesta con hechos verificables. Sin datos personales en campos públicos.
-            </p>
-          </div>
-          <div className="os-workspace-cta flex flex-wrap gap-2">
-            <Link to={modelWorkspacePath('participacion')} className="ds-btn-secondary ds-btn-app-shape">
-              Espacio participación
-            </Link>
-            <Link to="/propuestas" className="os-btn-text text-[13px]">
-              Ver propuestas
-            </Link>
-          </div>
-        </header>
+      <div className="desk-page">
+        <DeskPageHeader title="Participar" result={meta.result} dataHint={meta.dataHint} />
 
-        <form id="propuesta-form" onSubmit={(e) => void handleSubmit(e)} className="os-form">
-          <label className="os-field">
-            <span className="os-form-label">Título</span>
-            <input
-              type="text"
-              maxLength={120}
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="os-form-input"
-              placeholder="Ej. Mejorar suministro de agua en mi comunidad"
-            />
-          </label>
+        <ol className="desk-form-steps" aria-label="Pasos del formulario">
+          <li className="desk-form-step">
+            <span className="desk-form-step-num">1</span>
+            <div className="desk-form-step-fields">
+              <label className="os-field">
+                <span className="os-form-label">Título de la propuesta</span>
+                <input
+                  type="text"
+                  maxLength={120}
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="os-form-input"
+                  placeholder="Ej. Mejorar suministro de agua en mi comunidad"
+                />
+              </label>
+              <label className="os-field">
+                <span className="os-form-label">Sector</span>
+                <select
+                  value={sector}
+                  onChange={(e) => setSector(e.target.value)}
+                  className="os-form-input"
+                >
+                  {SECTORS.map((s) => (
+                    <option key={s.value} value={s.value}>
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </li>
 
-          <label className="os-field">
-            <span className="os-form-label">Sector</span>
-            <select
-              value={sector}
-              onChange={(e) => setSector(e.target.value)}
-              className="os-form-input"
-            >
-              {SECTORS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <li className="desk-form-step">
+            <span className="desk-form-step-num">2</span>
+            <div className="desk-form-step-fields">
+              <span className="os-form-label">Primer hecho verificable</span>
+              <textarea
+                required
+                rows={2}
+                value={fact1}
+                onChange={(e) => setFact1(e.target.value)}
+                className="os-form-input resize-none"
+                placeholder="Qué ocurre, dónde, cuándo"
+              />
+              <input
+                type="text"
+                value={source1}
+                onChange={(e) => setSource1(e.target.value)}
+                className="os-form-input"
+                placeholder="Fuente opcional (URL o acta)"
+              />
+            </div>
+          </li>
 
-          <fieldset className="space-y-3 border-0 p-0">
-            <legend className="os-form-label">Dos hechos verificables</legend>
-            <textarea
-              required
-              rows={2}
-              value={fact1}
-              onChange={(e) => setFact1(e.target.value)}
-              className="os-form-input resize-none"
-              placeholder="Hecho 1 — qué ocurre, dónde, cuándo"
-            />
-            <input
-              type="text"
-              value={source1}
-              onChange={(e) => setSource1(e.target.value)}
-              className="os-form-input"
-              placeholder="Fuente opcional (URL o acta)"
-            />
-            <textarea
-              required
-              rows={2}
-              value={fact2}
-              onChange={(e) => setFact2(e.target.value)}
-              className="os-form-input resize-none"
-              placeholder="Hecho 2"
-            />
-          </fieldset>
+          <li className="desk-form-step">
+            <span className="desk-form-step-num">3</span>
+            <div className="desk-form-step-fields">
+              <span className="os-form-label">Segundo hecho verificable</span>
+              <textarea
+                required
+                rows={2}
+                value={fact2}
+                onChange={(e) => setFact2(e.target.value)}
+                className="os-form-input resize-none"
+                placeholder="Otro hecho que respalde la propuesta"
+              />
+            </div>
+          </li>
+        </ol>
 
+        <form id="propuesta-form" onSubmit={(e) => void handleSubmit(e)} className="desk-form-actions">
           <button type="submit" disabled={loading} className="ds-btn-app">
             {loading ? <DsSpinner /> : null}
             Enviar propuesta
             <ArrowRight className="h-4 w-4" />
           </button>
 
-          {error ? <p className="text-[13px] text-zinc-600">{error}</p> : null}
+          {error ? <p className="desk-form-error">{error}</p> : null}
 
           {receipt ? (
             <ActionReceipt
               title="Propuesta registrada"
               monoId={receipt.processId}
-              action={{ label: 'Ver en propuestas', to: '/propuestas' }}
+              action={{ label: 'Ver dictámenes', to: '/propuestas' }}
               onDismiss={() => setReceipt(null)}
             >
               <p className="flex flex-wrap items-center gap-2">
@@ -151,6 +155,10 @@ export default function ParticiparPage() {
             </ActionReceipt>
           ) : null}
         </form>
+
+        <p className="desk-page-secondary-link">
+          <Link to="/propuestas">Ver dictámenes publicados →</Link>
+        </p>
       </div>
     </PageShell>
   );
