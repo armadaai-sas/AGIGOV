@@ -117,7 +117,7 @@ export function inferDeskPersonaFromPath(pathname: string): DeskPersonaId | null
 const CITIZEN_NAV: readonly DeskNavSection[] = [
   {
     id: 'utilidad',
-    label: 'Hacer',
+    label: 'Introducir',
     items: [
       {
         to: '/participar',
@@ -129,7 +129,7 @@ const CITIZEN_NAV: readonly DeskNavSection[] = [
   },
   {
     id: 'resultado',
-    label: 'Ver',
+    label: 'Resultado',
     items: [
       {
         to: '/gestion',
@@ -150,7 +150,7 @@ const CITIZEN_NAV: readonly DeskNavSection[] = [
 const ENTERPRISE_NAV: readonly DeskNavSection[] = [
   {
     id: 'utilidad',
-    label: 'Hacer',
+    label: 'Introducir',
     items: [
       {
         to: ENTERPRISE_ROUTES.hub,
@@ -174,7 +174,7 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
   },
   {
     id: 'resultado',
-    label: 'Ver',
+    label: 'Resultado',
     items: [
       {
         to: '/contratos',
@@ -195,7 +195,7 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
 const STATE_NAV: readonly DeskNavSection[] = [
   {
     id: 'utilidad',
-    label: 'Hacer',
+    label: 'Introducir',
     items: [
       {
         to: INSTITUTION_ROUTES.pilot,
@@ -213,7 +213,7 @@ const STATE_NAV: readonly DeskNavSection[] = [
   },
   {
     id: 'resultado',
-    label: 'Ver',
+    label: 'Resultado',
     items: [
       {
         to: '/gestion',
@@ -234,7 +234,7 @@ const STATE_NAV: readonly DeskNavSection[] = [
 const INTEGRATOR_NAV: readonly DeskNavSection[] = [
   {
     id: 'utilidad',
-    label: 'Hacer',
+    label: 'Introducir',
     items: [
       {
         to: '/desarrolladores',
@@ -252,7 +252,7 @@ const INTEGRATOR_NAV: readonly DeskNavSection[] = [
   },
   {
     id: 'resultado',
-    label: 'Ver',
+    label: 'Resultado',
     items: [
       {
         to: '/contratos',

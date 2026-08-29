@@ -1,14 +1,9 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 
-export type DeskGlyphKind = 'expand' | 'collapse' | 'exit';
+export type DeskGlyphKind = 'menu' | 'expand' | 'collapse' | 'exit' | 'close';
 
-const GLYPH: Record<DeskGlyphKind, string> = {
-  expand: '+',
-  collapse: '−',
-  exit: '×',
-};
-
-/** Glifos tipográficos del desk — expandir, contraer, salir. */
+/** Iconos del desk — menú móvil, panel lateral y salir. */
 export function DeskGlyph({
   kind,
   className = '',
@@ -16,11 +11,20 @@ export function DeskGlyph({
   kind: DeskGlyphKind;
   className?: string;
 }) {
-  return (
-    <span className={`desk-glyph desk-glyph--${kind} ${className}`.trim()} aria-hidden>
-      {GLYPH[kind]}
-    </span>
-  );
+  const iconClass = `desk-glyph desk-glyph--${kind} ${className}`.trim();
+
+  switch (kind) {
+    case 'menu':
+      return <Menu className={iconClass} aria-hidden strokeWidth={1.75} />;
+    case 'close':
+      return <X className={iconClass} aria-hidden strokeWidth={1.75} />;
+    case 'expand':
+      return <PanelLeftOpen className={iconClass} aria-hidden strokeWidth={1.75} />;
+    case 'collapse':
+      return <PanelLeftClose className={iconClass} aria-hidden strokeWidth={1.75} />;
+    case 'exit':
+      return <LogOut className={iconClass} aria-hidden strokeWidth={1.75} />;
+  }
 }
 
 export function DeskIconButton({

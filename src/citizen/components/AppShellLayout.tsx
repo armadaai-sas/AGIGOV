@@ -76,13 +76,13 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
         <header className="app-topbar">
           <div className="app-topbar-lead">
             <DeskIconButton
-              kind={mobileOpen ? 'exit' : 'expand'}
+              kind={mobileOpen ? 'close' : 'menu'}
               label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
               className="app-topbar-menu lg:hidden"
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((open) => !open)}
             />
-            <Link to="/escritorio" className="app-topbar-mark" aria-label="Escritorio">
+            <Link to="/escritorio" className="app-topbar-mark lg:hidden" aria-label="Escritorio">
               <AgigovLogo size="sm" variant="light" />
             </Link>
             <span className="app-topbar-title">{pageTitle}</span>
@@ -90,7 +90,12 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
           <div className="app-topbar-actions">
             <CommandPaletteButton />
             <InstitutionAccountNav variant="topbar" />
-            <Link to="/" className="desk-icon-btn desk-icon-btn--ghost hidden sm:inline-flex" aria-label="Salir al inicio">
+            <Link
+              to="/"
+              className="desk-icon-btn desk-icon-btn--ghost hidden sm:inline-flex"
+              aria-label="Salir al inicio"
+              title="Salir al inicio"
+            >
               <DeskGlyph kind="exit" />
             </Link>
           </div>

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Settings2 } from 'lucide-react';
 
@@ -30,21 +30,9 @@ export function AppSidebar() {
         aria-label="Navegación del desk"
       >
         <div className="app-sidebar-head">
-          <Link to="/escritorio" className="app-sidebar-brand" aria-label="Escritorio">
+          <Link to="/escritorio" className="app-sidebar-brand" aria-label="Escritorio AGIGOV">
             <AgigovLogo size="sm" variant="light" />
           </Link>
-          <SidebarTooltip
-            label={sidebarCollapsed ? 'Expandir panel' : 'Contraer panel'}
-            hint="Ancho del menú lateral"
-            enabled={sidebarCollapsed}
-          >
-            <DeskIconButton
-              kind={sidebarCollapsed ? 'expand' : 'collapse'}
-              label={sidebarCollapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'}
-              className="app-sidebar-collapse hidden lg:inline-flex"
-              onClick={toggleSidebar}
-            />
-          </SidebarTooltip>
         </div>
 
         {!sidebarCollapsed ? <DeskPersonaSwitch /> : null}
@@ -62,7 +50,7 @@ export function AppSidebar() {
               key={section.id}
               section={section}
               collapsed={sidebarCollapsed}
-              showDivider={index >= 0}
+              showDivider={index > 0}
             />
           ))}
         </nav>
@@ -70,6 +58,18 @@ export function AppSidebar() {
         <div className="app-sidebar-foot">
           <div className="app-sidebar-foot-actions">
             {sidebarCollapsed ? <DeskPersonaSwitch compact /> : null}
+            <SidebarTooltip
+              label={sidebarCollapsed ? 'Expandir panel' : 'Contraer panel'}
+              hint="Ancho del menú lateral"
+              enabled={sidebarCollapsed}
+            >
+              <DeskIconButton
+                kind={sidebarCollapsed ? 'expand' : 'collapse'}
+                label={sidebarCollapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'}
+                className="app-sidebar-skin-btn hidden lg:inline-flex"
+                onClick={toggleSidebar}
+              />
+            </SidebarTooltip>
             <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={sidebarCollapsed}>
               <button
                 type="button"

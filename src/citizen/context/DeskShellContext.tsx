@@ -2,32 +2,53 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import type { DeskPersonaId } from '../platform/deskNav.js';
+import {
+  inferDeskPersonaFromPath,
+  readStoredDeskPersona,
+  storeDeskPersona,
+} from '../platform/deskNav.js';
 
 const SIDEBAR_COLLAPSED_KEY = 'agigov.sidebar.collapsed';
-const SIDEBAR_ESSENTIAL_KEY = 'agigov.sidebar.essential';
 
 type DeskShellContextValue = {
   sidebarCollapsed: boolean;
-  essentialMode: boolean;
+  persona: DeskPersonaId;
+  setPersona: (id: DeskPersonaId) => void;
   toggleSidebar: () => void;
-  toggleEssential: () => void;
 };
 
 const DeskShellContext = createContext<DeskShellContextValue | null>(null);
 
 export function DeskShellProvider({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1';
   });
-  const [essentialMode, setEssentialMode] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.localStorage.getItem(SIDEBAR_ESSENTIAL_KEY) === '1';
-  });
+  const [persona, setPersonaState] = useState<DeskPersonaId>(readStoredDeskPersona);
+
+  useEffect(() => {
+    const inferred = inferDeskPersonaFromPath(pathname);
+    if (!inferred) return;
+    setPersonaState((prev) => {
+      if (prev === inferred) return prev;
+      storeDeskPersona(inferred);
+      return inferred;
+    });
+  }, [pathname]);
+
+  const setPersona = useCallback((id: DeskPersonaId) => {
+    setPersonaState(id);
+    storeDeskPersona(id);
+  }, []);
 
   const toggleSidebar = useCallback(() => {
     setSidebarCollapsed((prev) => {
@@ -37,22 +58,14 @@ export function DeskShellProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const toggleEssential = useCallback(() => {
-    setEssentialMode((prev) => {
-      const next = !prev;
-      window.localStorage.setItem(SIDEBAR_ESSENTIAL_KEY, next ? '1' : '0');
-      return next;
-    });
-  }, []);
-
   const value = useMemo(
     () => ({
       sidebarCollapsed,
-      essentialMode,
+      persona,
+      setPersona,
       toggleSidebar,
-      toggleEssential,
     }),
-    [sidebarCollapsed, essentialMode, toggleSidebar, toggleEssential],
+    [sidebarCollapsed, persona, setPersona, toggleSidebar],
   );
 
   return <DeskShellContext.Provider value={value}>{children}</DeskShellContext.Provider>;
