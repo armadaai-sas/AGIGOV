@@ -6,6 +6,18 @@ export const LANDING_UTILITY_GENERAL = {
     'Gobernar con más eficiencia y transparencia. Hoy el Estado arrastra procesos opacos; el ciudadano no ve el beneficio concreto. AGIGOV despliega modelos multi-agente para que el resultado sea más organización verificable en lo público y beneficio claro en lo ciudadano — no otro chatbot que opina.',
 } as const;
 
+export const LANDING_OPEN_SOURCE = {
+  title: 'Código abierto',
+  lead:
+    'Protocolo, modelos y reglas en GitHub — auditables por cualquiera. Estados e integradores proponen mejoras; la ciudadanía verifica lo publicado. Construcción continua con transparencia, no caja negra.',
+  repoUrl: 'https://github.com/armadaai-sas/Armada-VZLA',
+  repoLabel: 'Repositorio en GitHub',
+  repoMeta: 'Issues, PRs y documentación del protocolo',
+  devPath: '/desarrolladores',
+  devLabel: 'Desarrolladores',
+  devMeta: 'API, health del nodo e integradores',
+} as const;
+
 export type ModelOutcomeCopy = {
   modelId: string;
   today: string;

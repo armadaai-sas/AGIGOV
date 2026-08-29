@@ -714,7 +714,7 @@ const en = {
   'landing.developers.kicker': 'Developers',
   'landing.developers.title': 'Build with us.',
   'landing.developers.lead': 'Connect to the repo and join the GitHub community.',
-  'landing.developers.repo': 'Open-source institutional OS — issues, PRs, and protocol docs.',
+  'landing.developers.repo': 'Verifiable multi-agent platform — issues, PRs, and protocol docs.',
   'landing.developers.cta': 'Open on GitHub',
   'landing.developers.fork': 'Fork',
   'landing.developers.org': 'Organization',

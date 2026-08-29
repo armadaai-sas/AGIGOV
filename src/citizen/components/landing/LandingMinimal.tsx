@@ -5,6 +5,8 @@ import {
   Apple,
   Building2,
   ChevronRight,
+  Code2,
+  Github,
   LayoutDashboard,
   Mail,
   Monitor,
@@ -20,6 +22,7 @@ import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { AGIGOV_MODELS } from '../../platform/agigovModels.js';
 import { getEffectiveModelStatus } from '../../platform/modelStatusSync.js';
 import {
+  LANDING_OPEN_SOURCE,
   LANDING_UTILITY_GENERAL,
   MODEL_OUTCOME_COPIES,
 } from '../../content/landingOutcomes.js';
@@ -80,7 +83,11 @@ function LandingHeroTitleRotor() {
   }, []);
 
   return (
-    <span className="ls-min-title-rotor" aria-live="polite">
+    <span
+      key={index}
+      className={`ls-min-title-rotor${index === 0 ? ' ls-min-title-rotor--brand' : ''}`}
+      aria-live="polite"
+    >
       {HERO_TITLE_ROTOR[index]}
     </span>
   );
@@ -90,7 +97,12 @@ function LandingHeroTitleRotor() {
 export function LandingHero() {
   return (
     <section className="ls-min-hero" aria-labelledby="landing-title">
-      <div className="ls-min-inner">
+      <div className="ls-min-hero-bg" aria-hidden />
+      <div className="ls-min-inner ls-min-hero-inner">
+        <p className="ls-min-hero-signal">
+          <span className="ls-min-hero-signal-dot" aria-hidden />
+          Plataforma verificable
+        </p>
         <h1 id="landing-title" className="ls-min-title">
           <span className="ls-min-title-base">Gobernanza</span>
           <LandingHeroTitleRotor />
@@ -99,7 +111,7 @@ export function LandingHero() {
           Modelos operativos con evidencia publicada — no un chatbot.
         </p>
         <div className="ls-min-hero-cta">
-          <Link to={INSTITUTION_ROUTES.desk} className="ls-min-btn">
+          <Link to={INSTITUTION_ROUTES.desk} className="ls-min-btn ls-min-btn--primary">
             <LayoutDashboard className="h-4 w-4" aria-hidden />
             Abrir escritorio
           </Link>
@@ -118,11 +130,16 @@ type SectionProps = {
   title: string;
   lead?: string;
   rows: LandingRow[];
+  variant?: 'default' | 'oss';
 };
 
-export function LandingSection({ id, title, lead, rows }: SectionProps) {
+export function LandingSection({ id, title, lead, rows, variant = 'default' }: SectionProps) {
   return (
-    <section id={id} className="ls-min-section" aria-labelledby={`${id}-title`}>
+    <section
+      id={id}
+      className={`ls-min-section${variant === 'oss' ? ' ls-min-section--oss' : ''}`}
+      aria-labelledby={`${id}-title`}
+    >
       <div className="ls-min-inner">
         <header className="ls-min-section-head">
           <h2 id={`${id}-title`} className="ls-min-section-title">
@@ -211,6 +228,34 @@ export function LandingWhatSection() {
   );
 }
 
+const OPEN_SOURCE_ROWS: LandingRow[] = [
+  {
+    to: LANDING_OPEN_SOURCE.repoUrl,
+    label: LANDING_OPEN_SOURCE.repoLabel,
+    meta: LANDING_OPEN_SOURCE.repoMeta,
+    icon: Github,
+    external: true,
+  },
+  {
+    to: LANDING_OPEN_SOURCE.devPath,
+    label: LANDING_OPEN_SOURCE.devLabel,
+    meta: LANDING_OPEN_SOURCE.devMeta,
+    icon: Code2,
+  },
+];
+
+export function LandingOpenSourceSection() {
+  return (
+    <LandingSection
+      id="codigo-abierto"
+      variant="oss"
+      title={LANDING_OPEN_SOURCE.title}
+      lead={LANDING_OPEN_SOURCE.lead}
+      rows={OPEN_SOURCE_ROWS}
+    />
+  );
+}
+
 function LandingOutcomeList() {
   const items = MODEL_OUTCOME_COPIES.map((copy) => {
     const model = AGIGOV_MODELS.find((m) => m.id === copy.modelId);
@@ -253,7 +298,7 @@ function LandingOutcomeList() {
 /** Utilidad general + por modelo (hoy → resultado). */
 export function LandingUtilitySection() {
   return (
-    <section id="utilidad" className="ls-min-section" aria-labelledby="utilidad-title">
+    <section id="utilidad" className="ls-min-section ls-min-section--utility" aria-labelledby="utilidad-title">
       <div className="ls-min-inner">
         <header className="ls-min-section-head">
           <h2 id="utilidad-title" className="ls-min-section-title">

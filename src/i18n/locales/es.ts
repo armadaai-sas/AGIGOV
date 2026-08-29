@@ -720,7 +720,7 @@ const es: Record<MessageKey, string> = {
   'landing.developers.kicker': 'Desarrolladores',
   'landing.developers.title': 'Construye con nosotros.',
   'landing.developers.lead': 'Conéctate al repo y a la comunidad en GitHub.',
-  'landing.developers.repo': 'OS institucional open-source — issues, PRs y docs del protocolo.',
+  'landing.developers.repo': 'Multi-agente verificable open-source — issues, PRs y docs del protocolo.',
   'landing.developers.cta': 'Abrir en GitHub',
   'landing.developers.fork': 'Fork',
   'landing.developers.org': 'Organización',

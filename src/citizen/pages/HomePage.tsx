@@ -3,6 +3,7 @@ import {
   LandingHero,
   LandingModelsSection,
   LandingNav,
+  LandingOpenSourceSection,
   LandingStartSection,
   LandingUtilitySection,
   LandingWhatSection,
@@ -18,6 +19,7 @@ export default function HomePage() {
       <main>
         <LandingHero />
         <LandingWhatSection />
+        <LandingOpenSourceSection />
         <LandingUtilitySection />
         <LandingModelsSection />
         <LandingStartSection />
