@@ -1,23 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ChevronDown, LayoutList, PanelLeftClose, PanelLeft, Settings2 } from 'lucide-react';
+import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
+import { DeskGlyph, DeskIconButton } from './desk/DeskGlyph.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
 import { SidebarTooltip } from './SidebarTooltip.js';
+import { useDeskShell } from '../context/DeskShellContext.js';
 import {
   getNavSidebarSections,
   isNavActive,
-  NAV_MORE_ICON,
   type NavSection,
   type NavItem,
 } from '../platform/navConfig.js';
 import { usePlatform } from '../context/PlatformContext.js';
 import { prefetchRoute } from '../platform/routePrefetch.js';
 
-const SIDEBAR_COLLAPSED_KEY = 'agigov.sidebar.collapsed';
 const SIDEBAR_SECTIONS_KEY = 'agigov.sidebar.sections';
-const SIDEBAR_ESSENTIAL_KEY = 'agigov.sidebar.essential';
 
 const ESSENTIAL_SECTION_IDS = new Set(['modelos', 'operar']);
 
@@ -57,15 +56,8 @@ function sectionHasActive(
 export function AppSidebar() {
   const { pathname, hash, search } = useLocation();
   const { implementationId } = usePlatform();
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1';
-  });
+  const { sidebarCollapsed, essentialMode, toggleSidebar, toggleEssential } = useDeskShell();
   const [openSections, setOpenSections] = useState(readStoredSections);
-  const [essentialMode, setEssentialMode] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.localStorage.getItem(SIDEBAR_ESSENTIAL_KEY) === '1';
-  });
   const [prefsOpen, setPrefsOpen] = useState(false);
   const sections = getNavSidebarSections(implementationId);
 
@@ -78,26 +70,10 @@ export function AppSidebar() {
     );
   }, [essentialMode, sections, pathname, hash, search]);
 
-  const toggleEssential = useCallback(() => {
-    setEssentialMode((prev) => {
-      const next = !prev;
-      window.localStorage.setItem(SIDEBAR_ESSENTIAL_KEY, next ? '1' : '0');
-      return next;
-    });
-  }, []);
-
   const toggleSection = useCallback((id: string) => {
     setOpenSections((prev) => {
       const next = { ...prev, [id]: !prev[id] };
       window.localStorage.setItem(SIDEBAR_SECTIONS_KEY, JSON.stringify(next));
-      return next;
-    });
-  }, []);
-
-  const toggleCollapsed = useCallback(() => {
-    setCollapsed((prev) => {
-      const next = !prev;
-      window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? '1' : '0');
       return next;
     });
   }, []);
@@ -122,23 +98,27 @@ export function AppSidebar() {
   return (
     <>
       <aside
-        className={`app-sidebar ${collapsed ? 'app-sidebar--collapsed' : ''} ${
+        className={`app-sidebar ${sidebarCollapsed ? 'app-sidebar--collapsed' : ''} ${
           essentialMode ? 'app-sidebar--essential' : ''
         }`}
-        aria-label="Navegación AGIGOV"
+        aria-label="Navegación del desk"
       >
         <div className="app-sidebar-head">
-          <Link to="/escritorio" className="app-sidebar-brand" aria-label="AGIGOV escritorio">
-            <AgigovLogo size="sm" showWordmark={!collapsed} variant="light" />
+          <Link to="/escritorio" className="app-sidebar-brand" aria-label="Escritorio">
+            <AgigovLogo size="sm" variant="light" />
           </Link>
-          <button
-            type="button"
-            className="app-sidebar-collapse hidden lg:inline-flex"
-            onClick={toggleCollapsed}
-            aria-label={collapsed ? 'Expandir menú' : 'Contraer menú'}
+          <SidebarTooltip
+            label={sidebarCollapsed ? 'Expandir panel' : 'Contraer panel'}
+            hint="Ancho del menú lateral"
+            enabled={sidebarCollapsed}
           >
-            {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-          </button>
+            <DeskIconButton
+              kind={sidebarCollapsed ? 'expand' : 'collapse'}
+              label={sidebarCollapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'}
+              className="app-sidebar-collapse hidden lg:inline-flex"
+              onClick={toggleSidebar}
+            />
+          </SidebarTooltip>
         </div>
 
         <nav className="app-sidebar-nav">
@@ -149,7 +129,7 @@ export function AppSidebar() {
               pathname={pathname}
               hash={hash}
               search={search}
-              collapsed={collapsed}
+              collapsed={sidebarCollapsed}
               open={openSections[section.id] ?? ESSENTIAL_SECTION_IDS.has(section.id)}
               onToggle={() => toggleSection(section.id)}
               showDivider={index > 0}
@@ -161,20 +141,18 @@ export function AppSidebar() {
           <div className="app-sidebar-foot-actions">
             <SidebarTooltip
               label={essentialMode ? 'Menú completo' : 'Modo esencial'}
-              hint={essentialMode ? 'Mostrar Acceso, Explorar y Más' : 'Solo Modelos y Operar'}
-              enabled={collapsed}
+              hint={essentialMode ? 'Mostrar todas las secciones' : 'Solo Modelos y Operar'}
+              enabled={sidebarCollapsed}
             >
-              <button
-                type="button"
+              <DeskIconButton
+                kind={essentialMode ? 'expand' : 'collapse'}
+                label={essentialMode ? 'Mostrar menú completo' : 'Activar modo esencial'}
                 className={`app-sidebar-essential-btn ${essentialMode ? 'app-sidebar-essential-btn--on' : ''}`}
                 aria-pressed={essentialMode}
-                aria-label={essentialMode ? 'Mostrar menú completo' : 'Activar modo esencial'}
                 onClick={toggleEssential}
-              >
-                <LayoutList className="h-4 w-4" />
-              </button>
+              />
             </SidebarTooltip>
-            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={collapsed}>
+            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={sidebarCollapsed}>
               <button
                 type="button"
                 className="app-sidebar-skin-btn"
@@ -185,8 +163,8 @@ export function AppSidebar() {
               </button>
             </SidebarTooltip>
           </div>
-          {!collapsed && essentialMode ? (
-            <p className="app-sidebar-essential-note">Modo esencial — Modelos y Operar</p>
+          {!sidebarCollapsed && essentialMode ? (
+            <p className="app-sidebar-essential-note">Esencial · Modelos y Operar</p>
           ) : null}
         </div>
       </aside>
@@ -214,7 +192,6 @@ function SidebarSection({
   onToggle: () => void;
   showDivider: boolean;
 }) {
-  const isMore = section.id === 'ven-more';
   const active = useMemo(
     () => sectionHasActive(section, pathname, hash, search),
     [section, pathname, hash, search],
@@ -223,35 +200,35 @@ function SidebarSection({
   if (collapsed) {
     return (
       <div className={`app-sidebar-section ${showDivider ? 'app-sidebar-section--rail' : ''}`}>
-        {isMore ? (
-          section.groups?.map((group) => (
-            <NavLinkList
-              key={group.label}
-              items={group.items}
-              pathname={pathname}
-              hash={hash}
-              search={search}
-              collapsed
-            />
-          ))
-        ) : (
-          <NavLinkList
-            items={section.items ?? []}
-            pathname={pathname}
-            hash={hash}
-            search={search}
-            collapsed
-          />
-        )}
+        {section.id === 'ven-more'
+          ? section.groups?.map((group) => (
+              <NavLinkList
+                key={group.label}
+                items={group.items}
+                pathname={pathname}
+                hash={hash}
+                search={search}
+                collapsed
+              />
+            ))
+          : (
+              <NavLinkList
+                items={section.items ?? []}
+                pathname={pathname}
+                hash={hash}
+                search={search}
+                collapsed
+              />
+            )}
       </div>
     );
   }
 
   return (
     <div
-      className={`app-sidebar-section ${isMore ? 'app-sidebar-section--more' : ''} ${
-        showDivider ? 'app-sidebar-section--divided' : ''
-      } ${active ? 'app-sidebar-section--active' : ''}`}
+      className={`app-sidebar-section ${showDivider ? 'app-sidebar-section--divided' : ''} ${
+        active ? 'app-sidebar-section--active' : ''
+      }`}
     >
       <button
         type="button"
@@ -259,16 +236,8 @@ function SidebarSection({
         onClick={onToggle}
         aria-expanded={open}
       >
-        {isMore ? (
-          <NAV_MORE_ICON className="app-sidebar-section-toggle-icon" aria-hidden />
-        ) : (
-          <span className="app-sidebar-section-dot" aria-hidden />
-        )}
         <span className="app-sidebar-section-toggle-label">{section.label}</span>
-        <ChevronDown
-          className={`app-sidebar-section-chevron ${open ? 'app-sidebar-section-chevron--open' : ''}`}
-          aria-hidden
-        />
+        <DeskGlyph kind={open ? 'collapse' : 'expand'} className="app-sidebar-section-glyph" />
       </button>
 
       <div
@@ -276,28 +245,28 @@ function SidebarSection({
         aria-hidden={!open}
       >
         <div className="app-sidebar-section-panel-inner">
-          {isMore ? (
-            section.groups?.map((group) => (
-              <div key={group.label} className="app-sidebar-group">
-                <p className="app-sidebar-group-label">{group.label}</p>
+          {section.id === 'ven-more'
+            ? section.groups?.map((group) => (
+                <div key={group.label} className="app-sidebar-group">
+                  <p className="app-sidebar-group-label">{group.label}</p>
+                  <NavLinkList
+                    items={group.items}
+                    pathname={pathname}
+                    hash={hash}
+                    search={search}
+                    collapsed={false}
+                  />
+                </div>
+              ))
+            : (
                 <NavLinkList
-                  items={group.items}
+                  items={section.items ?? []}
                   pathname={pathname}
                   hash={hash}
                   search={search}
                   collapsed={false}
                 />
-              </div>
-            ))
-          ) : (
-            <NavLinkList
-              items={section.items ?? []}
-              pathname={pathname}
-              hash={hash}
-              search={search}
-              collapsed={false}
-            />
-          )}
+              )}
         </div>
       </div>
     </div>
