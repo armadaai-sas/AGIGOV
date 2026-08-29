@@ -18,7 +18,7 @@ const SOCIAL_ITEMS = [
   { href: SOCIAL_LINKS.discord, labelKey: 'landing.footer.link.discord' as const, Icon: IconDiscord },
 ];
 
-/** Footer del landing — caminos, producto y confianza. */
+/** Footer del landing — inicio, utilidad y explorar. */
 export function SiteFooter() {
   const { t } = useSovereignConfig();
   const year = new Date().getFullYear();
@@ -33,30 +33,30 @@ export function SiteFooter() {
         </div>
 
         <div className="ls-footer-grid">
-          <nav className="ls-footer-col" aria-label={t('landing.footer.group.paths')}>
-            <p className="ls-footer-col-title">{t('landing.footer.group.paths')}</p>
+          <nav className="ls-footer-col" aria-label={t('landing.footer.group.start')}>
+            <p className="ls-footer-col-title">{t('landing.footer.group.start')}</p>
             {LANDING_PERSONA_IDS.map((id) => (
               <Link key={id} to={landingPersonaPath(id)}>
                 {t(landingPersonaLabelKey(id))}
               </Link>
             ))}
+            <Link to={INSTITUTION_ROUTES.login}>{t('landing.footer.link.access')}</Link>
+            <Link to={INSTITUTION_ROUTES.register}>{t('landing.footer.link.register')}</Link>
           </nav>
 
-          <nav className="ls-footer-col" aria-label={t('landing.footer.group.product')}>
-            <p className="ls-footer-col-title">{t('landing.footer.group.product')}</p>
+          <nav className="ls-footer-col" aria-label={t('landing.footer.group.utility')}>
+            <p className="ls-footer-col-title">{t('landing.footer.group.utility')}</p>
             <Link to={INSTITUTION_ROUTES.desk}>{t('landing.footer.link.desk')}</Link>
             <Link to="/modelos">{t('landing.footer.link.modelsAll')}</Link>
             <Link to={INSTITUTION_ROUTES.hub}>{t('landing.footer.link.institutional')}</Link>
             <Link to="/descargar">{t('landing.footer.link.desktop')}</Link>
-            <Link to="/desarrolladores">{t('landing.footer.link.devs')}</Link>
           </nav>
 
-          <nav className="ls-footer-col" aria-label={t('landing.footer.group.trust')}>
-            <p className="ls-footer-col-title">{t('landing.footer.group.trust')}</p>
-            <Link to={INSTITUTION_ROUTES.login}>{t('landing.footer.link.access')}</Link>
-            <a href={TEAM_CONTACT_MAILTO}>{t('landing.footer.link.contact')}</a>
+          <nav className="ls-footer-col" aria-label={t('landing.footer.group.explore')}>
+            <p className="ls-footer-col-title">{t('landing.footer.group.explore')}</p>
             <Link to="/ayuda">{t('landing.footer.link.help')}</Link>
             <Link to="/aprender/glosario">{t('landing.footer.link.glossary')}</Link>
+            <a href={TEAM_CONTACT_MAILTO}>{t('landing.footer.link.contact')}</a>
             <Link to="/legal/privacidad">{t('landing.footer.link.privacy')}</Link>
             <Link to="/legal/piloto">{t('landing.footer.link.pilotTerms')}</Link>
           </nav>

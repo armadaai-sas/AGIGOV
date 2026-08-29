@@ -140,7 +140,7 @@ function LandingTrustLine() {
   const { t } = useSovereignConfig();
 
   return (
-    <p className="ls-min-trust" aria-label={t('landing.footer.group.trust')}>
+    <p className="ls-min-trust" aria-label={t('landing.min.trust.aria')}>
       <Shield className="ls-min-trust-icon h-3.5 w-3.5" aria-hidden />
       <span className="ls-min-trust-items">
         <span>{t('landing.min.trust.data')}</span>
