@@ -110,25 +110,27 @@ function LandingPersonaSelector({
 
   return (
     <div className="ls-min-persona" aria-labelledby="landing-persona-label">
-      <p id="landing-persona-label" className="ls-min-persona-label">
-        {t('landing.min.persona.label')}
-      </p>
-      <div className="ls-min-persona-row" role="tablist" aria-label={t('landing.min.persona.label')}>
-        {LANDING_PERSONA_IDS.map((id) => {
-          const active = persona === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              className={`ls-min-persona-btn${active ? ' ls-min-persona-btn--active' : ''}`}
-              onClick={() => onPersonaChange(id)}
-            >
-              {t(landingPersonaLabelKey(id))}
-            </button>
-          );
-        })}
+      <div className="ls-min-persona-head">
+        <span id="landing-persona-label" className="ls-min-persona-label">
+          {t('landing.min.persona.label')}
+        </span>
+        <div className="ls-min-persona-row" role="tablist" aria-label={t('landing.min.persona.label')}>
+          {LANDING_PERSONA_IDS.map((id) => {
+            const active = persona === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                className={`ls-min-persona-btn${active ? ' ls-min-persona-btn--active' : ''}`}
+                onClick={() => onPersonaChange(id)}
+              >
+                {t(landingPersonaLabelKey(id))}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -177,7 +179,9 @@ export function LandingHero() {
         <LandingTrustLine />
         <LandingPersonaSelector persona={persona} onPersonaChange={setPersona} />
         <div className="ls-min-persona-panel" role="tabpanel">
-          <p className="ls-min-persona-hint">{t(landingPersonaHintKey(persona))}</p>
+          <p className="ls-min-persona-hint" key={persona}>
+            {t(landingPersonaHintKey(persona))}
+          </p>
           <Link
             to={personaPath}
             className="ls-min-btn ls-min-btn--primary ls-min-btn--persona"
