@@ -96,12 +96,45 @@
 }
 
 .ls-min-title {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: #18181b;
+}
+
+.ls-min-title-base {
+  color: #18181b;
+}
+
+.ls-min-title-rotor {
+  display: block;
+  min-height: 1.15em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #52525b;
+  animation: ls-min-rotor-in 0.45s ease;
+}
+
+@keyframes ls-min-rotor-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-min-title-rotor {
+    animation: none;
+  }
 }
 
 .ls-min-lead {

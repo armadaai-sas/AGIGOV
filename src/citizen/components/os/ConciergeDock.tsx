@@ -8,7 +8,7 @@ import { EGS_MODEL_PATH } from '../../platform/agigovModels.js';
 const FAQ = [
   {
     q: '¿Qué es AGIGOV?',
-    a: 'Un OS multi-agente del Estado: kernel, modelos y evidencia — no un chatbot suelto.',
+    a: 'Somos AGIGOV — multi-agente de modelos verificables para el Estado y la ciudadanía.',
   },
   {
     q: '¿Cómo empiezo?',
@@ -36,7 +36,7 @@ function matchFaq(input: string) {
     return 'Comisión solo sobre ahorro certificado (EGS). Piloto institucional: contacto humano para cotización.';
   }
   if (q.includes('registr') || q.includes('empez') || q.includes('sandbox')) {
-    return 'Registro en /institucional/registro — cuenta gratis para probar el OS.';
+    return 'Registro en /institucional/registro — cuenta gratis para probar la plataforma.';
   }
   if (q.includes('api') || q.includes('desarroll')) {
     return 'Documentación en /desarrolladores. Verifica health en vivo antes de integrar.';

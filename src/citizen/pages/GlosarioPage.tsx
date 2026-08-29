@@ -28,7 +28,7 @@ const TERMS = [
   },
   {
     term: 'Kernel',
-    definition: 'Núcleo del OS que decide qué se publica y qué se paga — con evidencia.',
+    definition: 'Núcleo de gobernanza que decide qué se publica y qué se paga — con evidencia.',
     example: 'Los agentes corren encima del kernel, subordinados a Centinela.',
   },
   {

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   Apple,
@@ -50,18 +51,48 @@ export function LandingNav() {
   );
 }
 
+const HERO_TITLE_ROTOR = [
+  '2.0',
+  'verificable',
+  'evidencia publicada',
+  'ciudadanos',
+  'confianza',
+  'transparencia',
+] as const;
+
+const ROTOR_MS = 3200;
+
+function LandingHeroTitleRotor() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = window.setInterval(
+      () => setIndex((i) => (i + 1) % HERO_TITLE_ROTOR.length),
+      ROTOR_MS,
+    );
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <span className="ls-min-title-rotor" aria-live="polite">
+      {HERO_TITLE_ROTOR[index]}
+    </span>
+  );
+}
+
 /** Hero — una promesa, dos CTAs. */
 export function LandingHero() {
   return (
     <section className="ls-min-hero" aria-labelledby="landing-title">
       <div className="ls-min-inner">
-        <p className="ls-min-eyebrow">Sistema operativo verificable</p>
         <h1 id="landing-title" className="ls-min-title">
-          Gobernanza con evidencia publicada
+          <span className="ls-min-title-base">Gobernanza</span>
+          <LandingHeroTitleRotor />
         </h1>
         <p className="ls-min-lead">
-          Modelos operativos para instituciones, empresas y ciudadanos. Ambiente de trabajo
-          seguro — suba documentos o conecte API cuando esté listo.
+          Modelos operativos con evidencia publicada — no un chatbot.
         </p>
         <div className="ls-min-hero-cta">
           <Link to={INSTITUTION_ROUTES.desk} className="ls-min-btn">
@@ -169,8 +200,8 @@ export function LandingWhatSection() {
   return (
     <LandingSection
       id="que-es"
-      title="Qué es AGIGOV"
-      lead="Un OS de evidencia — no un chatbot. Usted opera; nosotros certificamos y publicamos lo acordado."
+      title="Quiénes somos"
+      lead="Somos AGIGOV — multi-agente de modelos verificables para el Estado y la ciudadanía."
       rows={WHAT_IS_ROWS}
     />
   );

@@ -631,7 +631,7 @@ const es: Record<MessageKey, string> = {
   'landing.security.cta': 'Ver seguridad institucional',
 
   'landing.footer.tagline':
-    'OS multi-agente del Estado — kernel de evidencia, no otro chatbot.',
+    'AGIGOV — multi-agente de modelos verificables para el Estado y la ciudadanía.',
   'landing.footer.product': 'Trabajar',
   'landing.footer.citizen': 'Ciudadanos',
   'landing.footer.models': 'Modelos',

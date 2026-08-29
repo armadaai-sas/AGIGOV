@@ -167,7 +167,7 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
       'Profundizar con glosario y tutoriales por sección',
     ],
     steps: [
-      { title: 'Lee la comparación', text: 'En la home, sección Por qué OS explica la diferencia.' },
+      { title: 'Lee la comparación', text: 'En la home, la sección multi-agente explica la diferencia.' },
       { title: 'Sigue el flujo', text: 'Recibido → validado → decidido → comprometido → publicado.' },
       {
         title: 'Elige tu camino',

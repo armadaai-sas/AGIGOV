@@ -625,7 +625,7 @@ const en = {
   'landing.security.cta': 'See institutional security',
 
   'landing.footer.tagline':
-    'Multi-agent State OS — evidence kernel, not another chatbot.',
+    'AGIGOV — verifiable multi-agent models for government and citizens.',
   'landing.footer.product': 'Work',
   'landing.footer.citizen': 'Citizens',
   'landing.footer.models': 'Models',
