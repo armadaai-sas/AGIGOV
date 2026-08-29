@@ -331,15 +331,9 @@ export function usesFunnelNav(_implementationId: ImplementationId): boolean {
   return true;
 }
 
-/** Dock OS: Modelos → Operar → Acceso → Explorar → Más. */
+/** @deprecated Sidebar usa getDeskNavSections(persona) — palette ⌘K para el resto. */
 export function getNavSidebarSections(_implementationId: ImplementationId): readonly NavSection[] {
-  return [
-    NAV_SECTION_MODELS,
-    NAV_SECTION_OPERATE,
-    NAV_SECTION_ACCESS,
-    NAV_SECTION_EXPLORE,
-    NAV_SECTION_VEN_MORE,
-  ];
+  return [];
 }
 
 /** @deprecated Usar getNavSidebarSections */
