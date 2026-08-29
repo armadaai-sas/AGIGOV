@@ -41,7 +41,18 @@ export type NavGroup = {
 };
 
 export type NavSection = {
-  id: 'modelos' | 'operar' | 'cuenta' | 'ven-more' | 'modelo' | 'ven' | 'ven-funnel' | 'resources' | 'institutional';
+  id:
+    | 'modelos'
+    | 'operar'
+    | 'acceso'
+    | 'explorar'
+    | 'cuenta'
+    | 'ven-more'
+    | 'modelo'
+    | 'ven'
+    | 'ven-funnel'
+    | 'resources'
+    | 'institutional';
   label: string;
   subtitle: string;
   items?: readonly NavItem[];
@@ -124,11 +135,11 @@ export const NAV_SECTION_OPERATE: NavSection = {
   ],
 } as const;
 
-/** OS dock — Cuenta */
-export const NAV_SECTION_ACCOUNT: NavSection = {
-  id: 'cuenta',
-  label: 'Cuenta',
-  subtitle: 'Acceso y ayuda',
+/** OS dock — Acceso institucional */
+export const NAV_SECTION_ACCESS: NavSection = {
+  id: 'acceso',
+  label: 'Acceso',
+  subtitle: 'Registro y piloto',
   items: [
     {
       to: INSTITUTION_ROUTES.register,
@@ -142,12 +153,15 @@ export const NAV_SECTION_ACCOUNT: NavSection = {
       hint: 'Asistente institucional',
       icon: Landmark,
     },
-    {
-      to: '/descargar',
-      label: 'App de escritorio',
-      hint: 'Windows · macOS · Linux',
-      icon: Monitor,
-    },
+  ],
+} as const;
+
+/** OS dock — Explorar (colapsable por defecto) */
+export const NAV_SECTION_EXPLORE: NavSection = {
+  id: 'explorar',
+  label: 'Explorar',
+  subtitle: 'Ayuda, hubs y escritorio',
+  items: [
     {
       to: '/ayuda',
       label: 'Ayuda',
@@ -166,7 +180,21 @@ export const NAV_SECTION_ACCOUNT: NavSection = {
       hint: 'Recorrido B2B A→Z',
       icon: Briefcase,
     },
+    {
+      to: '/descargar',
+      label: 'App de escritorio',
+      hint: 'Windows · macOS · Linux',
+      icon: Monitor,
+    },
   ],
+} as const;
+
+/** @deprecated Usar NAV_SECTION_ACCESS + NAV_SECTION_EXPLORE */
+export const NAV_SECTION_ACCOUNT: NavSection = {
+  id: 'cuenta',
+  label: 'Cuenta',
+  subtitle: 'Acceso y ayuda',
+  items: [...NAV_SECTION_ACCESS.items!, ...NAV_SECTION_EXPLORE.items!],
 } as const;
 
 /** @deprecated Usar NAV_SECTION_CITIZEN */
@@ -303,9 +331,15 @@ export function usesFunnelNav(_implementationId: ImplementationId): boolean {
   return true;
 }
 
-/** Dock OS: Modelos → Operar → Cuenta → Más. */
+/** Dock OS: Modelos → Operar → Acceso → Explorar → Más. */
 export function getNavSidebarSections(_implementationId: ImplementationId): readonly NavSection[] {
-  return [NAV_SECTION_MODELS, NAV_SECTION_OPERATE, NAV_SECTION_ACCOUNT, NAV_SECTION_VEN_MORE];
+  return [
+    NAV_SECTION_MODELS,
+    NAV_SECTION_OPERATE,
+    NAV_SECTION_ACCESS,
+    NAV_SECTION_EXPLORE,
+    NAV_SECTION_VEN_MORE,
+  ];
 }
 
 /** @deprecated Usar getNavSidebarSections */
