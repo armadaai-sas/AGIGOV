@@ -42,6 +42,7 @@ import {
   getEgsPipelineStatus,
   type EgsConnectMode,
 } from '../egs/pipeline.js';
+import { getEgsMinistryStatus } from '../egs/ministry-status.js';
 import { getSystemGraph } from '../system/graph.js';
 import {
   processVesPaymentWebhook,
@@ -909,6 +910,74 @@ app.post('/api/public/models/egs/disconnect', async (_req, res) => {
   }
 });
 
+/** EGS — estado consola ministerio + CTA permitido (P0). */
+app.get('/api/public/models/egs/status', async (req, res) => {
+  try {
+    const ministry = typeof req.query.ministry === 'string' ? req.query.ministry : 'MPPI';
+    const db = getCoreDb();
+    const status = await getEgsMinistryStatus(db, ministry);
+    if (!status) {
+      res.status(404).json({
+        error: 'Sin estado EGS para este ministerio',
+        hint: 'npm run db:seed:egs-pilot',
+      });
+      return;
+    }
+    res.json(status);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'No se pudo leer estado EGS',
+    });
+  }
+});
+
+/** EGS — publicar cierre trimestral (sesión institucional). */
+app.post('/api/public/models/egs/publish', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: publish suspendido' });
+    return;
+  }
+
+  const session = await resolveInstitutionSession(
+    req.headers.authorization,
+    req.headers.cookie,
+  );
+  if (!session) {
+    res.status(401).json({ error: 'ops_auth_required' });
+    return;
+  }
+
+  const ministryCode =
+    typeof req.body?.ministryCode === 'string' ? req.body.ministryCode.trim() : '';
+  if (!ministryCode) {
+    res.status(400).json({ error: 'ministryCode requerido' });
+    return;
+  }
+
+  try {
+    const db = getCoreDb();
+    const status = await getEgsMinistryStatus(db, ministryCode);
+    if (!status || status.estadoConsola !== 'LISTO_CIERRE') {
+      res.status(409).json({
+        error: status?.blockReason ?? 'Publicación no permitida en este estado',
+      });
+      return;
+    }
+    const slug = status.tenantSlug;
+    if (!slug) {
+      res.status(404).json({ error: 'Tenant piloto no encontrado' });
+      return;
+    }
+
+    const result = await runTenantQuarterClosePipeline(db, slug, { publish: true });
+    res.status(result.ok ? 200 : 409).json({ ...result, ministryCode });
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error publicando cierre trimestral',
+    });
+  }
+});
+
 /** Sovereign System Map — grafo read-only (Fase 1A). */
 app.get('/api/public/system/graph', async (_req, res) => {
   try {
@@ -1028,6 +1097,8 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/models/data-trust/connect': { post: { summary: 'Conectar fuente DATA Trust' } },
       '/api/public/models/data-trust/run': { post: { summary: 'Ejecutar ETL DATA Trust' } },
       '/api/public/models/egs/pipeline': { get: { summary: 'Pipeline EGS multiagente (Postgres)' } },
+      '/api/public/models/egs/status': { get: { summary: 'Estado consola ministerio + CTA' } },
+      '/api/public/models/egs/publish': { post: { summary: 'Publicar cierre trimestral EGS' } },
       '/api/public/models/egs/connect': { post: { summary: 'Conectar consola EGS' } },
       '/api/public/models/egs/disconnect': { post: { summary: 'Desconectar consola EGS' } },
       '/api/public/system/graph': { get: { summary: 'Mapa soberano read-only (Fase 1A)' } },

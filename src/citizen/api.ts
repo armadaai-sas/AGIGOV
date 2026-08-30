@@ -91,6 +91,22 @@ async function fetchPublic<T>(path: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function postPublicJson<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...getOpsAuthHeaders(),
+    },
+    credentials: 'include',
+    body: JSON.stringify(body),
+  });
+  const json = (await res.json()) as T & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `API ${path} → ${res.status}`);
+  return json;
+}
+
 function getOpsAuthHeaders(extra?: HeadersInit): HeadersInit {
   const token =
     typeof window !== 'undefined' ? localStorage.getItem(INSTITUTION_SESSION_TOKEN_KEY) : null;
@@ -758,6 +774,49 @@ export function fetchMinistryHealth(ministry = 'MPPI') {
   );
 }
 
+export type EgsConsoleState =
+  | 'SIN_TENANT'
+  | 'BASELINE_PEND'
+  | 'INGEST_READY'
+  | 'EN_EJECUCION'
+  | 'DISCREPANCIA'
+  | 'LISTO_CIERRE'
+  | 'PUBLICADO';
+
+export type EgsPrimaryAction = {
+  id: string;
+  label: string;
+  enabled: boolean;
+  href?: string;
+  requiresAuth?: boolean;
+};
+
+export interface EgsMinistryStatusResponse {
+  updatedAt: string;
+  ministryCode: string;
+  estadoConsola: EgsConsoleState;
+  semaphore: 'green' | 'amber' | 'red';
+  blockReason: string | null;
+  tenantSlug: string | null;
+  primaryAction: EgsPrimaryAction;
+  secondaryActions: Array<{ id: string; label: string; href: string }>;
+  result: {
+    delta: string;
+    reinversion70: string;
+    meritPool: string;
+    agigovFee: string;
+    currency: string;
+    quarter: number;
+    fiscalYear: number;
+  };
+}
+
+export function fetchEgsMinistryStatus(ministry: string) {
+  return fetchPublic<EgsMinistryStatusResponse>(
+    `/api/public/models/egs/status?ministry=${encodeURIComponent(ministry)}`,
+  );
+}
+
 export interface EgsMilestoneCustody {
   index: number;
   label: string;
@@ -966,6 +1025,16 @@ export type QClosePilotResponse = {
   calculoAhorroFinal: number;
   published: boolean;
 };
+
+export type EgsPublishQuarterResponse = QClosePilotResponse & {
+  ministryCode: string;
+};
+
+export function publishEgsQuarterClose(ministryCode: string) {
+  return postPublicJson<EgsPublishQuarterResponse>('/api/public/models/egs/publish', {
+    ministryCode,
+  });
+}
 
 export function runPilotQClose(slug: string, publish: boolean) {
   return postOpsJson<QClosePilotResponse>(`/api/ops/tenants/${encodeURIComponent(slug)}/q-close`, {

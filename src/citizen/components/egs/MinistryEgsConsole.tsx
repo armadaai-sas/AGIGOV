@@ -1,31 +1,105 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, ExternalLink, FileDown } from 'lucide-react';
 
-import type { EgsPipelineResponse, MinistryHealthResponse } from '../../api.js';
+import type {
+  EgsMinistryStatusResponse,
+  EgsPipelineResponse,
+  MinistryHealthResponse,
+} from '../../api.js';
+import { publishEgsQuarterClose } from '../../api.js';
 import { PlatformAlert } from '../PlatformAlert.js';
 import { StatusBadge } from '../StatusBadge.js';
 import { agigovIconProps } from '../icons/agigovIcon.js';
 import { ModelConsoleZone } from '../models/ModelConsoleLayout.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
-import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { downloadEgsMinistryPdf } from '../../platform/exportEgsMinistryPdf.js';
-import {
-  ministryEgsConforme,
-  ministryEgsStatusHint,
-} from '../../platform/egsMinistryCopy.js';
+import { ministryEgsConforme, ministryEgsStatusHint } from '../../platform/egsMinistryCopy.js';
+import { EgsPublishModal } from './EgsPublishModal.js';
 
 type Props = {
   data: MinistryHealthResponse;
+  status: EgsMinistryStatusResponse;
   pipeline?: EgsPipelineResponse | null;
+  isAuthenticated: boolean;
+  onPublished: () => void;
 };
 
+function PrimaryAction({
+  status,
+  onPublishClick,
+}: {
+  status: EgsMinistryStatusResponse;
+  onPublishClick: () => void;
+}) {
+  const action = status.primaryAction;
+  if (!action.enabled) return null;
+
+  if (action.id === 'publish_q_close') {
+    return (
+      <button type="button" className="desk-page-primary-btn" onClick={onPublishClick}>
+        {action.label}
+      </button>
+    );
+  }
+
+  if (action.href) {
+    const external = action.href.startsWith('http');
+    if (external) {
+      return (
+        <a href={action.href} className="desk-page-primary-btn">
+          {action.label}
+        </a>
+      );
+    }
+    return (
+      <Link to={action.href} className="desk-page-primary-btn inline-flex items-center gap-1.5">
+        {action.label}
+        {action.id === 'view_citizen_telemetry' ? (
+          <ExternalLink {...agigovIconProps('sm')} />
+        ) : null}
+      </Link>
+    );
+  }
+
+  return null;
+}
+
 /** Consola EGS — vista ministerio (resultado → acción → reparto → contratos). */
-export function MinistryEgsConsole({ data, pipeline }: Props) {
+export function MinistryEgsConsole({
+  data,
+  status,
+  pipeline,
+  isAuthenticated,
+  onPublished,
+}: Props) {
   const { formatMoney, sovereign } = useSovereignConfig();
   const unit = data.currency ?? sovereign.currency;
   const fmt = (v: string) => `${formatMoney(v)} ${unit}`;
   const conforme = ministryEgsConforme(data);
   const savings = parseFloat(data.calculoAhorroFinal);
+  const [publishOpen, setPublishOpen] = useState(false);
+  const [publishBusy, setPublishBusy] = useState(false);
+  const [publishError, setPublishError] = useState<string | null>(null);
+
+  async function confirmPublish() {
+    setPublishBusy(true);
+    setPublishError(null);
+    try {
+      const result = await publishEgsQuarterClose(data.ministryCode);
+      if (!result.ok || !result.published) {
+        throw new Error(
+          result.discrepancies[0] ?? 'No se pudo publicar — revisa custodia y reconciliación',
+        );
+      }
+      setPublishOpen(false);
+      onPublished();
+    } catch (e) {
+      setPublishError(e instanceof Error ? e.message : 'Error al publicar');
+    } finally {
+      setPublishBusy(false);
+    }
+  }
 
   return (
     <>
@@ -59,26 +133,14 @@ export function MinistryEgsConsole({ data, pipeline }: Props) {
 
       <ModelConsoleZone label="Acción">
         <div className="egs-ministry-actions">
-          {!data.published && conforme ? (
-            <Link to={INSTITUTION_ROUTES.pilot} className="desk-page-primary-btn">
-              Cerrar y publicar trimestre
-            </Link>
-          ) : null}
-          {data.published ? (
-            <Link to="/gestion" className="desk-page-primary-btn inline-flex items-center gap-1.5">
-              Ver telemetría ciudadana
-              <ExternalLink {...agigovIconProps('sm')} />
-            </Link>
-          ) : null}
-          {!conforme ? (
-            <Link to="/contratos" className="desk-page-primary-btn">
-              Revisar contratos afectados
-            </Link>
-          ) : null}
+          <PrimaryAction status={status} onPublishClick={() => setPublishOpen(true)} />
           {savings <= 0 && conforme && !data.published ? (
             <p className="desk-console-outcome-note">
               Sin ahorro este trimestre — AGIGOV no cobra comisión de éxito.
             </p>
+          ) : null}
+          {status.blockReason && status.estadoConsola !== 'DISCREPANCIA' ? (
+            <p className="desk-console-outcome-note">{status.blockReason}</p>
           ) : null}
           <button
             type="button"
@@ -112,35 +174,40 @@ export function MinistryEgsConsole({ data, pipeline }: Props) {
       </ModelConsoleZone>
 
       <ModelConsoleZone label="Contratos en custodia">
-        {data.contracts.length === 0 ? (
-          <p className="desk-console-outcome-note">Sin contratos activos en este entorno.</p>
-        ) : (
-          <ul className="desk-page-list">
-            {data.contracts.map((c) => (
-              <li key={c.id}>
-                <Link
-                  to={`/proyectos/contrato/${encodeURIComponent(c.id)}`}
-                  className="desk-page-row"
-                >
-                  <span className="desk-page-row-body">
-                    <span className="desk-page-row-title">{c.title}</span>
-                    <span className="desk-page-row-summary">
-                      {c.territoryCode} · {c.milestonesReleased}/{c.milestonesTotal} hitos ·{' '}
-                      {fmt(c.spentAmount)}
+        <div id="egs-contratos">
+          {data.contracts.length === 0 ? (
+            <p className="desk-console-outcome-note">Sin contratos activos en este entorno.</p>
+          ) : (
+            <ul className="desk-page-list">
+              {data.contracts.map((c) => (
+                <li key={c.id}>
+                  <Link
+                    to={`/proyectos/contrato/${encodeURIComponent(c.id)}`}
+                    className="desk-page-row"
+                  >
+                    <span className="desk-page-row-body">
+                      <span className="desk-page-row-title">{c.title}</span>
+                      <span className="desk-page-row-summary">
+                        {c.territoryCode} · {c.milestonesReleased}/{c.milestonesTotal} hitos ·{' '}
+                        {fmt(c.spentAmount)}
+                      </span>
                     </span>
-                  </span>
-                  <StatusBadge status={c.status} />
-                  <ChevronRight {...agigovIconProps('md')} aria-hidden />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+                    <StatusBadge status={c.status} />
+                    <ChevronRight {...agigovIconProps('md')} aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </ModelConsoleZone>
 
       <details className="desk-console-tech egs-ministry-tech">
         <summary>Quién validó y detalle técnico</summary>
         <div className="egs-ministry-tech-body">
+          <p>
+            <strong>Estado consola:</strong> {status.estadoConsola} · semáforo {status.semaphore}
+          </p>
           <p>
             <strong>Centinela:</strong>{' '}
             {data.reconcileOk ? 'custodia conforme con releases' : 'FREEZE — discrepancia'}
@@ -163,6 +230,19 @@ export function MinistryEgsConsole({ data, pipeline }: Props) {
           </p>
         </div>
       </details>
+
+      <EgsPublishModal
+        open={publishOpen}
+        onClose={() => {
+          if (!publishBusy) setPublishOpen(false);
+        }}
+        data={data}
+        status={status}
+        isAuthenticated={isAuthenticated}
+        busy={publishBusy}
+        error={publishError}
+        onConfirm={() => void confirmPublish()}
+      />
     </>
   );
 }
@@ -176,10 +256,10 @@ export function MinistryEgsEmpty({ ministryCode }: { ministryCode: string }) {
         institucional para fijar línea base, ingestar hitos y cerrar el primer trimestre.
       </p>
       <div className="egs-ministry-actions mt-4">
-        <Link to={INSTITUTION_ROUTES.pilot} className="desk-page-primary-btn">
+        <Link to="/institucional/piloto" className="desk-page-primary-btn">
           Iniciar piloto EGS
         </Link>
-        <Link to={INSTITUTION_ROUTES.register} className="app-btn app-btn--secondary">
+        <Link to="/institucional/registro" className="app-btn app-btn--secondary">
           Registro institucional
         </Link>
       </div>

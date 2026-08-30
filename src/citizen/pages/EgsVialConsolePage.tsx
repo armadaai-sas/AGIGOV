@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
 
 import {
+  fetchEgsMinistryStatus,
   fetchEgsPipeline,
   fetchMinistryHealth,
+  type EgsMinistryStatusResponse,
   type EgsPipelineResponse,
 } from '../api.js';
 import { MinistryEgsConsole, MinistryEgsEmpty } from '../components/egs/MinistryEgsConsole.js';
@@ -14,6 +16,7 @@ import { PageShell, LoadingState } from '../components/PageShell.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { agigovIconProps } from '../components/icons/agigovIcon.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
+import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 import { getAgigovModel, EGS_MODEL_PATH } from '../platform/agigovModels.js';
 import {
   ministryEgsResultLine,
@@ -24,13 +27,23 @@ import {
 export default function EgsVialConsolePage() {
   const model = getAgigovModel('egs');
   const { sovereign } = useSovereignConfig();
+  const { isAuthenticated } = useInstitutionAuth();
   const [pipeline, setPipeline] = useState<EgsPipelineResponse | null>(null);
+  const [status, setStatus] = useState<EgsMinistryStatusResponse | null>(null);
 
   const health = useCachedFetch(
     `ministry-health-${sovereign.iso}`,
     () => fetchMinistryHealth(sovereign.ministryCode),
     15_000,
   );
+
+  const loadStatus = useCallback(async () => {
+    try {
+      setStatus(await fetchEgsMinistryStatus(sovereign.ministryCode));
+    } catch {
+      setStatus(null);
+    }
+  }, [sovereign.ministryCode]);
 
   const loadPipeline = useCallback(async () => {
     try {
@@ -40,9 +53,17 @@ export default function EgsVialConsolePage() {
     }
   }, []);
 
+  const refreshAll = useCallback(async () => {
+    await Promise.all([health.reload(), loadStatus(), loadPipeline()]);
+  }, [health, loadPipeline, loadStatus]);
+
   useEffect(() => {
     void loadPipeline();
   }, [loadPipeline]);
+
+  useEffect(() => {
+    void loadStatus();
+  }, [loadStatus, health.data?.updatedAt]);
 
   const data = health.data;
   const noData = Boolean(health.error && !data);
@@ -73,10 +94,7 @@ export default function EgsVialConsolePage() {
           <button
             type="button"
             className="app-btn app-btn--secondary inline-flex items-center gap-1.5"
-            onClick={() => {
-              void health.reload();
-              void loadPipeline();
-            }}
+            onClick={() => void refreshAll()}
           >
             <RefreshCw {...agigovIconProps('md')} />
             Actualizar
@@ -92,13 +110,21 @@ export default function EgsVialConsolePage() {
               <DataConnectionState
                 module="egs"
                 error={health.error}
-                onRetry={() => void health.reload()}
+                onRetry={() => void refreshAll()}
               />
             ) : null}
           </>
         ) : null}
 
-        {data ? <MinistryEgsConsole data={data} pipeline={pipeline} /> : null}
+        {data && status ? (
+          <MinistryEgsConsole
+            data={data}
+            status={status}
+            pipeline={pipeline}
+            isAuthenticated={isAuthenticated}
+            onPublished={() => void refreshAll()}
+          />
+        ) : null}
 
         <p className="model-console-foot">
           <Link to={EGS_MODEL_PATH} className="desk-console-foot-link">
