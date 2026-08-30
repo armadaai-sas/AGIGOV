@@ -503,6 +503,71 @@ export async function refreshDataTrustPipeline() {
   return res.json() as Promise<{ ok: boolean; count: number }>;
 }
 
+export type DataTrustConnectMode = 'demo_telemetry' | 'api_endpoint' | 'institutional';
+
+export interface DataTrustPipelineStage {
+  id: string;
+  label: string;
+  detail: string;
+  status: 'pending' | 'active' | 'complete' | 'skipped' | 'blocked';
+}
+
+export interface DataTrustPipelineResponse {
+  updatedAt: string;
+  modelId: 'data-trust';
+  currentStage: string;
+  liveLabel: string;
+  connection: {
+    mode: DataTrustConnectMode;
+    label: string;
+    connectedAt: string;
+    endpoint?: string;
+  } | null;
+  run: {
+    status: 'idle' | 'running' | 'complete' | 'failed';
+    startedAt?: string;
+    completedAt?: string;
+    datasetCount?: number;
+  };
+  kAnonymity: number;
+  stages: DataTrustPipelineStage[];
+  disclaimer: string;
+}
+
+export function fetchDataTrustPipeline() {
+  return fetchPublic<DataTrustPipelineResponse>('/api/public/models/data-trust/pipeline');
+}
+
+export async function connectDataTrustSource(
+  mode: DataTrustConnectMode,
+  options?: { endpoint?: string },
+) {
+  const res = await fetch(`${API_BASE}/api/public/models/data-trust/connect`, {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ mode, endpoint: options?.endpoint }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `connect → ${res.status}`);
+  }
+  return res.json() as Promise<DataTrustPipelineResponse>;
+}
+
+export async function runDataTrustPipeline() {
+  const res = await fetch(`${API_BASE}/api/public/models/data-trust/run`, {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `run → ${res.status}`);
+  }
+  return res.json() as Promise<DataTrustPipelineResponse>;
+}
+
 export interface MinistryHealthContract {
   id: string;
   title: string;

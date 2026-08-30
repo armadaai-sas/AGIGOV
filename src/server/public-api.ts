@@ -27,7 +27,15 @@ import { getBillingFreeze, clearBillingFreeze } from '../billing/freeze.js';
 import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
 import { claimTenantSeat, getTenantSeats, setTenantSaasPlan } from '../billing/seats.js';
 import type { AgigovPlan } from '../billing/plan.js';
-import { getDatasetById, getPublishedDatasets, runAggregationPipeline } from '../data-trust/aggregation.js';
+import { getDatasetById, getPublishedDatasets } from '../data-trust/aggregation.js';
+import {
+  connectDataTrustSource,
+  disconnectDataTrustSource,
+  getDataTrustPipelineStatus,
+  reconcileDataTrustPipelineState,
+  runDataTrustPipelineTracked,
+  type DataTrustConnectMode,
+} from '../data-trust/pipeline.js';
 import {
   processVesPaymentWebhook,
   WebhookAuthError,
@@ -809,6 +817,7 @@ app.post('/api/ops/tenants/:slug/saas-plan', async (req, res) => {
 /** Data Trust — catálogo agregados k-anonymized (P2 demo). */
 app.get('/api/public/data-trust/datasets', (_req, res) => {
   try {
+    reconcileDataTrustPipelineState();
     const datasets = getPublishedDatasets();
     res.json({
       updatedAt: new Date().toISOString(),
@@ -836,17 +845,73 @@ app.get('/api/public/data-trust/datasets/:id', (req, res) => {
   }
 });
 
-/** Regenerar pipeline agregación (demo admin). */
+/** Regenerar pipeline agregación (requiere conexión previa). */
 app.post('/api/public/data-trust/refresh', (_req, res) => {
   if (isPanicMode()) {
     res.status(503).json({ error: 'Sistema en FREEZE' });
     return;
   }
   try {
-    const datasets = runAggregationPipeline();
-    res.status(201).json({ ok: true, count: datasets.length, datasets });
+    const result = runDataTrustPipelineTracked();
+    res.status(201).json({
+      ok: true,
+      count: result.run.datasetCount ?? 0,
+      pipeline: result,
+    });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'Pipeline Data Trust falló';
+    res.status(400).json({ error: message });
+  }
+});
+
+/** DATA Trust — estado del pipeline en vivo. */
+app.get('/api/public/models/data-trust/pipeline', (_req, res) => {
+  try {
+    reconcileDataTrustPipelineState();
+    res.json(getDataTrustPipelineStatus());
   } catch {
-    res.status(500).json({ error: 'Pipeline Data Trust falló' });
+    res.status(500).json({ error: 'No se pudo leer pipeline DATA Trust' });
+  }
+});
+
+/** DATA Trust — conectar fuente (demo / API / institucional). */
+app.post('/api/public/models/data-trust/connect', (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'Sistema en FREEZE' });
+    return;
+  }
+  try {
+    const mode = req.body?.mode as DataTrustConnectMode | undefined;
+    if (!mode || !['demo_telemetry', 'api_endpoint', 'institutional'].includes(mode)) {
+      res.status(400).json({ error: 'mode inválido' });
+      return;
+    }
+    const endpoint = typeof req.body?.endpoint === 'string' ? req.body.endpoint : undefined;
+    res.status(201).json(connectDataTrustSource(mode, { endpoint }));
+  } catch (e) {
+    res.status(400).json({ error: e instanceof Error ? e.message : 'connect falló' });
+  }
+});
+
+/** DATA Trust — ejecutar pipeline ETL (requiere connect). */
+app.post('/api/public/models/data-trust/run', (_req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'Sistema en FREEZE' });
+    return;
+  }
+  try {
+    res.status(201).json(runDataTrustPipelineTracked());
+  } catch (e) {
+    res.status(400).json({ error: e instanceof Error ? e.message : 'run falló' });
+  }
+});
+
+/** DATA Trust — desconectar fuente (demo). */
+app.post('/api/public/models/data-trust/disconnect', (_req, res) => {
+  try {
+    res.json(disconnectDataTrustSource());
+  } catch {
+    res.status(500).json({ error: 'disconnect falló' });
   }
 });
 
@@ -904,6 +969,9 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/ops/tenants/{slug}/seats/claim': { post: { summary: 'Claim seat operador' } },
       '/api/ops/tenants/{slug}/saas-plan': { post: { summary: 'Set plan SaaS del tenant (ops key)' } },
       '/api/public/data-trust/datasets': { get: { summary: 'Catálogo Data Trust k-anonymized' } },
+      '/api/public/models/data-trust/pipeline': { get: { summary: 'Estado pipeline DATA Trust en vivo' } },
+      '/api/public/models/data-trust/connect': { post: { summary: 'Conectar fuente DATA Trust' } },
+      '/api/public/models/data-trust/run': { post: { summary: 'Ejecutar ETL DATA Trust' } },
       '/api/public/payments/webhook': {
         post: { summary: 'Webhook pasarela VES (HMAC X-Agigov-Signature)' },
       },

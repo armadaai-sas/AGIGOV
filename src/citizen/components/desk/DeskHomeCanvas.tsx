@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-import { agigovIconProps } from '../components/icons/agigovIcon.js';
+import { agigovIconProps } from '../icons/agigovIcon.js';
 import type { DeskPersonaHome } from '../../platform/deskHome.js';
 
 type DeskHomeCanvasProps = {

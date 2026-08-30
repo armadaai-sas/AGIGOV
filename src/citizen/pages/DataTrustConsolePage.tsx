@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ChevronRight, RefreshCw } from 'lucide-react';
 
 import {
   fetchDataTrustCatalog,
   fetchDataTrustDataset,
+  fetchDataTrustPipeline,
   refreshDataTrustPipeline,
+  type DataTrustPipelineResponse,
 } from '../api.js';
+import { DataTrustConnectWizard } from '../components/models/DataTrustConnectWizard.js';
 import { ModelConsoleHeader } from '../components/models/ModelConsoleHeader.js';
+import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import { PageShell, LoadingState, DsSpinner } from '../components/PageShell.js';
-import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
-import { deriveModelProcessStep } from '../platform/modelProcess.js';
+import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { agigovIconProps } from '../components/icons/agigovIcon.js';
+import { processStepFromDataTrustPipeline } from '../platform/dataTrustPipeline.js';
 
 export default function DataTrustConsolePage() {
   const catalog = useCachedFetch('data-trust-catalog', fetchDataTrustCatalog, 60_000);
+  const [pipeline, setPipeline] = useState<DataTrustPipelineResponse | null>(null);
+  const [pipelineLoading, setPipelineLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -27,28 +34,35 @@ export default function DataTrustConsolePage() {
     60_000,
   );
 
-  const fatal = Boolean(catalog.error && catalog.state === 'error' && !catalog.data);
+  const loadPipeline = useCallback(async () => {
+    try {
+      const status = await fetchDataTrustPipeline();
+      setPipeline(status);
+    } catch {
+      setPipeline(null);
+    } finally {
+      setPipelineLoading(false);
+    }
+  }, []);
 
-  const processStep = deriveModelProcessStep({
-    modelSelected: true,
-    dataConnected: true,
-    receiving: refreshing,
-    analyzing: catalog.state === 'syncing' || refreshing,
-    classifying: Boolean(selectedId && detail.state === 'syncing'),
-    reporting: Boolean(selectedId && detail.data && detail.state !== 'syncing'),
-    published: Boolean(
-      catalog.data &&
-        catalog.data.datasets.length > 0 &&
-        catalog.state === 'synced' &&
-        !refreshing &&
-        detail.state !== 'syncing',
-    ),
-  });
+  useEffect(() => {
+    void loadPipeline();
+    const id = setInterval(() => void loadPipeline(), 4_000);
+    return () => clearInterval(id);
+  }, [loadPipeline]);
+
+  const connected = Boolean(pipeline?.connection);
+  const fatal = Boolean(catalog.error && catalog.state === 'error' && !catalog.data && connected);
+
+  const processStep = pipeline
+    ? processStepFromDataTrustPipeline(pipeline)
+    : 'select';
 
   async function handleRefresh() {
     setRefreshing(true);
     try {
       await refreshDataTrustPipeline();
+      await loadPipeline();
       await catalog.reload();
       if (selectedId) await detail.reload();
     } finally {
@@ -56,26 +70,53 @@ export default function DataTrustConsolePage() {
     }
   }
 
+  async function handleConnected() {
+    await loadPipeline();
+    await catalog.reload();
+  }
+
   return (
     <PageShell shell banner={fatal ? undefined : { state: catalog.state, lastUpdated: catalog.lastUpdated }}>
-      <div className="os-workspace">
+      <div className="os-workspace desk-page">
         <ModelConsoleHeader
           modelId="data-trust"
           title="Catálogo de agregados"
           subtitle="Datasets k-anonymizados — sin datos personales."
         >
-          <button
-            type="button"
-            disabled={refreshing}
-            className="ds-btn-secondary ds-btn-app-shape inline-flex items-center gap-1"
-            onClick={() => void handleRefresh()}
-          >
-            {refreshing ? <DsSpinner /> : <RefreshCw className="h-4 w-4" />}
-            Regenerar pipeline
-          </button>
+          {connected ? (
+            <button
+              type="button"
+              disabled={refreshing || pipeline?.run.status === 'running'}
+              className="app-btn app-btn--secondary inline-flex items-center gap-1.5"
+              onClick={() => void handleRefresh()}
+            >
+              {refreshing ? <DsSpinner /> : <RefreshCw {...agigovIconProps('md')} />}
+              Regenerar pipeline
+            </button>
+          ) : null}
         </ModelConsoleHeader>
 
-        <ModelProcessTracker currentStep={processStep} />
+        {pipelineLoading && !pipeline ? <LoadingState label="Cargando pipeline…" /> : null}
+
+        {pipeline ? (
+          <ModelProcessTracker currentStep={processStep} liveLabel={pipeline.liveLabel} />
+        ) : null}
+
+        {!connected && !pipelineLoading ? (
+          <DataTrustConnectWizard onConnected={() => void handleConnected()} />
+        ) : null}
+
+        {connected && pipeline ? (
+          <p className="dt-connect-status">
+            Fuente: <strong>{pipeline.connection!.label}</strong>
+            {pipeline.connection!.endpoint ? (
+              <>
+                {' '}
+                · <code className="os-mono-id">{pipeline.connection!.endpoint}</code>
+              </>
+            ) : null}
+          </p>
+        ) : null}
 
         {fatal ? (
           <DataConnectionState
@@ -85,9 +126,15 @@ export default function DataTrustConsolePage() {
           />
         ) : null}
 
-        {!catalog.data && catalog.state !== 'error' ? <LoadingState label="Cargando catálogo…" /> : null}
+        {connected && !catalog.data && catalog.state !== 'error' ? (
+          <LoadingState label="Cargando catálogo…" />
+        ) : null}
 
-        {catalog.data ? (
+        {connected && catalog.data && catalog.data.datasets.length === 0 && catalog.state === 'synced' ? (
+          <p className="dt-connect-empty">Pipeline conectado — ejecuta regenerar para publicar sectores.</p>
+        ) : null}
+
+        {connected && catalog.data && catalog.data.datasets.length > 0 ? (
           <>
             <dl className="os-metrics-row">
               <div className="os-metrics-item">
@@ -117,7 +164,7 @@ export default function DataTrustConsolePage() {
                           {new Date(ds.publishedAt).toLocaleDateString('es-VE')}
                         </span>
                       </span>
-                      <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+                      <ChevronRight {...agigovIconProps('sm', 'os-workspace-row-chevron opacity-40')} />
                     </button>
                   </li>
                 ))}
@@ -154,6 +201,20 @@ export default function DataTrustConsolePage() {
               <LoadingState label="Cargando dataset…" />
             ) : null}
           </>
+        ) : null}
+
+        {pipeline?.stages ? (
+          <details className="dt-pipeline-detail">
+            <summary>Etapas del pipeline (detalle técnico)</summary>
+            <ol className="dt-pipeline-stages">
+              {pipeline.stages.map((stage) => (
+                <li key={stage.id} data-status={stage.status}>
+                  <span className="dt-pipeline-stage-label">{stage.label}</span>
+                  <span className="dt-pipeline-stage-detail">{stage.detail}</span>
+                </li>
+              ))}
+            </ol>
+          </details>
         ) : null}
       </div>
     </PageShell>

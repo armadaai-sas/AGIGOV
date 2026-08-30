@@ -91,7 +91,7 @@ export function runAggregationPipeline(kAnonymity = 5): AggregatedDataset[] {
 export function getPublishedDatasets(): AggregatedDataset[] {
   ensureDataDir();
   if (!existsSync(CATALOG_PATH)) {
-    return runAggregationPipeline();
+    return [];
   }
   const parsed = JSON.parse(readFileSync(CATALOG_PATH, 'utf8')) as {
     datasets: AggregatedDataset[];

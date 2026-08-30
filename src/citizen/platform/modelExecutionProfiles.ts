@@ -100,7 +100,7 @@ export const MODEL_EXECUTION_PROFILES: readonly ModelExecutionProfile[] = [
   {
     modelId: 'data-trust',
     requiredPaths: ['src/data-trust/aggregation.ts'],
-    requiredApiRoutes: ['/api/public/data-trust/datasets'],
+    requiredApiRoutes: ['/api/public/data-trust/datasets', '/api/public/models/data-trust/pipeline'],
     businessDocPaths: ['docs/AGIGOV/INVESTIGACION-NEGOCIO-GANAR-GANAR.md'],
     minJustificationScore: 22,
   },
