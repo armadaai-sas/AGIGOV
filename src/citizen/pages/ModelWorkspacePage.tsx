@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
 
+import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
 import { ModelWorkspaceActions } from '../components/models/ModelWorkspaceActions.js';
 import { PageShell } from '../components/PageShell.js';
 import { ModelStatusBadge } from '../components/models/ModelStatusBadge.js';
@@ -41,6 +42,8 @@ export default function ModelWorkspacePage() {
         <div className="flex items-center gap-2">
           <ModelStatusBadge modelId={model.id} status={model.status} size="sm" />
         </div>
+
+        <ModelProcessTracker currentStep="connect" />
 
         <ModelWorkspaceActions experience={experience} />
 

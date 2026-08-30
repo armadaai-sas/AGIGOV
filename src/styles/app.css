@@ -426,6 +426,7 @@
     border-color: rgb(228 228 231 / 0.72);
     background: linear-gradient(180deg, #fafafa 0%, #f7f7f8 100%);
     transition: width 0.24s var(--desk-ease, cubic-bezier(0.4, 0, 0.2, 1));
+    overflow: visible;
   }
 
 .app-sidebar--collapsed {
@@ -718,7 +719,7 @@
 }
 
 .app-sidebar-tooltip {
-  @apply pointer-events-none absolute left-[calc(100%+0.5rem)] top-1/2 z-[70] min-w-[9rem] max-w-[12rem] rounded-lg border px-2.5 py-2 opacity-0 shadow-lg transition;
+  @apply pointer-events-none absolute left-[calc(100%+0.5rem)] top-1/2 z-[200] min-w-[9rem] max-w-[12rem] rounded-lg border px-2.5 py-2 opacity-0 shadow-lg transition;
   border-color: var(--cursor-border, #e4e4e7);
   background: var(--cursor-bg, #fff);
   transform: translateY(-50%) translateX(-4px);

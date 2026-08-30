@@ -40,17 +40,14 @@ Reglas únicas para **Lucide** en landing, desk, consolas y formularios. Objetiv
 
 ## Navegación sidebar (desk)
 
-Cada ítem en `deskNav.ts` puede declarar `tier`:
+| Modo | Primary | Secondary |
+|------|---------|-----------|
+| **Expandido** | Icono + **nombre** visible | Solo icono + tooltip al hover |
+| **Colapsado (rail)** | Solo icono + tooltip lateral | Igual — tooltip con nombre + resultado Y |
 
-| Tier | Expandido | Colapsado |
-|------|-----------|-----------|
-| `primary` (default) | Icono + etiqueta + resultado Y | Icono + `SidebarTooltip` lateral |
-| `secondary` | Solo icono + `DeskIconHint` (nube arriba) | Icono + `SidebarTooltip` lateral |
+Para ver nombres: expande el panel lateral (botón ⊞ en el pie del sidebar).
 
-**Ciudadano — primary:** Hub, Participar, Gestión pública.  
-**Ciudadano — secondary:** Dictámenes, Transparencia.
-
-Criterio: ¿el usuario entra aquí cada sesión? → primary. ¿Consulta ocasional o referencia? → secondary.
+Criterio secondary: consulta ocasional (Dictámenes, Transparencia, Glosario, IaaU…).
 
 ## Tooltips
 

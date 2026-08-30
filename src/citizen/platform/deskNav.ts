@@ -165,7 +165,6 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
         label: 'DATA Trust',
         outcome: 'Agregados sectoriales verificables',
         icon: Database,
-        tier: 'secondary',
       },
       {
         to: '/modelos/evidencia-certificada',

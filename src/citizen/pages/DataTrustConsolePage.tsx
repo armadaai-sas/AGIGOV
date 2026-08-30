@@ -9,7 +9,8 @@ import {
 import { ModelConsoleHeader } from '../components/models/ModelConsoleHeader.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import { PageShell, LoadingState, DsSpinner } from '../components/PageShell.js';
-import { useCachedFetch } from '../hooks/useCitizenData.js';
+import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
+import { deriveModelProcessStep } from '../platform/modelProcess.js';
 
 export default function DataTrustConsolePage() {
   const catalog = useCachedFetch('data-trust-catalog', fetchDataTrustCatalog, 60_000);
@@ -27,6 +28,22 @@ export default function DataTrustConsolePage() {
   );
 
   const fatal = Boolean(catalog.error && catalog.state === 'error' && !catalog.data);
+
+  const processStep = deriveModelProcessStep({
+    modelSelected: true,
+    dataConnected: true,
+    receiving: refreshing,
+    analyzing: catalog.state === 'syncing' || refreshing,
+    classifying: Boolean(selectedId && detail.state === 'syncing'),
+    reporting: Boolean(selectedId && detail.data && detail.state !== 'syncing'),
+    published: Boolean(
+      catalog.data &&
+        catalog.data.datasets.length > 0 &&
+        catalog.state === 'synced' &&
+        !refreshing &&
+        detail.state !== 'syncing',
+    ),
+  });
 
   async function handleRefresh() {
     setRefreshing(true);
@@ -57,6 +74,8 @@ export default function DataTrustConsolePage() {
             Regenerar pipeline
           </button>
         </ModelConsoleHeader>
+
+        <ModelProcessTracker currentStep={processStep} />
 
         {fatal ? (
           <DataConnectionState

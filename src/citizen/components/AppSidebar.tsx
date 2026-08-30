@@ -4,7 +4,6 @@ import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { DeskIconButton } from './desk/DeskGlyph.js';
-import { DeskIconHint } from './desk/DeskIconHint.js';
 import { DeskSidebarAccount } from './desk/DeskSidebarAccount.js';
 import { agigovIconProps } from './icons/agigovIcon.js';
 import { DeskPersonaSwitch } from './desk/DeskPersonaSwitch.js';
@@ -132,29 +131,28 @@ function DeskNavLink({
 }) {
   const Icon = item.icon;
   const isSecondary = item.tier === 'secondary';
-  const showBody = !collapsed && !isSecondary;
+  const showLabel = !collapsed && !isSecondary;
 
   const link = (
     <Link
       to={item.to}
-      className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''} ${isSecondary && !collapsed ? 'app-sidebar-link--icon-only' : ''}`}
+      className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''} ${isSecondary && !collapsed ? 'app-sidebar-link--icon-only' : ''} ${!isSecondary && !collapsed ? 'app-sidebar-link--named' : ''}`}
       onMouseEnter={() => prefetchRoute(item.to)}
       onFocus={() => prefetchRoute(item.to)}
-      aria-label={isSecondary && !collapsed ? item.label : undefined}
+      aria-label={!showLabel || isSecondary ? item.label : undefined}
     >
       <span className="app-sidebar-link-icon-wrap" aria-hidden>
         <Icon className="app-sidebar-link-icon" />
       </span>
-      {showBody ? (
-        <span className="app-sidebar-link-body">
+      {showLabel ? (
+        <span className="app-sidebar-link-body app-sidebar-link-body--named">
           <span className="app-sidebar-link-label">{item.label}</span>
-          <span className="app-sidebar-link-outcome">{item.outcome}</span>
         </span>
       ) : null}
     </Link>
   );
 
-  if (collapsed) {
+  if (collapsed || isSecondary) {
     return (
       <li>
         <SidebarTooltip label={item.label} hint={item.outcome} enabled>
@@ -164,15 +162,11 @@ function DeskNavLink({
     );
   }
 
-  if (isSecondary) {
-    return (
-      <li>
-        <DeskIconHint label={item.label} hint={item.outcome}>
-          {link}
-        </DeskIconHint>
-      </li>
-    );
-  }
-
-  return <li>{link}</li>;
+  return (
+    <li>
+      <SidebarTooltip label={item.label} hint={item.outcome} enabled={false}>
+        {link}
+      </SidebarTooltip>
+    </li>
+  );
 }
