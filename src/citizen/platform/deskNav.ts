@@ -8,6 +8,7 @@ import {
   FileText,
   Landmark,
   LayoutDashboard,
+  Network,
   Package,
   Receipt,
   Rocket,
@@ -82,6 +83,7 @@ export function inferDeskPersonaFromPath(pathname: string): DeskPersonaId | null
   if (
     pathname.startsWith('/institucional') ||
     pathname.startsWith('/contratos') ||
+    pathname.startsWith('/escritorio/mapa') ||
     pathname.includes('/egs')
   ) {
     return 'state';
@@ -201,6 +203,13 @@ const STATE_NAV: readonly DeskNavSection[] = [
     id: 'utilidad',
     label: 'Introducir',
     items: [
+      {
+        to: '/escritorio/mapa',
+        label: 'Mapa del sistema',
+        outcome: 'Ver interconexiones en vivo',
+        icon: Network,
+        tier: 'primary',
+      },
       {
         to: INSTITUTION_ROUTES.pilot,
         label: 'Piloto fiscal',

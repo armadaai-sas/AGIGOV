@@ -42,6 +42,7 @@ import {
   getEgsPipelineStatus,
   type EgsConnectMode,
 } from '../egs/pipeline.js';
+import { getSystemGraph } from '../system/graph.js';
 import {
   processVesPaymentWebhook,
   WebhookAuthError,
@@ -908,6 +909,16 @@ app.post('/api/public/models/egs/disconnect', async (_req, res) => {
   }
 });
 
+/** Sovereign System Map — grafo read-only (Fase 1A). */
+app.get('/api/public/system/graph', async (_req, res) => {
+  try {
+    res.json(await getSystemGraph());
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'No se pudo construir grafo';
+    res.status(500).json({ error: message });
+  }
+});
+
 /** DATA Trust — estado del pipeline en vivo. */
 app.get('/api/public/models/data-trust/pipeline', (_req, res) => {
   try {
@@ -1019,6 +1030,7 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/models/egs/pipeline': { get: { summary: 'Pipeline EGS multiagente (Postgres)' } },
       '/api/public/models/egs/connect': { post: { summary: 'Conectar consola EGS' } },
       '/api/public/models/egs/disconnect': { post: { summary: 'Desconectar consola EGS' } },
+      '/api/public/system/graph': { get: { summary: 'Mapa soberano read-only (Fase 1A)' } },
       '/api/public/payments/webhook': {
         post: { summary: 'Webhook pasarela VES (HMAC X-Agigov-Signature)' },
       },

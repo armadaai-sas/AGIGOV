@@ -48,6 +48,7 @@ const IaauConsolePage = lazy(() => import('./pages/IaauConsolePage.js'));
 const DataTrustConsolePage = lazy(() => import('./pages/DataTrustConsolePage.js'));
 const EvidenciaConsolePage = lazy(() => import('./pages/EvidenciaConsolePage.js'));
 const SetConsolePage = lazy(() => import('./pages/SetConsolePage.js'));
+const SystemMapPage = lazy(() => import('./pages/SystemMapPage.js'));
 const CnePage = lazy(() => import('./pages/CnePage.js'));
 
 function RouteSuspenseFallback() {
@@ -66,6 +67,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/escritorio" element={<EscritorioPage />} />
+        <Route path="/escritorio/mapa" element={<SystemMapPage />} />
         <Route path="/descargar" element={<DesktopDownloadPage />} />
         <Route path="/gestion" element={<DashboardPage />} />
         <Route path="/propuestas" element={<ProposalsPage />} />

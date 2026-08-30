@@ -656,6 +656,53 @@ export async function connectEgsConsole(
   return res.json() as Promise<EgsPipelineResponse>;
 }
 
+export type SystemGraphNodeKind = 'model' | 'agent' | 'source' | 'checkpoint' | 'ledger';
+
+export type SystemGraphNodeStatus =
+  | 'connected'
+  | 'active'
+  | 'complete'
+  | 'idle'
+  | 'blocked'
+  | 'freeze'
+  | 'pending'
+  | 'failed';
+
+export interface SystemGraphNode {
+  id: string;
+  kind: SystemGraphNodeKind;
+  label: string;
+  status: SystemGraphNodeStatus;
+  detail?: string;
+  href?: string;
+}
+
+export interface SystemGraphEdge {
+  id: string;
+  from: string;
+  to: string;
+  kind: 'connect' | 'handoff' | 'evidence' | 'serve';
+  label?: string;
+  stage?: string;
+}
+
+export interface SystemGraphResponse {
+  updatedAt: string;
+  nodeCount: number;
+  edgeCount: number;
+  nodes: SystemGraphNode[];
+  edges: SystemGraphEdge[];
+  pipelines: {
+    dataTrust: { currentStage: string; connected: boolean };
+    egs: { currentStage: string; connected: boolean; iapWired: boolean };
+  };
+  disclaimer: string;
+}
+
+export function fetchSystemGraph() {
+  return fetchPublic<SystemGraphResponse>('/api/public/system/graph');
+}
+
 export interface MinistryHealthContract {
   id: string;
   title: string;
