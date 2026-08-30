@@ -9,18 +9,44 @@ type DeskHomeCanvasProps = {
   greet: string | null;
 };
 
-/** Canvas ergonómico — espacio, resultado y pasos simples por persona. */
+/** Hub por persona — zonas Mirar/Introducir/Aprender (o equivalente). */
 export function DeskHomeCanvas({ home, personaLabel, greet }: DeskHomeCanvasProps) {
   const PrimaryIcon = home.primary.icon;
-  const SecondaryIcon = home.secondary?.icon;
 
   return (
     <div className="desk-home">
       <header className="desk-home-hero">
-        <p className="desk-home-eyebrow">{personaLabel}</p>
-        <h1 className="desk-home-greet">{greet ? `Hola, ${greet}` : 'Escritorio'}</h1>
+        <p className="desk-home-eyebrow">
+          {personaLabel}
+          <span className="desk-home-badge">{home.hubBadge}</span>
+        </p>
+        {greet ? <p className="desk-home-greet">Hola, {greet}</p> : null}
         <p className="desk-home-result">{home.resultFocus}</p>
       </header>
+
+      <section className="desk-home-zones" aria-label="Hub por utilidad">
+        {home.zones.map((zone) => (
+          <div key={zone.id} className="desk-home-zone">
+            <h2 className="desk-home-zone-label">{zone.label}</h2>
+            <ul className="desk-home-zone-list">
+              {zone.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.to}>
+                    <Link to={item.to} className="desk-home-zone-link">
+                      <Icon className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                      <span className="desk-home-zone-link-body">
+                        <span className="desk-home-zone-link-label">{item.label}</span>
+                        <span className="desk-home-zone-link-outcome">{item.outcome}</span>
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </section>
 
       <section className="desk-home-steps-section" aria-labelledby="desk-home-steps-title">
         <h2 id="desk-home-steps-title" className="desk-home-steps-lead">
@@ -52,19 +78,9 @@ export function DeskHomeCanvas({ home, personaLabel, greet }: DeskHomeCanvasProp
           </span>
           <ArrowRight className="desk-home-primary-arrow h-4 w-4" aria-hidden />
         </Link>
-
-        {home.secondary ? (
-          <Link to={home.secondary.to} className="desk-home-secondary">
-            {SecondaryIcon ? (
-              <SecondaryIcon className="h-4 w-4 shrink-0 opacity-60" aria-hidden strokeWidth={1.75} />
-            ) : null}
-            <span>{home.secondary.label}</span>
-            <span className="desk-home-secondary-outcome">→ {home.secondary.outcome}</span>
-          </Link>
-        ) : null}
       </section>
 
-      <p className="desk-home-quiet">⌘K — buscar rutas, ayuda y catálogo completo</p>
+      <p className="desk-home-quiet">⌘K — búsqueda filtrada por tu rol</p>
     </div>
   );
 }

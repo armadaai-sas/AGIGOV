@@ -8,8 +8,7 @@ import '../../styles/desk.css';
 import { AppSidebar } from './AppSidebar.js';
 import { LegacyRedirectBanner } from './LegacyRedirectBanner.js';
 import { CommandPaletteButton } from './CommandPalette.js';
-import { DeskGlyph, DeskIconButton } from './desk/DeskGlyph.js';
-import { InstitutionAccountNav } from './institutional/InstitutionAccountNav.js';
+import { DeskIconButton } from './desk/DeskGlyph.js';
 import { DeskShellProvider, useDeskShell } from '../context/DeskShellContext.js';
 
 import { EGS_CONSOLE_PATH } from '../platform/agigovModels.js';
@@ -81,19 +80,10 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((open) => !open)}
             />
-            <span className="app-topbar-title">{pageTitle}</span>
+            <span className="app-topbar-title lg:hidden">{pageTitle}</span>
           </div>
           <div className="app-topbar-actions">
             <CommandPaletteButton />
-            <InstitutionAccountNav variant="topbar" />
-            <Link
-              to="/"
-              className="desk-icon-btn desk-icon-btn--ghost hidden sm:inline-flex"
-              aria-label="Salir al inicio"
-              title="Salir al inicio"
-            >
-              <DeskGlyph kind="exit" />
-            </Link>
           </div>
         </header>
 

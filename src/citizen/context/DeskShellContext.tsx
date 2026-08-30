@@ -9,11 +9,11 @@ import {
 } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import type { DeskPersonaId } from '../platform/deskNav.js';
 import {
   inferDeskPersonaFromPath,
   readStoredDeskPersona,
   storeDeskPersona,
+  type DeskPersonaId,
 } from '../platform/deskNav.js';
 
 const SIDEBAR_COLLAPSED_KEY = 'agigov.sidebar.collapsed';
@@ -77,4 +77,11 @@ export function useDeskShell(): DeskShellContextValue {
     throw new Error('useDeskShell must be used within DeskShellProvider');
   }
   return ctx;
+}
+
+/** Para ⌘K global — fuera del shell usa persona almacenada. */
+export function useDeskPersonaOptional(): DeskPersonaId {
+  const ctx = useContext(DeskShellContext);
+  if (ctx) return ctx.persona;
+  return readStoredDeskPersona();
 }

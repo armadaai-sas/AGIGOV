@@ -1,15 +1,25 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   Activity,
+  BookOpen,
+  Briefcase,
   Code2,
   Database,
   FileCheck,
+  FileText,
+  HelpCircle,
+  Package,
+  Receipt,
   Rocket,
+  Scale,
+  ScrollText,
+  Server,
   TrendingDown,
   Users,
 } from 'lucide-react';
 
 import type { DeskPersonaId } from './deskNav.js';
+import { ENTERPRISE_ROUTES } from './enterpriseRoutes.js';
 import { INSTITUTION_ROUTES } from './institutionalRoutes.js';
 import { modelWorkspacePath } from './modelWorkspace.js';
 
@@ -25,19 +35,25 @@ export type DeskHomeAction = {
   icon: LucideIcon;
 };
 
+export type DeskHubZone = {
+  id: string;
+  label: string;
+  items: readonly DeskHomeAction[];
+};
+
 export type DeskPersonaHome = {
-  /** Enfoque en el resultado — una frase tranquila y clara. */
+  hubBadge: string;
   resultFocus: string;
-  /** Cómo entra la data — subtítulo breve. */
   dataLead: string;
-  /** Tres pasos simples — introducir datos sin fricción. */
   steps: readonly [DeskHomeStep, DeskHomeStep, DeskHomeStep];
   primary: DeskHomeAction;
   secondary?: DeskHomeAction;
+  zones: readonly DeskHubZone[];
 };
 
 const CITIZEN_HOME: DeskPersonaHome = {
-  resultFocus: 'Tu aporte queda en el registro público con hechos verificables.',
+  hubBadge: 'Gratis siempre',
+  resultFocus: 'Ve lo publicado, participa con hechos y aprende el marco — sin exponer tu identidad.',
   dataLead: 'Tres pasos para introducir tu propuesta.',
   steps: [
     { title: 'Abre Participar', detail: 'Describe la utilidad concreta que buscas.' },
@@ -56,37 +72,145 @@ const CITIZEN_HOME: DeskPersonaHome = {
     outcome: 'Gestión pública en vivo',
     icon: Activity,
   },
+  zones: [
+    {
+      id: 'mirar',
+      label: 'Mirar',
+      items: [
+        {
+          to: '/gestion',
+          label: 'Gestión pública',
+          outcome: 'Telemetría en vivo',
+          icon: Activity,
+        },
+        {
+          to: '/propuestas',
+          label: 'Dictámenes',
+          outcome: 'Estado de propuestas',
+          icon: FileText,
+        },
+        {
+          to: '/transparencia',
+          label: 'Transparencia',
+          outcome: 'Marco legal publicado',
+          icon: Scale,
+        },
+      ],
+    },
+    {
+      id: 'introducir',
+      label: 'Introducir',
+      items: [
+        {
+          to: '/participar',
+          label: 'Participar',
+          outcome: 'Propuesta con hechos',
+          icon: Users,
+        },
+      ],
+    },
+    {
+      id: 'aprender',
+      label: 'Aprender',
+      items: [
+        {
+          to: '/ayuda',
+          label: 'Ayuda',
+          outcome: 'Tutoriales paso a paso',
+          icon: HelpCircle,
+        },
+        {
+          to: '/aprender/glosario',
+          label: 'Glosario',
+          outcome: 'Conceptos en lenguaje claro',
+          icon: BookOpen,
+        },
+      ],
+    },
+  ],
 };
 
 const ENTERPRISE_HOME: DeskPersonaHome = {
-  resultFocus: 'Certifica hitos y libera cobros con evidencia demostrable.',
+  hubBadge: 'Recorrido + por uso',
+  resultFocus: 'Certifica hitos, consulta DATA Trust y cobra con evidencia demostrable.',
   dataLead: 'Tres pasos para conectar tus datos operativos.',
   steps: [
-    { title: 'Define el hito', detail: 'Contrato o modelo con criterio medible de cumplimiento.' },
-    { title: 'Introduce evidencia', detail: 'API, archivo o registro que prueba el hito.' },
+    { title: 'Recorre el catálogo', detail: 'Modelos B2B alineados a tu sector.' },
+    { title: 'Introduce evidencia', detail: 'API o carga por hito de contrato.' },
     { title: 'Verifica liberación', detail: 'Custodia confirma — menos fricción al cobrar.' },
   ],
   primary: {
-    to: '/modelos/evidencia-certificada',
-    label: 'Evidencia API',
-    outcome: 'Certificar hitos de contrato',
-    icon: Database,
+    to: ENTERPRISE_ROUTES.hub,
+    label: 'Recorrido A→Z',
+    outcome: 'Catálogo → DATA → contacto',
+    icon: Briefcase,
   },
   secondary: {
-    to: '/contratos',
-    label: 'Ver contratos',
-    outcome: 'Custodia y liberación por hito',
-    icon: FileCheck,
+    to: '/modelos/evidencia-certificada',
+    label: 'Evidencia API',
+    outcome: 'Certificar hitos',
+    icon: Receipt,
   },
+  zones: [
+    {
+      id: 'descubrir',
+      label: 'Descubrir',
+      items: [
+        {
+          to: ENTERPRISE_ROUTES.hub,
+          label: 'Recorrido empresas',
+          outcome: 'A→Z B2B',
+          icon: Briefcase,
+        },
+        {
+          to: '/modelos/data-trust',
+          label: 'DATA Trust',
+          outcome: 'Agregados verificables',
+          icon: Database,
+        },
+      ],
+    },
+    {
+      id: 'operar',
+      label: 'Operar',
+      items: [
+        {
+          to: '/modelos/evidencia-certificada',
+          label: 'Evidencia API',
+          outcome: 'Certificar hitos',
+          icon: Receipt,
+        },
+      ],
+    },
+    {
+      id: 'resultado',
+      label: 'Resultado',
+      items: [
+        {
+          to: '/contratos',
+          label: 'Contratos',
+          outcome: 'Custodia por hito',
+          icon: FileCheck,
+        },
+        {
+          to: '/modelos/iaau',
+          label: 'IaaU',
+          outcome: 'Infra por uso',
+          icon: Server,
+        },
+      ],
+    },
+  ],
 };
 
 const STATE_HOME: DeskPersonaHome = {
-  resultFocus: 'Opera ahorro fiscal con telemetría publicada para la ciudadanía.',
+  hubBadge: 'Piloto · éxito sobre Δ',
+  resultFocus: 'Despliega EGS, publica telemetría y custodia contratos con evidencia.',
   dataLead: 'Tres pasos para desplegar con datos institucionales.',
   steps: [
-    { title: 'Registra institución', detail: 'Correo oficial — la sesión queda vinculada.' },
-    { title: 'Activa piloto EGS', detail: 'Introduce datos fiscales en entorno seguro.' },
-    { title: 'Publica resultado', detail: 'Telemetría y ledger visibles en gestión pública.' },
+    { title: 'Registra institución', detail: 'Correo oficial — sesión vinculada.' },
+    { title: 'Activa piloto EGS', detail: 'Datos fiscales en entorno seguro.' },
+    { title: 'Publica resultado', detail: 'Telemetría visible en gestión pública.' },
   ],
   primary: {
     to: INSTITUTION_ROUTES.pilot,
@@ -97,31 +221,132 @@ const STATE_HOME: DeskPersonaHome = {
   secondary: {
     to: modelWorkspacePath('egs'),
     label: 'Operar EGS',
-    outcome: 'Ahorro certificado en consola',
+    outcome: 'Ahorro certificado',
     icon: TrendingDown,
   },
+  zones: [
+    {
+      id: 'desplegar',
+      label: 'Desplegar',
+      items: [
+        {
+          to: INSTITUTION_ROUTES.pilot,
+          label: 'Piloto fiscal',
+          outcome: 'Asistente EGS',
+          icon: Rocket,
+        },
+        {
+          to: modelWorkspacePath('egs'),
+          label: 'Consola EGS',
+          outcome: 'Operar ahorro',
+          icon: TrendingDown,
+        },
+      ],
+    },
+    {
+      id: 'publicar',
+      label: 'Publicar',
+      items: [
+        {
+          to: '/gestion',
+          label: 'Gestión pública',
+          outcome: 'Telemetría ciudadana',
+          icon: ScrollText,
+        },
+      ],
+    },
+    {
+      id: 'custodiar',
+      label: 'Custodiar',
+      items: [
+        {
+          to: '/contratos',
+          label: 'Contratos',
+          outcome: 'Hitos con evidencia',
+          icon: FileCheck,
+        },
+        {
+          to: INSTITUTION_ROUTES.register,
+          label: 'Registro',
+          outcome: 'Cuenta institucional',
+          icon: Rocket,
+        },
+      ],
+    },
+  ],
 };
 
 const INTEGRATOR_HOME: DeskPersonaHome = {
-  resultFocus: 'Integra sistemas con trazabilidad firmada en cadena.',
-  dataLead: 'Tres pasos para conectar tu stack.',
+  hubBadge: 'OSS + metering',
+  resultFocus: 'Conecta API, firma IAP y prueba custodia antes de producción.',
+  dataLead: 'Tres pasos para integrar tu stack.',
   steps: [
-    { title: 'Revisa la API', detail: 'Health, OpenAPI y rutas de integración.' },
-    { title: 'Firma envelopes IAP', detail: 'Datos entre agentes — cifrado y anti-replay.' },
-    { title: 'Prueba custodia', detail: 'Flujo de hitos en sandbox antes de producción.' },
+    { title: 'Revisa la API', detail: 'Health, OpenAPI y rutas.' },
+    { title: 'Firma envelopes IAP', detail: 'Cifrado y anti-replay entre agentes.' },
+    { title: 'Prueba custodia', detail: 'Flujo de hitos en sandbox.' },
   ],
   primary: {
     to: '/desarrolladores',
     label: 'Abrir API',
-    outcome: 'Health, OpenAPI e integración',
+    outcome: 'Health y OpenAPI',
     icon: Code2,
   },
   secondary: {
     to: '/contratos',
     label: 'Probar custodia',
-    outcome: 'Hitos y evidencia en cadena',
+    outcome: 'Hitos en cadena',
     icon: FileCheck,
   },
+  zones: [
+    {
+      id: 'conectar',
+      label: 'Conectar',
+      items: [
+        {
+          to: '/desarrolladores',
+          label: 'API',
+          outcome: 'Health e integración',
+          icon: Code2,
+        },
+        {
+          to: '/modelos',
+          label: 'Modelos',
+          outcome: 'Catálogo IAP',
+          icon: Package,
+        },
+      ],
+    },
+    {
+      id: 'probar',
+      label: 'Probar',
+      items: [
+        {
+          to: '/contratos',
+          label: 'Custodia',
+          outcome: 'Flujo de hitos',
+          icon: FileCheck,
+        },
+      ],
+    },
+    {
+      id: 'aprender',
+      label: 'Aprender',
+      items: [
+        {
+          to: '/aprender/glosario',
+          label: 'Glosario',
+          outcome: 'Protocolo e IAP',
+          icon: BookOpen,
+        },
+        {
+          to: '/ayuda',
+          label: 'Ayuda',
+          outcome: 'Tutoriales técnicos',
+          icon: HelpCircle,
+        },
+      ],
+    },
+  ],
 };
 
 export function getDeskPersonaHome(persona: DeskPersonaId): DeskPersonaHome {

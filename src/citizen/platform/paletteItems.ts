@@ -1,4 +1,5 @@
-import { AGIGOV_MODELS, MODEL_AUDIENCE_LABEL } from './agigovModels.js';
+import type { DeskPersonaId } from './deskNav.js';
+import { AGIGOV_MODELS, MODEL_AUDIENCE_LABEL, type ModelAudience } from './agigovModels.js';
 
 export type PaletteItem = {
   id: string;
@@ -54,4 +55,34 @@ export function filterPaletteItems(query: string): PaletteItem[] {
       item.group.toLowerCase().includes(q) ||
       item.keywords?.toLowerCase().includes(q),
   );
+}
+
+const PERSONA_GROUPS: Record<DeskPersonaId, readonly string[]> = {
+  citizen: ['Ciudadano', 'Recursos', 'Desk', 'Salir del desk'],
+  enterprise: ['Empresa', 'Operación', 'Recursos', 'Desk', 'Salir del desk'],
+  state: ['Estado', 'Operación', 'Recursos', 'Desk', 'Salir del desk'],
+  integrator: ['Integrador', 'Recursos', 'Desk', 'Salir del desk', 'Operación'],
+};
+
+const PERSONA_MODEL_AUDIENCE: Record<DeskPersonaId, readonly ModelAudience[]> = {
+  citizen: ['ciudadano'],
+  enterprise: ['empresarial', 'gubernamental'],
+  state: ['gubernamental', 'ciudadano'],
+  integrator: ['empresarial', 'gubernamental', 'ciudadano'],
+};
+
+function paletteItemAllowed(item: PaletteItem, persona: DeskPersonaId): boolean {
+  const allowed = PERSONA_GROUPS[persona];
+  if (allowed.includes(item.group)) return true;
+  if (item.group.startsWith('Modelo ·')) {
+    return PERSONA_MODEL_AUDIENCE[persona].some((a) =>
+      item.group.includes(MODEL_AUDIENCE_LABEL[a]),
+    );
+  }
+  return false;
+}
+
+/** ⌘K filtrado por persona — sin ruido de otros roles. */
+export function filterPaletteItemsForPersona(query: string, persona: DeskPersonaId): PaletteItem[] {
+  return filterPaletteItems(query).filter((item) => paletteItemAllowed(item, persona));
 }

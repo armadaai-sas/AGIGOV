@@ -11,6 +11,7 @@ import {
   Package,
   Receipt,
   Rocket,
+  Scale,
   ScrollText,
   Server,
   TrendingDown,
@@ -70,17 +71,8 @@ export function storeDeskPersona(id: DeskPersonaId): void {
   window.localStorage.setItem(DESK_PERSONA_KEY, id);
 }
 
-export function deskPersonaHomePath(id: DeskPersonaId): string {
-  switch (id) {
-    case 'state':
-      return INSTITUTION_ROUTES.desk;
-    case 'citizen':
-      return '/gestion';
-    case 'enterprise':
-      return ENTERPRISE_ROUTES.hub;
-    case 'integrator':
-      return '/desarrolladores';
-  }
+export function deskPersonaHomePath(_id: DeskPersonaId): string {
+  return INSTITUTION_ROUTES.desk;
 }
 
 /** Inferir persona desde la ruta activa. */
@@ -142,6 +134,12 @@ const CITIZEN_NAV: readonly DeskNavSection[] = [
         label: 'Dictámenes',
         outcome: 'Propuestas publicadas',
         icon: FileText,
+      },
+      {
+        to: '/transparencia',
+        label: 'Transparencia',
+        outcome: 'Marco legal publicado',
+        icon: Scale,
       },
     ],
   },
@@ -401,8 +399,8 @@ export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWork
 /** Escritorio siempre accesible — primer ítem del rail. */
 export const DESK_HOME_ITEM: DeskNavItem = {
   to: INSTITUTION_ROUTES.desk,
-  label: 'Escritorio',
-  outcome: 'Tu espacio de trabajo',
+  label: 'Hub',
+  outcome: 'Tu espacio por persona',
   icon: LayoutDashboard,
 };
 

@@ -2,19 +2,21 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboa
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 
-import { filterPaletteItems, type PaletteItem } from '../platform/paletteItems.js';
+import { filterPaletteItemsForPersona, type PaletteItem } from '../platform/paletteItems.js';
+import { useDeskPersonaOptional } from '../context/DeskShellContext.js';
 
 const OPEN_EVENT = 'agigov-open-palette';
 
 /** Command palette global ⌘K / Ctrl+K (Fase F2). */
 export function CommandPalette() {
   const navigate = useNavigate();
+  const persona = useDeskPersonaOptional();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const items = useMemo(() => filterPaletteItems(query), [query]);
+  const items = useMemo(() => filterPaletteItemsForPersona(query, persona), [query, persona]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {

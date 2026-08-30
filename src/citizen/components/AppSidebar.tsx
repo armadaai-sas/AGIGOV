@@ -4,6 +4,7 @@ import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { DeskIconButton } from './desk/DeskGlyph.js';
+import { DeskSidebarAccount } from './desk/DeskSidebarAccount.js';
 import { DeskPersonaSwitch } from './desk/DeskPersonaSwitch.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
 import { SidebarTooltip } from './SidebarTooltip.js';
@@ -80,6 +81,7 @@ export function AppSidebar() {
                 <Settings2 className="h-4 w-4" />
               </button>
             </SidebarTooltip>
+            <DeskSidebarAccount collapsed={sidebarCollapsed} />
           </div>
           {!sidebarCollapsed ? <p className="app-sidebar-desk-hint">⌘K — todo lo demás</p> : null}
         </div>
