@@ -68,10 +68,10 @@ Superficie viva: `http://137.184.66.163/` · Evidencia: [00-EVIDENCE-LAW.md](./p
 
 | Capa | Patrón | Estado |
 |------|--------|--------|
-| Pipeline API | `GET /api/public/models/:id/pipeline` | DATA Trust ✅ |
-| Connect wizard | Por modelo, modos honestos | DATA Trust ✅ |
+| Pipeline API | `GET /api/public/models/:id/pipeline` | DATA Trust ✅ · EGS ✅ |
+| Connect wizard | Por modelo, modos honestos | DATA Trust ✅ · EGS ✅ |
 | Console template | `ModelConsoleLayout` + zonas | Fase 0 🔄 |
-| Model process map | `src/<model>/pipeline.ts` | EGS pendiente |
+| Model process map | `src/<model>/pipeline.ts` | DATA Trust ✅ · EGS ✅ |
 | Evidencia | PASS solo con curl/UI | Ley activa |
 
 ### D — Customer-centric por persona
@@ -87,34 +87,71 @@ Superficie viva: `http://137.184.66.163/` · Evidencia: [00-EVIDENCE-LAW.md](./p
 
 ## 3. Fases de ejecución
 
-### Fase 0 — Fundación (semana 1) ← **AHORA**
+### Fase 0 — Fundación ✅ **CULMINADA** (2026-08-30)
 
 - [x] Pipeline API DATA Trust
 - [x] Wizard Conectar DATA Trust
-- [ ] `ModelConsoleLayout` centrado simétrico
-- [ ] DATA Trust consola referencia (zonas 1–5)
-- [ ] Reglas métricas en doc + lint visual checklist
-- [ ] Sidebar expandido por defecto (primera visita)
+- [x] Pipeline API EGS + enjambre multiagente (`src/egs/pipeline.ts`)
+- [x] Wizard Conectar EGS + consola `ModelConsoleLayout`
+- [x] `ModelConsoleLayout` centrado simétrico (referencia DATA Trust + EGS)
+- [x] DATA Trust consola referencia (zonas 1–5)
+- [x] Reglas métricas en doc ([DATA-TRUST-PIPELINE](./design/DATA-TRUST-PIPELINE.md), [EGS-PIPELINE](./design/EGS-PIPELINE.md))
+- [~] Sidebar expandido por defecto — diferido polish (G6)
 
-**Evidencia:** screenshot Operador B + curl pipeline 200.
+#### Evidencia gate (137.184.66.163)
 
-### Fase 1 — Plantilla consola (semana 2–3)
+| # | Criterio | Prod | Notas |
+|---|----------|------|-------|
+| 1 | DATA Trust pipeline | **PASS** 200 | `currentStage: select` sin connect previo |
+| 2 | EGS pipeline | **PENDING deploy** | 404 hasta push EGS + redeploy |
+| 3 | Consolas centradas | **PASS** local · pending screenshot prod | Operador B |
+| 4 | Build green | **PASS** local | CI al push |
+| 5 | G1–G3 | **PASS** código | G4 deploy EGS en cola |
 
-- Migrar: IaaU, Evidencia, EGS consola → `ModelConsoleLayout`
+**Cierre:** fundación de producto + ingeniería honesta lista en repo. Deploy EGS es **carry-over** inmediato, no bloquea Fase 1A.
+
+---
+
+### Fase 1 — Plantilla consola + mapa del sistema (semana 2–4) ← **AHORA**
+
+Dos frentes en paralelo; el mapa **solo read-only** en v0.
+
+#### 1A — Sovereign System Map (read-only) ← **primer update post Fase 0**
+
+Vista institucional del **estado interconectado** (inspiración n8n, pero soberana: agentes + evidencia, no HTTP genérico).
+
+| Entregable | Alcance v0 | No incluye v0 |
+|------------|------------|---------------|
+| `GET /api/public/system/graph` | Nodos: modelos, agentes, fuentes connect, checkpoints | Editar / drag-and-drop |
+| UI `/escritorio/mapa` o zona hub Estado | Grafo read-only; color por `complete` / `active` / `blocked` / `freeze` | Compositor estilo n8n |
+| Aristas honestas | Derivadas de `…/pipeline` + `processCheckpoint` | Aristas inferidas desde UI |
+| Persona Estado | “¿Qué está interconectado en mi piloto?” en una pantalla | Multi-sig desde canvas |
+
+**Prerrequisitos (ya cubiertos al cerrar Fase 0):** al menos DATA Trust + EGS con pipeline API honesto.
+
+**Evidencia Fase 1A:** curl graph 200 + screenshot grafo con MPPI → EGS → Centinela → Ledger.
+
+#### 1B — Migrar consolas restantes
+
+- Migrar: IaaU, Evidencia → `ModelConsoleLayout`
 - Unificar cabecera: eliminar `ModelConsoleHeader` legacy
 - Métricas humanizadas (i18n keys por métrica)
 - Hub Empresa / Escritorio alineados a mismas zonas
 
-### Fase 2 — Pipeline por modelo (semana 4–6)
+**Doc:** [SOVEREIGN-SYSTEM-MAP.md](./design/SOVEREIGN-SYSTEM-MAP.md) (sketch API + nodos)
+
+### Fase 2 — Pipeline por modelo (semana 5–7)
 
 | Modelo | Connect | Pipeline real |
 |--------|---------|---------------|
 | DATA Trust | Demo/API/Institucional | ETL k-anonymity ✅ |
-| EGS | Piloto + baseline | Ingest → reconcile → quarter-close |
+| EGS | Piloto + baseline | Ingest → reconcile → quarter-close ✅ (UI) · IAP 🔄 |
 | Evidencia | API hito + upload | Certify → chain |
 | IaaU | API key metering | Sync → invoice |
 
 Doc por modelo: `docs/design/<MODEL>-PIPELINE.md`
+
+**Fase 2 desbloquea Fase 3 compositor:** editar flujos (estilo n8n) solo cuando IAP enrute handoffs reales (`swarm.iapWired: true`).
 
 ### Fase 3 — Shell global (semana 7–8)
 
@@ -123,10 +160,11 @@ Doc por modelo: `docs/design/<MODEL>-PIPELINE.md`
 - PWA empty states por persona
 - Slow 4G pass (Lighthouse desk)
 
-### Fase 4 — Robustez y GTM (semana 9–12)
+### Fase 4 — Compositor + GTM (semana 10–12)
 
+- **Sovereign Flow Composer** (v1): conectar modelos/agentes con multi-sig antes de activar
 - `models:audit` verde catálogo
-- Trust Pack Operador B corrida DATA Trust end-to-end
+- Trust Pack Operador B corrida end-to-end (DATA Trust + EGS)
 - Onboarding institucional → consola sin coaching
 - Precio/uso honesto en hub empresa
 
@@ -158,13 +196,14 @@ Doc por modelo: `docs/design/<MODEL>-PIPELINE.md`
 | G1 | P0 | Consola DATA Trust ilegible | ModelConsoleLayout + zonas | UI screenshot |
 | G2 | P0 | Canvas pegado al sidebar | Centrar shell content | CSS deploy |
 | G3 | P0 | Métricas sin contexto | Outcome metrics + i18n | Review empresa |
-| G4 | P1 | EGS sin pipeline API | `src/pilot/` pipeline.ts | curl 200 |
+| G4 | P1 | EGS deploy prod | push + redeploy droplet | curl 200 prod |
 | G5 | P1 | ModelConsoleHeader legacy | Deprecar → DeskPageHeader | PR |
 | G6 | P1 | Sidebar rail sin nombres | Expand default + tooltips | UI |
 | G7 | P2 | Dictamen audit blocked | Roadmap label only | OK |
 | G8 | P2 | OpenAPI pipeline routes | developers page | doc |
 | G9 | P1 | Trust Pack DATA Trust | Operador B run | case-study folder |
 | G10 | P2 | ⌘K hint footer sidebar | Remove/replace | polish |
+| G11 | P1 | Sovereign System Map | Fase 1A `GET /system/graph` | **AHORA** |
 
 ---
 
@@ -184,8 +223,10 @@ Doc por modelo: `docs/design/<MODEL>-PIPELINE.md`
 
 - [ICON-SYSTEM.md](./design/ICON-SYSTEM.md)
 - [DATA-TRUST-PIPELINE.md](./design/DATA-TRUST-PIPELINE.md)
+- [EGS-PIPELINE.md](./design/EGS-PIPELINE.md)
+- [SOVEREIGN-SYSTEM-MAP.md](./design/SOVEREIGN-SYSTEM-MAP.md)
 - [CURSOR-DESIGN-SYSTEM.md](./design/CURSOR-DESIGN-SYSTEM.md)
 - [process/README.md](./process/README.md)
 - [PLAN-EJECUCION-FASES.md](./PLAN-EJECUCION-FASES.md)
 
-**Próximo movimiento:** Fase 0 — DATA Trust consola referencia desplegada en 137.184.66.163.
+**Próximo movimiento:** Fase 1A — `GET /api/public/system/graph` + UI mapa read-only. Carry-over: commit/push EGS → curl 200 prod.

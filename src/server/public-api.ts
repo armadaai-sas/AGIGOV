@@ -37,6 +37,12 @@ import {
   type DataTrustConnectMode,
 } from '../data-trust/pipeline.js';
 import {
+  connectEgsPipeline,
+  disconnectEgsPipeline,
+  getEgsPipelineStatus,
+  type EgsConnectMode,
+} from '../egs/pipeline.js';
+import {
   processVesPaymentWebhook,
   WebhookAuthError,
 } from '../pilot/payment-webhook.js';
@@ -864,6 +870,44 @@ app.post('/api/public/data-trust/refresh', (_req, res) => {
   }
 });
 
+/** EGS — pipeline multiagente (Postgres + checkpoints). */
+app.get('/api/public/models/egs/pipeline', async (_req, res) => {
+  try {
+    res.json(await getEgsPipelineStatus());
+  } catch {
+    res.status(500).json({ error: 'No se pudo leer pipeline EGS' });
+  }
+});
+
+/** EGS — conectar consola (lectura piloto / ingest / ops). */
+app.post('/api/public/models/egs/connect', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'Sistema en FREEZE' });
+    return;
+  }
+  try {
+    const mode = req.body?.mode as EgsConnectMode | undefined;
+    if (!mode || !['pilot_read', 'institutional_ingest', 'ops_api'].includes(mode)) {
+      res.status(400).json({ error: 'mode inválido' });
+      return;
+    }
+    const ministryCode =
+      typeof req.body?.ministryCode === 'string' ? req.body.ministryCode : 'MPPI';
+    res.status(201).json(await connectEgsPipeline(mode, ministryCode));
+  } catch (e) {
+    res.status(400).json({ error: e instanceof Error ? e.message : 'connect falló' });
+  }
+});
+
+/** EGS — desconectar contexto de consola. */
+app.post('/api/public/models/egs/disconnect', async (_req, res) => {
+  try {
+    res.json(await disconnectEgsPipeline());
+  } catch {
+    res.status(500).json({ error: 'disconnect falló' });
+  }
+});
+
 /** DATA Trust — estado del pipeline en vivo. */
 app.get('/api/public/models/data-trust/pipeline', (_req, res) => {
   try {
@@ -972,6 +1016,9 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/models/data-trust/pipeline': { get: { summary: 'Estado pipeline DATA Trust en vivo' } },
       '/api/public/models/data-trust/connect': { post: { summary: 'Conectar fuente DATA Trust' } },
       '/api/public/models/data-trust/run': { post: { summary: 'Ejecutar ETL DATA Trust' } },
+      '/api/public/models/egs/pipeline': { get: { summary: 'Pipeline EGS multiagente (Postgres)' } },
+      '/api/public/models/egs/connect': { post: { summary: 'Conectar consola EGS' } },
+      '/api/public/models/egs/disconnect': { post: { summary: 'Desconectar consola EGS' } },
       '/api/public/payments/webhook': {
         post: { summary: 'Webhook pasarela VES (HMAC X-Agigov-Signature)' },
       },

@@ -29,7 +29,7 @@ export const MODEL_EXECUTION_PROFILES: readonly ModelExecutionProfile[] = [
       'src/db/egs/reconcile-quarter-close.ts',
       'src/pilot/egs-public.ts',
     ],
-    requiredApiRoutes: ['/api/public/egs/ministry-health'],
+    requiredApiRoutes: ['/api/public/egs/ministry-health', '/api/public/models/egs/pipeline'],
     consolePath: '/modelos/egs/consola',
     businessDocPaths: ['docs/AGIGOV/INVESTIGACION-NEGOCIO-GANAR-GANAR.md'],
     minJustificationScore: 32,

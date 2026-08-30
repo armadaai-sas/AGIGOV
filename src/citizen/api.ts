@@ -568,6 +568,94 @@ export async function runDataTrustPipeline() {
   return res.json() as Promise<DataTrustPipelineResponse>;
 }
 
+export type EgsConnectMode = 'pilot_read' | 'institutional_ingest' | 'ops_api';
+
+export type EgsAgentRole =
+  | 'ops'
+  | 'institution'
+  | 'centinela'
+  | 'logistico'
+  | 'soberano'
+  | 'comunicador'
+  | 'conciliador'
+  | 'human';
+
+export type EgsPipelineStageId =
+  | 'provision'
+  | 'baseline'
+  | 'ingest'
+  | 'reconcile'
+  | 'delta'
+  | 'sovereign'
+  | 'publish'
+  | 'serve';
+
+export type EgsStageStatus = 'pending' | 'active' | 'complete' | 'blocked' | 'failed';
+
+export interface EgsPipelineStage {
+  id: EgsPipelineStageId;
+  label: string;
+  detail: string;
+  status: EgsStageStatus;
+  agent: EgsAgentRole;
+  agentLabel: string;
+}
+
+export interface EgsSwarmState {
+  centinela: 'idle' | 'active' | 'complete' | 'freeze';
+  logistico: 'idle' | 'active' | 'complete' | 'blocked';
+  soberano: 'idle' | 'active' | 'complete' | 'blocked';
+  comunicador: 'idle' | 'active' | 'complete';
+  iapWired: boolean;
+  lastAgentId: string | null;
+}
+
+export interface EgsPipelineResponse {
+  updatedAt: string;
+  modelId: 'egs';
+  currentStage: EgsPipelineStageId;
+  liveLabel: string;
+  connection: {
+    mode: EgsConnectMode;
+    ministryCode: string;
+    label: string;
+    connectedAt: string;
+  } | null;
+  ministryCode: string | null;
+  tenantSlug: string | null;
+  onboardingStatus: string | null;
+  quarterCloseStatus: string | null;
+  reconcileOk: boolean;
+  discrepancies: string[];
+  releaseCount: number;
+  published: boolean;
+  ledgerProcessId: string | null;
+  swarm: EgsSwarmState;
+  stages: EgsPipelineStage[];
+  disclaimer: string;
+}
+
+export function fetchEgsPipeline() {
+  return fetchPublic<EgsPipelineResponse>('/api/public/models/egs/pipeline');
+}
+
+export async function connectEgsConsole(
+  mode: EgsConnectMode,
+  options?: { ministryCode?: string },
+) {
+  const res = await fetch(`${API_BASE}/api/public/models/egs/connect`, {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ mode, ministryCode: options?.ministryCode }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(err.error ?? `connect → ${res.status}`);
+  }
+  return res.json() as Promise<EgsPipelineResponse>;
+}
+
 export interface MinistryHealthContract {
   id: string;
   title: string;
