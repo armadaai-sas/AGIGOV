@@ -825,15 +825,12 @@
   }
 
 .app-shell-content--desk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: var(--cursor-bg, #fff);
-    padding: 0 1rem 2rem;
+    padding: 0 clamp(1.25rem, 4vw, 3rem) 3rem;
   }
-
-@media (min-width: 768px) {
-  .app-shell-content--desk {
-    padding-inline: 2rem 2.5rem;
-  }
-}
 
 .app-topbar-menu {
     @apply inline-flex h-9 w-9 min-h-9 min-w-9 shrink-0 items-center justify-center rounded-lg text-agigov-text-muted hover:bg-black/[0.04];

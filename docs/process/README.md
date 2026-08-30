@@ -19,6 +19,7 @@
 | OS (kernel) | Update · mantenimiento · filtros | [04-OS-UPDATE-MAINTENANCE.md](./04-OS-UPDATE-MAINTENANCE.md) | centinela · production-readiness |
 | Servidores / deploy | prod-light · health · rollback | [05-SERVER-DEPLOY-OPS.md](./05-SERVER-DEPLOY-OPS.md) | P8 · P9 |
 | UI release | Landing + shell + i18n | [06-UI-UX-RELEASE.md](./06-UI-UX-RELEASE.md) | artesano-ui |
+| **Plan maestro sistema** | Producto · diseño · ingeniería · GTM | [PLAN-MAESTRO-SISTEMA.md](../PLAN-MAESTRO-SISTEMA.md) | product-market-adviser |
 | Integradores externos | API · sandbox · contrato | [07-INTEGRATOR-GUIDE.md](./07-INTEGRATOR-GUIDE.md) | comercial-agigov |
 
 ---

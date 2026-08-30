@@ -672,10 +672,118 @@
 /* Páginas del desk — mismo lenguaje ergonómico que el home */
 .desk-page {
   --desk-read: 34rem;
+  width: 100%;
   max-width: var(--desk-read);
   margin-inline: auto;
-  padding: 2rem 0 3rem;
+  padding: 2.5rem 0 4rem;
 }
+
+/* Consola de modelo — canvas más ancho, centrado, zonas con aire */
+.desk-console {
+  --desk-read: 42rem;
+  width: 100%;
+  max-width: var(--desk-read);
+  margin-inline: auto;
+  padding: 2.5rem 0 4rem;
+}
+
+.desk-console-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--desk-space-section, 2rem);
+}
+
+.desk-console-zone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--desk-space-block, 1rem);
+}
+
+.desk-console-zone-label {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cursor-text-subtle, #a1a1aa);
+}
+
+.desk-console-metrics {
+  margin-bottom: 0;
+}
+
+.desk-console-outcome-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.desk-page-row--active {
+  border-color: rgb(24 24 27 / 0.18);
+  background: rgb(255 255 255 / 0.95);
+}
+
+.desk-console-detail {
+  padding: 1.125rem 1.25rem;
+  border: 1px solid rgb(228 228 231 / 0.85);
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 0.8);
+}
+
+.desk-console-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.desk-console-table th {
+  padding-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--cursor-text-muted, #71717a);
+  border-bottom: 1px solid rgb(228 228 231 / 0.85);
+}
+
+.desk-console-table td {
+  padding: 0.625rem 0;
+  border-bottom: 1px solid rgb(244 244 245 / 0.9);
+  color: var(--cursor-text, #18181b);
+}
+
+.desk-console-tech {
+  margin-top: 1rem;
+  font-size: 12px;
+  color: var(--cursor-text-subtle, #a1a1aa);
+}
+
+.desk-console-tech-line {
+  margin: 0.5rem 0 0;
+}
+
+.desk-console-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  font-size: 13px;
+}
+
+.desk-console-foot-link {
+  color: var(--cursor-text-muted, #71717a);
+  text-decoration: none;
+}
+
+.desk-console-foot-link:hover {
+  color: var(--cursor-text, #18181b);
+  text-decoration: underline;
+}
+
+.desk-console-foot-sep {
+  color: var(--cursor-text-subtle, #a1a1aa);
+}
+
 
 .desk-page-head {
   display: flex;
