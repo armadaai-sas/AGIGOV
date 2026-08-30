@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronRight, ExternalLink, FileDown } from 'lucide-react';
 
 import type { EgsPipelineResponse, MinistryHealthResponse } from '../../api.js';
 import { PlatformAlert } from '../PlatformAlert.js';
@@ -8,9 +8,9 @@ import { agigovIconProps } from '../icons/agigovIcon.js';
 import { ModelConsoleZone } from '../models/ModelConsoleLayout.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
+import { downloadEgsMinistryPdf } from '../../platform/exportEgsMinistryPdf.js';
 import {
   ministryEgsConforme,
-  ministryEgsResultLine,
   ministryEgsStatusHint,
 } from '../../platform/egsMinistryCopy.js';
 
@@ -80,6 +80,14 @@ export function MinistryEgsConsole({ data, pipeline }: Props) {
               Sin ahorro este trimestre — AGIGOV no cobra comisión de éxito.
             </p>
           ) : null}
+          <button
+            type="button"
+            className="app-btn app-btn--secondary inline-flex items-center gap-1.5"
+            onClick={() => downloadEgsMinistryPdf(data)}
+          >
+            <FileDown {...agigovIconProps('md')} />
+            Exportar informe PDF
+          </button>
         </div>
       </ModelConsoleZone>
 
