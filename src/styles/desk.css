@@ -1716,6 +1716,26 @@
   color: var(--cursor-text-muted, #71717a);
 }
 
+.egs-ministry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.egs-ministry-tech {
+  margin-top: 1.5rem;
+}
+
+.egs-ministry-tech-body {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 13px;
+  color: var(--cursor-text-muted, #71717a);
+}
+
 .model-console-foot {
   margin-top: 1.5rem;
   text-align: center;

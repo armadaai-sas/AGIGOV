@@ -140,6 +140,8 @@ Vista institucional del **estado interconectado** (inspiración n8n, pero sobera
 
 **Doc:** [SOVEREIGN-SYSTEM-MAP.md](./design/SOVEREIGN-SYSTEM-MAP.md) (sketch API + nodos)
 
+**EGS territorial (procesos, sin UI):** [EGS-ESTADO-TERRITORIAL.md](./design/EGS-ESTADO-TERRITORIAL.md) — validar antes de rediseñar consola.
+
 ### Fase 2 — Pipeline por modelo (semana 5–7)
 
 | Modelo | Connect | Pipeline real |
@@ -224,6 +226,7 @@ Doc por modelo: `docs/design/<MODEL>-PIPELINE.md`
 - [ICON-SYSTEM.md](./design/ICON-SYSTEM.md)
 - [DATA-TRUST-PIPELINE.md](./design/DATA-TRUST-PIPELINE.md)
 - [EGS-PIPELINE.md](./design/EGS-PIPELINE.md)
+- [EGS-ESTADO-TERRITORIAL.md](./design/EGS-ESTADO-TERRITORIAL.md)
 - [SOVEREIGN-SYSTEM-MAP.md](./design/SOVEREIGN-SYSTEM-MAP.md)
 - [CURSOR-DESIGN-SYSTEM.md](./design/CURSOR-DESIGN-SYSTEM.md)
 - [process/README.md](./process/README.md)
