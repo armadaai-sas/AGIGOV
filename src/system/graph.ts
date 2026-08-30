@@ -1,6 +1,6 @@
 /**
  * Sovereign System Map — grafo read-only agregado desde pipelines honestos.
- * Fase 1A: no inventa aristas; deriva de GET …/models/*/pipeline + checkpoints EGS.
+ * Fase 1A: no inventa aristas; deriva de GET model pipeline endpoints + checkpoints EGS.
  */
 import { getDataTrustPipelineStatus } from '../data-trust/pipeline.js';
 import { getEgsPipelineStatus } from '../egs/pipeline.js';
