@@ -4,7 +4,9 @@ import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { DeskIconButton } from './desk/DeskGlyph.js';
+import { DeskIconHint } from './desk/DeskIconHint.js';
 import { DeskSidebarAccount } from './desk/DeskSidebarAccount.js';
+import { agigovIconProps } from './icons/agigovIcon.js';
 import { DeskPersonaSwitch } from './desk/DeskPersonaSwitch.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
 import { SidebarTooltip } from './SidebarTooltip.js';
@@ -78,7 +80,7 @@ export function AppSidebar() {
                 aria-label="Preferencias"
                 onClick={() => setPrefsOpen(true)}
               >
-                <Settings2 className="h-4 w-4" />
+                <Settings2 {...agigovIconProps('md')} />
               </button>
             </SidebarTooltip>
             <DeskSidebarAccount collapsed={sidebarCollapsed} />
@@ -129,27 +131,48 @@ function DeskNavLink({
   active: boolean;
 }) {
   const Icon = item.icon;
+  const isSecondary = item.tier === 'secondary';
+  const showBody = !collapsed && !isSecondary;
 
-  return (
-    <li>
-      <SidebarTooltip label={item.label} hint={item.outcome} enabled={collapsed}>
-        <Link
-          to={item.to}
-          className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''}`}
-          onMouseEnter={() => prefetchRoute(item.to)}
-          onFocus={() => prefetchRoute(item.to)}
-        >
-          <span className="app-sidebar-link-icon-wrap" aria-hidden>
-            <Icon className="app-sidebar-link-icon" />
-          </span>
-          {!collapsed ? (
-            <span className="app-sidebar-link-body">
-              <span className="app-sidebar-link-label">{item.label}</span>
-              <span className="app-sidebar-link-outcome">{item.outcome}</span>
-            </span>
-          ) : null}
-        </Link>
-      </SidebarTooltip>
-    </li>
+  const link = (
+    <Link
+      to={item.to}
+      className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''} ${isSecondary && !collapsed ? 'app-sidebar-link--icon-only' : ''}`}
+      onMouseEnter={() => prefetchRoute(item.to)}
+      onFocus={() => prefetchRoute(item.to)}
+      aria-label={isSecondary && !collapsed ? item.label : undefined}
+    >
+      <span className="app-sidebar-link-icon-wrap" aria-hidden>
+        <Icon className="app-sidebar-link-icon" />
+      </span>
+      {showBody ? (
+        <span className="app-sidebar-link-body">
+          <span className="app-sidebar-link-label">{item.label}</span>
+          <span className="app-sidebar-link-outcome">{item.outcome}</span>
+        </span>
+      ) : null}
+    </Link>
   );
+
+  if (collapsed) {
+    return (
+      <li>
+        <SidebarTooltip label={item.label} hint={item.outcome} enabled>
+          {link}
+        </SidebarTooltip>
+      </li>
+    );
+  }
+
+  if (isSecondary) {
+    return (
+      <li>
+        <DeskIconHint label={item.label} hint={item.outcome}>
+          {link}
+        </DeskIconHint>
+      </li>
+    );
+  }
+
+  return <li>{link}</li>;
 }

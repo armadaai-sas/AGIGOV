@@ -1,9 +1,10 @@
 import { Download, ExternalLink, FileText, Scale, ShieldCheck } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-import { PageShell } from '../components/PageShell.js';
+import { agigovIconProps } from '../components/icons/agigovIcon.js';
 import { DeskIconHint } from '../components/desk/DeskIconHint.js';
 import { DeskPageHeader } from '../components/desk/DeskPageHeader.js';
+import { PageShell } from '../components/PageShell.js';
 
 const meta = {
   result: 'Marco legal y dictámenes publicados — reglas verificables del sistema.',
@@ -58,7 +59,7 @@ export default function TransparenciaPage() {
                 <article className="desk-page-row desk-doc-row">
                   <div className="desk-doc-row-main">
                     <span className="desk-doc-row-icon" aria-hidden>
-                      <Icon className="h-4 w-4 opacity-60" strokeWidth={1.75} />
+                      <Icon {...agigovIconProps('md', 'opacity-60')} />
                     </span>
                     <div className="desk-page-row-body">
                       <h2 className="desk-page-row-title">{doc.title}</h2>
@@ -74,7 +75,7 @@ export default function TransparenciaPage() {
                         className="desk-doc-action-btn"
                         aria-label={`Leer ${doc.title}`}
                       >
-                        <ExternalLink className="h-4 w-4" strokeWidth={1.75} />
+                        <ExternalLink {...agigovIconProps('md')} />
                       </a>
                     </DeskIconHint>
                     <DeskIconHint label="Descargar">
@@ -84,7 +85,7 @@ export default function TransparenciaPage() {
                         className="desk-doc-action-btn"
                         aria-label={`Descargar ${doc.title}`}
                       >
-                        <Download className="h-4 w-4" strokeWidth={1.75} />
+                        <Download {...agigovIconProps('md')} />
                       </a>
                     </DeskIconHint>
                   </div>

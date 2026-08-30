@@ -5,7 +5,7 @@ Sistema unificado para **landing**, **shell de trabajo** y **aplicaciones** del 
 ## Principios
 - Claro, neutro, app-first (como Cursor)
 - Blanco / gris claro / gris / negro — sin cyan marketing ni gradientes decorativos
-- Iconos Lucide 16px, mínimos
+- **Iconos Lucide: 3 tamaños** (`sm` 14px · `md` 16px · `lg` 20px) — ver [ICON-SYSTEM.md](./ICON-SYSTEM.md)
 - Botones de aplicación (32px, radius 6px)
 
 ## Tokens (`cursor-design-system.css`)
@@ -19,6 +19,8 @@ Sistema unificado para **landing**, **shell de trabajo** y **aplicaciones** del 
 | `--cursor-text` | `#18181b` |
 | `--cursor-text-muted` | `#71717a` |
 | `--cursor-primary` | `#18181b` (botón negro) |
+| `--cursor-icon-md` | `16px` (default Lucide) |
+| `--cursor-hit-nav` | `28px` (wrap sidebar) |
 
 ## Botones
 
@@ -39,6 +41,7 @@ Landing usa las mismas reglas vía `.ls-btn--primary|secondary|ghost`.
 Cada modelo (EGS, escrow, etc.) hereda tokens + botones `app-btn` / `os-btn-*`.
 
 ## Archivos
+- [`docs/design/ICON-SYSTEM.md`](./ICON-SYSTEM.md) — escala, nav tiers, tooltips
 - [`src/styles/cursor-design-system.css`](../../src/styles/cursor-design-system.css)
 - [`src/citizen/theme/trust-light.css`](../../src/citizen/theme/trust-light.css)
 - [`src/styles/app.css`](../../src/styles/app.css) — shell + workspace

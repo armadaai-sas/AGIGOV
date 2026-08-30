@@ -35,6 +35,8 @@ export type DeskNavItem = {
   /** Resultado Y — por qué el usuario elige esta utilidad. */
   outcome: string;
   icon: LucideIcon;
+  /** Primary muestra etiqueta; secondary solo icono + tooltip. */
+  tier?: 'primary' | 'secondary';
 };
 
 export type DeskNavSection = {
@@ -134,12 +136,14 @@ const CITIZEN_NAV: readonly DeskNavSection[] = [
         label: 'Dictámenes',
         outcome: 'Propuestas publicadas',
         icon: FileText,
+        tier: 'secondary',
       },
       {
         to: '/transparencia',
         label: 'Transparencia',
         outcome: 'Marco legal publicado',
         icon: Scale,
+        tier: 'secondary',
       },
     ],
   },
@@ -161,12 +165,14 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
         label: 'DATA Trust',
         outcome: 'Agregados sectoriales verificables',
         icon: Database,
+        tier: 'secondary',
       },
       {
         to: '/modelos/evidencia-certificada',
         label: 'Evidencia API',
         outcome: 'Certificar hitos de contrato',
         icon: Receipt,
+        tier: 'secondary',
       },
     ],
   },
@@ -185,6 +191,7 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
         label: 'IaaU',
         outcome: 'Infra por uso — firma y sync',
         icon: Server,
+        tier: 'secondary',
       },
     ],
   },
@@ -200,6 +207,7 @@ const STATE_NAV: readonly DeskNavSection[] = [
         label: 'Piloto fiscal',
         outcome: 'Asistente EGS institucional',
         icon: Rocket,
+        tier: 'secondary',
       },
       {
         to: modelWorkspacePath('egs'),
@@ -224,6 +232,7 @@ const STATE_NAV: readonly DeskNavSection[] = [
         label: 'Contratos',
         outcome: 'Cadena de custodia por hitos',
         icon: FileCheck,
+        tier: 'secondary',
       },
     ],
   },
@@ -257,12 +266,14 @@ const INTEGRATOR_NAV: readonly DeskNavSection[] = [
         label: 'Custodia',
         outcome: 'Hitos y evidencia en cadena',
         icon: FileCheck,
+        tier: 'secondary',
       },
       {
         to: '/aprender/glosario',
         label: 'Glosario',
         outcome: 'Protocolo e IAP en lenguaje claro',
         icon: Landmark,
+        tier: 'secondary',
       },
     ],
   },

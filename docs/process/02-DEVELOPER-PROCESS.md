@@ -62,8 +62,8 @@ Página producto: `/desarrolladores` · Código: `src/server/public-api.ts`
 | Qué | Dónde |
 |-----|-------|
 | PWA / rutas | `src/citizen/` |
-| Catálogo modelos | `src/citizen/platform/agigovModels.ts` |
-| Nav sidebar | `src/citizen/platform/navConfig.ts` |
+| Iconos UI | `agigovIconProps()` · [ICON-SYSTEM.md](../design/ICON-SYSTEM.md) |
+| Nav sidebar desk | `src/citizen/platform/deskNav.ts` |
 | API | `src/server/` |
 | Agentes | `src/agents/` |
 | Protocolo IAP | `src/protocol/` |

@@ -8,18 +8,23 @@ type Props = {
   children: ReactNode;
 };
 
-/** Tooltip en rail contraído — title nativo evita recorte de texto lateral. */
+/** Tooltip en rail — nube blanca a la derecha del icono. */
 export function SidebarTooltip({ label, hint, enabled = true, children }: Props) {
   if (!enabled) return <>{children}</>;
 
-  const title = hint ? `${label} — ${hint}` : label;
-
   const child = isValidElement(children)
-    ? cloneElement(children as ReactElement<{ className?: string; title?: string }>, {
+    ? cloneElement(children as ReactElement<{ className?: string }>, {
         className: [children.props.className, 'app-sidebar-tooltip-anchor'].filter(Boolean).join(' '),
-        title,
       })
     : children;
 
-  return <span className="app-sidebar-tooltip-wrap app-sidebar-tooltip-wrap--rail">{child}</span>;
+  return (
+    <span className="app-sidebar-tooltip-wrap app-sidebar-tooltip-wrap--rail">
+      {child}
+      <span className="app-sidebar-tooltip" role="tooltip">
+        <span className="app-sidebar-tooltip-label">{label}</span>
+        {hint ? <span className="app-sidebar-tooltip-hint">{hint}</span> : null}
+      </span>
+    </span>
+  );
 }

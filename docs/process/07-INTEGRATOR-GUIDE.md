@@ -73,6 +73,7 @@ Seguir [03-MODEL-LIFECYCLE.md](./03-MODEL-LIFECYCLE.md) + [MODEL-MANIFEST-v1.md]
 
 Si embebes AGIGOV o replicas patrones:
 
+- [ICON-SYSTEM.md](../design/ICON-SYSTEM.md) — **iconos, hit targets, nav primary/secondary**
 - [OS-MINIMAL-TOKENS.md](../design/OS-MINIMAL-TOKENS.md)
 - [LANDING-IA-INTL.md](../design/LANDING-IA-INTL.md)
 

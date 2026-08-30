@@ -22,7 +22,13 @@
   --cursor-font-sm: 12px;
   --cursor-font-title: 15px;
   --cursor-line: 1.5;
-  --cursor-icon: 16px;
+  --cursor-icon-sm: 14px;
+  --cursor-icon-md: 16px;
+  --cursor-icon-lg: 20px;
+  --cursor-icon-stroke: 1.75;
+  --cursor-hit-sm: 32px;
+  --cursor-hit-md: 36px;
+  --cursor-hit-nav: 28px;
 }
 
 @layer components {
@@ -98,5 +104,51 @@
   .app-btn--icon {
     min-width: 32px;
     padding: 0;
+  }
+
+  /* ===== Icon glyphs (Lucide) — sm · md · lg ===== */
+  .agigov-icon {
+    display: block;
+    flex-shrink: 0;
+    stroke-width: var(--cursor-icon-stroke);
+  }
+
+  .agigov-icon--sm {
+    width: var(--cursor-icon-sm);
+    height: var(--cursor-icon-sm);
+  }
+
+  .agigov-icon--md {
+    width: var(--cursor-icon-md);
+    height: var(--cursor-icon-md);
+  }
+
+  .agigov-icon--lg {
+    width: var(--cursor-icon-lg);
+    height: var(--cursor-icon-lg);
+  }
+
+  /* Contenedores de toque — separados del tamaño del glifo */
+  .agigov-icon-hit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .agigov-icon-hit--sm {
+    width: var(--cursor-hit-sm);
+    height: var(--cursor-hit-sm);
+  }
+
+  .agigov-icon-hit--md {
+    width: var(--cursor-hit-md);
+    height: var(--cursor-hit-md);
+  }
+
+  .agigov-icon-hit--nav {
+    width: var(--cursor-hit-nav);
+    height: var(--cursor-hit-nav);
+    border-radius: var(--cursor-radius);
   }
 }

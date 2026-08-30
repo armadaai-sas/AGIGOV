@@ -4,6 +4,7 @@ import { Search, X } from 'lucide-react';
 
 import { filterPaletteItemsForPersona, type PaletteItem } from '../platform/paletteItems.js';
 import { useDeskPersonaOptional } from '../context/DeskShellContext.js';
+import { agigovIconProps } from './icons/agigovIcon.js';
 
 const OPEN_EVENT = 'agigov-open-palette';
 
@@ -82,7 +83,7 @@ export function CommandPalette() {
       <button type="button" className="agigov-palette-backdrop" aria-label="Cerrar" onClick={() => setOpen(false)} />
       <div className="agigov-palette-panel">
         <div className="agigov-palette-search">
-          <Search className="h-4 w-4 shrink-0 text-agigov-text-muted" aria-hidden />
+          <Search {...agigovIconProps('md', 'shrink-0 text-agigov-text-muted')} />
           <input
             ref={inputRef}
             type="search"
@@ -94,7 +95,7 @@ export function CommandPalette() {
             aria-label="Buscar"
           />
           <button type="button" className="agigov-palette-close" onClick={() => setOpen(false)} aria-label="Cerrar">
-            <X className="h-4 w-4" />
+            <X {...agigovIconProps('md')} />
           </button>
         </div>
 
@@ -153,7 +154,7 @@ export function CommandPaletteButton() {
       onClick={openCommandPalette}
       aria-label="Buscar rutas y guías (⌘K)"
     >
-      <Search className="h-4 w-4" aria-hidden />
+      <Search {...agigovIconProps('md')} />
       <span>Buscar</span>
       <kbd className="agigov-kbd">⌘K</kbd>
     </button>

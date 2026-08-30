@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-import type { DeskPersonaHome } from '../platform/deskHome.js';
+import { agigovIconProps } from '../components/icons/agigovIcon.js';
+import type { DeskPersonaHome } from '../../platform/deskHome.js';
 
 type DeskHomeCanvasProps = {
   home: DeskPersonaHome;
@@ -34,7 +35,7 @@ export function DeskHomeCanvas({ home, personaLabel, greet }: DeskHomeCanvasProp
                 return (
                   <li key={item.to}>
                     <Link to={item.to} className="desk-home-zone-link">
-                      <Icon className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                      <Icon {...agigovIconProps('md', 'shrink-0 opacity-70')} />
                       <span className="desk-home-zone-link-body">
                         <span className="desk-home-zone-link-label">{item.label}</span>
                         <span className="desk-home-zone-link-outcome">{item.outcome}</span>
@@ -70,13 +71,13 @@ export function DeskHomeCanvas({ home, personaLabel, greet }: DeskHomeCanvasProp
       <section className="desk-home-actions" aria-label="Acción principal">
         <Link to={home.primary.to} className="desk-home-primary">
           <span className="desk-home-primary-icon" aria-hidden>
-            <PrimaryIcon className="h-5 w-5" strokeWidth={1.75} />
+            <PrimaryIcon {...agigovIconProps('lg')} />
           </span>
           <span className="desk-home-primary-body">
             <span className="desk-home-primary-label">{home.primary.label}</span>
             <span className="desk-home-primary-outcome">{home.primary.outcome}</span>
           </span>
-          <ArrowRight className="desk-home-primary-arrow h-4 w-4" aria-hidden />
+          <ArrowRight {...agigovIconProps('md', 'desk-home-primary-arrow')} />
         </Link>
       </section>
     </div>

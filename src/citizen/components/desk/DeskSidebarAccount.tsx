@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Building2, Home, LogIn, LogOut } from 'lucide-react';
 
 import { SidebarTooltip } from '../SidebarTooltip.js';
+import { agigovIconProps } from '../icons/agigovIcon.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
@@ -27,7 +28,7 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
             enabled={collapsed}
           >
             <Link to={INSTITUTION_ROUTES.desk} className="app-sidebar-skin-btn" aria-label={t('nav.desk')}>
-              <Building2 className="h-4 w-4" strokeWidth={1.75} />
+              <Building2 {...agigovIconProps('md')} />
             </Link>
           </SidebarTooltip>
           <SidebarTooltip label={t('nav.logout')} enabled={collapsed}>
@@ -37,20 +38,20 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
               aria-label={t('nav.logout')}
               onClick={() => void handleLogout()}
             >
-              <LogOut className="h-4 w-4" strokeWidth={1.75} />
+              <LogOut {...agigovIconProps('md')} />
             </button>
           </SidebarTooltip>
         </>
       ) : (
         <SidebarTooltip label={t('nav.login')} hint={t('nav.login')} enabled={collapsed}>
           <Link to={INSTITUTION_ROUTES.login} className="app-sidebar-skin-btn" aria-label={t('nav.login')}>
-            <LogIn className="h-4 w-4" strokeWidth={1.75} />
+            <LogIn {...agigovIconProps('md')} />
           </Link>
         </SidebarTooltip>
       )}
       <SidebarTooltip label="Inicio" hint="Salir al landing" enabled={collapsed}>
         <Link to="/" className="app-sidebar-skin-btn" aria-label="Inicio">
-          <Home className="h-4 w-4" strokeWidth={1.75} />
+          <Home {...agigovIconProps('md')} />
         </Link>
       </SidebarTooltip>
     </>
