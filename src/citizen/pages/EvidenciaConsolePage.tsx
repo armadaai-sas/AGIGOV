@@ -2,15 +2,21 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 import { fetchDashboard, fetchMinistryHealth, fetchProposals } from '../api.js';
-import { ModelConsoleHeader } from '../components/models/ModelConsoleHeader.js';
+import { ModelConsoleLayout, ModelConsoleZone } from '../components/models/ModelConsoleLayout.js';
+import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import { PageShell, LoadingState } from '../components/PageShell.js';
 import { StatusBadge } from '../components/StatusBadge.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
+import { agigovIconProps } from '../components/icons/agigovIcon.js';
+import { getAgigovModel } from '../platform/agigovModels.js';
+import { deriveModelProcessStep } from '../platform/modelProcess.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
-/** Registro de evidencia publicada — hitos, propuestas y actas en ledger. */
+/** Registro de evidencia publicada — consola customer-centric (Fase 1B). */
 export default function EvidenciaConsolePage() {
+  const model = getAgigovModel('evidencia-certificada');
   const { sovereign } = useSovereignConfig();
   const dashboard = useCachedFetch('evidencia-dashboard', fetchDashboard, 30_000);
   const health = useCachedFetch(
@@ -20,44 +26,65 @@ export default function EvidenciaConsolePage() {
   );
   const proposals = useCachedFetch('evidencia-proposals', fetchProposals, 30_000);
 
-  const loading = !dashboard.data && dashboard.state !== 'error';
+  const reportCount = dashboard.data?.reports.length ?? 0;
+  const ledgerEntries = dashboard.data?.ledgerEntries ?? 0;
+  const contractCount = health.data?.contracts.length ?? 0;
+
+  const processStep = deriveModelProcessStep({
+    modelSelected: true,
+    dataConnected: Boolean(dashboard.data),
+    receiving: dashboard.state === 'syncing' && !dashboard.data,
+    published: reportCount > 0,
+    reporting: Boolean(dashboard.data),
+  });
+
+  const resultLine =
+    reportCount > 0
+      ? `${reportCount} actas publicadas · ${ledgerEntries} entradas en registro verificable.`
+      : contractCount > 0
+        ? `${contractCount} contratos con hitos — evidencia en custodia escrow.`
+        : 'Conecta API o piloto institucional para certificar y publicar evidencia.';
 
   return (
-    <PageShell shell>
-      <div className="os-workspace">
-        <ModelConsoleHeader
-          modelId="evidencia-certificada"
-          title="Registro de evidencia"
-          subtitle="Publicaciones verificadas — hashes anclados al ledger."
-        />
-
-        {!data && state === 'syncing' ? <LoadingState label="Cargando registro…" compact /> : null}
-
+    <PageShell
+      shell
+      narrow
+      banner={
+        dashboard.data
+          ? { state: dashboard.state, lastUpdated: dashboard.lastUpdated }
+          : undefined
+      }
+    >
+      <ModelConsoleLayout
+        eyebrow={model?.shortName ?? 'Evidencia'}
+        title="Registro de evidencia"
+        result={resultLine}
+        dataHint="Hashes anclados al ledger · IAP envelopes en roadmap pipeline"
+        action={
+          <Link to="/desarrolladores" className="app-btn app-btn--ghost text-[13px]">
+            API
+          </Link>
+        }
+      >
         {dashboard.data ? (
-          <section className="os-workspace-section">
-            <h2 className="os-workspace-section-title">Actas publicadas</h2>
-            {dashboard.data.reports.length === 0 ? (
-              <p className="text-[13px] text-zinc-600">Sin actas publicadas en este entorno.</p>
-            ) : (
-              <ul className="os-workspace-list">
-                {dashboard.data.reports.map((report) => (
-                  <li key={report.processId}>
-                    <article className="os-workspace-row os-workspace-row--static flex-col items-stretch gap-2 py-3 sm:flex-row sm:items-center">
-                      <span className="os-workspace-row-body">
-                        <span className="os-workspace-row-name">{report.summary}</span>
-                        <span className="os-mono-id mt-1 block text-xs">{report.processId}</span>
-                      </span>
-                      <StatusBadge status={report.status} />
-                    </article>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <p className="mt-2 text-xs text-zinc-500">
-              {dashboard.data.ledgerEntries} entradas en registro
-            </p>
-          </section>
-        ) : dashboard.error && !dashboard.data ? (
+          <ModelConsoleZone label="Estado">
+            <ModelProcessTracker
+              currentStep={processStep}
+              liveLabel={
+                reportCount > 0
+                  ? 'Evidencia publicada en consola ciudadana.'
+                  : 'Esperando actas o hitos verificados…'
+              }
+              compact
+            />
+          </ModelConsoleZone>
+        ) : null}
+
+        {dashboard.state === 'syncing' && !dashboard.data ? (
+          <LoadingState label="Cargando registro…" />
+        ) : null}
+
+        {dashboard.error && !dashboard.data ? (
           <DataConnectionState
             module="gestion"
             error={dashboard.error}
@@ -65,69 +92,111 @@ export default function EvidenciaConsolePage() {
           />
         ) : null}
 
+        {dashboard.data ? (
+          <ModelConsoleZone label="Qué obtienes">
+            <dl className="desk-page-metrics desk-console-metrics">
+              <div className="desk-page-metric">
+                <dt>Actas publicadas</dt>
+                <dd>{reportCount}</dd>
+              </div>
+              <div className="desk-page-metric">
+                <dt>Entradas ledger</dt>
+                <dd>{ledgerEntries}</dd>
+              </div>
+              {contractCount > 0 ? (
+                <div className="desk-page-metric">
+                  <dt>Contratos con hitos</dt>
+                  <dd>{contractCount}</dd>
+                </div>
+              ) : null}
+            </dl>
+          </ModelConsoleZone>
+        ) : null}
+
+        {dashboard.data ? (
+          <ModelConsoleZone label="Actas publicadas">
+            {dashboard.data.reports.length === 0 ? (
+              <p className="desk-console-outcome-note">Sin actas publicadas en este entorno.</p>
+            ) : (
+              <ul className="desk-page-list">
+                {dashboard.data.reports.map((report) => (
+                  <li key={report.processId}>
+                    <article className="desk-page-row desk-page-row--static flex-col items-stretch gap-2 py-3 sm:flex-row sm:items-center">
+                      <span className="desk-page-row-body">
+                        <span className="desk-page-row-title">{report.summary}</span>
+                        <span className="os-mono-id desk-page-row-summary">{report.processId}</span>
+                      </span>
+                      <StatusBadge status={report.status} />
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </ModelConsoleZone>
+        ) : null}
+
         {health.data && health.data.contracts.length > 0 ? (
-          <section className="os-workspace-section">
-            <h2 className="os-workspace-section-title">Evidencia en contratos</h2>
-            <ul className="os-workspace-list">
+          <ModelConsoleZone label="Evidencia en contratos">
+            <ul className="desk-page-list">
               {health.data.contracts.map((c) => (
                 <li key={c.id}>
                   <Link
                     to={`/proyectos/contrato/${encodeURIComponent(c.id)}`}
-                    className="os-workspace-row"
+                    className="desk-page-row"
                   >
-                    <span className="os-workspace-row-body">
-                      <span className="os-workspace-row-name">{c.title}</span>
-                      <span className="os-workspace-row-meta">
+                    <span className="desk-page-row-body">
+                      <span className="desk-page-row-title">{c.title}</span>
+                      <span className="desk-page-row-summary">
                         {c.milestonesReleased}/{c.milestonesTotal} hitos verificados
                       </span>
                     </span>
-                    <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+                    <ChevronRight {...agigovIconProps('md')} aria-hidden />
                   </Link>
                 </li>
               ))}
             </ul>
-          </section>
+          </ModelConsoleZone>
         ) : null}
 
         {proposals.data && proposals.data.proposals.length > 0 ? (
-          <section className="os-workspace-section">
-            <h2 className="os-workspace-section-title">Propuestas con dictamen</h2>
-            <ul className="os-workspace-list">
+          <ModelConsoleZone label="Propuestas con dictamen">
+            <ul className="desk-page-list">
               {proposals.data.proposals.slice(0, 5).map((p) => (
                 <li key={p.id}>
-                  <div className="os-workspace-row os-workspace-row--static">
-                    <span className="os-workspace-row-body">
-                      <span className="os-workspace-row-name">{p.title}</span>
-                      <span className="os-mono-id text-xs">{p.id}</span>
+                  <div className="desk-page-row desk-page-row--static">
+                    <span className="desk-page-row-body">
+                      <span className="desk-page-row-title">{p.title}</span>
+                      <span className="os-mono-id desk-page-row-summary">{p.id}</span>
                     </span>
                     <StatusBadge status={p.status} />
                   </div>
                 </li>
               ))}
             </ul>
-            <Link to="/propuestas" className="os-btn-text mt-2 inline-flex items-center gap-1 text-[13px]">
-              Ver todas
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </section>
+            <p className="model-console-foot">
+              <Link to="/propuestas" className="desk-console-foot-link inline-flex items-center gap-1">
+                Ver todas las propuestas
+                <ChevronRight {...agigovIconProps('sm')} />
+              </Link>
+            </p>
+          </ModelConsoleZone>
         ) : null}
 
-        <section className="os-workspace-section os-workspace-section--border">
-          <h2 className="os-workspace-section-title">Enviar evidencia</h2>
-          <p className="text-[13px] text-zinc-600">
+        <ModelConsoleZone label="Conectar">
+          <p className="desk-console-outcome-note">
             Integradores certificados envían envelopes IAP firmados vía API o suben documentos en el
             piloto institucional.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/desarrolladores" className="ds-btn-app">
+            <Link to="/desarrolladores" className="desk-page-primary-btn">
               Conectar API
             </Link>
-            <Link to="/institucional/piloto" className="ds-btn-secondary ds-btn-app-shape">
+            <Link to={INSTITUTION_ROUTES.pilot} className="app-btn app-btn--secondary">
               Subir documentos
             </Link>
           </div>
-        </section>
-      </div>
+        </ModelConsoleZone>
+      </ModelConsoleLayout>
     </PageShell>
   );
 }

@@ -133,10 +133,10 @@ Vista institucional del **estado interconectado** (inspiración n8n, pero sobera
 
 #### 1B — Migrar consolas restantes
 
-- Migrar: IaaU, Evidencia → `ModelConsoleLayout`
-- Unificar cabecera: eliminar `ModelConsoleHeader` legacy
-- Métricas humanizadas (i18n keys por métrica)
-- Hub Empresa / Escritorio alineados a mismas zonas
+- [x] IaaU → `ModelConsoleLayout` + métricas humanizadas
+- [x] Evidencia → `ModelConsoleLayout` + fix bug carga
+- [ ] Unificar cabecera: eliminar `ModelConsoleHeader` legacy (queda SET)
+- [ ] Hub Empresa / Escritorio alineados a mismas zonas
 
 **Doc:** [SOVEREIGN-SYSTEM-MAP.md](./design/SOVEREIGN-SYSTEM-MAP.md) (sketch API + nodos)
 

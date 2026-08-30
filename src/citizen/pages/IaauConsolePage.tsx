@@ -2,155 +2,170 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, RefreshCw } from 'lucide-react';
 
 import { fetchBillingCatalog, fetchBillingUsage } from '../api.js';
-import { ModelConsoleHeader } from '../components/models/ModelConsoleHeader.js';
+import { ModelConsoleLayout, ModelConsoleZone } from '../components/models/ModelConsoleLayout.js';
+import { ModelProcessTracker } from '../components/models/ModelProcessTracker.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
 import { PageShell, LoadingState } from '../components/PageShell.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
-
-const UNIT_LABELS: Record<string, string> = {
-  'iap-envelope': 'Envelope IAP',
-  'ledger-commit': 'Commit registro',
-  'api-call': 'Llamada API',
-  'sync-node': 'Sync nodo',
-  'milestone-validated': 'Hito validado',
-};
+import { agigovIconProps } from '../components/icons/agigovIcon.js';
+import { getAgigovModel } from '../platform/agigovModels.js';
+import {
+  humanizeIaauPlan,
+  humanizeIaauUnit,
+  iaauOutcomeLine,
+} from '../platform/iaauMetrics.js';
+import { deriveModelProcessStep } from '../platform/modelProcess.js';
 
 export default function IaauConsolePage() {
+  const model = getAgigovModel('iaau');
   const usage = useCachedFetch('iaau-usage', fetchBillingUsage, 30_000);
   const catalog = useCachedFetch('iaau-catalog', fetchBillingCatalog, 60_000);
 
   const fatal = Boolean(usage.error && usage.state === 'error' && !usage.data);
+  const data = usage.data;
+  const reconciled = Boolean(data?.reconciliation.ok);
+  const processStep = deriveModelProcessStep({
+    modelSelected: true,
+    dataConnected: true,
+    loading: usage.state === 'syncing' && !data,
+    analyzing: usage.state === 'syncing',
+    reporting: Boolean(data),
+    published: Boolean(data && reconciled),
+  });
 
   return (
-    <PageShell shell banner={fatal ? undefined : { state: usage.state, lastUpdated: usage.lastUpdated }}>
-      <div className="os-workspace">
-        <ModelConsoleHeader
-          modelId="iaau"
-          title="Uso y facturación"
-          subtitle="Metering verificable — unidades consumidas vs registro."
-        >
+    <PageShell shell narrow banner={fatal ? undefined : { state: usage.state, lastUpdated: usage.lastUpdated }}>
+      <ModelConsoleLayout
+        eyebrow={model?.shortName ?? 'IaaU'}
+        title="Uso y facturación"
+        result={
+          data
+            ? iaauOutcomeLine(data.summary.totalUnits, data.summary.period, reconciled)
+            : 'Metering verificable — unidades consumidas vs registro institucional.'
+        }
+        dataHint={
+          data
+            ? `Plan ${humanizeIaauPlan(data.plan)} · estimado demo $${data.summary.estimatedUsdDemo.toFixed(2)} USD`
+            : 'Conciliación centinela · freeze facturación si discrepancia'
+        }
+        action={
           <button
             type="button"
-            className="ds-btn-secondary ds-btn-app-shape inline-flex items-center gap-1"
+            className="app-btn app-btn--secondary inline-flex items-center gap-1.5"
             onClick={() => void usage.reload()}
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw {...agigovIconProps('md')} />
             Actualizar
           </button>
-        </ModelConsoleHeader>
+        }
+      >
+        {data ? (
+          <ModelConsoleZone label="Estado">
+            <ModelProcessTracker
+              currentStep={processStep}
+              liveLabel={
+                reconciled
+                  ? 'Consumo conciliado con el ledger — listo para facturación demo.'
+                  : 'Centinela revisando eventos de metering…'
+              }
+              compact
+            />
+          </ModelConsoleZone>
+        ) : null}
 
         {fatal ? (
           <DataConnectionState module="generic" error={usage.error!} onRetry={() => void usage.reload()} />
         ) : null}
 
-        {!usage.data && usage.state !== 'error' ? <LoadingState label="Cargando uso…" /> : null}
+        {!data && usage.state !== 'error' ? <LoadingState label="Cargando uso…" /> : null}
 
-        {usage.data ? (
+        {data ? (
           <>
-            <dl className="os-metrics-row">
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Periodo</dt>
-                <dd className="os-metrics-value text-base">{usage.data.summary.period}</dd>
-              </div>
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Unidades totales</dt>
-                <dd className="os-metrics-value">{usage.data.summary.totalUnits}</dd>
-              </div>
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Estimado USD</dt>
-                <dd className="os-metrics-value text-base">
-                  ${usage.data.summary.estimatedUsdDemo.toFixed(2)}
-                </dd>
-              </div>
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Plan</dt>
-                <dd className="os-metrics-value text-base capitalize">{usage.data.plan}</dd>
-              </div>
-            </dl>
+            <ModelConsoleZone label="Qué obtienes">
+              <dl className="desk-page-metrics desk-console-metrics">
+                <div className="desk-page-metric">
+                  <dt>Unidades consumidas</dt>
+                  <dd>{data.summary.totalUnits}</dd>
+                </div>
+                <div className="desk-page-metric">
+                  <dt>Estado conciliación</dt>
+                  <dd>{reconciled ? 'Conciliado' : 'Discrepancia'}</dd>
+                </div>
+                <div className="desk-page-metric">
+                  <dt>Factura estimada</dt>
+                  <dd>${data.invoice.amountUsd.toFixed(2)}</dd>
+                </div>
+              </dl>
+              <p className="desk-console-outcome-note">{data.invoice.reason}</p>
+            </ModelConsoleZone>
 
-            <section className="os-workspace-section">
-              <h2 className="os-workspace-section-title">Desglose por unidad</h2>
-              <ul className="os-workspace-list">
-                {Object.entries(usage.data.summary.byUnit).map(([unit, qty]) => (
+            <ModelConsoleZone label="Desglose por unidad">
+              <ul className="desk-page-list">
+                {Object.entries(data.summary.byUnit).map(([unit, qty]) => (
                   <li key={unit}>
-                    <div className="os-workspace-row os-workspace-row--static">
-                      <span className="os-workspace-row-body">
-                        <span className="os-workspace-row-name">{UNIT_LABELS[unit] ?? unit}</span>
-                        <span className="os-workspace-row-meta">{unit}</span>
+                    <div className="desk-page-row desk-page-row--static">
+                      <span className="desk-page-row-body">
+                        <span className="desk-page-row-title">{humanizeIaauUnit(unit)}</span>
+                        <span className="desk-page-row-summary">{unit}</span>
                       </span>
-                      <span className="os-workspace-row-status">{qty}</span>
+                      <span className="desk-page-row-meta">{qty}</span>
                     </div>
                   </li>
                 ))}
               </ul>
-            </section>
+            </ModelConsoleZone>
 
-            <section className="os-panel">
-              <h2 className="text-[13px] font-semibold text-zinc-900">Conciliación centinela</h2>
-              <dl className="mt-3 grid gap-3 text-[13px] sm:grid-cols-2">
-                <div>
-                  <dt className="text-zinc-500">Eventos registrados</dt>
-                  <dd className="font-medium text-zinc-900">{usage.data.reconciliation.eventCount}</dd>
+            <ModelConsoleZone label="Confianza">
+              <dl className="desk-page-metrics desk-console-metrics">
+                <div className="desk-page-metric">
+                  <dt>Eventos registrados</dt>
+                  <dd>{data.reconciliation.eventCount}</dd>
                 </div>
-                <div>
-                  <dt className="text-zinc-500">Estado</dt>
-                  <dd className="font-medium text-zinc-900">
-                    {usage.data.reconciliation.ok ? 'Conciliado' : 'Discrepancia'}
-                  </dd>
+                <div className="desk-page-metric">
+                  <dt>Facturable</dt>
+                  <dd>{data.reconciliation.billable ? 'Sí' : 'No'}</dd>
                 </div>
-                <div>
-                  <dt className="text-zinc-500">Facturable</dt>
-                  <dd className="font-medium text-zinc-900">
-                    {usage.data.reconciliation.billable ? 'Sí' : 'No'}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-zinc-500">Freeze facturación</dt>
-                  <dd className="font-medium text-zinc-900">
-                    {usage.data.billingFreeze.frozen ? 'Activo' : 'Inactivo'}
-                  </dd>
+                <div className="desk-page-metric">
+                  <dt>Freeze facturación</dt>
+                  <dd>{data.billingFreeze.frozen ? 'Activo' : 'Inactivo'}</dd>
                 </div>
               </dl>
-              <p className="mt-3 text-xs text-zinc-500">{usage.data.disclaimer}</p>
-            </section>
-
-            <section className="os-panel">
-              <h2 className="text-[13px] font-semibold text-zinc-900">Factura estimada</h2>
-              <p className="mt-2 text-lg font-semibold text-zinc-900">
-                ${usage.data.invoice.amountUsd.toFixed(2)} USD
-              </p>
-              <p className="mt-1 text-xs text-zinc-500">{usage.data.invoice.reason}</p>
-            </section>
+              <details className="desk-console-tech">
+                <summary>Detalle técnico</summary>
+                <p className="desk-console-tech-line">{data.disclaimer}</p>
+              </details>
+            </ModelConsoleZone>
           </>
         ) : null}
 
         {catalog.data?.lines ? (
-          <section className="os-workspace-section os-workspace-section--border">
-            <h2 className="os-workspace-section-title">Catálogo de cobro</h2>
-            <ul className="os-workspace-list">
+          <ModelConsoleZone label="Catálogo de cobro">
+            <ul className="desk-page-list">
               {catalog.data.lines
                 .filter((line) => line.layer === 'iaau' || line.layer === 'saas')
                 .map((line) => (
                   <li key={line.id}>
-                    <div className="os-workspace-row os-workspace-row--static">
-                      <span className="os-workspace-row-body">
-                        <span className="os-workspace-row-name">{line.unit}</span>
-                        <span className="os-workspace-row-meta">{line.priceNote}</span>
+                    <div className="desk-page-row desk-page-row--static">
+                      <span className="desk-page-row-body">
+                        <span className="desk-page-row-title">{humanizeIaauUnit(line.unit)}</span>
+                        <span className="desk-page-row-summary">{line.priceNote}</span>
                       </span>
-                      <span className="os-workspace-row-status">
+                      <span className="desk-page-row-meta">
                         {typeof line.priceUsd === 'number' ? `$${line.priceUsd}` : String(line.priceUsd)}
                       </span>
                     </div>
                   </li>
                 ))}
             </ul>
-            <Link to="/desarrolladores" className="os-btn-text mt-3 inline-flex items-center gap-1 text-[13px]">
-              Integrar vía API
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </section>
+            <p className="model-console-foot">
+              <Link to="/desarrolladores" className="desk-console-foot-link inline-flex items-center gap-1">
+                Integrar vía API
+                <ChevronRight {...agigovIconProps('sm')} />
+              </Link>
+            </p>
+          </ModelConsoleZone>
         ) : null}
-      </div>
+      </ModelConsoleLayout>
     </PageShell>
   );
 }
