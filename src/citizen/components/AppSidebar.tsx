@@ -32,7 +32,7 @@ export function AppSidebar() {
       >
         <div className="app-sidebar-head">
           <Link to="/escritorio" className="app-sidebar-brand" aria-label="Escritorio AGIGOV">
-            <AgigovLogo size="sm" variant="light" />
+            <AgigovLogo size="xs" variant="light" className="gap-0" />
           </Link>
         </div>
 

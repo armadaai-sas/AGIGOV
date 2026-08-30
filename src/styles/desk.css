@@ -57,9 +57,47 @@
 .app-topbar-lead {
   display: flex;
   min-width: 0;
-  flex: 1;
   align-items: center;
   gap: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  .app-topbar {
+    display: grid;
+    grid-template-columns: 1fr minmax(11rem, 16rem) 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .app-topbar-center {
+    justify-self: center;
+    width: 100%;
+    max-width: 16rem;
+  }
+
+  .app-topbar-trail {
+    min-width: 0;
+  }
+}
+
+.app-topbar-center .agigov-palette-trigger {
+  width: 100%;
+  justify-content: center;
+  border-color: rgb(228 228 231 / 0.9);
+  background: rgb(250 250 250 / 0.75);
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.app-topbar-center .agigov-palette-trigger:hover {
+  border-color: rgb(212 212 216 / 0.95);
+  background: #fff;
+  color: var(--cursor-text, #18181b);
+}
+
+.app-topbar-center .agigov-kbd {
+  border-color: rgb(228 228 231 / 0.9);
+  background: rgb(255 255 255 / 0.9);
+  color: var(--cursor-text-subtle, #a1a1aa);
 }
 
 .app-topbar-mark {
@@ -102,7 +140,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
   text-decoration: none;
+}
+
+.app-sidebar-nav--desk {
+  padding-top: 0.75rem;
 }
 
 .app-sidebar--collapsed .app-sidebar-brand {
@@ -877,6 +921,109 @@
 
   .desk-home-steps {
     gap: 1.25rem;
+  }
+}
+
+/* Icono + tooltip sutil (Leer / Descargar) */
+.desk-icon-hint {
+  position: relative;
+  display: inline-flex;
+}
+
+.desk-icon-hint-cloud {
+  pointer-events: none;
+  position: absolute;
+  bottom: calc(100% + 0.375rem);
+  left: 50%;
+  z-index: 20;
+  white-space: nowrap;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(228 228 231 / 0.9);
+  background: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cursor-text-subtle, #a1a1aa);
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.06);
+  opacity: 0;
+  transform: translateX(-50%) translateY(2px);
+  transition:
+    opacity 0.14s ease,
+    transform 0.14s ease;
+}
+
+.desk-icon-hint:hover .desk-icon-hint-cloud,
+.desk-icon-hint:focus-within .desk-icon-hint-cloud {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.desk-doc-list {
+  gap: 0.625rem;
+}
+
+.desk-doc-row {
+  gap: 1rem;
+}
+
+.desk-doc-row-main {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.desk-doc-row-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: rgb(250 250 250 / 0.9);
+  color: var(--cursor-text-muted, #71717a);
+}
+
+.desk-doc-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.desk-doc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgb(228 228 231 / 0.85);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 0.8);
+  color: var(--cursor-text-muted, #71717a);
+  text-decoration: none;
+  transition:
+    border-color 0.14s ease,
+    background 0.14s ease,
+    color 0.14s ease;
+}
+
+.desk-doc-action-btn:hover {
+  border-color: rgb(212 212 216 / 0.95);
+  background: #fff;
+  color: var(--cursor-text, #18181b);
+}
+
+.desk-doc-action-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(228 228 231 / 0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-icon-hint-cloud {
+    transition: none;
   }
 }
 

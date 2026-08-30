@@ -1,8 +1,9 @@
 import { useId } from 'react';
 
-type LogoSize = 'sm' | 'md' | 'lg' | 'xl';
+type LogoSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const sizes: Record<LogoSize, string> = {
+  xs: 'h-6 w-6',
   sm: 'h-9 w-9',
   md: 'h-11 w-11',
   lg: 'h-14 w-14',
@@ -16,6 +17,7 @@ export function AgigovLogo({
   tagline,
   showVenBadge = false,
   variant = 'light',
+  className,
 }: {
   size?: LogoSize;
   showWordmark?: boolean;
@@ -23,6 +25,7 @@ export function AgigovLogo({
   showVenBadge?: boolean;
   /** `light` = fondo claro · `dark` = fondo oscuro (legacy) */
   variant?: 'dark' | 'light';
+  className?: string;
 }) {
   const uid = useId().replace(/:/g, '');
   const coreGrad = `agigov-core-${uid}`;
@@ -30,7 +33,7 @@ export function AgigovLogo({
   const taglineClass = variant === 'light' ? 'text-zinc-500' : 'text-zinc-400';
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div className={`flex items-center gap-2.5 ${className ?? ''}`.trim()}>
       <div className={`relative shrink-0 ${sizes[size]}`}>
         <svg
           viewBox="0 0 48 48"

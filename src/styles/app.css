@@ -434,19 +434,23 @@
 
 .app-sidebar-head {
     @apply flex shrink-0 items-center justify-center border-b;
-    min-height: 3.75rem;
-    padding: 1rem 1rem 0.875rem;
+    min-height: 3rem;
+    padding: 0.75rem 0.75rem 1.375rem;
     border-color: rgb(228 228 231 / 0.72);
   }
 
 .app-sidebar--collapsed .app-sidebar-head {
-    @apply justify-center px-2 py-3;
-    min-height: 3.5rem;
+    @apply justify-center px-2;
+    min-height: 2.875rem;
+    padding-top: 0.75rem;
+    padding-bottom: 1.375rem;
   }
 
 .app-sidebar-brand {
-    @apply min-w-0 shrink;
-}
+    @apply flex items-center justify-center;
+    width: 2.625rem;
+    height: 2.625rem;
+  }
 
 .app-sidebar-collapse {
     @apply h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors;
@@ -460,7 +464,7 @@
 
 .app-sidebar-nav {
     @apply flex-1 overflow-x-hidden overflow-y-auto;
-    padding: 1rem 0.625rem 1.25rem;
+    padding: 0.625rem 0.625rem 1.25rem;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: #e4e4e7 transparent;
@@ -841,7 +845,15 @@
   }
 
 .app-topbar-actions {
-    @apply ml-auto flex items-center gap-1;
+    @apply flex items-center gap-1;
+  }
+
+.app-topbar-center {
+    @apply flex min-w-0 items-center justify-center;
+  }
+
+.app-topbar-trail {
+    @apply hidden min-w-0 md:block;
   }
 
 .app-topbar-home {

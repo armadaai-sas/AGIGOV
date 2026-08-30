@@ -82,9 +82,10 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
             />
             <span className="app-topbar-title lg:hidden">{pageTitle}</span>
           </div>
-          <div className="app-topbar-actions">
+          <div className="app-topbar-center">
             <CommandPaletteButton />
           </div>
+          <div className="app-topbar-trail" aria-hidden />
         </header>
 
         <div className="app-shell-content app-shell-content--desk">

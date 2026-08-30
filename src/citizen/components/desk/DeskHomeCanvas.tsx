@@ -79,8 +79,6 @@ export function DeskHomeCanvas({ home, personaLabel, greet }: DeskHomeCanvasProp
           <ArrowRight className="desk-home-primary-arrow h-4 w-4" aria-hidden />
         </Link>
       </section>
-
-      <p className="desk-home-quiet">⌘K — búsqueda filtrada por tu rol</p>
     </div>
   );
 }

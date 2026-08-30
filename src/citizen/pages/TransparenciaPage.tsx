@@ -1,9 +1,14 @@
-import { Link } from 'react-router-dom';
-import { Download, ExternalLink, ChevronRight, FileText, Scale, ShieldCheck } from 'lucide-react';
+import { Download, ExternalLink, FileText, Scale, ShieldCheck } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 import { PageShell } from '../components/PageShell.js';
-import { modelWorkspacePath } from '../platform/modelWorkspace.js';
+import { DeskIconHint } from '../components/desk/DeskIconHint.js';
+import { DeskPageHeader } from '../components/desk/DeskPageHeader.js';
+
+const meta = {
+  result: 'Marco legal y dictámenes publicados — reglas verificables del sistema.',
+  dataHint: 'Documentos abiertos. Sin cuenta.',
+};
 
 const DOCS: Array<{
   id: string;
@@ -41,64 +46,57 @@ const DOCS: Array<{
 
 export default function TransparenciaPage() {
   return (
-    <PageShell shell>
-      <div className="os-workspace">
-        <header className="os-workspace-head os-workspace-head--stack">
-          <div className="os-workspace-head-text">
-            <h1 className="os-workspace-title">Transparencia</h1>
-            <p className="os-workspace-sub">Documentos públicos — marco legal y dictamen.</p>
-          </div>
-        </header>
+    <PageShell shell narrow>
+      <div className="desk-page">
+        <DeskPageHeader title="Transparencia" result={meta.result} dataHint={meta.dataHint} />
 
-        <ul className="os-workspace-list">
+        <ul className="desk-page-list desk-doc-list">
           {DOCS.map((doc) => {
             const Icon = doc.icon;
             return (
               <li key={doc.id}>
-                <div className="os-workspace-row os-workspace-row--static flex-col items-stretch gap-3 py-3 sm:flex-row sm:items-center">
-                  <span className="os-workspace-row-icon shrink-0" aria-hidden>
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="os-workspace-row-body">
-                    <span className="os-workspace-row-name">{doc.title}</span>
-                    <span className="os-workspace-row-meta">{doc.description}</span>
-                  </span>
-                  <span className="flex shrink-0 flex-wrap gap-2">
-                    <a
-                      href={doc.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ds-btn-secondary ds-btn-app-shape"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Leer
-                    </a>
-                    <a href={doc.href} download={doc.download} className="ds-btn-app">
-                      <Download className="h-3.5 w-3.5" />
-                      Descargar
-                    </a>
-                  </span>
-                </div>
+                <article className="desk-page-row desk-doc-row">
+                  <div className="desk-doc-row-main">
+                    <span className="desk-doc-row-icon" aria-hidden>
+                      <Icon className="h-4 w-4 opacity-60" strokeWidth={1.75} />
+                    </span>
+                    <div className="desk-page-row-body">
+                      <h2 className="desk-page-row-title">{doc.title}</h2>
+                      <p className="desk-page-row-summary">{doc.description}</p>
+                    </div>
+                  </div>
+                  <div className="desk-doc-actions">
+                    <DeskIconHint label="Leer">
+                      <a
+                        href={doc.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="desk-doc-action-btn"
+                        aria-label={`Leer ${doc.title}`}
+                      >
+                        <ExternalLink className="h-4 w-4" strokeWidth={1.75} />
+                      </a>
+                    </DeskIconHint>
+                    <DeskIconHint label="Descargar">
+                      <a
+                        href={doc.href}
+                        download={doc.download}
+                        className="desk-doc-action-btn"
+                        aria-label={`Descargar ${doc.title}`}
+                      >
+                        <Download className="h-4 w-4" strokeWidth={1.75} />
+                      </a>
+                    </DeskIconHint>
+                  </div>
+                </article>
               </li>
             );
           })}
         </ul>
 
-        <section className="os-workspace-section os-workspace-section--border">
-          <h2 className="os-workspace-section-title">Operación</h2>
-          <p className="text-[13px] text-zinc-600">
-            Los documentos describen las reglas. El panel muestra ejecución trimestral reconciliada.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <Link to={modelWorkspacePath('egs')} className="ds-btn-app">
-              Espacio EGS
-            </Link>
-            <Link to="/contratos" className="ds-btn-secondary ds-btn-app-shape">
-              Contratos
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </section>
+        <p className="desk-page-secondary-link">
+          <a href="/gestion">Ver telemetría publicada en gestión →</a>
+        </p>
       </div>
     </PageShell>
   );
