@@ -11,11 +11,19 @@ import {
 export function useInstitutionAuth() {
   const [session, setSession] = useState<InstitutionSession | null>(() => loadInstitutionSession());
   const [registered, setRegistered] = useState(() => isInstitutionRegistrationComplete());
+  const [authReady, setAuthReady] = useState(false);
+
+  const applySession = useCallback((next: InstitutionSession) => {
+    setSession(next);
+    setRegistered(isInstitutionRegistrationComplete());
+    setAuthReady(true);
+  }, []);
 
   const refresh = useCallback(async () => {
     const next = await refreshInstitutionSessionFromServer();
     setSession(next ?? loadInstitutionSession());
     setRegistered(isInstitutionRegistrationComplete());
+    setAuthReady(true);
   }, []);
 
   useEffect(() => {
@@ -26,9 +34,10 @@ export function useInstitutionAuth() {
     const onStorage = (e: StorageEvent) => {
       if (
         e.key === 'agigov-institution-session-v1' ||
+        e.key === 'agigov-institution-session-token-v1' ||
         e.key === 'agigov-institution-registration-v1'
       ) {
-          void refresh();
+        void refresh();
       }
     };
     window.addEventListener('storage', onStorage);
@@ -37,14 +46,17 @@ export function useInstitutionAuth() {
 
   const logout = useCallback(async () => {
     await logoutInstitution();
-    await refresh();
-  }, [refresh]);
+    setSession(null);
+    setRegistered(isInstitutionRegistrationComplete());
+    setAuthReady(true);
+  }, []);
 
   return {
     session,
+    authReady,
     isAuthenticated: session !== null,
-    /** Perfil local espejo; auth real = isAuthenticated (server session). */
     isRegistered: session !== null || registered,
+    applySession,
     refresh,
     logout,
   };

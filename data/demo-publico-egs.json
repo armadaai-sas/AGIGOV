@@ -1,0 +1,21 @@
+{
+  "cuenta": {
+    "email": "demo@agigov.public",
+    "password": "DemoPublicoEGS2026!",
+    "login": "/institucional/acceso"
+  },
+  "piloto": {
+    "slug": "demo-publico-q1",
+    "ministryCode": "MPPI",
+    "fiscalYear": 2026,
+    "quarter": 1,
+    "nota": "Ejecutar npm run db:seed:demo-public en el servidor para materializar datos Postgres"
+  },
+  "consola": "/modelos/egs/consola",
+  "jurisdiccion_ui": "Venezuela (MPPI) en Preferencias",
+  "estado_esperado_tras_seed": {
+    "reconcileOk": true,
+    "published": false,
+    "estadoConsola": "LISTO_CIERRE"
+  }
+}

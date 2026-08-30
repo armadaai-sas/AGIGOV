@@ -6,7 +6,7 @@ import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 
 export default function InstitutionRegisterPage() {
   const { t } = useSovereignConfig();
-  const { isAuthenticated } = useInstitutionAuth();
+  const { isAuthenticated, authReady } = useInstitutionAuth();
 
   return (
     <PageShell shell narrow>
@@ -18,7 +18,9 @@ export default function InstitutionRegisterPage() {
           </div>
         </header>
 
-        {isAuthenticated ? (
+        {!authReady ? (
+          <p className="inst-auth-card inst-auth-card--busy">{t('auth.redirecting')}</p>
+        ) : isAuthenticated ? (
           <InstitutionAlreadyLoggedIn />
         ) : (
           <InstitutionRegistrationForm />

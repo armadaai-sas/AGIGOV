@@ -45,6 +45,7 @@ export function resolveCorsAllowOrigin(requestOrigin?: string): string | null {
   if (!requestOrigin?.trim()) return null;
   const origin = requestOrigin.trim();
   const configured = (process.env.AGIGOV_APP_URL ?? 'http://localhost:3000').trim().replace(/\/$/, '');
+  const publicUrl = (process.env.AGIGOV_PUBLIC_URL ?? process.env.AGIGOV_APP_URL ?? '').trim().replace(/\/$/, '');
   const allowed = new Set([
     configured,
     'http://localhost:3000',
@@ -52,6 +53,12 @@ export function resolveCorsAllowOrigin(requestOrigin?: string): string | null {
     'http://localhost:5173',
     'http://127.0.0.1:5173',
   ]);
+  if (publicUrl) allowed.add(publicUrl);
+  const dropletHost = (process.env.DROPLET_HOST ?? process.env.AGIGOV_DROPLET_HOST ?? '').trim();
+  if (dropletHost) {
+    allowed.add(`http://${dropletHost}`);
+    allowed.add(`http://${dropletHost}:3000`);
+  }
   const extra = (process.env.AGIGOV_CORS_ORIGINS ?? '')
     .split(',')
     .map((s) => s.trim().replace(/\/$/, ''))

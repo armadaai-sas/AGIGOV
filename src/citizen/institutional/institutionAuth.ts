@@ -124,12 +124,21 @@ const authFetchInit: RequestInit = {
 export async function loginInstitution(
   email: string,
   password: string,
-): Promise<{ ok: true; session: InstitutionSession } | { ok: false; error: 'invalid_credentials' | 'server_error' }> {
-  const res = await fetch(`${API_BASE}/api/ops/auth/login`, {
-    ...authFetchInit,
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  });
+): Promise<
+  | { ok: true; session: InstitutionSession }
+  | { ok: false; error: 'invalid_credentials' | 'password_not_set' | 'network_error' | 'server_error' }
+> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/api/ops/auth/login`, {
+      ...authFetchInit,
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+  } catch {
+    return { ok: false, error: 'network_error' };
+  }
+
   const json = (await res.json().catch(() => ({}))) as {
     error?: string;
     sessionToken?: string;
@@ -146,7 +155,9 @@ export async function loginInstitution(
   };
 
   if (!res.ok || !json.user || !json.expiresAt) {
-    return { ok: false, error: json.error === 'invalid_credentials' ? 'invalid_credentials' : 'server_error' };
+    if (json.error === 'invalid_credentials') return { ok: false, error: 'invalid_credentials' };
+    if (json.error === 'password_not_set') return { ok: false, error: 'password_not_set' };
+    return { ok: false, error: 'server_error' };
   }
 
   const session = buildSessionFromApi(json.user, json.expiresAt);
@@ -203,17 +214,33 @@ export async function refreshInstitutionSessionFromServer(): Promise<Institution
   const legacy = getInstitutionSessionToken();
   if (legacy) headers.Authorization = `Bearer ${legacy}`;
 
-  const res = await fetch(`${API_BASE}/api/ops/auth/session`, {
-    credentials: 'include',
-    headers,
-  });
-  if (!res.ok) {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/api/ops/auth/session`, {
+      credentials: 'include',
+      headers,
+    });
+  } catch {
+    return loadInstitutionSession();
+  }
+
+  if (res.status === 401) {
+    const local = loadInstitutionSession();
+    const issuedRecently =
+      local?.issuedAt != null &&
+      Date.now() - new Date(local.issuedAt).getTime() < 60_000;
+    if (issuedRecently) return local;
     clearPersistedSession();
     return null;
   }
 
+  if (!res.ok) {
+    return loadInstitutionSession();
+  }
+
   const json = (await res.json()) as {
     sessionExpiresAt: string;
+    sessionToken?: string;
     user: {
       id: string;
       email: string;
@@ -222,11 +249,17 @@ export async function refreshInstitutionSessionFromServer(): Promise<Institution
       officialCode: string | null;
       contactName: string | null;
       contactRole: string | null;
+      iso?: string | null;
+      regionCode?: string | null;
+      entityCatalogId?: string | null;
+      phone?: string | null;
+      phoneCountryCode?: string | null;
+      verificationStatus?: string | null;
     };
   };
 
   const session = buildSessionFromApi(json.user, json.sessionExpiresAt);
-  persistSession(session);
+  persistSession(session, json.sessionToken ?? legacy);
   syncRegistrationFromSession(session);
   return session;
 }

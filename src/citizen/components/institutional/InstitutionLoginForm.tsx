@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useSovereignConfig } from '../../context/PlatformContext.js';
@@ -7,6 +7,7 @@ import {
   loginInstitution,
   verifyInstitutionMagicLinkToken,
 } from '../../institutional/institutionAuth.js';
+import { resolvePostLoginRedirect } from '../../institutional/authRedirect.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
@@ -16,7 +17,7 @@ export function InstitutionLoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { refresh } = useInstitutionAuth();
+  const { refresh, applySession } = useInstitutionAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -24,8 +25,11 @@ export function InstitutionLoginForm() {
   const [busy, setBusy] = useState(false);
   const [magicBusy, setMagicBusy] = useState(false);
 
-  const redirectTo =
-    (location.state as { from?: string } | null)?.from ?? INSTITUTION_ROUTES.desk;
+  const redirectTo = resolvePostLoginRedirect(
+    searchParams.get('redirect') ??
+      (location.state as { from?: string } | null)?.from ??
+      null,
+  );
   const loggedOut = Boolean((location.state as { loggedOut?: boolean } | null)?.loggedOut);
 
   useEffect(() => {
@@ -37,8 +41,9 @@ export function InstitutionLoginForm() {
       const result = await verifyInstitutionMagicLinkToken(magic);
       if (cancelled) return;
       if (result.ok) {
-        await refresh();
+        applySession(result.session);
         navigate(redirectTo, { replace: true });
+        void refresh();
       } else {
         setError(t('auth.error.invalidCredentials'));
         setMagicBusy(false);
@@ -47,7 +52,7 @@ export function InstitutionLoginForm() {
     return () => {
       cancelled = true;
     };
-  }, [searchParams, navigate, redirectTo, refresh, t]);
+  }, [searchParams, navigate, redirectTo, refresh, applySession, t]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -55,20 +60,22 @@ export function InstitutionLoginForm() {
     setError(null);
     setErrorCode(null);
     try {
-      const result = await loginInstitution(email, password);
-      switch (result.ok) {
-        case true:
-          await refresh();
-          navigate(redirectTo, { replace: true });
-          break;
-        case false:
-          setErrorCode(result.error);
-          setError(
-            result.error === 'invalid_credentials'
-              ? t('auth.error.invalidCredentials')
-              : t('auth.error.serverError'),
-          );
-          break;
+      const result = await loginInstitution(email.trim(), password);
+      if (result.ok) {
+        applySession(result.session);
+        navigate(redirectTo, { replace: true });
+        void refresh();
+      } else {
+        setErrorCode(result.error);
+        setError(
+          result.error === 'invalid_credentials'
+            ? t('auth.error.invalidCredentials')
+            : result.error === 'password_not_set'
+              ? t('auth.error.passwordNotSet')
+              : result.error === 'network_error'
+                ? t('auth.error.networkError')
+                : t('auth.error.serverError'),
+        );
       }
     } finally {
       setBusy(false);
@@ -77,83 +84,85 @@ export function InstitutionLoginForm() {
 
   if (magicBusy) {
     return (
-      <div className="mx-auto max-w-md">
-        <div className="agigov-card p-6 text-sm text-agigov-text-muted">{t('auth.redirecting')}</div>
+      <div className="inst-auth-panel">
+        <div className="inst-auth-card inst-auth-card--busy">
+          <Loader2 className="h-5 w-5 animate-spin text-agigov-text-muted" aria-hidden />
+          <p>{t('auth.redirecting')}</p>
+        </div>
       </div>
     );
   }
 
-  const INPUT_CLASS =
-    'mt-1.5 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2';
-
   return (
-    <div className="mx-auto w-full max-w-md">
-      <form className="agigov-card space-y-5 p-6 sm:p-8" onSubmit={(e) => void submit(e)}>
+    <div className="inst-auth-panel">
+      <form className="inst-auth-card" onSubmit={(e) => void submit(e)}>
         {loggedOut ? (
-          <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm font-medium text-zinc-700">
+          <p className="inst-auth-banner inst-auth-banner--ok" role="status">
             {t('auth.loggedOut')}
           </p>
         ) : null}
 
-        <label className="block text-sm">
-          <span className="font-medium text-agigov-text">{t('reg.officialEmail')}</span>
+        <label className="inst-auth-field">
+          <span>{t('reg.officialEmail')}</span>
           <input
             type="email"
             required
             autoComplete="username"
             autoFocus
-            className={INPUT_CLASS}
+            className="inst-auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="finanzas@alcaldia.gob.ve"
+            placeholder="finanzas@ministerio.gob.ve"
+            disabled={busy}
           />
         </label>
 
-        <label className="block text-sm">
-          <span className="font-medium text-agigov-text">{t('auth.password')}</span>
+        <label className="inst-auth-field">
+          <span>{t('auth.password')}</span>
           <input
             type="password"
             required
             autoComplete="current-password"
             minLength={8}
-            className={INPUT_CLASS}
+            className="inst-auth-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={busy}
           />
         </label>
 
         {error ? (
-          <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700" role="alert">
+          <p className="inst-auth-banner inst-auth-banner--error" role="alert">
             {error}
           </p>
         ) : null}
+
         {errorCode === 'password_not_set' ? (
-          <p>
-            <Link
-              to={INSTITUTION_ROUTES.register}
-              className="text-sm text-zinc-700 underline-offset-2 hover:underline"
-            >
-              {t('auth.goRegister')}
-            </Link>
+          <p className="inst-auth-footnote">
+            <Link to={INSTITUTION_ROUTES.register}>{t('auth.goRegister')}</Link>
           </p>
         ) : null}
 
-        <button type="submit" className="ds-btn-app w-full justify-center" disabled={busy}>
-          {busy ? t('auth.redirecting') : t('auth.submit')}
-          <ArrowRight className="h-4 w-4" aria-hidden />
+        <button type="submit" className="desk-page-primary-btn w-full justify-center" disabled={busy}>
+          {busy ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              {t('auth.redirecting')}
+            </>
+          ) : (
+            <>
+              {t('auth.submit')}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </>
+          )}
         </button>
 
-        <p className="text-center text-sm text-agigov-text-muted">
+        <p className="inst-auth-footnote inst-auth-footnote--center">
           {t('auth.needRegister')}{' '}
-          <Link
-            to={INSTITUTION_ROUTES.register}
-            className="font-medium text-zinc-700 underline-offset-2 hover:underline"
-          >
-            {t('auth.goRegister')}
-          </Link>
+          <Link to={INSTITUTION_ROUTES.register}>{t('auth.goRegister')}</Link>
         </p>
 
-        <p className="text-center text-xs text-agigov-text-muted">{t('auth.securityNote')}</p>
+        <p className="inst-auth-security">{t('auth.securityNote')}</p>
       </form>
     </div>
   );

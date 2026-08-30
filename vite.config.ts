@@ -98,9 +98,20 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api': {
-          // Prefer local API when running; fall back to live droplet for landing pulse.
           target: env.VITE_API_PROXY || 'http://137.184.66.163',
           changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on('proxyRes', (proxyRes) => {
+              const raw = proxyRes.headers['set-cookie'];
+              if (!raw) return;
+              const cookies = Array.isArray(raw) ? raw : [raw];
+              proxyRes.headers['set-cookie'] = cookies.map((cookie) =>
+                cookie
+                  .replace(/;\s*Secure/gi, '')
+                  .replace(/;\s*Domain=[^;]+/gi, ''),
+              );
+            });
+          },
         },
       },
     },

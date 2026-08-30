@@ -285,7 +285,13 @@ app.get('/api/ops/auth/session', async (req, res) => {
     res.status(401).json({ error: 'invalid_session' });
     return;
   }
-  res.json(toSessionResponse(session));
+  const payload = toSessionResponse(session);
+  const bearer = String(req.headers.authorization ?? '').match(/^Bearer\s+(\S+)/i)?.[1]?.trim();
+  if (bearer) {
+    res.json({ ...payload, sessionToken: bearer });
+    return;
+  }
+  res.json(payload);
 });
 
 app.post('/api/ops/auth/logout', async (req, res) => {

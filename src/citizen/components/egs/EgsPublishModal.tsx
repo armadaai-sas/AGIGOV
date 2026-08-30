@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import type { EgsMinistryStatusResponse, MinistryHealthResponse } from '../../api.js';
 import { agigovIconProps } from '../icons/agigovIcon.js';
-import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
+import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 
 type Props = {
@@ -106,7 +106,10 @@ export function EgsPublishModal({
               <p className="text-sm text-agigov-text">
                 Requiere sesión institucional para firmar la publicación.
               </p>
-              <Link to={INSTITUTION_ROUTES.login} className="desk-page-primary-btn mt-3 inline-flex">
+              <Link
+                to={loginPathWithRedirect('/modelos/egs/consola')}
+                className="desk-page-primary-btn mt-3 inline-flex"
+              >
                 Iniciar sesión institucional
               </Link>
             </div>

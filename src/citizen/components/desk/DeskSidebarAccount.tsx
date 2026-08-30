@@ -5,6 +5,8 @@ import { SidebarTooltip } from '../SidebarTooltip.js';
 import { agigovIconProps } from '../icons/agigovIcon.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
+import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
+import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 /** Cuenta e inicio — iconos alineados al rail del sidebar. */
@@ -23,11 +25,11 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
       {isAuthenticated && session ? (
         <>
           <SidebarTooltip
-            label={session.institutionName || t('nav.desk')}
-            hint={t('nav.desk')}
+            label={session.institutionName || t('auth.goConsole')}
+            hint={t('auth.goConsole')}
             enabled={collapsed}
           >
-            <Link to={INSTITUTION_ROUTES.desk} className="app-sidebar-skin-btn" aria-label={t('nav.desk')}>
+            <Link to={EGS_CONSOLE_PATH} className="app-sidebar-skin-btn" aria-label={session.institutionName || t('auth.goConsole')}>
               <Building2 {...agigovIconProps('md')} />
             </Link>
           </SidebarTooltip>
@@ -44,7 +46,7 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
         </>
       ) : (
         <SidebarTooltip label={t('nav.login')} hint={t('nav.login')} enabled={collapsed}>
-          <Link to={INSTITUTION_ROUTES.login} className="app-sidebar-skin-btn" aria-label={t('nav.login')}>
+          <Link to={loginPathWithRedirect('/escritorio')} className="app-sidebar-skin-btn" aria-label={t('nav.login')}>
             <LogIn {...agigovIconProps('md')} />
           </Link>
         </SidebarTooltip>

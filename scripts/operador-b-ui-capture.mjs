@@ -86,7 +86,7 @@ async function main() {
     await dismissOnboarding(page);
     await page.locator('input[type="email"], input[name="email"]').first().fill(email);
     await page.locator('input[type="password"]').first().fill(password);
-    await clickRole(page, /Entrar al escritorio/i);
+    await clickRole(page, /Iniciar sesión|Sign in/i);
     await page.waitForURL(/\/escritorio/, { timeout: 60_000 });
     await dismissOnboarding(page);
     await page.getByRole('button', { name: /Cerrar sesión/i }).waitFor({ timeout: 30_000 });

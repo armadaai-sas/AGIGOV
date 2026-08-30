@@ -1292,4 +1292,97 @@
 .os-endpoint-desc {
   @apply text-xs text-agigov-text-muted sm:text-right;
 }
+
+/* —— Acceso institucional —— */
+.inst-auth-page {
+  @apply mx-auto flex w-full max-w-lg flex-col gap-8 py-4;
+}
+
+.inst-auth-page-head {
+  @apply space-y-2 text-center sm:text-left;
+}
+
+.inst-auth-kicker {
+  @apply text-xs font-semibold uppercase tracking-wide text-agigov-text-muted;
+}
+
+.inst-auth-title {
+  @apply font-display text-2xl font-semibold text-agigov-text sm:text-3xl;
+}
+
+.inst-auth-lead {
+  @apply text-sm leading-relaxed text-agigov-text-muted;
+}
+
+.inst-auth-panel {
+  @apply w-full;
+}
+
+.inst-auth-card {
+  @apply space-y-5 rounded-2xl border border-agigov-border bg-white p-6 shadow-sm sm:p-8;
+}
+
+.inst-auth-card--busy {
+  @apply flex items-center gap-3 text-sm text-agigov-text-muted;
+}
+
+.inst-auth-field {
+  @apply block space-y-1.5 text-sm;
+}
+
+.inst-auth-field > span {
+  @apply font-medium text-agigov-text;
+}
+
+.inst-auth-input {
+  @apply w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-400/30 focus:ring-2 disabled:opacity-60;
+}
+
+.inst-auth-banner {
+  @apply rounded-xl px-3 py-2.5 text-sm;
+}
+
+.inst-auth-banner--ok {
+  @apply border border-emerald-200 bg-emerald-50 text-emerald-900;
+}
+
+.inst-auth-banner--error {
+  @apply border border-red-200 bg-red-50 text-red-800;
+}
+
+.inst-auth-footnote {
+  @apply text-sm text-agigov-text-muted;
+}
+
+.inst-auth-footnote--center {
+  @apply text-center;
+}
+
+.inst-auth-footnote a {
+  @apply font-medium text-agigov-text underline-offset-2 hover:underline;
+}
+
+.inst-auth-security {
+  @apply text-center text-xs text-agigov-text-muted;
+}
+
+.inst-auth-session-head {
+  @apply flex items-start gap-3;
+}
+
+.inst-auth-session-title {
+  @apply font-medium text-agigov-text;
+}
+
+.inst-auth-session-name {
+  @apply mt-1 text-sm font-medium text-agigov-text;
+}
+
+.inst-auth-session-lead {
+  @apply mt-2 text-sm text-agigov-text-muted;
+}
+
+.inst-auth-actions {
+  @apply flex flex-col gap-3 sm:flex-row;
+}
 }

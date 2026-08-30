@@ -1,0 +1,120 @@
+{
+  "titulo": "Prueba EGS — ministerio (Operador B)",
+  "version": "2026-08-30",
+  "superficie": "http://137.184.66.163",
+  "tiempo_estimado_min": 45,
+  "requisitos": [
+    "Ventana privada / perfil limpio",
+    "Email institucional de prueba (no producción real)",
+    "Capturas en carpeta local artifacts/"
+  ],
+  "archivos_datos": {
+    "csv_hitos": "/docs/prueba-egs-ministerio-hitos.csv",
+    "csv_demo_corto": "/docs/sample-ingest-3-hitos.csv",
+    "nota_csv": "En paso 6, copia el valor del campo Contrato del wizard y sustituye REEMPLAZA-CON-TU-CONTRATO en el CSV. Más fácil: botón «Enviar 3 hitos demo»."
+  },
+  "pasos": [
+    {
+      "n": 1,
+      "nombre": "Registro institucional",
+      "url": "/institucional/registro",
+      "accion": "Alta con nombre institución, email y contraseña",
+      "evidencia": "01-registro.png",
+      "esperado": "Cuenta creada, redirige o muestra sesión activa"
+    },
+    {
+      "n": 2,
+      "nombre": "Login",
+      "url": "/institucional/acceso",
+      "accion": "Cierra sesión si hace falta → entra con email y password",
+      "evidencia": "02-acceso.png",
+      "esperado": "Sesión institucional OK"
+    },
+    {
+      "n": 3,
+      "nombre": "Provisionar piloto",
+      "url": "/institucional/piloto",
+      "accion": "Provisionar tenant → anota el slug (ej. mi-ministerio-2026)",
+      "evidencia": "03-piloto-slug.png",
+      "esperado": "Slug visible, tenant activo"
+    },
+    {
+      "n": 4,
+      "nombre": "Modelo EGS",
+      "url": "/institucional/piloto",
+      "accion": "Wizard paso modelo → elige EGS",
+      "evidencia": "04-modelo-egs.png",
+      "esperado": "modelId egs seleccionado"
+    },
+    {
+      "n": 5,
+      "nombre": "Baseline multi-sig",
+      "url": "/institucional/piloto",
+      "accion": "Onboard + Ratificar acta baseline",
+      "evidencia": "05-baseline.png",
+      "esperado": "onboardingStatus ingest_ready"
+    },
+    {
+      "n": 6,
+      "nombre": "Ingesta hitos",
+      "url": "/institucional/piloto",
+      "accion": "Opción A: «Enviar 3 hitos demo». Opción B: subir prueba-egs-ministerio-hitos.csv (contrato corregido) + Enviar filas",
+      "evidencia": "06-ingest.png",
+      "esperado": "ingestAccepted >= 3"
+    },
+    {
+      "n": 7,
+      "nombre": "Reconciliación centinela",
+      "url": "/institucional/piloto",
+      "accion": "Paso Reconcile — espera OK o lee discrepancias FREEZE",
+      "evidencia": "07-centinela.png",
+      "esperado": "reconcileOk true, calculoAhorroFinal visible"
+    },
+    {
+      "n": 8,
+      "nombre": "Publicar cierre",
+      "url": "/institucional/piloto",
+      "accion": "Paso Q-close → Publicar. Alternativa: /modelos/egs/consola → Publicar cierre trimestral (modal)",
+      "evidencia": "08-qclose.png",
+      "esperado": "published true"
+    },
+    {
+      "n": 9,
+      "nombre": "Consola ministerio + utilidades",
+      "url": "/modelos/egs/consola",
+      "accion": "Ver resultado, Exportar informe PDF, Ver telemetría ciudadana",
+      "evidencia": "09-consola-egs.png",
+      "esperado": "estadoConsola PUBLICADO o LISTO_CIERRE según paso 8"
+    },
+    {
+      "n": 10,
+      "nombre": "Telemetría ciudadana",
+      "url": "/gestion",
+      "accion": "Comparar números con consola ministerio",
+      "evidencia": "10-gestion.png",
+      "esperado": "Mismo trimestre / coherencia de reportes publicados"
+    }
+  ],
+  "probes_api": [
+    {
+      "nombre": "Health",
+      "curl": "curl -s http://137.184.66.163/api/ops/health",
+      "ok_si": "ok:true y postgres:true"
+    },
+    {
+      "nombre": "Salud ministerio",
+      "curl": "curl -s \"http://137.184.66.163/api/public/egs/ministry-health?ministry=MINTRANS\"",
+      "ok_si": "available true, reconcileOk, published"
+    },
+    {
+      "nombre": "Estado consola + CTA",
+      "curl": "curl -s \"http://137.184.66.163/api/public/models/egs/status?ministry=MINTRANS\"",
+      "ok_si": "estadoConsola y primaryAction.label"
+    }
+  ],
+  "veredicto": {
+    "PASS": "Pasos 1-10 completados con capturas; publish y PDF funcionan",
+    "FAIL": "FREEZE sin resolver, publish 401 sin login, o números incoherentes",
+    "BLOCKED": "502/health caído — reintentar deploy"
+  }
+}

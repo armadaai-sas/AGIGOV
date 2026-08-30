@@ -22,6 +22,7 @@
     "db:migrate:edge": "prisma db push --schema prisma-edge/schema.prisma",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed:egs-pilot": "tsx prisma/seed-egs-pilot.ts",
+    "db:seed:demo-public": "tsx prisma/seed-demo-public-egs-q1.ts",
     "egs:quarter-close": "tsx scripts/egs-quarter-close-demo.ts",
     "egs:stress": "tsx scripts/egs-stress-discrepancy.ts",
     "models:audit": "tsx scripts/audit-models.ts",
