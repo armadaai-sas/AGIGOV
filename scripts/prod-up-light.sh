@@ -37,10 +37,24 @@ if [ "${TUNNEL_NAMED:-0}" = "1" ]; then
 fi
 
 echo "[ProdLight] Levantando stack ligero..."
-docker compose -f "$COMPOSE" --env-file "$ENV_FILE" $PROFILES up -d --build
+COMPOSE_FILES="-f $COMPOSE"
+if [ -f dist/index.html ]; then
+  COMPOSE_FILES="$COMPOSE_FILES -f infra/docker-compose.prod.light.prebuilt.yml"
+  echo "[ProdLight] PWA pre-built (dist/) — sin npm build en droplet"
+fi
+
+export COMPOSE_PARALLEL_LIMIT=1
+
+# Build serially on small VMs (avoid OOM during parallel bake).
+docker compose $COMPOSE_FILES --env-file "$ENV_FILE" $PROFILES build core-lite
+if [ -f dist/index.html ]; then
+  docker compose $COMPOSE_FILES --env-file "$ENV_FILE" $PROFILES build web
+fi
+
+docker compose $COMPOSE_FILES --env-file "$ENV_FILE" $PROFILES up -d
 
 echo "[ProdLight] Migraciones + seed (one-shot)..."
-docker compose -f "$COMPOSE" --env-file "$ENV_FILE" run --rm migrate
+docker compose $COMPOSE_FILES --env-file "$ENV_FILE" run --rm migrate
 
 echo "[ProdLight] Health checks..."
 for _i in $(seq 1 30); do
@@ -50,7 +64,7 @@ for _i in $(seq 1 30); do
   sleep 2
 done
 # Refresh nginx upstream after core recreate (avoids sticky stale DNS → 502 on /api/).
-docker compose -f "$COMPOSE" --env-file "$ENV_FILE" $PROFILES restart web >/dev/null
+docker compose $COMPOSE_FILES --env-file "$ENV_FILE" $PROFILES restart web >/dev/null
 sleep 2
 curl -sf "http://127.0.0.1:${PUBLIC_API_PORT:-3001}/api/ops/health" | head -c 500 || true
 echo ""

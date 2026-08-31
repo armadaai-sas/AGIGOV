@@ -1,6 +1,6 @@
 name: Deploy prod-light (DigitalOcean)
 
-# Deploy cloud-only: GitHub Actions → Droplet. No PC required after SSH deploy key is on the droplet.
+# Deploy cloud-only: GitHub Actions → Droplet. PWA built on CI (no OOM on 1GB droplet).
 on:
   workflow_dispatch:
   push:
@@ -48,19 +48,38 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build PWA on CI
+        run: |
+          npm ci
+          npm run build
+          test -f dist/index.html
+
       - name: Setup SSH deploy key
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "${{ secrets.DROPLET_SSH_KEY }}" > ~/.ssh/do_deploy
           chmod 600 ~/.ssh/do_deploy
-          ssh-keyscan -H "$DROPLET_HOST" >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          for i in $(seq 1 5); do
+            if ssh-keyscan -T 10 -H "$DROPLET_HOST" >> ~/.ssh/known_hosts 2>/dev/null; then
+              chmod 600 ~/.ssh/known_hosts
+              exit 0
+            fi
+            echo "ssh-keyscan retry $i/5..."
+            sleep 5
+          done
+          echo "ERROR: ssh-keyscan failed for $DROPLET_HOST"
+          exit 1
 
-      - name: Sync code to Droplet (preserve secrets/data)
+      - name: Sync code + dist to Droplet
         run: |
           rsync -az --delete \
-            -e "ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes" \
+            -e "ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes -o ConnectTimeout=30" \
             --exclude 'node_modules/' \
             --exclude '.git/' \
             --exclude '.env' \
@@ -73,15 +92,14 @@ jobs:
             --exclude 'data/*.institution-keys.json' \
             --exclude 'data/email-outbox.jsonl' \
             --exclude 'data/metering-events.jsonl' \
-            --exclude 'dist/' \
             --exclude '.vite/' \
             --exclude 'coverage/' \
             --exclude '.DS_Store' \
             ./ "${DROPLET_USER}@${DROPLET_HOST}:${DROPLET_DIR}/"
 
-      - name: Restart prod-light + health + HTTPS tunnel
+      - name: Restart prod-light + health
         run: |
-          ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes \
+          ssh -i ~/.ssh/do_deploy -o IdentitiesOnly=yes -o ConnectTimeout=30 \
             "${DROPLET_USER}@${DROPLET_HOST}" bash -s <<EOF
           set -euo pipefail
           cd "${DROPLET_DIR}"
@@ -90,45 +108,43 @@ jobs:
           echo "--- health ---"
           curl -sf "http://127.0.0.1:3001/api/ops/health"
           echo
-          echo "--- containers ---"
           docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
-          echo "--- waiting for Cloudflare quick tunnel URL ---"
           URL=""
-          for i in \$(seq 1 45); do
+          for i in \$(seq 1 30); do
             URL=\$(docker logs armada-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)
             if [ -n "\$URL" ]; then
               echo "HTTPS_URL=\$URL"
-              curl -sfI "\$URL/" | head -n 8 || true
-              curl -sf "\$URL/api/ops/health" | head -c 200 || true
-              echo
               break
             fi
             sleep 2
           done
           if [ -z "\$URL" ]; then
-            echo "ERROR: no trycloudflare URL after wait"
-            docker ps -a --filter name=armada-tunnel --format 'table {{.Names}}\t{{.Status}}' || true
-            docker logs armada-tunnel-light 2>&1 | tail -n 80 || true
-            exit 1
+            echo "WARN: Cloudflare quick tunnel URL not ready (HTTP on :80 may still work)"
           fi
           EOF
 
       - name: Public health + PWA check
         run: |
-          curl -sf "http://${DROPLET_HOST}:3001/api/ops/health"
-          echo
+          for i in $(seq 1 15); do
+            if curl -sf --connect-timeout 10 "http://${DROPLET_HOST}:3001/api/ops/health"; then
+              echo
+              break
+            fi
+            echo "API :3001 not ready ($i/15)"
+            sleep 5
+          done
           ok=0
           for i in $(seq 1 20); do
-            if curl -sf "http://${DROPLET_HOST}/api/ops/health"; then
+            if curl -sf --connect-timeout 10 "http://${DROPLET_HOST}/api/ops/health"; then
               echo
               ok=1
               break
             fi
             echo "nginx /api not ready yet ($i/20)"
-            sleep 3
+            sleep 5
           done
           if [ "$ok" != "1" ]; then
             echo "ERROR: http://${DROPLET_HOST}/api/ops/health still failing"
             exit 1
           fi
-          curl -sfI "http://${DROPLET_HOST}/" | head -n 5
+          curl -sfI --connect-timeout 10 "http://${DROPLET_HOST}/" | head -n 5

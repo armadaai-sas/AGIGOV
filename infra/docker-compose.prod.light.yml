@@ -57,6 +57,7 @@ services:
           memory: 64M
 
   core-lite:
+    image: armada-core-lite:prod
     build:
       context: ..
       dockerfile: infra/core/Dockerfile
@@ -88,9 +89,7 @@ services:
           memory: 256M
 
   migrate:
-    build:
-      context: ..
-      dockerfile: infra/core/Dockerfile
+    image: armada-core-lite:prod
     container_name: armada-migrate-light
     env_file: .env.prod
     environment:

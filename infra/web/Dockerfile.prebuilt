@@ -1,0 +1,8 @@
+# PWA pre-built on CI — no npm/vite on the droplet (saves ~512MB RAM during deploy).
+FROM nginx:1.27-alpine
+
+COPY infra/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

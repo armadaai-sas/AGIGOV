@@ -1,0 +1,6 @@
+# Override: use CI-built dist/ for web (no vite build on droplet).
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: infra/web/Dockerfile.prebuilt
