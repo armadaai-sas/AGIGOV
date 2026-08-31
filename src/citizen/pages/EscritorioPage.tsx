@@ -32,9 +32,9 @@ export default function EscritorioPage() {
 
       {!isAuthenticated && persona === 'state' ? (
         <p className="desk-home-register">
-          <Link to={INSTITUTION_ROUTES.register}>Crear cuenta institucional</Link>
+          <Link to={INSTITUTION_ROUTES.register}>Crear cuenta para probar EGS</Link>
           <span className="desk-home-register-sep"> · </span>
-          <Link to={INSTITUTION_ROUTES.login}>Acceso</Link>
+          <Link to={INSTITUTION_ROUTES.login}>Iniciar sesión</Link>
         </p>
       ) : null}
     </PageShell>

@@ -17,6 +17,7 @@ import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { agigovIconProps } from '../components/icons/agigovIcon.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
+import { useEgsMinistryScope } from '../institutional/useEgsMinistryScope.js';
 import { getAgigovModel, EGS_MODEL_PATH } from '../platform/agigovModels.js';
 import {
   ministryEgsResultLine,
@@ -28,22 +29,23 @@ export default function EgsVialConsolePage() {
   const model = getAgigovModel('egs');
   const { sovereign } = useSovereignConfig();
   const { isAuthenticated } = useInstitutionAuth();
+  const { ministryCode, displayName } = useEgsMinistryScope();
   const [pipeline, setPipeline] = useState<EgsPipelineResponse | null>(null);
   const [status, setStatus] = useState<EgsMinistryStatusResponse | null>(null);
 
   const health = useCachedFetch(
-    `ministry-health-${sovereign.iso}`,
-    () => fetchMinistryHealth(sovereign.ministryCode),
+    `ministry-health-${ministryCode}`,
+    () => fetchMinistryHealth(ministryCode),
     15_000,
   );
 
   const loadStatus = useCallback(async () => {
     try {
-      setStatus(await fetchEgsMinistryStatus(sovereign.ministryCode));
+      setStatus(await fetchEgsMinistryStatus(ministryCode));
     } catch {
       setStatus(null);
     }
-  }, [sovereign.ministryCode]);
+  }, [ministryCode]);
 
   const loadPipeline = useCallback(async () => {
     try {
@@ -71,7 +73,7 @@ export default function EgsVialConsolePage() {
 
   const title = data
     ? `${data.ministryCode} · ${data.programName}`
-    : `${sovereign.ministryCode} · Programa piloto`;
+    : `${ministryCode} · ${displayName || 'Programa piloto'}`;
 
   const quarterLabel = data ? `Q${data.quarter} ${data.fiscalYear}` : '';
 
@@ -105,7 +107,7 @@ export default function EgsVialConsolePage() {
 
         {noData && !loading ? (
           <>
-            <MinistryEgsEmpty ministryCode={sovereign.ministryCode} />
+            <MinistryEgsEmpty ministryCode={ministryCode} isAuthenticated={isAuthenticated} />
             {health.error && health.state === 'error' ? (
               <DataConnectionState
                 module="egs"

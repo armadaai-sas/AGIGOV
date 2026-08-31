@@ -247,25 +247,42 @@ export function MinistryEgsConsole({
   );
 }
 
-/** Sin datos EGS — ministerio aún no provisionado. */
-export function MinistryEgsEmpty({ ministryCode }: { ministryCode: string }) {
+/** Sin datos EGS — crear cuenta o completar preparación del entorno. */
+export function MinistryEgsEmpty({
+  ministryCode,
+  isAuthenticated,
+}: {
+  ministryCode: string;
+  isAuthenticated: boolean;
+}) {
+  const { t } = useSovereignConfig();
+
   return (
-    <ModelConsoleZone label="Arranque del piloto">
-      <p className="desk-console-outcome-note">
-        Aún no hay telemetría fiscal para <strong>{ministryCode}</strong>. Provisiona el piloto
-        institucional para fijar línea base, ingestar hitos y cerrar el primer trimestre.
+    <ModelConsoleZone label={t('trial.empty.zone')}>
+      <p className="desk-console-outcome-note">{t('trial.empty.lead')}</p>
+      <p className="desk-console-outcome-note mt-2 text-sm text-agigov-text-muted">
+        <strong>{ministryCode}</strong> · {t('trial.empty.scope')}
       </p>
       <div className="egs-ministry-actions mt-4">
-        <Link to="/institucional/piloto" className="desk-page-primary-btn">
-          Iniciar piloto EGS
-        </Link>
-        <Link to="/institucional/registro" className="app-btn app-btn--secondary">
-          Registro institucional
-        </Link>
+        {isAuthenticated ? (
+          <Link to="/institucional/registro" className="desk-page-primary-btn">
+            {t('trial.empty.retry')}
+          </Link>
+        ) : (
+          <Link to="/institucional/registro" className="desk-page-primary-btn">
+            {t('trial.cta')}
+          </Link>
+        )}
+        {isAuthenticated ? (
+          <Link to="/institucional/piloto" className="app-btn app-btn--secondary">
+            {t('trial.empty.wizard')}
+          </Link>
+        ) : (
+          <Link to="/institucional/acceso" className="app-btn app-btn--secondary">
+            {t('auth.submit')}
+          </Link>
+        )}
       </div>
-      <p className="desk-console-outcome-note mt-4">
-        Demo ops: <code>npm run db:seed:egs-pilot</code> en el nodo servidor.
-      </p>
     </ModelConsoleZone>
   );
 }

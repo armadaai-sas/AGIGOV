@@ -54,8 +54,9 @@ import {
   ingestPilotMilestones,
   type IngestRow,
 } from '../pilot/tenant-ingest.js';
-import { listPilotTenants, provisionPilotTenant } from '../pilot/tenant-provision.js';
+import { bootstrapInstitutionTrial } from '../pilot/bootstrap-institution-trial.js';
 import { getPilotProfileForIso } from '../pilot/pilot-jurisdiction-profiles.js';
+import { listPilotTenants, provisionPilotTenant } from '../pilot/tenant-provision.js';
 import {
   getTenantBaselineStatus,
   onboardPilotTenant,
@@ -1414,6 +1415,52 @@ app.get('/api/ops/health', async (_req, res) => {
     pqc: assessPqcReadiness(),
     checkedAt: new Date().toISOString(),
   });
+});
+
+/** Tras registro — piloto EGS Q1 con datos de ejemplo para la cuenta autenticada. */
+app.post('/api/ops/tenants/bootstrap-trial', async (req, res) => {
+  if (isPanicMode()) {
+    res.status(503).json({ error: 'PANIC_MODE: bootstrap suspendido' });
+    return;
+  }
+
+  const body = req.body as {
+    iso?: string;
+    slug?: string;
+    ministryCode?: string;
+    displayName?: string;
+    budgetCode?: string;
+    programName?: string;
+    territoryCode?: string;
+    fiscalYear?: number;
+    quarter?: number;
+    annualBaseline?: number;
+  };
+
+  if (!body.slug?.trim() || !body.ministryCode?.trim() || !body.displayName?.trim()) {
+    res.status(400).json({ error: 'invalid_bootstrap_payload' });
+    return;
+  }
+
+  try {
+    const result = await bootstrapInstitutionTrial({
+      iso: body.iso?.trim() || 'VEN',
+      slug: body.slug.trim(),
+      ministryCode: body.ministryCode.trim(),
+      displayName: body.displayName.trim(),
+      budgetCode: body.budgetCode,
+      programName: body.programName,
+      territoryCode: body.territoryCode,
+      fiscalYear: body.fiscalYear,
+      quarter: body.quarter,
+      annualBaseline: body.annualBaseline,
+    });
+    res.status(201).json(result);
+  } catch (e) {
+    res.status(500).json({
+      error: e instanceof Error ? e.message : 'Error al preparar entorno de prueba',
+    });
+  }
 });
 
 /** Fase A — provisionar tenant desde wizard institucional (sandbox / ops local). */

@@ -908,6 +908,30 @@ export type ProvisionPilotResponse = {
   credentialsPath: string;
 };
 
+export type BootstrapTrialResponse = {
+  slug: string;
+  ministryCode: string;
+  consoleUrl: string;
+  reconcileOk: boolean;
+  published: boolean;
+  calculoAhorroFinal: string | null;
+};
+
+export async function bootstrapInstitutionTrialEnv(body: {
+  iso: string;
+  slug: string;
+  ministryCode: string;
+  displayName: string;
+  budgetCode?: string;
+  programName?: string;
+  territoryCode?: string;
+  fiscalYear?: number;
+  quarter?: number;
+  annualBaseline?: number;
+}): Promise<BootstrapTrialResponse> {
+  return postOpsJson<BootstrapTrialResponse>('/api/ops/tenants/bootstrap-trial', body);
+}
+
 export async function provisionPilotFromProfile(body: {
   iso: string;
   slug: string;

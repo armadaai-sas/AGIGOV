@@ -12,6 +12,7 @@ import {
   getRegionsForType,
 } from '../../institutional/entity-catalog/index.js';
 import { registerInstitutionAuth } from '../../institutional/institutionAuth.js';
+import { bootstrapInstitutionTrialEnv } from '../../api.js';
 import {
   isInstitutionRegistrationComplete,
   loadInstitutionRegistration,
@@ -25,7 +26,16 @@ import {
   slugifyInstitution,
 } from '../../institutional/institutionProfile.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
+import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
+
+type RegistrationMode = 'trial' | 'full';
+
+type Props = {
+  onComplete?: () => void;
+  /** trial = registro corto + datos Q1 automáticos (default). */
+  mode?: RegistrationMode;
+};
 
 const ENTITY_TYPES: Array<{
   id: InstitutionEntityType;
@@ -40,16 +50,17 @@ const ENTITY_TYPES: Array<{
   { id: 'other', labelKey: 'reg.entity.other', hintKey: 'reg.entity.otherHint', icon: Building2 },
 ];
 
-type Props = {
-  onComplete?: () => void;
-};
-
-/** Registro institucional — catálogo por jurisdicción + verificación async. */
-export function InstitutionRegistrationForm({ onComplete }: Props) {
+/** Registro institucional — prueba EGS (trial) o alta completa. */
+export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Props) {
+  const isTrial = mode === 'trial';
   const { t, sovereign, setSovereignPref } = useSovereignConfig();
   const navigate = useNavigate();
-  const { refresh } = useInstitutionAuth();
-  const [form, setForm] = useState<InstitutionRegistration>(() => loadInstitutionRegistration());
+  const { refresh, applySession } = useInstitutionAuth();
+  const [form, setForm] = useState<InstitutionRegistration>(() => ({
+    ...loadInstitutionRegistration(),
+    entityType: 'ministry',
+  }));
+  const [bootstrapBusy, setBootstrapBusy] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const initialIso: JurisdictionIso = (() => {
@@ -161,18 +172,19 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
       setError(t('reg.error.terms'));
       return;
     }
-    if (!isOtherEntity && regions.length > 0 && !entityCatalogId) {
+    if (!isOtherEntity && !isTrial && regions.length > 0 && !entityCatalogId) {
       setError(t('reg.error.entityRequired'));
       return;
     }
 
     setBusy(true);
     try {
+      const entityType = isTrial ? 'ministry' : form.entityType;
       const authResult = await registerInstitutionAuth({
         email: form.officialEmail.trim(),
         password,
         institutionName: form.legalName.trim(),
-        entityType: form.entityType,
+        entityType,
         officialCode: form.officialCode,
         contactName: form.contactName,
         contactRole: form.contactRole,
@@ -205,182 +217,239 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
       });
 
       const profile = profileFromIso(iso);
-      const ministryPrefix =
-        form.entityType === 'municipality'
-          ? 'ALC'
-          : form.entityType === 'ministry'
-            ? 'MIN'
-            : form.entityType === 'governorship'
-              ? 'GOB'
-              : 'AGY';
+      const ministryPrefix = 'MIN';
       const code =
         slugifyInstitution(form.legalName).slice(0, 8).toUpperCase().replace(/-/g, '') || 'PILOT';
       const ministryCode = `${ministryPrefix}${code}`.slice(0, 12);
+      const slug = slugifyInstitution(
+        `${form.legalName}-${form.officialEmail.split('@')[0] || 'trial'}`,
+      );
 
-      saveInstitutionProfile({
+      const savedProfile = {
         ...profile,
         iso,
         displayName: form.legalName.trim(),
         ministryCode,
-        slug: slugifyInstitution(`${form.legalName}-trust-pilot`),
+        slug,
         contactName: form.contactName.trim(),
         contactEmail: form.officialEmail.trim(),
-        programName:
-          form.entityType === 'municipality'
+        programName: isTrial
+          ? t('trial.defaultProgram')
+          : form.entityType === 'municipality'
             ? 'Mantenimiento urbano verificable — Piloto EGS'
             : profile.programName,
-      });
+        fiscalYear: 2026,
+        quarter: 1,
+      };
+
+      saveInstitutionProfile(savedProfile);
+
+      applySession(authResult.session);
+
+      if (isTrial) {
+        setBootstrapBusy(true);
+        try {
+          await bootstrapInstitutionTrialEnv({
+            iso,
+            slug: savedProfile.slug,
+            ministryCode: savedProfile.ministryCode,
+            budgetCode: savedProfile.budgetCode,
+            displayName: savedProfile.displayName,
+            programName: savedProfile.programName,
+            territoryCode: savedProfile.territoryCode,
+            fiscalYear: savedProfile.fiscalYear,
+            quarter: savedProfile.quarter,
+            annualBaseline: savedProfile.annualBaselineEstimate,
+          });
+        } catch (bootstrapError) {
+          setError(
+            bootstrapError instanceof Error ? bootstrapError.message : t('trial.bootstrapError'),
+          );
+          return;
+        } finally {
+          setBootstrapBusy(false);
+        }
+      }
 
       await refresh();
       onComplete?.();
-      navigate(INSTITUTION_ROUTES.desk, { replace: true });
+      navigate(isTrial ? EGS_CONSOLE_PATH : INSTITUTION_ROUTES.desk, { replace: true });
     } finally {
       setBusy(false);
     }
   }
 
+  const submitting = busy || bootstrapBusy;
+
   return (
-    <div className="inst-reg-shell inst-reg-shell--simple">
-      <form className="agigov-card inst-reg-form" onSubmit={(e) => void submit(e)}>
-        {isGovernmentTier ? (
+    <div className={isTrial ? 'inst-auth-panel' : 'inst-reg-shell inst-reg-shell--simple'}>
+      <form className={isTrial ? 'inst-auth-card' : 'agigov-card inst-reg-form'} onSubmit={(e) => void submit(e)}>
+        {isTrial ? (
+          <p className="inst-auth-banner inst-auth-banner--ok">{t('trial.registerNote')}</p>
+        ) : null}
+        {!isTrial && isGovernmentTier ? (
           <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-700">
             {t('reg.governmentChannel')}
           </p>
         ) : null}
-        <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
-          {t('reg.verificationNotice')}
-        </p>
+        {!isTrial ? (
+          <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
+            {t('reg.verificationNotice')}
+          </p>
+        ) : null}
 
-        <fieldset>
-          <legend className="text-sm font-semibold text-agigov-text">{t('reg.entityType')}</legend>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            {ENTITY_TYPES.map(({ id, labelKey, hintKey, icon: Icon }) => (
-              <label
-                key={id}
-                className={`inst-reg-entity ${form.entityType === id ? 'is-selected' : ''}`}
-              >
-                <input
-                  type="radio"
-                  name="entityType"
-                  className="sr-only"
-                  checked={form.entityType === id}
-                  onChange={() => onEntityTypeChange(id)}
-                />
-                <Icon className="h-5 w-5 text-zinc-500" aria-hidden />
-                <span className="font-medium text-agigov-text">{t(labelKey)}</span>
-                <span className="text-xs text-agigov-text-muted">{t(hintKey)}</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('reg.jurisdiction')}</span>
-            <select
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-              value={iso}
-              onChange={(e) => onCountryChange(e.target.value as JurisdictionIso)}
-            >
-              {(['VEN', 'COL', 'USA'] as JurisdictionIso[]).map((code) => (
-                <option key={code} value={code}>
-                  {JURISDICTIONS[code].label}
-                </option>
+        {!isTrial ? (
+          <fieldset>
+            <legend className="text-sm font-semibold text-agigov-text">{t('reg.entityType')}</legend>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {ENTITY_TYPES.map(({ id, labelKey, hintKey, icon: Icon }) => (
+                <label
+                  key={id}
+                  className={`inst-reg-entity ${form.entityType === id ? 'is-selected' : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="entityType"
+                    className="sr-only"
+                    checked={form.entityType === id}
+                    onChange={() => onEntityTypeChange(id)}
+                  />
+                  <Icon className="h-5 w-5 text-zinc-500" aria-hidden />
+                  <span className="font-medium text-agigov-text">{t(labelKey)}</span>
+                  <span className="text-xs text-agigov-text-muted">{t(hintKey)}</span>
+                </label>
               ))}
-            </select>
-          </label>
+            </div>
+          </fieldset>
+        ) : null}
 
-          {regions.length > 0 && form.entityType !== 'other' ? (
-            <label className="block text-sm">
-              <span className="text-agigov-text-muted">{t('reg.region')}</span>
+        <div className={`grid gap-4 ${isTrial ? 'inst-auth-fields' : 'mt-6 sm:grid-cols-2'}`}>
+          {!isTrial ? (
+            <>
+              <label className="block text-sm">
+                <span className="text-agigov-text-muted">{t('reg.jurisdiction')}</span>
+                <select
+                  className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+                  value={iso}
+                  onChange={(e) => onCountryChange(e.target.value as JurisdictionIso)}
+                >
+                  {(['VEN', 'COL', 'USA'] as JurisdictionIso[]).map((code) => (
+                    <option key={code} value={code}>
+                      {JURISDICTIONS[code].label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {regions.length > 0 && form.entityType !== 'other' ? (
+                <label className="block text-sm">
+                  <span className="text-agigov-text-muted">{t('reg.region')}</span>
+                  <select
+                    className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+                    value={regionCode}
+                    onChange={(e) => onRegionChange(e.target.value)}
+                    required
+                  >
+                    <option value="">{t('reg.regionPlaceholder')}</option>
+                    {regions.map((r) => (
+                      <option key={r.code} value={r.code}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+
+              {regionCode && form.entityType !== 'other' ? (
+                <label className="block text-sm sm:col-span-2">
+                  <span className="text-agigov-text-muted">{t('reg.catalogEntity')}</span>
+                  <select
+                    className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
+                    value={entityCatalogId}
+                    onChange={(e) => onEntityChange(e.target.value)}
+                    required
+                  >
+                    <option value="">{t('reg.catalogEntityPlaceholder')}</option>
+                    {entities.map((ent) => (
+                      <option key={ent.id} value={ent.id}>
+                        {ent.name}
+                      </option>
+                    ))}
+                    <option value={ENTITY_CATALOG_OTHER_ID}>{t('reg.catalogOther')}</option>
+                  </select>
+                </label>
+              ) : null}
+            </>
+          ) : (
+            <label className="inst-auth-field">
+              <span>{t('reg.jurisdiction')}</span>
               <select
-                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-                value={regionCode}
-                onChange={(e) => onRegionChange(e.target.value)}
-                required
+                className="inst-auth-input"
+                value={iso}
+                onChange={(e) => onCountryChange(e.target.value as JurisdictionIso)}
               >
-                <option value="">{t('reg.regionPlaceholder')}</option>
-                {regions.map((r) => (
-                  <option key={r.code} value={r.code}>
-                    {r.name}
+                {(['VEN', 'COL', 'USA'] as JurisdictionIso[]).map((code) => (
+                  <option key={code} value={code}>
+                    {JURISDICTIONS[code].label}
                   </option>
                 ))}
               </select>
             </label>
-          ) : null}
+          )}
 
-          {regionCode && form.entityType !== 'other' ? (
-            <label className="block text-sm sm:col-span-2">
-              <span className="text-agigov-text-muted">{t('reg.catalogEntity')}</span>
-              <select
-                className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text"
-                value={entityCatalogId}
-                onChange={(e) => onEntityChange(e.target.value)}
-                required
-              >
-                <option value="">{t('reg.catalogEntityPlaceholder')}</option>
-                {entities.map((ent) => (
-                  <option key={ent.id} value={ent.id}>
-                    {ent.name}
-                  </option>
-                ))}
-                <option value={ENTITY_CATALOG_OTHER_ID}>{t('reg.catalogOther')}</option>
-              </select>
-            </label>
-          ) : null}
-
-          <label className="block text-sm sm:col-span-2">
-            <span className="text-agigov-text-muted">{t('reg.legalName')}</span>
+          <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('reg.legalName')}</span>
             <input
               required
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+              className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={form.legalName}
               onChange={(e) => patch({ legalName: e.target.value })}
               placeholder={t('reg.legalNamePlaceholder')}
-              readOnly={!isOtherEntity && Boolean(entityCatalogId)}
+              readOnly={!isTrial && !isOtherEntity && Boolean(entityCatalogId)}
             />
           </label>
 
-          <label className="block text-sm sm:col-span-2">
-            <span className="text-agigov-text-muted">{t('reg.officialEmail')}</span>
+          <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('reg.officialEmail')}</span>
             <input
               type="email"
               required
               autoComplete="username"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+              className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={form.officialEmail}
               onChange={(e) => patch({ officialEmail: e.target.value })}
-              placeholder="finanzas@alcaldia.gob.ve"
+              placeholder="finanzas@ministerio.gob.ve"
             />
           </label>
 
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('auth.password')}</span>
+          <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.password')}</span>
             <input
               type="password"
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+              className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
 
-          <label className="block text-sm">
-            <span className="text-agigov-text-muted">{t('auth.passwordConfirm')}</span>
+          <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.passwordConfirm')}</span>
             <input
               type="password"
               required
               minLength={8}
               autoComplete="new-password"
-              className="mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2"
+              className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </label>
         </div>
 
+        {!isTrial ? (
         <details className="mt-6 rounded-xl border border-agigov-border bg-agigov-surface/50 px-4 py-3">
           <summary className="cursor-pointer text-sm font-medium text-agigov-text">
             {t('reg.optionalDetails')}
@@ -435,8 +504,9 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
             </label>
           </div>
         </details>
+        ) : null}
 
-        <label className="mt-6 flex cursor-pointer items-start gap-3 text-sm">
+        <label className={`flex cursor-pointer items-start gap-3 text-sm ${isTrial ? 'mt-2' : 'mt-6'}`}>
           <input
             type="checkbox"
             className="mt-1"
@@ -447,7 +517,7 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
         </label>
 
         {error ? (
-          <p className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700" role="alert">
+          <p className="inst-auth-banner inst-auth-banner--error" role="alert">
             {error}
           </p>
         ) : null}
@@ -462,18 +532,32 @@ export function InstitutionRegistrationForm({ onComplete }: Props) {
           </p>
         ) : null}
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <button type="submit" className="ds-btn-app" disabled={busy}>
-            {t('reg.submit')}
-            <ArrowRight className="h-4 w-4" />
+        {isTrial ? (
+          <button type="submit" className="desk-page-primary-btn w-full justify-center" disabled={submitting}>
+            {submitting ? t('trial.bootstrapBusy') : t('trial.submit')}
+            <ArrowRight className="h-4 w-4" aria-hidden />
           </button>
-          <Link to={INSTITUTION_ROUTES.login} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
-            {t('auth.alreadyHaveAccount')}
-          </Link>
-          <Link to={INSTITUTION_ROUTES.hub} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
-            {t('reg.backInstitutional')}
-          </Link>
-        </div>
+        ) : (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button type="submit" className="ds-btn-app" disabled={submitting}>
+              {t('reg.submit')}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <Link to={INSTITUTION_ROUTES.login} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
+              {t('auth.alreadyHaveAccount')}
+            </Link>
+            <Link to={INSTITUTION_ROUTES.hub} className="text-sm text-agigov-text-muted no-underline hover:text-zinc-900">
+              {t('reg.backInstitutional')}
+            </Link>
+          </div>
+        )}
+
+        {isTrial ? (
+          <p className="inst-auth-footnote inst-auth-footnote--center">
+            {t('auth.alreadyHaveAccount')}{' '}
+            <Link to={INSTITUTION_ROUTES.login}>{t('auth.submit')}</Link>
+          </p>
+        ) : null}
       </form>
     </div>
   );

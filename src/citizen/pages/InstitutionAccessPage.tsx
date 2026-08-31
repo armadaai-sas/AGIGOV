@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import { InstitutionAlreadyLoggedIn } from '../components/institutional/InstitutionAlreadyLoggedIn.js';
 import { InstitutionLoginForm } from '../components/institutional/InstitutionLoginForm.js';
 import { LoadingState } from '../components/PageShell.js';
 import { PageShell } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
+import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 
 export default function InstitutionAccessPage() {
   const { t } = useSovereignConfig();
@@ -23,7 +26,13 @@ export default function InstitutionAccessPage() {
         ) : isAuthenticated ? (
           <InstitutionAlreadyLoggedIn />
         ) : (
-          <InstitutionLoginForm />
+          <>
+            <p className="inst-auth-trial-cta">
+              {t('trial.newUser')}{' '}
+              <Link to={INSTITUTION_ROUTES.register}>{t('trial.cta')}</Link>
+            </p>
+            <InstitutionLoginForm />
+          </>
         )}
       </div>
     </PageShell>
