@@ -1,4 +1,4 @@
-# Documentación — Armada VZLA / AGIGOV
+# Documentación — AGIGOV
 
 | Documento | Contenido |
 |-----------|-----------|
@@ -9,4 +9,4 @@
 | **[../AGENTS.md](../AGENTS.md)** | Convenciones para agentes de código |
 | **[SETUP-GUIA-MAC.md](./SETUP-GUIA-MAC.md)** | Bloques A (GitHub) y B (Docker) — Mac local |
 
-Abre el **Canvas** `armada-plan-fases` en Cursor para ver el plan de forma visual e interactiva.
+Abre el **Canvas** `agigov-plan-fases` en tu editor/IDE para ver el plan de forma visual e interactiva.

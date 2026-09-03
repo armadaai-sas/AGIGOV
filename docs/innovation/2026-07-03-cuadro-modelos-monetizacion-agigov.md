@@ -188,16 +188,16 @@ Paralelo           → B2G API contratistas (sovereign-economics §A)
 
 | Rol | Archivo |
 |-----|---------|
-| **CSO** | `.cursor/agents/cso-monetizacion.md` |
-| **Innovador 24/7** | `.cursor/agents/innovador.md` |
-| **Marco Estado** | `.cursor/skills/agigov-strategic-analysis/SKILL.md` |
-| **Marco privado/ciudadano** | `.cursor/skills/sovereign-economics-monetization/SKILL.md` |
-| **Formato entrega** | `.cursor/skills/agigov-cso-deliverable/SKILL.md` |
+| **CSO** | agente `cso-monetizacion` (config local) |
+| **Innovador 24/7** | agente `innovador` (config local) |
+| **Marco Estado** | skill `agigov-strategic-analysis` (config local) |
+| **Marco privado/ciudadano** | skill `sovereign-economics-monetization` (config local) |
+| **Formato entrega** | skill `agigov-cso-deliverable` (config local) |
 
-### Invocación en Cursor
+### Invocación (config local de agentes)
 
 ```text
-Actúa como CSO (.cursor/agents/cso-monetizacion.md).
+Actúa como CSO (agente cso-monetizacion, config local).
 Usa agigov-strategic-analysis + agigov-cso-deliverable.
 Audita el modelo [nombre] con las 3 lentes.
 ```

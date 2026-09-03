@@ -5,7 +5,7 @@ Entorno piloto con **un tenant por ministerio/rubro**, baseline EGS sembrada, to
 ## Requisitos
 
 - Node.js ≥ 22
-- Postgres local (`armada_core` en `:5432`)
+- Postgres local (`agigov_core` en `:5432`)
 - Variables en `.env` (ver `.env.example`)
 
 ## Bootstrap (una vez)

@@ -15,7 +15,7 @@ export interface DidRegistryFile {
   records: DidRecord[];
 }
 
-/** Registro local de DIDs Armada (sin registry centralizado en v1). */
+/** Registro local de DIDs AGIGOV (sin registry centralizado en v1). */
 export class DidRegistry {
   private readonly records = new Map<string, DidRecord>();
 

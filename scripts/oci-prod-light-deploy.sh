@@ -9,7 +9,7 @@ cd "$ROOT"
 OCI_HOST="${OCI_HOST:?Set OCI_HOST to the VM public IP or hostname (see infra/deploy/oracle-always-free.md)}"
 export OCI_HOST
 export OCI_USER="${OCI_USER:-ubuntu}"
-export OCI_DIR="${OCI_DIR:-/opt/armada}"
+export OCI_DIR="${OCI_DIR:-/opt/agigov}"
 export HONEYPOT="${HONEYPOT:-0}"
 if [ -n "${OCI_SSH_KEY:-}" ]; then
   export OCI_SSH_KEY

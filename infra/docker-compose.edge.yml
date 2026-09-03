@@ -10,7 +10,7 @@ services:
     build:
       context: ..
       dockerfile: infra/edge/Dockerfile
-    container_name: armada-edge-sync
+    container_name: agigov-edge-sync
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -18,7 +18,7 @@ services:
       TERRITORY_CODE: ${TERRITORY_CODE:-MAR_NORTH_01}
       NODE_TIER: ${NODE_TIER:-peripheral}
       EDGE_DATABASE_URL: file:/data/edge.db
-      DATABASE_URL: ${DATABASE_URL:-postgresql://armada:armada@host.docker.internal:5432/armada_core?schema=public}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://agigov:agigov@host.docker.internal:5432/agigov_core?schema=public}
       CORE_HEALTH_URL: ${CORE_HEALTH_URL:-http://host.docker.internal:3001/api/public/health}
       EDGE_SYNC_INTERVAL_MS: ${EDGE_SYNC_INTERVAL_MS:-30000}
       MQTT_URL: ${MQTT_URL:-mqtt://host.docker.internal:1883}
@@ -33,13 +33,13 @@ services:
     build:
       context: ..
       dockerfile: infra/edge/Dockerfile
-    container_name: armada-edge-lorawan
+    container_name: agigov-edge-lorawan
     restart: unless-stopped
     environment:
       ORIGIN_NODE_ID: ${ORIGIN_NODE_ID:-node-mar-north-01}
       TERRITORY_CODE: ${TERRITORY_CODE:-MAR_NORTH_01}
       EDGE_DATABASE_URL: file:/data/edge.db
-      DATABASE_URL: ${DATABASE_URL:-postgresql://armada:armada@host.docker.internal:5432/armada_core?schema=public}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://agigov:agigov@host.docker.internal:5432/agigov_core?schema=public}
       MQTT_URL: ${MQTT_URL:-mqtt://host.docker.internal:1883}
     volumes:
       - edge-data:/data

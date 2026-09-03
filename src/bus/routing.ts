@@ -26,12 +26,12 @@ export function resolveAuditTopic(shard: string): string {
   return buildOpaqueTopic(shard, 'audit');
 }
 
-export function parseArmadaTopic(topic: string): {
+export function parseAgigovTopic(topic: string): {
   shard: string;
   opaqueId: string;
 } | null {
   const parts = topic.split('/');
-  if (parts.length !== 4 || parts[0] !== 'armada' || parts[1] !== 'v1') {
+  if (parts.length !== 4 || parts[0] !== 'agigov' || parts[1] !== 'v1') {
     return null;
   }
   return { shard: parts[2]!, opaqueId: parts[3]! };

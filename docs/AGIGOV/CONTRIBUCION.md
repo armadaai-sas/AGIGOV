@@ -23,10 +23,10 @@ AGIGOV es **código abierto institucional**: el protocolo es genérico; la legit
 | Puente | Acción |
 |--------|--------|
 | **Model Manifest v1** | Publicar un modelo del OS y cobrar rev-share — [MODEL-MANIFEST-v1.md](./MODEL-MANIFEST-v1.md) |
-| Repositorio | PRs a `Armada_VZLA` / forks AGIGOV-[ISO] |
+| Repositorio | PRs a `AGIGOV` / forks AGIGOV-[ISO] |
 | API pública | Integrar apps sobre `/api/public/*` |
 | Protocolo IAP | Implementar handlers de agentes |
-| Skills Cursor | Extender `.cursor/skills/` |
+| Skills de agentes IA | Extender configuración de agentes IA (local) |
 | Bug bounty | Reporte responsable (seguridad) |
 
 ### Agentes IA

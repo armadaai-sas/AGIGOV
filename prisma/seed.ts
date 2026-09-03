@@ -21,9 +21,9 @@ async function main(): Promise<void> {
   });
 
   const citizen = await db.citizen.upsert({
-    where: { did: 'did:armada:bog:demo-citizen-01' },
+    where: { did: 'did:agigov:bog:demo-citizen-01' },
     create: {
-      did: 'did:armada:bog:demo-citizen-01',
+      did: 'did:agigov:bog:demo-citizen-01',
       displayName: 'Ciudadano Demo',
       territoryId: territory.id,
       originNodeId: ORIGIN_NODE,
@@ -53,9 +53,9 @@ async function main(): Promise<void> {
   });
 
   await db.citizen.upsert({
-    where: { did: 'did:armada:mar:demo-citizen-01' },
+    where: { did: 'did:agigov:mar:demo-citizen-01' },
     create: {
-      did: 'did:armada:mar:demo-citizen-01',
+      did: 'did:agigov:mar:demo-citizen-01',
       displayName: 'Ciudadano Periférico Demo',
       territoryId: territoryPeripheral.id,
       originNodeId: ORIGIN_PERIPHERAL,
@@ -104,7 +104,7 @@ async function main(): Promise<void> {
       processId: 'acta-seed-001',
       title: 'Dictamen distribución_agua_sector_norte',
       contentHash: payloadHash({ acta: 'acta-seed-001', v: 1 }),
-      sovereignDid: 'did:armada:core:soberano',
+      sovereignDid: 'did:agigov:core:soberano',
       status: 'committed',
       territoryId: territory.id,
       originNodeId: ORIGIN_NODE,
@@ -128,7 +128,7 @@ async function main(): Promise<void> {
         currency: 'VES',
         status: spec.status,
         threshold: 2,
-        signers: ['did:armada:core:logistico', 'did:armada:core:soberano'],
+        signers: ['did:agigov:core:logistico', 'did:agigov:core:soberano'],
         originNodeId: ORIGIN_PERIPHERAL,
       },
       update: { status: spec.status, amount: spec.amount },

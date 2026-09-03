@@ -1,4 +1,4 @@
-# ChirpStack + Redis + Postgres (LoRaWAN → MQTT → Armada ingest)
+# ChirpStack + Redis + Postgres (LoRaWAN → MQTT → AGIGOV ingest)
 # Requiere Mosquitto accesible (dev: infra/docker-compose.dev.yml)
 #
 # Uso:
@@ -10,12 +10,12 @@
 services:
   chirpstack-redis:
     image: redis:7-alpine
-    container_name: armada-chirpstack-redis
+    container_name: agigov-chirpstack-redis
     restart: unless-stopped
 
   chirpstack-postgres:
     image: postgres:16-alpine
-    container_name: armada-chirpstack-postgres
+    container_name: agigov-chirpstack-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: chirpstack
@@ -26,7 +26,7 @@ services:
 
   chirpstack:
     image: chirpstack/chirpstack:4
-    container_name: armada-chirpstack
+    container_name: agigov-chirpstack
     restart: unless-stopped
     depends_on:
       - chirpstack-redis
@@ -39,7 +39,7 @@ services:
 
   chirpstack-gateway-bridge:
     image: chirpstack/chirpstack-gateway-bridge:4
-    container_name: armada-chirpstack-gw-bridge
+    container_name: agigov-chirpstack-gw-bridge
     restart: unless-stopped
     depends_on:
       - chirpstack

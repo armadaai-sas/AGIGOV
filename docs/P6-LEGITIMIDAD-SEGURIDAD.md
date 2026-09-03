@@ -25,7 +25,7 @@ npm run p6:verify
 
 ```cron
 # 1er día de cada trimestre 04:00 UTC
-0 4 1 1,4,7,10 * cd /opt/armada && npm run panic:quarterly >> /var/log/armada-panic-quarterly.log 2>&1
+0 4 1 1,4,7,10 * cd /opt/agigov && npm run panic:quarterly >> /var/log/agigov-panic-quarterly.log 2>&1
 ```
 
 ## Honestidad PQC

@@ -237,7 +237,7 @@ npm run pilot:verify
 
 ### Paso 14 ✅ — Loop innovación semanal (A10)
 
-**Qué:** Automation Cursor `/loop 7d` + brief en `docs/innovation/`.
+**Qué:** Automatización semanal (`/loop 7d`) + brief en `docs/innovation/`.
 
 **Comando local:**
 ```bash
@@ -246,7 +246,7 @@ npm run innovation:loop
 
 **Prompt sugerido:**
 ```
-Read .cursor/skills/state-innovation/SKILL.md and docs/innovation/latest.md.
+Read skill `state-innovation` (config local) and docs/innovation/latest.md.
 Produce ONE innovation brief. Do NOT deploy without human ratification.
 ```
 

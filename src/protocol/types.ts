@@ -142,12 +142,12 @@ export interface ReplayGuard {
   record(envelope: SignedAgentEnvelope, now?: number): void;
 }
 
-/** Topic opaco del bus soberano: armada/v1/{shard}/{opaqueId} */
+/** Topic opaco del bus soberano: agigov/v1/{shard}/{opaqueId} */
 export function buildOpaqueTopic(shard: string, opaqueId: string): string {
-  return `armada/v1/${shard}/${opaqueId}`;
+  return `agigov/v1/${shard}/${opaqueId}`;
 }
 
 /** Topic de auditoría para centinela. */
 export function buildAuditTopic(): string {
-  return 'armada/v1/+/audit';
+  return 'agigov/v1/+/audit';
 }

@@ -5,7 +5,7 @@
 services:
   wireguard:
     image: lscr.io/linuxserver/wireguard:latest
-    container_name: armada-wireguard
+    container_name: agigov-wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -30,7 +30,7 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:2
-    container_name: armada-mosquitto
+    container_name: agigov-mosquitto
     network_mode: "service:wireguard"
     depends_on:
       - wireguard

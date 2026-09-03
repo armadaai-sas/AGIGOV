@@ -16,9 +16,9 @@
   "discrepancies": [],
   "hitos_contabilizados": 50,
   "signers_demo": [
-    "did:armada:ven:logistico",
-    "did:armada:ven:mppi",
-    "did:armada:ven:centinela"
+    "did:agigov:ven:logistico",
+    "did:agigov:ven:mppi",
+    "did:agigov:ven:centinela"
   ],
   "threshold": 3,
   "generatedAt": "2026-07-06T02:50:00Z",

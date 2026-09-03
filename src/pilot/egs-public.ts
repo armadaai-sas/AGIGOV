@@ -114,11 +114,11 @@ function deriveMilestoneState(hasRelease: boolean, escrowStatus: string): Milest
 
 function milestoneValidators(globalIndex: number): PublicMilestoneCustody['validators'] {
   return {
-    centinela: 'did:armada:ven:centinela:observer',
+    centinela: 'did:agigov:ven:centinela:observer',
     iot: `lorawan-uplink-${globalIndex}`,
     citizens: [
-      `did:armada:ven:auditor:${globalIndex}a`,
-      `did:armada:ven:auditor:${globalIndex}b`,
+      `did:agigov:ven:auditor:${globalIndex}a`,
+      `did:agigov:ven:auditor:${globalIndex}b`,
     ],
   };
 }

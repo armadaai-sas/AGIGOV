@@ -173,9 +173,9 @@ Forman parte integrante: `ECONOMIA-DAO.md`, `CNE-TOKENIZADO.md`, `SEGURIDAD-PQC.
 
 | Rol | DID | Firma | Fecha |
 |-----|-----|-------|-------|
-| Soberano | did:armada:core:soberano | _pendiente_ | — |
-| Centinela | did:armada:core:centinela | _pendiente_ | — |
-| Logístico | did:armada:core:logistico | _pendiente_ | — |
+| Soberano | did:agigov:core:soberano | _pendiente_ | — |
+| Centinela | did:agigov:core:centinela | _pendiente_ | — |
+| Logístico | did:agigov:core:logistico | _pendiente_ | — |
 
 ---
 

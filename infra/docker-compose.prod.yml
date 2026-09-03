@@ -27,7 +27,7 @@ x-agent: &agent
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: armada-postgres-prod
+    container_name: agigov-postgres-prod
     restart: always
     command:
       - postgres
@@ -36,13 +36,13 @@ services:
       - -c
       - max_connections=50
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-armada}
+      POSTGRES_USER: ${POSTGRES_USER:-agigov}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-armada_core}
+      POSTGRES_DB: ${POSTGRES_DB:-agigov_core}
     volumes:
-      - armada-prod-pg:/var/lib/postgresql/data
+      - agigov-prod-pg:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-armada} -d ${POSTGRES_DB:-armada_core}']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-agigov} -d ${POSTGRES_DB:-agigov_core}']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -53,7 +53,7 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:2
-    container_name: armada-mosquitto-prod
+    container_name: agigov-mosquitto-prod
     restart: always
     volumes:
       - ./mosquitto/mosquitto.prod.conf:/mosquitto/config/mosquitto.conf:ro
@@ -67,11 +67,11 @@ services:
     build:
       context: ..
       dockerfile: infra/core/Dockerfile
-    container_name: armada-public-api-prod
+    container_name: agigov-public-api-prod
     restart: always
     env_file: .env.prod
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
     ports:
       - '3001:3001'
     command: ['public-api']
@@ -87,7 +87,7 @@ services:
     build:
       context: ..
       dockerfile: infra/core/Dockerfile
-    container_name: armada-honeypot-prod
+    container_name: agigov-honeypot-prod
     restart: always
     env_file: .env.prod
     environment:
@@ -104,50 +104,50 @@ services:
 
   agent-centinela:
     <<: *agent
-    container_name: armada-agent-centinela
+    container_name: agigov-agent-centinela
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       AGENT_ROLE: centinela
-      NODE_DID: did:armada:core:centinela
+      NODE_DID: did:agigov:core:centinela
 
   agent-logistico:
     <<: *agent
-    container_name: armada-agent-logistico
+    container_name: agigov-agent-logistico
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       AGENT_ROLE: logistico
-      NODE_DID: did:armada:core:logistico
+      NODE_DID: did:agigov:core:logistico
 
   agent-soberano:
     <<: *agent
-    container_name: armada-agent-soberano
+    container_name: agigov-agent-soberano
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       AGENT_ROLE: soberano
-      NODE_DID: did:armada:core:soberano
+      NODE_DID: did:agigov:core:soberano
 
   agent-conciliador:
     <<: *agent
-    container_name: armada-agent-conciliador
+    container_name: agigov-agent-conciliador
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       AGENT_ROLE: conciliador
-      NODE_DID: did:armada:core:conciliador
+      NODE_DID: did:agigov:core:conciliador
 
   agent-comunicador:
     <<: *agent
-    container_name: armada-agent-comunicador
+    container_name: agigov-agent-comunicador
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       AGENT_ROLE: comunicador
-      NODE_DID: did:armada:core:comunicador
+      NODE_DID: did:agigov:core:comunicador
 
 volumes:
-  armada-prod-pg:
+  agigov-prod-pg:
   mosquitto-prod-data:
   agent-data:

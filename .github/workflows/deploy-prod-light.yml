@@ -41,10 +41,10 @@ jobs:
             missing=1
           fi
           if [ "$missing" = "1" ]; then
-            echo "Configure repo secrets: DROPLET_HOST, DROPLET_USER, DROPLET_SSH_KEY (optional DROPLET_DIR=/opt/armada)"
+            echo "Configure repo secrets: DROPLET_HOST, DROPLET_USER, DROPLET_SSH_KEY (optional DROPLET_DIR=/opt/agigov)"
             exit 1
           fi
-          echo "DROPLET_DIR=${DROPLET_DIR:-/opt/armada}" >> "$GITHUB_ENV"
+          echo "DROPLET_DIR=${DROPLET_DIR:-/opt/agigov}" >> "$GITHUB_ENV"
 
       - uses: actions/checkout@v4
 
@@ -111,7 +111,7 @@ jobs:
           docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
           URL=""
           for i in \$(seq 1 30); do
-            URL=\$(docker logs armada-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)
+            URL=\$(docker logs agigov-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)
             if [ -n "\$URL" ]; then
               echo "HTTPS_URL=\$URL"
               break

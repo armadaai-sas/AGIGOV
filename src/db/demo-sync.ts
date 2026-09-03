@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   }
 
   const votePayload = {
-    citizenDid: 'did:armada:bog:demo-citizen-01',
+    citizenDid: 'did:agigov:bog:demo-citizen-01',
     territoryId: territory.id,
     processId: 'proc-vote-demo-001',
     signature: 'demo-signature-base64',

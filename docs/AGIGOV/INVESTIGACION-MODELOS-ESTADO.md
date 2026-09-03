@@ -440,9 +440,9 @@ Antes de promover un modelo de `investigación` → `beta` → `disponible`:
 | [CNE-TOKENIZADO.md](./CNE-TOKENIZADO.md) | Profundidad SET |
 | [SEGURIDAD-PQC.md](./SEGURIDAD-PQC.md) | DSC / DSS |
 | [ECONOMIA-DAO.md](./ECONOMIA-DAO.md) | AEE + DAO |
-| `.cursor/agents/*.md` | Roles operativos |
-| `.cursor/skills/applied-cryptography/` | Firmas, multi-sig, DID |
-| `.cursor/skills/tactical-cybersecurity/` | PANIC, tiers, honeypots |
+| `.github/agents/*.agent.md` | Equipo de expertos versionado (roles operativos) |
+| `.cursor/skills/applied-cryptography/` | Firmas, multi-sig, DID (config local) |
+| `.cursor/skills/tactical-cybersecurity/` | PANIC, tiers, honeypots (config local) |
 
 ---
 

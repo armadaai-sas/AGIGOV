@@ -34,7 +34,7 @@ En este Mac el push a GitHub puede fallar (`Permission denied (publickey)`). **D
 ```bash
 export OCI_HOST="<IP_PUBLICA>"
 export OCI_USER="${OCI_USER:-ubuntu}"
-export OCI_DIR="${OCI_DIR:-/opt/armada}"
+export OCI_DIR="${OCI_DIR:-/opt/agigov}"
 
 # Desde la raíz del repo
 ./scripts/oci-prod-light-sync.sh
@@ -90,7 +90,7 @@ curl -sf "https://<TUNNEL_HOST>/api/ops/health"
 
 ```bash
 cloudflared tunnel login
-cloudflared tunnel create armada-prod-light
+cloudflared tunnel create agigov-prod-light
 # Configura ingress → http://127.0.0.1:3001
 # DNS CNAME al túnel en el dashboard Cloudflare
 sudo cloudflared service install
@@ -108,7 +108,7 @@ export OCI_HOST="<IP_PUBLICA>"
 
 | Check | Comando |
 |-------|---------|
-| Contenedores | `ssh $OCI_USER@$OCI_HOST 'cd /opt/armada && docker compose -f infra/docker-compose.prod.light.yml ps'` |
+| Contenedores | `ssh $OCI_USER@$OCI_HOST 'cd /opt/agigov && docker compose -f infra/docker-compose.prod.light.yml ps'` |
 | Health local VM | `ssh ... 'curl -sf http://127.0.0.1:3001/api/ops/health'` → `"ok":true`, `"postgres":true` |
 | Health vía Cloudflare | `curl -sf https://<host>/api/ops/health` |
 | Piloto (opcional) | `PUBLIC_API_BASE=https://<host> npm run pilot:verify` (desde Mac o VM) |
@@ -133,7 +133,7 @@ docker compose -f infra/docker-compose.edge.yml up -d --build
 4. Cron backup:
 
 ```bash
-0 3 * * * /opt/armada/infra/backup/backup-edge.sh >> /var/log/armada-backup.log 2>&1
+0 3 * * * /opt/agigov/infra/backup/backup-edge.sh >> /var/log/agigov-backup.log 2>&1
 ```
 
 ## Validación diferida (Fase 6)
@@ -148,6 +148,6 @@ docker compose -f infra/docker-compose.edge.yml up -d --build
 |----------|---------|-----|
 | `OCI_HOST` | (requerida) | IP o hostname SSH |
 | `OCI_USER` | `ubuntu` | Usuario SSH |
-| `OCI_DIR` | `/opt/armada` | Ruta remota del repo |
+| `OCI_DIR` | `/opt/agigov` | Ruta remota del repo |
 | `OCI_SSH_KEY` | (agent / default) | Clave privada opcional `-i` |
 | `HONEYPOT` | `0` | `1` añade perfil honeypot en prod-light |

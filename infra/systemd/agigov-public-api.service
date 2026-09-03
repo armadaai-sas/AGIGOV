@@ -1,11 +1,11 @@
 [Unit]
-Description=Armada Public API + Ops Health
+Description=AGIGOV Public API + Ops Health
 After=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/armada
-EnvironmentFile=/opt/armada/.env
+WorkingDirectory=/opt/agigov
+EnvironmentFile=/opt/agigov/.env
 ExecStart=/usr/bin/npx tsx src/server/public-api.ts
 Restart=always
 RestartSec=5

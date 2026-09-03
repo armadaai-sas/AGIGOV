@@ -4,25 +4,25 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: armada-postgres-dev
+    container_name: agigov-postgres-dev
     restart: unless-stopped
     environment:
-      POSTGRES_USER: armada
-      POSTGRES_PASSWORD: armada
-      POSTGRES_DB: armada_core
+      POSTGRES_USER: agigov
+      POSTGRES_PASSWORD: agigov
+      POSTGRES_DB: agigov_core
     ports:
       - "5432:5432"
     volumes:
-      - armada-postgres-data:/var/lib/postgresql/data
+      - agigov-postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U armada -d armada_core"]
+      test: ["CMD-SHELL", "pg_isready -U agigov -d agigov_core"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   mosquitto:
     image: eclipse-mosquitto:2
-    container_name: armada-mosquitto-dev
+    container_name: agigov-mosquitto-dev
     restart: unless-stopped
     ports:
       - "1883:1883"
@@ -31,5 +31,5 @@ services:
       - mosquitto-dev-data:/mosquitto/data
 
 volumes:
-  armada-postgres-data:
+  agigov-postgres-data:
   mosquitto-dev-data:

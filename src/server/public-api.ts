@@ -1404,7 +1404,7 @@ app.get('/api/ops/health', async (_req, res) => {
 
   res.json({
     ok: postgres && !isPanicMode(),
-    service: 'armada-ops',
+    service: 'agigov-ops',
     panicMode: isPanicMode(),
     postgres,
     ledgerEntries,

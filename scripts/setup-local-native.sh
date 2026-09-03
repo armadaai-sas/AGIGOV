@@ -27,8 +27,8 @@ step "N.2 — Configurar Mosquitto"
 
 MOSQ_CONF_DIR="$(brew --prefix)/etc/mosquitto/conf.d"
 mkdir -p "$MOSQ_CONF_DIR"
-cp "$ROOT/infra/mosquitto/mosquitto.conf" "$MOSQ_CONF_DIR/armada.conf"
-echo "✓ Config Mosquitto → $MOSQ_CONF_DIR/armada.conf"
+cp "$ROOT/infra/mosquitto/mosquitto.conf" "$MOSQ_CONF_DIR/agigov.conf"
+echo "✓ Config Mosquitto → $MOSQ_CONF_DIR/agigov.conf"
 
 step "N.3 — Arrancar servicios"
 
@@ -62,18 +62,18 @@ step "N.5 — Crear usuario y base de datos"
 "$PG_BIN/psql" postgres -v ON_ERROR_STOP=0 <<'SQL'
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'armada') THEN
-    CREATE ROLE armada WITH LOGIN PASSWORD 'armada' SUPERUSER;
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'agigov') THEN
+    CREATE ROLE agigov WITH LOGIN PASSWORD 'agigov' SUPERUSER;
   END IF;
 END
 $$;
 SQL
 
-if ! "$PG_BIN/psql" postgres -tAc "SELECT 1 FROM pg_database WHERE datname='armada_core'" | grep -q 1; then
-  "$PG_BIN/createdb" -O armada armada_core
-  echo "✓ Base armada_core creada"
+if ! "$PG_BIN/psql" postgres -tAc "SELECT 1 FROM pg_database WHERE datname='agigov_core'" | grep -q 1; then
+  "$PG_BIN/createdb" -O agigov agigov_core
+  echo "✓ Base agigov_core creada"
 else
-  echo "✓ Base armada_core ya existe"
+  echo "✓ Base agigov_core ya existe"
 fi
 
 step "N.6 — Configuración .env"
@@ -96,9 +96,9 @@ fi
 
 if grep -q '^DATABASE_URL=' .env; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://armada:armada@127.0.0.1:5432/armada_core?schema=public"|' .env
+    sed -i '' 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://agigov:agigov@127.0.0.1:5432/agigov_core?schema=public"|' .env
   else
-    sed -i 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://armada:armada@127.0.0.1:5432/armada_core?schema=public"|' .env
+    sed -i 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://agigov:agigov@127.0.0.1:5432/agigov_core?schema=public"|' .env
   fi
   echo "✓ DATABASE_URL → Postgres local"
 fi

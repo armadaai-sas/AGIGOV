@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Loop innovación semanal — Paso 14 (A10)
-# Genera puntero latest.md; el brief real requiere Cursor /loop o agente con state-innovation.
+# Genera puntero latest.md; el brief real requiere ejecutar el loop de automatización o un agente con state-innovation.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -47,7 +47,7 @@ cat > "$LATEST" <<EOF
 # Loop innovación semanal — AGIGOV (Paso 14)
 
 **Próximo brief:** $(date -v+7d +%Y-%m-%d 2>/dev/null || date -d '+7 days' +%Y-%m-%d 2>/dev/null || echo '+7 días')
-**Skill:** \`.cursor/skills/state-innovation/SKILL.md\`
+**Skill:** \`state-innovation\` (config local)
 
 ## Última ejecución
 

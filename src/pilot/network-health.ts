@@ -33,7 +33,7 @@ export const VEN_NODE: NodeIdentity = {
   iso: 'VEN',
   nodeId: process.env.ORIGIN_NODE_ID?.trim() || 'node-mar-north-01',
   territoryCode: 'MAR_NORTH_01',
-  service: 'armada-public-api',
+  service: 'agigov-public-api',
 };
 
 export const SBX_NODE: NodeIdentity = {

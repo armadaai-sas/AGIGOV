@@ -17,7 +17,7 @@
 | 17 | WireGuard MQTT E2E | mesh + broker prod | **bloqueado** (VPN prod) |
 | 19 | LoRaWAN RF E2E | gateway físico | **bloqueado** (hardware) |
 
-### Evidencia 2026-08-05 (DO `armada-prod-light`)
+### Evidencia 2026-08-05 (DO `agigov-prod-light`)
 
 - Deploy P1+P2 sync OK; migrate conflict limpio; `prod-up-light` healthy.
 - Health: `postgres:true`, `panicMode:false`, `plan:free`, `billingFreeze.frozen:false`.
@@ -42,10 +42,10 @@ Hardware/VPN quedan **N/A** hasta gateway + WireGuard.
 ## Comandos Droplet (prod-light)
 
 ```bash
-cd /opt/armada
+cd /opt/agigov
 ./scripts/backup-prod-light-restore-test.sh
 # Host scripts need localhost DB URL (not docker hostname postgres):
-export DATABASE_URL='postgresql://…@127.0.0.1:5432/armada_core'
+export DATABASE_URL='postgresql://…@127.0.0.1:5432/agigov_core'
 npm run reconcile:dashboard-ledger
 npm run test:billing
 npm run test:offline-72h   # requiere seed territorial

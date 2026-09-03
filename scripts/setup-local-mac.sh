@@ -64,7 +64,7 @@ npm run infra:up:dev
 step "B.4 — Esperar Postgres (máx. 60s)"
 READY=false
 for i in $(seq 1 30); do
-  if docker exec armada-postgres-dev pg_isready -U armada -d armada_core >/dev/null 2>&1; then
+  if docker exec agigov-postgres-dev pg_isready -U agigov -d agigov_core >/dev/null 2>&1; then
     READY=true
     echo "✓ Postgres listo (${i}x2s)"
     break
@@ -101,13 +101,13 @@ cat <<'EOF'
 Infra lista ✓
 
 ┌─ Terminal 1 ─────────────────────────────────────
-│  cd /Users/macbook/Downloads/Armada_VZLA-main
+│  cd /Users/macbook/Downloads/AGIGOV
 │  npm run api:public
 │  → http://127.0.0.1:3001/api/ops/health
 └─────────────────────────────────────────────────
 
 ┌─ Terminal 2 ─────────────────────────────────────
-│  cd /Users/macbook/Downloads/Armada_VZLA-main
+│  cd /Users/macbook/Downloads/AGIGOV
 │  npm run dev
 │  → http://localhost:3000
 └─────────────────────────────────────────────────

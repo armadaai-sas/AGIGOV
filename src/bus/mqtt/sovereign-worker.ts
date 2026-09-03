@@ -2,7 +2,7 @@ import mqtt, { type MqttClient } from 'mqtt';
 
 import type { DidRegistry } from '../did-registry.js';
 import { SqliteOutbox } from '../outbox/sqlite-outbox.js';
-import { resolveAuditTopic, parseArmadaTopic } from '../routing.js';
+import { resolveAuditTopic, parseAgigovTopic } from '../routing.js';
 import type {
   AgentEncryptionKeys,
   OpenEnvelopeResult,
@@ -67,7 +67,7 @@ export class SovereignBusWorker {
       this.client.once('error', reject);
     });
 
-    const subscribeTopic = `armada/v1/${this.options.shard}/#`;
+    const subscribeTopic = `agigov/v1/${this.options.shard}/#`;
     await this.subscribe(subscribeTopic);
 
     if (this.options.subscribeAudit) {
@@ -187,7 +187,7 @@ export class SovereignBusWorker {
   }
 
   private async handleIncoming(topic: string, raw: string): Promise<void> {
-    const parsedTopic = parseArmadaTopic(topic);
+    const parsedTopic = parseAgigovTopic(topic);
     if (!parsedTopic) return;
 
     let envelope: SignedAgentEnvelope;

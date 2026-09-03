@@ -8,7 +8,7 @@
 
 ## Resumen
 
-AGIGOV-VEN tiene infraestructura técnica avanzada (Fases Armada 0–6 ~75–100%) pero **brecha de producto institucional**: el ciudadano y el gobierno no disponen aún de un **MVP cerrado** que una carta ratificable, proyectos DAO visibles, registro de Estados y aportes económicos trazables. Este brief define el **MVP P0–P4 acelerado** y **10 aportes de innovación** para robustecer el objetivo: *nuevo modelo de Estado–Política–Economía replicable globalmente, con foco Venezuela*.
+AGIGOV-VEN tiene infraestructura técnica avanzada (Fases AGIGOV 0–6 ~75–100%) pero **brecha de producto institucional**: el ciudadano y el gobierno no disponen aún de un **MVP cerrado** que una carta ratificable, proyectos DAO visibles, registro de Estados y aportes económicos trazables. Este brief define el **MVP P0–P4 acelerado** y **10 aportes de innovación** para robustecer el objetivo: *nuevo modelo de Estado–Política–Economía replicable globalmente, con foco Venezuela*.
 
 ---
 
@@ -160,7 +160,7 @@ Automation semanal `state-innovation` + brief en `docs/innovation/`; una mejora 
 | **P5** | Red gobiernos | 🟡 Onboarding doc | 15% |
 | **P6** | Legitimidad | 🔴 Pendiente multi-sig | 5% |
 
-**Infra Armada (paralelo):** Fases 0–4 completadas; 5–6 en pre-producción (~85%).
+**Infra AGIGOV (paralelo):** Fases 0–4 completadas; 5–6 en pre-producción (~85%).
 
 ---
 

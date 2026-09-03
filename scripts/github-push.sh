@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-REPO_URL="https://github.com/Armada-2026/Armada-VZLA"
+REPO_URL="https://github.com/armadaai-sas/AGIGOV"
 SSH_KEY_ED25519="$HOME/.ssh/id_ed25519.pub"
 SSH_KEY_RSA="$HOME/.ssh/id_rsa.pub"
 

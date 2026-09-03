@@ -8,7 +8,7 @@ import { buildOutboundEnvelope } from './send.js';
 
 async function main(): Promise<void> {
   const recipientDid =
-    process.argv[2]?.trim() || 'did:armada:core:logistico';
+    process.argv[2]?.trim() || 'did:agigov:core:logistico';
   const mqttUrl = process.env.MQTT_URL?.trim() || 'mqtt://127.0.0.1:1883';
 
   const config = loadBusNodeConfig();

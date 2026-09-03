@@ -167,7 +167,7 @@ Carta (reglas) → Agentes (decisión) → Ledger (prueba) → PWA (transparenci
 
 | Agente | Archivo | Loop sugerido |
 |--------|---------|---------------|
-| **innovador** | `.cursor/agents/innovador.md` | `/loop 7d` estratégico · `/loop 1d` economía |
+| **innovador** | agente `innovador` (config local) | `/loop 7d` estratégico · `/loop 1d` economía |
 
 ### Skills nuevos (3)
 
@@ -238,10 +238,10 @@ Carta (reglas) → Agentes (decisión) → Ledger (prueba) → PWA (transparenci
 
 ---
 
-## 12. Cómo invocar en Cursor
+## 12. Cómo invocar (config local de agentes)
 
 ```text
-Actúa como innovador (.cursor/agents/innovador.md).
+Actúa como innovador (agente innovador, config local).
 Usa agigov-strategic-analysis + sovereign-economics-monetization.
 Pregunta: [tu pregunta concreta]
 Entrega: brief + 3 pasos + handoffs.
@@ -250,7 +250,7 @@ Entrega: brief + 3 pasos + handoffs.
 Loop 24/7:
 
 ```text
-/loop 7d Lee .cursor/agents/innovador.md y docs/innovation/latest.md.
+/loop 7d Lee la config local del agente innovador y docs/innovation/latest.md.
 Un dominio por semana (A→B→C→D rotativo). Actualiza latest.md.
 ```
 

@@ -10,7 +10,7 @@ export const LANDING_OPEN_SOURCE = {
   title: 'Código abierto',
   lead:
     'Protocolo, modelos y reglas en GitHub — auditables por cualquiera. Estados e integradores proponen mejoras; la ciudadanía verifica lo publicado. Construcción continua con transparencia, no caja negra.',
-  repoUrl: 'https://github.com/armadaai-sas/Armada-VZLA',
+  repoUrl: 'https://github.com/armadaai-sas/AGIGOV',
   repoLabel: 'Repositorio en GitHub',
   repoMeta: 'Issues, PRs y documentación del protocolo',
   devPath: '/desarrolladores',

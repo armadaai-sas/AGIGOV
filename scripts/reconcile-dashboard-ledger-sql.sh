@@ -2,9 +2,9 @@
 # P2: dashboard↔ledger via SQL on prod-light (no host Prisma engine needed).
 # Uso: ./scripts/reconcile-dashboard-ledger-sql.sh
 set -euo pipefail
-CONTAINER="${POSTGRES_CONTAINER:-armada-postgres-light}"
-PG_USER="${POSTGRES_USER:-armada}"
-PG_DB="${POSTGRES_DB:-armada_core}"
+CONTAINER="${POSTGRES_CONTAINER:-agigov-postgres-light}"
+PG_USER="${POSTGRES_USER:-agigov}"
+PG_DB="${POSTGRES_DB:-agigov_core}"
 
 if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER"; then
   echo "[ReconcileSQL] FAIL: $CONTAINER no up" >&2

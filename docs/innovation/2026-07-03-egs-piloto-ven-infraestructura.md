@@ -250,7 +250,7 @@ quarter_close:
 - Sin token gobernanza en piloto v1.
 - Micro-bounties ciudadanos: utilidad off-chain o pago fiat vía tesorería piloto.
 
-Documento técnico extendido: `.cursor/skills/sovereign-economics-monetization/egs-escrow-spec.md`
+Documento técnico extendido: skill `sovereign-economics-monetization/egs-escrow-spec.md` (config local)
 
 ---
 
@@ -266,4 +266,4 @@ Documento técnico extendido: `.cursor/skills/sovereign-economics-monetization/e
 
 - `docs/innovation/2026-07-03-cuadro-modelos-monetizacion-agigov.md`
 - `docs/AGIGOV/ECONOMIA-DAO.md`, `CARTA-AGIGOV-VEN.md`
-- `.cursor/skills/agigov-strategic-analysis/SKILL.md`
+- skill `agigov-strategic-analysis` (config local)

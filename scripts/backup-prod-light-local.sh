@@ -12,8 +12,8 @@ if [ -f "$ROOT/infra/.env.prod" ]; then
   source "$ROOT/infra/.env.prod"
   set +a
 fi
-if docker ps --format '{{.Names}}' | grep -q '^armada-postgres-light$'; then
-  docker exec armada-postgres-light pg_dump -U "${POSTGRES_USER:-armada}" "${POSTGRES_DB:-armada_core}" \
+if docker ps --format '{{.Names}}' | grep -q '^agigov-postgres-light$'; then
+  docker exec agigov-postgres-light pg_dump -U "${POSTGRES_USER:-agigov}" "${POSTGRES_DB:-agigov_core}" \
     | gzip > "$OUT/pg-${STAMP}.sql.gz"
 fi
 if [ -d "$ROOT/data" ]; then

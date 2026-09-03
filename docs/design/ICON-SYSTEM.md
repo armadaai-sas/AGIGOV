@@ -8,16 +8,16 @@ Reglas únicas para **Lucide** en landing, desk, consolas y formularios. Objetiv
 |-------|---------|
 | **Máximo 3 tamaños de glifo** | Reduce ruido visual; el ojo aprende una escala |
 | **Tamaño ≠ área de toque** | Icono 16px dentro de hit 32–36px — estándar accesibilidad |
-| **Un stroke** (`1.75`) | Coherencia con Cursor / VS Code light |
+| **Un stroke** (`1.75`) | Coherencia visual en toda la app (light) |
 | **Primary vs secondary en nav** | Lo frecuente lleva etiqueta; lo complementario, icono + tooltip |
 
 ## Escala de glifos
 
 | Token | px | Clase | Cuándo usar |
 |-------|-----|-------|-------------|
-| `--cursor-icon-sm` | 14 | `agigov-icon--sm` | Chevrons en filas densas, indicadores inline |
-| `--cursor-icon-md` | 16 | `agigov-icon--md` | **Default** — nav, listas, botones, acciones |
-| `--cursor-icon-lg` | 20 | `agigov-icon--lg` | CTA principal del hub, estados vacíos, énfasis |
+| `--console-icon-sm` | 14 | `agigov-icon--sm` | Chevrons en filas densas, indicadores inline |
+| `--console-icon-md` | 16 | `agigov-icon--md` | **Default** — nav, listas, botones, acciones |
+| `--console-icon-lg` | 20 | `agigov-icon--lg` | CTA principal del hub, estados vacíos, énfasis |
 
 **No usar** `h-3`, `h-5`, `h-6` sueltos en componentes nuevos. Excepción: isotipo de marca (`AgigovLogo`).
 
@@ -25,17 +25,17 @@ Reglas únicas para **Lucide** en landing, desk, consolas y formularios. Objetiv
 
 | Token | px | Clase | Cuándo usar |
 |-------|-----|-------|-------------|
-| `--cursor-hit-nav` | 28 | `agigov-icon-hit--nav` | Wrap del icono en sidebar |
-| `--cursor-hit-sm` | 32 | `agigov-icon-hit--sm` | Botones ghost del shell (colapsar, prefs) |
-| `--cursor-hit-md` | 36 | `agigov-icon-hit--md` | Acciones de fila (Leer, Descargar) |
+| `--console-hit-nav` | 28 | `agigov-icon-hit--nav` | Wrap del icono en sidebar |
+| `--console-hit-sm` | 32 | `agigov-icon-hit--sm` | Botones ghost del shell (colapsar, prefs) |
+| `--console-hit-md` | 36 | `agigov-icon-hit--md` | Acciones de fila (Leer, Descargar) |
 
 ## Opacidad y estado
 
 | Estado | Opacidad del glifo |
 |--------|-------------------|
 | Reposo en nav / lista | `0.75` (clase `.app-sidebar-link-icon`) |
-| Hover | `1` + fondo `--cursor-bg-hover` |
-| Activo | `1` + wrap `--cursor-bg-subtle` |
+| Hover | `1` + fondo `--console-bg-hover` |
+| Activo | `1` + wrap `--console-bg-subtle` |
 | Acción secundaria (doc row) | `0.6` en icono de categoría |
 
 ## Navegación sidebar (desk)
@@ -56,7 +56,7 @@ Criterio secondary: consulta ocasional (Dictámenes, Transparencia, Glosario, Ia
 | `SidebarTooltip` | Derecha del rail | Nav colapsada, footer del sidebar |
 | `DeskIconHint` | Arriba del icono | Acciones inline (Leer/Descargar), nav secondary expandida |
 
-Estilo común: fondo blanco, borde `--cursor-border`, texto label `--cursor-text-muted`, detalle `--cursor-text-subtle`.
+Estilo común: fondo blanco, borde `--console-border`, texto label `--console-text-muted`, detalle `--console-text-subtle`.
 
 ## Código
 
@@ -97,9 +97,9 @@ import { Download } from 'lucide-react';
 
 ## Archivos
 
-- Tokens: [`src/styles/cursor-design-system.css`](../../src/styles/cursor-design-system.css)
+- Tokens: [`src/styles/console-design-system.css`](../../src/styles/console-design-system.css)
 - Helper TS: [`src/citizen/components/icons/agigovIcon.ts`](../../src/citizen/components/icons/agigovIcon.ts)
 - Nav tiers: [`src/citizen/platform/deskNav.ts`](../../src/citizen/platform/deskNav.ts)
 - Tooltips: `DeskIconHint.tsx`, `SidebarTooltip.tsx`
 
-Ver también: [CURSOR-DESIGN-SYSTEM.md](./CURSOR-DESIGN-SYSTEM.md) · [06-UI-UX-RELEASE.md](../process/06-UI-UX-RELEASE.md)
+Ver también: [CONSOLE-DESIGN-SYSTEM.md](./CONSOLE-DESIGN-SYSTEM.md) · [06-UI-UX-RELEASE.md](../process/06-UI-UX-RELEASE.md)

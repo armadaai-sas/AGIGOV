@@ -10,7 +10,7 @@ const ROLES = (process.env.SWARM_LITE_ROLES ?? 'centinela,comunicador')
   .map((r) => r.trim());
 
 for (const role of ROLES) {
-  const did = `did:armada:core:${role}`;
+  const did = `did:agigov:core:${role}`;
   const keys = generateAgentKeys(did);
   const suffix = role.toUpperCase().replace(/-/g, '_');
 

@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "releasedAt": "2026-08-28T00:00:00.000Z",
   "channel": "stable",
-  "releasePageUrl": "https://github.com/armadaai-sas/Armada-VZLA/releases",
+  "releasePageUrl": "https://github.com/armadaai-sas/AGIGOV/releases",
   "notes": "Primera versión del cliente de escritorio AGIGOV. Conecta al servicio en la nube; incluye catálogo de modelos, EGS, contratos y gestión pública.",
   "minRequirements": {
     "windows": "Windows 10 o superior (64-bit)",

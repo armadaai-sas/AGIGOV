@@ -21,7 +21,7 @@ export function PageShell({
   narrow?: boolean;
   banner?: { state: NetworkSyncState; lastUpdated: string | null };
   breadcrumbs?: BreadcrumbItem[];
-  /** Shell de trabajo: sin breadcrumbs, padding tipo canvas Cursor */
+  /** Shell de trabajo: sin breadcrumbs, padding tipo canvas de consola */
   shell?: boolean;
 }) {
   const frameClass = shell

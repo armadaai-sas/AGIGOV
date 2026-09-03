@@ -105,7 +105,7 @@ export const EGS_MODEL_MANIFEST: ModelManifestV1 = {
   id: 'egs',
   name: 'Reparto del ahorro por eficiencia',
   shortName: 'EGS',
-  publisherId: 'did:agigov:publisher:armada',
+  publisherId: 'did:agigov:publisher:agigov',
   audience: 'gubernamental',
   status: 'disponible',
   tagline: 'Ahorro en gestión y operaciones con evidencia',
@@ -134,7 +134,7 @@ export const EGS_MODEL_MANIFEST: ModelManifestV1 = {
     publicApi: ['/api/public/dashboard'],
   },
   license: 'AGIGOV-Model-1.0',
-  repo: 'https://github.com/armadaai-sas/Armada-VZLA',
+  repo: 'https://github.com/armadaai-sas/AGIGOV',
 };
 
 /** @deprecated usar EGS_MODEL_MANIFEST */

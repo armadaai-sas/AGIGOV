@@ -5,7 +5,7 @@ Checks ejecutados:
   ✓ FREEZE status permitido durante pánico
   ✓ IAP bloquea validate-request
   ✓ IAP bloquea validation-result
-  ✓ DID revocado: did:armada:core:logistico
+  ✓ DID revocado: did:agigov:core:logistico
   ✓ ledger writable tras desactivar PANIC_MODE
   ✓ whitepaper 6 secciones, conformidad=0.29
 

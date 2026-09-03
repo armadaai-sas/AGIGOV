@@ -31,7 +31,7 @@ npm run panic:drill
 ## 2. ALERT
 
 - Revisar `/api/ops/health` — `panicMode: true`
-- Logs centinela + audit MQTT `armada/v1/core/audit/*`
+- Logs centinela + audit MQTT `agigov/v1/core/audit/*`
 - Alertas honeypot en `data/honeypot-alerts.jsonl`
 
 ## 3. ROTATE
@@ -50,7 +50,7 @@ Snapshot forense **antes** de recover:
 
 ```bash
 ./infra/backup/backup-edge.sh
-docker compose -f infra/docker-compose.prod.yml logs > /tmp/armada-incident-logs.txt
+docker compose -f infra/docker-compose.prod.yml logs > /tmp/agigov-incident-logs.txt
 ```
 
 ## 5. COMMUNICATE

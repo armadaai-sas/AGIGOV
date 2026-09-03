@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # P2: backup → restore-to-temp → row-count verify (prod-light Postgres).
-# Uso (en Droplet o local con contenedor armada-postgres-light):
+# Uso (en Droplet o local con contenedor agigov-postgres-light):
 #   ./scripts/backup-prod-light-restore-test.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -16,11 +16,11 @@ if [ -f "$ROOT/infra/.env.prod" ]; then
   set +a
 fi
 
-PG_USER="${POSTGRES_USER:-armada}"
-PG_DB="${POSTGRES_DB:-armada_core}"
-TMP_DB="armada_restore_test_${STAMP}"
+PG_USER="${POSTGRES_USER:-agigov}"
+PG_DB="${POSTGRES_DB:-agigov_core}"
+TMP_DB="agigov_restore_test_${STAMP}"
 DUMP="$OUT/pg-${STAMP}.sql.gz"
-CONTAINER="${POSTGRES_CONTAINER:-armada-postgres-light}"
+CONTAINER="${POSTGRES_CONTAINER:-agigov-postgres-light}"
 
 if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER"; then
   echo "[RestoreTest] FAIL: contenedor $CONTAINER no está up" >&2

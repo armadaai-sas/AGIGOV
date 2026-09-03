@@ -23,7 +23,7 @@ if ! grep -q 'NODE_ED25519_SECRET_KEY_B64_CENTINELA' "$ENV_FILE" 2>/dev/null; th
 fi
 
 # Perfil honeypot opcional: HONEYPOT=1 ./scripts/prod-up-light.sh
-# HTTPS quick tunnel: TUNNEL=1 ./scripts/prod-up-light.sh  (URL en logs: docker logs armada-tunnel-light)
+# HTTPS quick tunnel: TUNNEL=1 ./scripts/prod-up-light.sh  (URL en logs: docker logs agigov-tunnel-light)
 # Named CF tunnel: TUNNEL_NAMED=1 + CLOUDFLARE_TUNNEL_TOKEN in .env.prod
 PROFILES=""
 if [ "${HONEYPOT:-0}" = "1" ]; then
@@ -85,9 +85,9 @@ if [ "${HONEYPOT:-0}" = "1" ]; then
   echo "  Honeypot:   http://127.0.0.1:8088/admin"
 fi
 if [ "${TUNNEL:-0}" = "1" ]; then
-  echo "  HTTPS:      docker logs armada-tunnel-light 2>&1 | grep trycloudflare"
+  echo "  HTTPS:      docker logs agigov-tunnel-light 2>&1 | grep trycloudflare"
   for _i in $(seq 1 20); do
-    _url="$(docker logs armada-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)"
+    _url="$(docker logs agigov-tunnel-light 2>&1 | grep -Eo 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' | tail -n 1 || true)"
     if [ -n "${_url}" ]; then
       echo "  HTTPS_URL=${_url}"
       break

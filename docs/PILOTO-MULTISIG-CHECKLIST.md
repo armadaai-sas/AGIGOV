@@ -23,9 +23,9 @@ Signatarios requeridos (`PILOT_THRESHOLD=3`):
 
 | # | DID | Rol | Firmó |
 |---|-----|-----|-------|
-| 1 | `did:armada:core:soberano` | Gobernanza | ☐ |
-| 2 | `did:armada:core:centinela` | Auditoría | ☐ |
-| 3 | `did:armada:core:comunicador` | Transparencia | ☐ |
+| 1 | `did:agigov:core:soberano` | Gobernanza | ☐ |
+| 2 | `did:agigov:core:centinela` | Auditoría | ☐ |
+| 3 | `did:agigov:core:comunicador` | Transparencia | ☐ |
 
 ### Comandos (dev / staging)
 

@@ -140,7 +140,7 @@ export async function registerCitizenProposal(
     processId,
     title,
     contentHash: opinionHash,
-    sovereignDid: 'did:armada:core:soberano',
+    sovereignDid: 'did:agigov:core:soberano',
     status: assessment.conforme ? 'committed' : 'received',
     originNodeId,
     agentId: 'soberano',

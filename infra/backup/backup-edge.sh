@@ -5,9 +5,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 DATA_DIR="${EDGE_DATA_DIR:-$ROOT/data}"
 KEYS_DIR="${EDGE_KEYS_DIR:-$ROOT/data/keys}"
-REMOTE="${RCLONE_REMOTE:-armada-backup:armada-edge}"
+REMOTE="${RCLONE_REMOTE:-agigov-backup:agigov-edge}"
 STAMP="$(date +%Y%m%d-%H%M%S)"
-ARCHIVE="/tmp/armada-edge-${STAMP}.tar.gz"
+ARCHIVE="/tmp/agigov-edge-${STAMP}.tar.gz"
 
 mkdir -p "$DATA_DIR" "$KEYS_DIR"
 

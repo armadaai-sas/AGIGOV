@@ -15,8 +15,8 @@ Estándar para cambios visuales en landing, shell (`.app-shell`) y páginas de p
 | Artefacto | Ruta |
 |-----------|------|
 | Tokens mínimos | [OS-MINIMAL-TOKENS.md](../design/OS-MINIMAL-TOKENS.md) |
-| Design system Cursor-like | [CURSOR-DESIGN-SYSTEM.md](../design/CURSOR-DESIGN-SYSTEM.md) |
-| CSS tokens | `src/styles/cursor-design-system.css` |
+| Design system institucional | [CONSOLE-DESIGN-SYSTEM.md](../design/CONSOLE-DESIGN-SYSTEM.md) |
+| CSS tokens | `src/styles/console-design-system.css` |
 | Landing layout | `src/styles/landing-system.css` |
 | Shell layout | `src/styles/app.css` + `.app-shell` |
 | Skin trust light | `src/citizen/theme/trust-light.css` |
@@ -33,7 +33,7 @@ Estándar para cambios visuales en landing, shell (`.app-shell`) y páginas de p
 
 ### D1 — Tokens antes de píxeles
 
-- [ ] ¿Requiere nuevo token? → añadir en `cursor-design-system.css` o `OS-MINIMAL-TOKENS.md`
+- [ ] ¿Requiere nuevo token? → añadir en `console-design-system.css` o `OS-MINIMAL-TOKENS.md`
 - [ ] ¿Es landing? → solo clases `ls-*` en `landing-system.css`
 - [ ] ¿Es app? → clases `app-*` / `os-*` bajo `.app-shell`
 

@@ -58,6 +58,6 @@ Implementación: **documentada en pre-prod**; agente runtime en piloto Fase 6+.
 ## Referencias
 
 - NIST FIPS 204 (ML-DSA), FIPS 203 (ML-KEM)
-- Skill: `.cursor/skills/applied-cryptography`
-- Skill: `.cursor/skills/tactical-cybersecurity` (guardian-cuantico en incidente)
+- Agente **cryptography-expert** (`.github/agents/cryptography-expert.agent.md`)
+- Agente **cybersecurity-expert** (`.github/agents/cybersecurity-expert.agent.md`) — guardian-cuántico en incidente
 - Runbook P6: `docs/P6-LEGITIMIDAD-SEGURIDAD.md`

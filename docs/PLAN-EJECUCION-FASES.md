@@ -1,6 +1,6 @@
-# Plan de Ejecución por Fases — A.R.M.A.D.A. VZLA
+# Plan de Ejecución por Fases — AGIGOV
 
-Roadmap operativo para convertir Armada de arquitectura teórica en sistema soberano desplegable. Cada fase tiene **entregables verificables**, dependencias claras y criterio de cierre antes de avanzar.
+Roadmap operativo para convertir AGIGOV de arquitectura teórica en sistema soberano desplegable. Cada fase tiene **entregables verificables**, dependencias claras y criterio de cierre antes de avanzar.
 
 ## Estado global (marzo 2026)
 
@@ -55,8 +55,8 @@ flowchart TB
 
 ### Entregables (hecho)
 
-- [x] 7 Skills Cursor (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP)
-- [x] 5 agentes institucionales (`.cursor/agents/`)
+- [x] 7 Skills de agentes IA (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP)
+- [x] 5 agentes institucionales (`src/agents/`)
 - [x] Reglas de ejecución basada en evidencia
 - [x] Protocolo IAP v1 (`src/protocol/`) — envelope cifrado + firmado
 - [x] Bus soberano base (`src/bus/`) — MQTT worker, outbox SQLite, DID registry
@@ -172,8 +172,8 @@ Voto registrado en edge offline → sync → centinela valida integridad → com
 npm run agents:flow
 
 # Worker por agente (terminales separadas, mismo MQTT)
-AGENT_ROLE=centinela NODE_DID=did:armada:core:centinela npm run bus:worker
-AGENT_ROLE=logistico NODE_DID=did:armada:core:logistico npm run bus:worker
+AGENT_ROLE=centinela NODE_DID=did:agigov:core:centinela npm run bus:worker
+AGENT_ROLE=logistico NODE_DID=did:agigov:core:logistico npm run bus:worker
 ```
 
 ### Criterio de cierre

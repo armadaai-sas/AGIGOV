@@ -27,7 +27,7 @@ if [ "$ROOT_PLACEHOLDERS" -eq 0 ]; then
   pass "Scripts solo en scripts/ (estructura correcta)"
 fi
 if [ ! -f infra/docker-compose.dev.yml ]; then
-  fail "Falta infra/docker-compose.dev.yml — clona Armada-2026/Armada-VZLA y git pull"
+  fail "Falta infra/docker-compose.dev.yml — clona armadaai-sas/AGIGOV y git pull"
 elif [ -f docker-compose.yml ] && [ ! -f infra/docker-compose.dev.yml ]; then
   warn "docker-compose.yml en raíz es incorrecto; la infra está en infra/"
 else
@@ -80,7 +80,7 @@ else
   fi
 fi
 
-if docker ps --format '{{.Names}}' 2>/dev/null | grep -q armada-postgres-dev; then
+if docker ps --format '{{.Names}}' 2>/dev/null | grep -q agigov-postgres-dev; then
   pass "Contenedor Postgres"
   BLOCK_B=2
 elif lsof -iTCP:5432 -sTCP:LISTEN >/dev/null 2>&1; then

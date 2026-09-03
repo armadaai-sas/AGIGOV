@@ -1,0 +1,154 @@
+/**
+ * AGIGOV · Console design system (light, neutral, app-first)
+ * Shared: landing `/`, work shell `.app-shell`, modals, apps.
+ */
+:root,
+[data-agigov-skin='trust'] {
+  --console-bg: #ffffff;
+  --console-bg-subtle: #fafafa;
+  --console-bg-muted: #f4f4f5;
+  --console-bg-hover: #f4f4f5;
+  --console-border: #e4e4e7;
+  --console-border-strong: #d4d4d8;
+  --console-text: #18181b;
+  --console-text-muted: #71717a;
+  --console-text-subtle: #a1a1aa;
+  --console-primary: #18181b;
+  --console-primary-hover: #27272a;
+  --console-primary-text: #ffffff;
+  --console-radius: 6px;
+  --console-radius-lg: 8px;
+  --console-font: 13px;
+  --console-font-sm: 12px;
+  --console-font-title: 15px;
+  --console-line: 1.5;
+  --console-icon-sm: 14px;
+  --console-icon-md: 16px;
+  --console-icon-lg: 20px;
+  --console-icon-stroke: 1.75;
+  --console-hit-sm: 32px;
+  --console-hit-md: 36px;
+  --console-hit-nav: 28px;
+}
+
+@layer components {
+  /* ===== App buttons (Console style) ===== */
+  .app-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: var(--console-radius);
+    border: 1px solid transparent;
+    font-family: var(--font-sans);
+    font-size: var(--console-font);
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .app-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--console-bg), 0 0 0 4px var(--console-border-strong);
+  }
+
+  .app-btn--primary {
+    background: var(--console-primary);
+    color: var(--console-primary-text);
+    border-color: var(--console-primary);
+  }
+
+  .app-btn--primary:hover {
+    background: var(--console-primary-hover);
+    border-color: var(--console-primary-hover);
+  }
+
+  .app-btn--secondary {
+    background: var(--console-bg);
+    color: var(--console-text);
+    border-color: var(--console-border);
+  }
+
+  .app-btn--secondary:hover {
+    background: var(--console-bg-hover);
+    border-color: var(--console-border-strong);
+  }
+
+  .app-btn--ghost {
+    background: transparent;
+    color: var(--console-text-muted);
+    border-color: transparent;
+  }
+
+  .app-btn--ghost:hover {
+    background: var(--console-bg-hover);
+    color: var(--console-text);
+  }
+
+  .app-btn--sm {
+    min-height: 28px;
+    padding: 0 10px;
+    font-size: var(--console-font-sm);
+  }
+
+  .app-btn--lg {
+    min-height: 36px;
+    padding: 0 14px;
+  }
+
+  .app-btn--icon {
+    min-width: 32px;
+    padding: 0;
+  }
+
+  /* ===== Icon glyphs (Lucide) — sm · md · lg ===== */
+  .agigov-icon {
+    display: block;
+    flex-shrink: 0;
+    stroke-width: var(--console-icon-stroke);
+  }
+
+  .agigov-icon--sm {
+    width: var(--console-icon-sm);
+    height: var(--console-icon-sm);
+  }
+
+  .agigov-icon--md {
+    width: var(--console-icon-md);
+    height: var(--console-icon-md);
+  }
+
+  .agigov-icon--lg {
+    width: var(--console-icon-lg);
+    height: var(--console-icon-lg);
+  }
+
+  /* Contenedores de toque — separados del tamaño del glifo */
+  .agigov-icon-hit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .agigov-icon-hit--sm {
+    width: var(--console-hit-sm);
+    height: var(--console-hit-sm);
+  }
+
+  .agigov-icon-hit--md {
+    width: var(--console-hit-md);
+    height: var(--console-hit-md);
+  }
+
+  .agigov-icon-hit--nav {
+    width: var(--console-hit-nav);
+    height: var(--console-hit-nav);
+    border-radius: var(--console-radius);
+  }
+}

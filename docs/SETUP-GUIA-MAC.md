@@ -12,7 +12,7 @@ Pasos mejorados para cerrar el push pendiente y levantar el entorno local **sin 
 ## Antes de empezar
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run setup:check
 ```
 
@@ -28,7 +28,7 @@ npm run setup:check
 ## A.0 — Comprobar estado
 
 ```bash
-cd /Users/macbook/Downloads/Armada-VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 git status
 git log -1 --oneline
 git remote -v
@@ -36,7 +36,7 @@ git remote -v
 
 Debes ver:
 - Rama `main`, working tree clean
-- Remote `origin` → `git@github.com:Armada-2026/Armada-VZLA.git`
+- Remote `origin` → `git@github.com:armadaai-sas/AGIGOV.git`
 
 ---
 
@@ -74,7 +74,7 @@ echo "Clave copiada al portapapeles ✓"
 ### A.2.3 — Registrar en GitHub
 
 1. Abre: https://github.com/settings/ssh/new  
-2. **Title:** `MacBook Armada` (cualquier nombre)  
+2. **Title:** `MacBook AGIGOV` (cualquier nombre)  
 3. **Key type:** Authentication Key  
 4. **Key:** `Cmd+V` (pegar)  
 5. Clic **Add SSH key**  
@@ -89,7 +89,7 @@ ssh -T git@github.com
 **Éxito** (alguna de estas formas):
 
 ```
-Hi Armada-2026! You've successfully authenticated...
+Hi armadaai-sas! You've successfully authenticated...
 ```
 
 **Error común:**
@@ -102,11 +102,11 @@ Hi Armada-2026! You've successfully authenticated...
 ### A.2.5 — Subir el repo
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run github:push
 ```
 
-**Éxito:** URL https://github.com/Armada-2026/Armada-VZLA con el commit reciente.
+**Éxito:** URL https://github.com/armadaai-sas/AGIGOV con el commit reciente.
 
 ---
 
@@ -150,7 +150,7 @@ git status
 # "Your branch is up to date with 'origin/main'"
 
 # En navegador:
-open https://github.com/Armada-2026/Armada-VZLA/commits/main/
+open https://github.com/armadaai-sas/AGIGOV/commits/main/
 ```
 
 ---
@@ -200,7 +200,7 @@ docker info | head -5
 **Un comando (recomendado):**
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run block-b:setup
 ```
 
@@ -235,12 +235,12 @@ npm run block-b:verify -- --api    # incluye API :3001 (Terminal 1 activa)
 docker compose -f infra/docker-compose.dev.yml ps
 ```
 
-Debes ver `armada-postgres-dev` y `armada-mosquitto-dev` **Up**.
+Debes ver `agigov-postgres-dev` y `agigov-mosquitto-dev` **Up**.
 
 ### B.2.2 — Verificar base de datos
 
 ```bash
-docker exec armada-postgres-dev pg_isready -U armada -d armada_core
+docker exec agigov-postgres-dev pg_isready -U agigov -d agigov_core
 # /var/run/postgresql:5432 - accepting connections
 ```
 
@@ -251,7 +251,7 @@ docker exec armada-postgres-dev pg_isready -U armada -d armada_core
 ### Terminal 1 — API pública
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run api:public
 ```
 
@@ -269,7 +269,7 @@ curl -s http://127.0.0.1:3001/api/public/dashboard | head -c 200
 ### Terminal 2 — PWA ciudadana
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run dev
 ```
 
@@ -286,7 +286,7 @@ Abre: http://localhost:3000
 ### Terminal 3 — Flujo agentes + piloto multi-sig
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run block-b:pilot
 ```
 
@@ -309,7 +309,7 @@ Todo en verde → entorno local completo.
 ## B.5 — Parar servicios (cuando termines)
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run infra:down
 # Ctrl+C en terminales de api:public y dev
 ```
@@ -363,14 +363,14 @@ Docker Desktop en este Mac suele fallar o ir muy lento (la VM de Docker consume 
 Ya tienes Homebrew. Instala Postgres y Mosquitto directamente en macOS:
 
 ```bash
-cd /Users/macbook/Downloads/Armada_VZLA-main
+cd /Users/macbook/Downloads/AGIGOV
 npm run setup:local:native
 ```
 
 Eso hace:
 1. `brew install postgresql@16 mosquitto`
 2. Arranca servicios en segundo plano
-3. Crea usuario `armada` / base `armada_core`
+3. Crea usuario `agigov` / base `agigov_core`
 4. Migraciones + seed (igual que Bloque B con Docker)
 
 Luego las mismas 3 terminales:

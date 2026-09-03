@@ -1,14 +1,14 @@
 [Unit]
-Description=Armada Centinela IAP Worker (24/7)
+Description=AGIGOV Centinela IAP Worker (24/7)
 After=network-online.target docker.service
 Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/armada
-EnvironmentFile=/opt/armada/.env
+WorkingDirectory=/opt/agigov
+EnvironmentFile=/opt/agigov/.env
 Environment=AGENT_ROLE=centinela
-Environment=NODE_DID=did:armada:core:centinela
+Environment=NODE_DID=did:agigov:core:centinela
 ExecStart=/usr/bin/npx tsx src/bus/run-worker.ts
 Restart=always
 RestartSec=10

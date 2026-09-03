@@ -44,7 +44,7 @@
 | SET/CNE: API demo, sin módulo electoral completo | SET es ficha, no producto |
 | DSC (compartimentos T3/T4): no existe en infra | Modelos sensibles imposibles hoy |
 
-### 2.3 Organización (Cursor)
+### 2.3 Organización (herramientas internas)
 
 | Fallo | Impacto |
 |-------|---------|
@@ -81,7 +81,7 @@
 ### P2 — Escala (90+ días)
 
 9. Modelos sectoriales Ola 1 (DSC, LGE, CCR) tras validación sandbox.
-10. Agentes Cursor por dominio (ver §5).
+10. Agentes de dominio dedicados (ver §5).
 11. Data Trust bloqueado hasta EGS probado.
 
 ---

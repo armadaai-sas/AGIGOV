@@ -31,4 +31,4 @@
 ## Referencias
 
 - `docs/innovation/2026-07-03-egs-piloto-ven-infraestructura.md`
-- `.cursor/skills/sovereign-economics-monetization/egs-escrow-spec.md`
+- skill `sovereign-economics-monetization/egs-escrow-spec.md` (config local)

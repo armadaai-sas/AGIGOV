@@ -40,7 +40,7 @@ if [ "$TUNNEL_MODE" = "install" ]; then
 [tunnel] Binary installed. For a named production tunnel on the VM:
 
   cloudflared tunnel login
-  cloudflared tunnel create armada-prod-light
+  cloudflared tunnel create agigov-prod-light
   # configure ingress → http://127.0.0.1:3001
   sudo cloudflared service install
 

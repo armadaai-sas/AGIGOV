@@ -69,7 +69,7 @@ Si `reconcileMeteringWithLedger` detecta hashes duplicados → escribe `data/bil
 
 ## Deploy DO (2026-08-05)
 
-- Droplet: `armada-prod-light` · health OK · backup cron daily 03:15 UTC
+- Droplet: `agigov-prod-light` · health OK · backup cron daily 03:15 UTC
 - Smoke tunnel: ephemeral `*.trycloudflare.com` (reinicia cambia URL)
 - **Túnel named (pendiente cuenta CF):** en el Droplet  
-  `cloudflared tunnel login` → `cloudflared tunnel create armada-prod-light` → ingress `http://127.0.0.1:3001` → DNS CNAME
+  `cloudflared tunnel login` → `cloudflared tunnel create agigov-prod-light` → ingress `http://127.0.0.1:3001` → DNS CNAME

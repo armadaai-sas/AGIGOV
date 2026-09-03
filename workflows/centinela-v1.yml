@@ -1,7 +1,7 @@
 # Workflow Dify — Validación centinela (Fase 3 stub)
 # P3: referencia solamente — runtime = src/agents/ · ver workflows/README.md
 
-name: armada-centinela-v1
+name: agigov-centinela-v1
 version: "1.0.0"
 trigger: validate-request
 nodes:
@@ -23,6 +23,6 @@ nodes:
     type: http
     body:
       intent: validation-result
-      recipient: did:armada:core:logistico
+      recipient: did:agigov:core:logistico
   - id: end
     type: end

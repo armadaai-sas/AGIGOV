@@ -8,11 +8,11 @@ const registryPath =
   process.argv[2]?.trim() || process.env.DID_REGISTRY_PATH || 'data/did-registry.json';
 
 const agents = [
-  'did:armada:core:centinela',
-  'did:armada:core:logistico',
-  'did:armada:core:soberano',
-  'did:armada:core:conciliador',
-  'did:armada:core:comunicador',
+  'did:agigov:core:centinela',
+  'did:agigov:core:logistico',
+  'did:agigov:core:soberano',
+  'did:agigov:core:conciliador',
+  'did:agigov:core:comunicador',
 ] as const;
 
 const registry = new DidRegistry();

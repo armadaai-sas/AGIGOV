@@ -8,7 +8,7 @@ cd "$ROOT"
 step() { echo ""; echo "━━ $1"; echo ""; }
 
 step "B.pilot — Comprobaciones previas"
-if ! docker exec armada-postgres-dev pg_isready -U armada -d armada_core >/dev/null 2>&1; then
+if ! docker exec agigov-postgres-dev pg_isready -U agigov -d agigov_core >/dev/null 2>&1; then
   echo "✗ Postgres no está listo. Ejecuta primero: npm run setup:local"
   exit 1
 fi

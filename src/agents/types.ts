@@ -53,11 +53,11 @@ export function agentHandlesIntent(
 }
 
 export const AGENT_DID_SUFFIX: Record<AgentId, string> = {
-  centinela: 'did:armada:core:centinela',
-  logistico: 'did:armada:core:logistico',
-  soberano: 'did:armada:core:soberano',
-  conciliador: 'did:armada:core:conciliador',
-  comunicador: 'did:armada:core:comunicador',
+  centinela: 'did:agigov:core:centinela',
+  logistico: 'did:agigov:core:logistico',
+  soberano: 'did:agigov:core:soberano',
+  conciliador: 'did:agigov:core:conciliador',
+  comunicador: 'did:agigov:core:comunicador',
 };
 
 export function resolveAgentFromDid(did: string): AgentId | null {

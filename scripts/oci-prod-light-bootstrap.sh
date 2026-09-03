@@ -6,7 +6,7 @@ set -euo pipefail
 
 OCI_HOST="${OCI_HOST:?Set OCI_HOST to the VM public IP or hostname}"
 OCI_USER="${OCI_USER:-ubuntu}"
-OCI_DIR="${OCI_DIR:-/opt/armada}"
+OCI_DIR="${OCI_DIR:-/opt/agigov}"
 HONEYPOT="${HONEYPOT:-0}"
 SSH_OPTS=(-o StrictHostKeyChecking=accept-new -o ConnectTimeout=15)
 if [ -n "${OCI_SSH_KEY:-}" ]; then

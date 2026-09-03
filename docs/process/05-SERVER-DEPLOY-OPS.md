@@ -100,4 +100,4 @@ Proveer:
 
 ## Restricción operativa
 
-**No ejecutar runtime del OS en PC Windows del operador** — solo git/editor local. Runtime en GitHub Actions, Cursor cloud o droplet.
+**No ejecutar runtime del OS en PC Windows del operador** — solo git/editor local. Runtime en GitHub Actions o droplet.

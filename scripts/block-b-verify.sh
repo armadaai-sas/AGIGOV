@@ -48,19 +48,19 @@ else
     fail "Docker — abre Docker Desktop (o usa: npm run block-b:verify -- --native)"
   fi
 
-  if docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^armada-postgres-dev$'; then
-    ok "Contenedor armada-postgres-dev"
+  if docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^agigov-postgres-dev$'; then
+    ok "Contenedor agigov-postgres-dev"
   else
     fail "Postgres no corre → npm run setup:local"
   fi
 
-  if docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^armada-mosquitto-dev$'; then
-    ok "Contenedor armada-mosquitto-dev"
+  if docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^agigov-mosquitto-dev$'; then
+    ok "Contenedor agigov-mosquitto-dev"
   else
     fail "Mosquitto no corre → npm run setup:local"
   fi
 
-  if docker exec armada-postgres-dev pg_isready -U armada -d armada_core >/dev/null 2>&1; then
+  if docker exec agigov-postgres-dev pg_isready -U agigov -d agigov_core >/dev/null 2>&1; then
     ok "Postgres acepta conexiones"
   else
     fail "Postgres no responde pg_isready"

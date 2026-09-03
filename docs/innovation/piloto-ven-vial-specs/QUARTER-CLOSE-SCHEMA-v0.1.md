@@ -171,4 +171,4 @@ Nombre sugerido migración: `egs_quarter_close_pilot_v1`
 
 - `prisma/schema.prisma` — modelos EGS
 - `src/db/egs/quarter-close.ts` — cálculo puro
-- `.cursor/skills/sovereign-economics-monetization/egs-escrow-spec.md`
+- skill `sovereign-economics-monetization/egs-escrow-spec.md` (config local)

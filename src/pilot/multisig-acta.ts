@@ -15,7 +15,7 @@ export const PILOT_PROCESS_ID =
 
 export const PILOT_SIGNERS = (
   process.env.PILOT_SIGNERS?.trim() ??
-  'did:armada:core:soberano,did:armada:core:centinela,did:armada:core:comunicador'
+  'did:agigov:core:soberano,did:agigov:core:centinela,did:agigov:core:comunicador'
 )
   .split(',')
   .map((s) => s.trim())
@@ -103,7 +103,7 @@ export async function initPilotActa(originNodeId: string): Promise<PilotActaDraf
     processId: PILOT_PROCESS_ID,
     title: draft.title,
     contentHash: draft.contentHash,
-    sovereignDid: PILOT_SIGNERS[0] ?? 'did:armada:core:soberano',
+    sovereignDid: PILOT_SIGNERS[0] ?? 'did:agigov:core:soberano',
     status: 'received',
     originNodeId,
     agentId: 'soberano',

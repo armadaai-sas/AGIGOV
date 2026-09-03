@@ -53,7 +53,7 @@ export function loadBusNodeConfig(): BusNodeConfig {
   const nodeDid = role
     ? (process.env[`NODE_DID_${role.toUpperCase().replace(/-/g, '_')}`]?.trim() ??
       process.env.NODE_DID?.trim() ??
-      `did:armada:core:${role}`)
+      `did:agigov:core:${role}`)
     : required('NODE_DID');
 
   const ed25519SecretKeyB64 = envForRole('NODE_ED25519_SECRET_KEY_B64', role);
@@ -63,7 +63,7 @@ export function loadBusNodeConfig(): BusNodeConfig {
 
   return {
     mqttUrl: required('MQTT_URL'),
-    clientId: process.env.MQTT_CLIENT_ID?.trim() || `armada-${nodeDid.split(':').pop()}`,
+    clientId: process.env.MQTT_CLIENT_ID?.trim() || `agigov-${nodeDid.split(':').pop()}`,
     shard: process.env.BUS_SHARD?.trim() || 'core',
     nodeDid,
     signing: {

@@ -21,7 +21,7 @@ let mqttClient: mqtt.MqttClient | null = null;
 
 function publishAudit(event: Record<string, unknown>): void {
   if (!mqttClient?.connected) return;
-  const topic = `armada/v1/${shard}/audit/honeypot`;
+  const topic = `agigov/v1/${shard}/audit/honeypot`;
   mqttClient.publish(topic, JSON.stringify(event), { qos: 1 });
 }
 
@@ -57,13 +57,13 @@ for (const [path, vector] of decoys) {
 }
 
 app.get('/health', (_req, res) => {
-  res.json({ ok: true, service: 'armada-honeypot', decoys: decoys.length });
+  res.json({ ok: true, service: 'agigov-honeypot', decoys: decoys.length });
 });
 
 app.listen(port, () => {
   console.log(`[Honeypot] Decoys activos :${port} → ${alertLog}`);
-  mqttClient = mqtt.connect(mqttUrl, { clientId: 'armada-honeypot' });
+  mqttClient = mqtt.connect(mqttUrl, { clientId: 'agigov-honeypot' });
   mqttClient.on('connect', () => {
-    console.log(`[Honeypot] Audit MQTT → armada/v1/${shard}/audit/honeypot`);
+    console.log(`[Honeypot] Audit MQTT → agigov/v1/${shard}/audit/honeypot`);
   });
 });

@@ -2,7 +2,7 @@
 # P3: referencia solamente — runtime = src/agents/ · ver workflows/README.md
 # Exportar a Dify v1.x; conectar tools HTTP → src/agents handlers
 
-name: armada-logistico-v1
+name: agigov-logistico-v1
 version: "1.0.0"
 trigger: validation-result
 nodes:
@@ -11,13 +11,13 @@ nodes:
     input: evidenceBundle
   - id: allocate
     type: llm
-    tool: armada-upsert-escrow
+    tool: agigov-upsert-escrow
     prompt: "Optimizar asignación según facts territoriales. Solo hechos verificables."
   - id: handoff
     type: http
-    url: "${ARMADA_BUS_URL}/handoff"
+    url: "${AGIGOV_BUS_URL}/handoff"
     body:
       intent: allocate-resources
-      recipient: did:armada:core:centinela
+      recipient: did:agigov:core:centinela
   - id: end
     type: end

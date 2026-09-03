@@ -7,7 +7,7 @@ interface CitizenCacheDB extends DBSchema {
   };
 }
 
-const DB_NAME = 'armada-citizen-cache';
+const DB_NAME = 'agigov-citizen-cache';
 const STORE = 'cache';
 
 async function db(): Promise<IDBPDatabase<CitizenCacheDB>> {

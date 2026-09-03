@@ -4,7 +4,7 @@ import { LANDING_OPEN_SOURCE } from './landingOutcomes.js';
 import { INSTITUTION_ROUTES } from '../platform/institutionalRoutes.js';
 import { ENTERPRISE_ROUTES } from '../platform/enterpriseRoutes.js';
 
-export const GITHUB_RELEASES_URL = 'https://github.com/armadaai-sas/Armada-VZLA/releases';
+export const GITHUB_RELEASES_URL = 'https://github.com/armadaai-sas/AGIGOV/releases';
 
 export type LandingPersonaId = 'state' | 'citizen' | 'enterprise' | 'integrator';
 

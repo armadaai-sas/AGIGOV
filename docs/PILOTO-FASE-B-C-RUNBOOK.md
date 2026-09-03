@@ -4,7 +4,7 @@
 
 Por cada tenant (ministerio/rubro):
 
-1. **DIDs institucionales** — ministerio, contraloría, centinela (`did:armada:ven:…`)
+1. **DIDs institucionales** — ministerio, contraloría, centinela (`did:agigov:ven:…`)
 2. **Claves Ed25519** — `data/pilot-tenants/<slug>.institution-keys.json` (gitignored)
 3. **Registro en DidRegistry** — merge en `data/did-registry.json`
 4. **Acta baseline** — escrow multi-sig `acta-baseline-<slug>`
@@ -35,9 +35,9 @@ curl -s localhost:3001/api/ops/tenants/mppi-trust-pilot/onboarding | jq
 
 | Rol | DID ejemplo (MPPI) |
 |-----|-------------------|
-| Ministerio | `did:armada:ven:ministerio:mppi` |
-| Contraloría | `did:armada:ven:contraloria:mppi` |
-| Centinela | `did:armada:ven:centinela:mppi` |
+| Ministerio | `did:agigov:ven:ministerio:mppi` |
+| Contraloría | `did:agigov:ven:contraloria:mppi` |
+| Centinela | `did:agigov:ven:centinela:mppi` |
 
 Re-demo en tenant existente:
 

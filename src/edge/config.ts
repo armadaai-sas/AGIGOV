@@ -39,7 +39,7 @@ export function loadEdgeConfig(): EdgeConfig {
     maxSyncAttempts: envInt('EDGE_MAX_SYNC_ATTEMPTS', 12),
     coreDatabaseUrl:
       process.env.DATABASE_URL?.trim() ||
-      'postgresql://armada:armada@127.0.0.1:5432/armada_core?schema=public',
+      'postgresql://agigov:agigov@127.0.0.1:5432/agigov_core?schema=public',
     coreHealthUrl:
       process.env.CORE_HEALTH_URL?.trim() || 'http://127.0.0.1:3001/api/public/health',
     mqttUrl: process.env.MQTT_URL?.trim() || 'mqtt://127.0.0.1:1883',

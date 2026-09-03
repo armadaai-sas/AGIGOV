@@ -29,7 +29,7 @@ async function main(): Promise<void> {
     publicKey: bytesToBase64(publicKey),
   };
 
-  const client = mqtt.connect(mqttUrl, { clientId: 'armada-lorawan-demo-pub' });
+  const client = mqtt.connect(mqttUrl, { clientId: 'agigov-lorawan-demo-pub' });
 
   client.on('connect', () => {
     client.publish(topic, JSON.stringify(payload), { qos: 1 }, (err) => {

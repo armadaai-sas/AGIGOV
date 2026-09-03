@@ -28,7 +28,7 @@ No es un plugin suelto ni un scrape de datos del Estado.
   "id": "egs",
   "name": "Efficiency Gain Share",
   "shortName": "EGS",
-  "publisherId": "did:agigov:publisher:armada",
+  "publisherId": "did:agigov:publisher:agigov",
   "audience": "gubernamental",
   "status": "beta",
   "tagline": "Ahorro con evidencia",

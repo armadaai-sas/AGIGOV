@@ -5,7 +5,7 @@
 | startedAt | 2026-08-21T16:21Z |
 | endedAt | 2026-08-21T16:30Z |
 | environment | do-prod-light · http://137.184.66.163 |
-| actor | Cursor agent (browser) — no humano |
+| actor | Agente IA automatizado (browser) — no humano |
 | B solo | no (agent) |
 | verdict | **BLOCKED** |
 

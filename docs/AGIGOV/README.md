@@ -26,12 +26,12 @@
 | [revisiones/](./revisiones/) | Informes legal-político (`state-legal-political`) |
 | **[ROADMAP-EJECUCION.md](./ROADMAP-EJECUCION.md)** | **Pasos 1–14 ejecutables uno a uno** |
 
-## Relación con Armada VZLA
+## Relación con AGIGOV (infraestructura)
 
 | Capa | Nombre público | Rol técnico |
 |------|----------------|-------------|
 | Modelo | **AGIGOV** | Marco genérico replicable |
 | Implementación VE | **AGIGOV-VEN** | Adaptación Venezuela |
-| Infraestructura | **Armada VZLA** | Código, ledger, agentes, PWA |
+| Infraestructura | **AGIGOV** | Código, ledger, agentes, PWA |
 
 Cualquier gobierno puede desplegar **AGIGOV-[ISO]** sobre la misma red e infraestructura base.

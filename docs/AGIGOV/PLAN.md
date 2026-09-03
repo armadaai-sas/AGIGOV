@@ -17,7 +17,7 @@ Plan breve para convertir la visión AGIGOV en producto institucional funcional,
 | **P8** | Ops CI + handshake | 1–2 d | CI expandido + VEN↔SBX vivo |
 | **P9** | Release GO | 1 d | Dictamen GO-CONDICIONADO + preflight Operador B |
 
-> Las fases técnicas Armada (0–6 en `PLAN-EJECUCION-FASES.md`) corren **en paralelo** como infraestructura; este plan es la **capa producto e institucional AGIGOV**.
+> Las fases técnicas AGIGOV (0–6 en `PLAN-EJECUCION-FASES.md`) corren **en paralelo** como infraestructura; este plan es la **capa producto e institucional AGIGOV**.
 
 ---
 

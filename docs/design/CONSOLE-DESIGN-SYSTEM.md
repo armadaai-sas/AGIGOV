@@ -1,26 +1,26 @@
-# AGIGOV · Cursor Design System (light)
+# AGIGOV · Console Design System (light)
 
 Sistema unificado para **landing**, **shell de trabajo** y **aplicaciones** del OS.
 
 ## Principios
-- Claro, neutro, app-first (como Cursor)
+- Claro, neutro, app-first
 - Blanco / gris claro / gris / negro — sin cyan marketing ni gradientes decorativos
 - **Iconos Lucide: 3 tamaños** (`sm` 14px · `md` 16px · `lg` 20px) — ver [ICON-SYSTEM.md](./ICON-SYSTEM.md)
 - Botones de aplicación (32px, radius 6px)
 
-## Tokens (`cursor-design-system.css`)
+## Tokens (`console-design-system.css`)
 
 | Token | Valor |
 |-------|--------|
-| `--cursor-bg` | `#ffffff` |
-| `--cursor-bg-subtle` | `#fafafa` |
-| `--cursor-bg-muted` | `#f4f4f5` |
-| `--cursor-border` | `#e4e4e7` |
-| `--cursor-text` | `#18181b` |
-| `--cursor-text-muted` | `#71717a` |
-| `--cursor-primary` | `#18181b` (botón negro) |
-| `--cursor-icon-md` | `16px` (default Lucide) |
-| `--cursor-hit-nav` | `28px` (wrap sidebar) |
+| `--console-bg` | `#ffffff` |
+| `--console-bg-subtle` | `#fafafa` |
+| `--console-bg-muted` | `#f4f4f5` |
+| `--console-border` | `#e4e4e7` |
+| `--console-text` | `#18181b` |
+| `--console-text-muted` | `#71717a` |
+| `--console-primary` | `#18181b` (botón negro) |
+| `--console-icon-md` | `16px` (default Lucide) |
+| `--console-hit-nav` | `28px` (wrap sidebar) |
 
 ## Botones
 
@@ -42,7 +42,7 @@ Cada modelo (EGS, escrow, etc.) hereda tokens + botones `app-btn` / `os-btn-*`.
 
 ## Archivos
 - [`docs/design/ICON-SYSTEM.md`](./ICON-SYSTEM.md) — escala, nav tiers, tooltips
-- [`src/styles/cursor-design-system.css`](../../src/styles/cursor-design-system.css)
+- [`src/styles/console-design-system.css`](../../src/styles/console-design-system.css)
 - [`src/citizen/theme/trust-light.css`](../../src/citizen/theme/trust-light.css)
 - [`src/styles/app.css`](../../src/styles/app.css) — shell + workspace
 - [`src/styles/landing-system.css`](../../src/styles/landing-system.css) — landing `/`

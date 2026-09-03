@@ -21,12 +21,12 @@ centinela → soberano → cso-monetizacion → modelo-guardian → artesano-ui 
 - **artesano-ui** no estiliza `roadmap` como `disponible`.
 - Pricing final: **cso** + **soberano**, no comercial solo.
 
-## Loops Cursor (copiar)
+## Loops de automatización (copiar)
 
 ### UI — 6 horas al día
 
 ```text
-/loop 6h Actúa como artesano-ui (.cursor/agents/artesano-ui.md).
+/loop 6h Actúa como artesano-ui (config local de agentes: artesano-ui).
 Lee ui-product-craft. Primer ítem Fase I pendiente en docs/DESIGN-ROADMAP-FASES.md.
 Implementa hasta ✅. npm run lint && npm run build.
 docs/innovation/artesano-ui-latest.md. No commit.
@@ -35,7 +35,7 @@ docs/innovation/artesano-ui-latest.md. No commit.
 ### Comercial — 6 horas al día
 
 ```text
-/loop 6h Actúa como comercial-agigov (.cursor/agents/comercial-agigov.md).
+/loop 6h Actúa como comercial-agigov (config local de agentes: comercial-agigov).
 Lee agigov-gtm. npm run models:audit. One-pager + FAQ objeciones para 1 modelo aprobado.
 docs/commercial/one-pagers/. Brief docs/innovation/comercial-latest.md. No commit.
 ```

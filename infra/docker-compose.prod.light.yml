@@ -15,12 +15,12 @@ x-resource-small: &resource-small
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: armada-postgres-light
+    container_name: agigov-postgres-light
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-armada}
+      POSTGRES_USER: ${POSTGRES_USER:-agigov}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-armada_core}
+      POSTGRES_DB: ${POSTGRES_DB:-agigov_core}
     command:
       - postgres
       - -c
@@ -34,11 +34,11 @@ services:
       - -c
       - wal_buffers=4MB
     volumes:
-      - armada-light-pg:/var/lib/postgresql/data
+      - agigov-light-pg:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-armada} -d ${POSTGRES_DB:-armada_core}']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-agigov} -d ${POSTGRES_DB:-agigov_core}']
       interval: 15s
       timeout: 5s
       retries: 5
@@ -46,7 +46,7 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:2
-    container_name: armada-mosquitto-light
+    container_name: agigov-mosquitto-light
     restart: always
     volumes:
       - ./mosquitto/mosquitto.prod.conf:/mosquitto/config/mosquitto.conf:ro
@@ -57,15 +57,15 @@ services:
           memory: 64M
 
   core-lite:
-    image: armada-core-lite:prod
+    image: agigov-core-lite:prod
     build:
       context: ..
       dockerfile: infra/core/Dockerfile
-    container_name: armada-core-lite
+    container_name: agigov-core-lite
     restart: always
     env_file: .env.prod
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
       MQTT_URL: mqtt://mosquitto:1883
       NODE_OPTIONS: ${NODE_OPTIONS:---max-old-space-size=96}
       SWARM_LITE_ROLES: ${SWARM_LITE_ROLES:-centinela,comunicador}
@@ -89,11 +89,11 @@ services:
           memory: 256M
 
   migrate:
-    image: armada-core-lite:prod
-    container_name: armada-migrate-light
+    image: agigov-core-lite:prod
+    container_name: agigov-migrate-light
     env_file: .env.prod
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-armada}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-armada_core}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-agigov}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-agigov_core}?schema=public
     command: ['migrate']
     depends_on:
       postgres:
@@ -108,7 +108,7 @@ services:
     build:
       context: ..
       dockerfile: infra/web/Dockerfile
-    container_name: armada-web-light
+    container_name: agigov-web-light
     restart: always
     ports:
       - '${WEB_PORT:-80}:80'
@@ -125,7 +125,7 @@ services:
   # Named tunnel: set CLOUDFLARE_TUNNEL_TOKEN and use profile tunnel-named
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: armada-tunnel-light
+    container_name: agigov-tunnel-light
     restart: always
     command: tunnel --no-autoupdate --url http://web:80
     depends_on:
@@ -138,7 +138,7 @@ services:
 
   tunnel-named:
     image: cloudflare/cloudflared:latest
-    container_name: armada-tunnel-named
+    container_name: agigov-tunnel-named
     restart: always
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
@@ -155,7 +155,7 @@ services:
     build:
       context: ..
       dockerfile: infra/core/Dockerfile
-    container_name: armada-honeypot-light
+    container_name: agigov-honeypot-light
     restart: always
     env_file: .env.prod
     environment:
@@ -173,5 +173,5 @@ services:
           memory: 64M
 
 volumes:
-  armada-light-pg:
+  agigov-light-pg:
   mosquitto-light-data:

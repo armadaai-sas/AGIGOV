@@ -1,14 +1,16 @@
-# AGENTS.md — Armada VZLA
+# AGENTS.md — AGIGOV
 
 Sistema operativo soberano para reconstrucción nacional: agentes institucionales 24/7, ledger inmutable y dashboards ciudadanos.
 
 ## Stack
 
 - **Frontend:** React 19, Vite, Tailwind CSS v4 (`src/`)
-- **Skills:** `.cursor/skills/` (cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación, producto soberano, **legal-político**, **UX institucional**, **world-market-adviser**)
+- **Skills de agentes IA (config local, no versionada):** cripto, devops, datos, agentes, ciberseguridad, PWA, IAP, innovación, producto soberano, **legal-político**, **UX institucional**, **world-market-adviser**
 - **Protocolo IAP:** `src/protocol/` (envelopes cifrados/firmados entre agentes)
-- **Agentes:** `.cursor/agents/` (centinela, logistico, soberano, conciliador, comunicador, **artesano-ui**, **comercial-agigov**, modelo-guardian, cso-monetizacion, **product-market-adviser**)
-- **Reglas:** `.cursor/rules/` (soberanía, ejecución por evidencia, enjambre, **world-market-adviser**)
+- **Agentes runtime (producto):** `src/agents/` (centinela, logistico, soberano, conciliador, comunicador)
+- **Agentes de desarrollo (config local, no versionada):** artesano-ui, comercial-agigov, modelo-guardian, cso-monetizacion, product-market-adviser
+- **Equipo de expertos (comunidad/lanzamiento, versionado):** `.github/agents/*.agent.md` — ver sección [Equipo de expertos](#equipo-de-expertos-prelaunch--comunidad-github) abajo
+- **Reglas de agentes IA (config local, no versionada):** soberanía, ejecución por evidencia, enjambre, **world-market-adviser**
 
 ## Comandos
 
@@ -49,7 +51,11 @@ Disputas: **conciliador** (grafo de confianza). Incidentes: **centinela** FREEZE
 | Innovador | Innovación y prosperidad | Monetización, macro, roadmap 24/7 |
 | CSO Monetización | Estrategia comercial | Cuadro modelos, auditoría ingresos |
 
-Definiciones: `.cursor/agents/*.md`
+Definiciones (agentes de desarrollo, config local): consultar herramienta IA del equipo. Definiciones del equipo de expertos versionado: `.github/agents/*.agent.md`.
+
+## Equipo de expertos (PRE-LAUNCH · comunidad GitHub)
+
+Subagentes invocables en `.github/agents/` para cerrar el PRE-LAUNCH PILOT y abrir la comunidad open source: `lead-developer`, `lead-backend-developer`, `computer-science-architect`, `agentic-systems-architect`, `llm-research-lead`, `cybersecurity-expert`, `cryptography-expert`, `telemetry-expert`, `blockchain-dao-architect`, `product-manager`, `project-manager`, `app-ux-designer`, `oss-community-lead`, `growth-marketing-lead`, `content-creator-lead`, `ai-marketing-strategist`, `political-science-advisor`, `political-economist`, `social-science-researcher`.
 
 ## Producto y visión
 
@@ -98,7 +104,7 @@ createSignedEnvelope → bus MQTT/WG → verifyAndOpenEnvelope → ReplayGuard �
 - Cifrado: X25519 + XChaCha20-Poly1305
 - Firma: Ed25519 sobre campos externos canónicos
 - Anti-replay: `nonce` + `messageId` + ventana temporal
-- Skill: `.cursor/skills/inter-agent-protocol/`
+- Skill: `.cursor/skills/inter-agent-protocol/` (config local)
 
 ## Bus soberano (MQTT + outbox)
 
@@ -174,7 +180,7 @@ Stack completo: `npm run infra:up:prod` · Docs: `docs/PRE-PRODUCTION.md` · Siz
 
 ## Plan de ejecución
 
-Roadmap completo: **[docs/PLAN-EJECUCION-FASES.md](docs/PLAN-EJECUCION-FASES.md)** · Canvas visual: `armada-plan-fases`
+Roadmap completo: **[docs/PLAN-EJECUCION-FASES.md](docs/PLAN-EJECUCION-FASES.md)** · Canvas visual: `agigov-plan-fases`
 
 ```bash
 npm run infra:up:dev     # Mosquitto local

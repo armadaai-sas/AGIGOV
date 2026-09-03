@@ -72,7 +72,7 @@ npm run pilot:verify
 
 - **Ligero**: `core-lite` incluye centinela + comunicador (`SWARM_LITE_ROLES`)
 - **Completo**: `agent-centinela` aislado
-- systemd: `infra/systemd/armada-centinela.service`
+- systemd: `infra/systemd/agigov-centinela.service`
 - Health: `GET /api/ops/health`
 
 ## Documentación relacionada

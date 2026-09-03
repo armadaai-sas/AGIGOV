@@ -1,4 +1,4 @@
-# Scripts Armada VZLA
+# Scripts AGIGOV
 
 Todos los comandos de setup viven en **`scripts/`**. No uses `.sh` en la raíz del repo.
 

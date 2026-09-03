@@ -57,7 +57,7 @@ async function main(): Promise<void> {
   const config = loadEdgeConfig();
 
   const client = mqtt.connect(config.mqttUrl, {
-    clientId: `armada-lorawan-${config.originNodeId}`,
+    clientId: `agigov-lorawan-${config.originNodeId}`,
     reconnectPeriod: 5_000,
   });
 

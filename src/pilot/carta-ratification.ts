@@ -9,7 +9,7 @@ export const CARTA_PROCESS_ID =
 
 export const CARTA_SIGNERS = (
   process.env.CARTA_SIGNERS?.trim() ??
-  'did:armada:core:soberano,did:armada:core:centinela,did:armada:core:logistico'
+  'did:agigov:core:soberano,did:agigov:core:centinela,did:agigov:core:logistico'
 )
   .split(',')
   .map((s) => s.trim())
@@ -73,7 +73,7 @@ export async function initCartaActa(originNodeId: string): Promise<CartaDraft> {
       processId: CARTA_PROCESS_ID,
       title: draft.title,
       contentHash: draft.contentHash,
-      sovereignDid: CARTA_SIGNERS[0] ?? 'did:armada:core:soberano',
+      sovereignDid: CARTA_SIGNERS[0] ?? 'did:agigov:core:soberano',
       status: 'received',
       originNodeId,
     },

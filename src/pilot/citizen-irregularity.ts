@@ -87,7 +87,7 @@ export async function registerIrregularityReport(
     processId,
     title: `Irregularidad reportada — ${category}`,
     contentHash,
-    sovereignDid: 'did:armada:core:conciliador',
+    sovereignDid: 'did:agigov:core:conciliador',
     status: 'received',
     originNodeId,
     agentId: 'centinela',

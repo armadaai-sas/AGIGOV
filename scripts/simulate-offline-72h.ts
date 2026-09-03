@@ -27,7 +27,7 @@ async function main(): Promise<void> {
       entityType: 'vote',
       entityId: processId,
       payload: {
-        citizenDid: 'did:armada:bog:demo-citizen-01',
+        citizenDid: 'did:agigov:bog:demo-citizen-01',
         territoryId: territory.id,
         processId,
         signature: `offline-demo-${i}-${Date.now()}`,

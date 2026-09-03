@@ -26,7 +26,7 @@ import {
 } from './types.js';
 
 const DEFAULT_TTL_MS = 5 * 60 * 1000;
-const HKDF_INFO = localUtf8('armada-iap-v1');
+const HKDF_INFO = localUtf8('agigov-iap-v1');
 const XNONCE_LENGTH = 24;
 
 function deriveEncryptionKey(

@@ -18,7 +18,7 @@ function startWorker(role: string): void {
     AGENT_ROLE: role,
     NODE_DID:
       process.env[`NODE_DID_${role.toUpperCase().replace(/-/g, '_')}`]?.trim() ??
-      `did:armada:core:${role}`,
+      `did:agigov:core:${role}`,
     NODE_OPTIONS: process.env.NODE_OPTIONS ?? '--max-old-space-size=96',
   };
 

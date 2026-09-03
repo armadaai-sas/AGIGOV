@@ -134,9 +134,9 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
       actaProcessId,
       signedAt: new Date('2026-04-01T00:00:00Z'),
       signers: [
-        `did:armada:${didNs}:ministerio:${MINISTRY.toLowerCase()}`,
-        `did:armada:${didNs}:contraloria:${MINISTRY.toLowerCase()}`,
-        `did:armada:${didNs}:centinela:observer`,
+        `did:agigov:${didNs}:ministerio:${MINISTRY.toLowerCase()}`,
+        `did:agigov:${didNs}:contraloria:${MINISTRY.toLowerCase()}`,
+        `did:agigov:${didNs}:centinela:observer`,
       ],
       originNodeId: ORIGIN,
     },
@@ -187,9 +187,9 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
         status: 'RELEASED',
         threshold: 3,
         signers: [
-          `did:armada:${didNs}:logistico`,
-          `did:armada:${didNs}:${MINISTRY.toLowerCase()}`,
-          `did:armada:${didNs}:centinela`,
+          `did:agigov:${didNs}:logistico`,
+          `did:agigov:${didNs}:${MINISTRY.toLowerCase()}`,
+          `did:agigov:${didNs}:centinela`,
         ],
         originNodeId: ORIGIN,
       },
@@ -209,8 +209,8 @@ export async function seedEgsPilotVial(db: CoreDb, options: SeedEgsPilotOptions 
         iso: ctx.iso,
         iot: `lorawan-uplink-${milestoneIndex}`,
         citizens: [
-          `did:armada:${didNs}:auditor:${milestoneIndex}a`,
-          `did:armada:${didNs}:auditor:${milestoneIndex}b`,
+          `did:agigov:${didNs}:auditor:${milestoneIndex}a`,
+          `did:agigov:${didNs}:auditor:${milestoneIndex}b`,
         ],
         centinela: 'verified',
       });

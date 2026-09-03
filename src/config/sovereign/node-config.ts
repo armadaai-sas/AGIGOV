@@ -43,6 +43,6 @@ export function nodeIdentityFromEnv() {
     iso: node.iso,
     nodeId: process.env.ORIGIN_NODE_ID?.trim() || 'node-core-01',
     territoryCode: node.territoryCode,
-    service: 'armada-public-api',
+    service: 'agigov-public-api',
   };
 }

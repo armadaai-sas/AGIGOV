@@ -55,7 +55,7 @@ export default defineConfig(({ mode }) => {
               urlPattern: /^\/api\/public\//,
               handler: 'NetworkFirst',
               options: {
-                cacheName: 'armada-public-api',
+                cacheName: 'agigov-public-api',
                 networkTimeoutSeconds: 5,
               },
             },
@@ -67,7 +67,7 @@ export default defineConfig(({ mode }) => {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
     resolve: {
-      // AGIGOV is a Windows junction → Armada-VZLA; keep the workspace path so Vite can read files.
+      // AGIGOV may be a Windows junction → local AGIGOV/Armada-VZLA folder; keep the workspace path so Vite can read files.
       preserveSymlinks: true,
       alias: {
         '@': path.resolve(__dirname, '.'),

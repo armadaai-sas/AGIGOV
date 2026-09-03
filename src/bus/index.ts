@@ -4,7 +4,7 @@ export { loadBusNodeConfig } from './config.js';
 export type { BusNodeConfig } from './config.js';
 export {
   deriveOpaqueTopicId,
-  parseArmadaTopic,
+  parseAgigovTopic,
   resolveAuditTopic,
   resolveDeliveryTopic,
 } from './routing.js';

@@ -44,9 +44,9 @@ export function buildInstitutionSigners(ministryCode: string, iso?: Jurisdiction
   const ns = didNamespaceForIso(jurisdiction);
   const code = ministryCode.toLowerCase();
   return [
-    `did:armada:${ns}:ministerio:${code}`,
-    `did:armada:${ns}:contraloria:${code}`,
-    `did:armada:${ns}:centinela:${code}`,
+    `did:agigov:${ns}:ministerio:${code}`,
+    `did:agigov:${ns}:contraloria:${code}`,
+    `did:agigov:${ns}:centinela:${code}`,
   ];
 }
 
