@@ -1,0 +1,29 @@
+name: ✨ Propuesta de mejora
+description: Sugerir una nueva función, aplicación de Estado o cambio de producto.
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema que resuelve
+      description: Qué necesidad institucional/ciudadana/técnica no está cubierta hoy.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Qué construirías, a alto nivel.
+    validations:
+      required: true
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Audiencia principal
+      options:
+        - Ciudadano
+        - Gobierno / institución
+        - Desarrollador
+        - Inversionista
+    validations:
+      required: false

@@ -1,0 +1,36 @@
+name: 🐛 Reporte de bug
+description: Algo no funciona como se espera en AGIGOV.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportar. Si es una vulnerabilidad de seguridad, **no uses este formulario** — sigue el proceso en [SECURITY.md](../../SECURITY.md).
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción del problema
+      description: Qué esperabas que pasara vs. qué pasó.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Componente afectado
+      placeholder: "ej. PWA /modelos, API pública, bus de agentes, nodo edge"
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto adicional
+      description: Logs, capturas, versión/commit, entorno (dev/pre-prod/piloto).

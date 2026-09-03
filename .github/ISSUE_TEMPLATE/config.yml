@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Reportar vulnerabilidad de seguridad
+    url: https://github.com/armadaai-sas/AGIGOV/blob/main/SECURITY.md
+    about: No uses issues públicos para vulnerabilidades. Sigue el proceso de divulgación responsable.
+  - name: 📖 Guía de contribución
+    url: https://github.com/armadaai-sas/AGIGOV/blob/main/CONTRIBUTING.md
+    about: Cómo levantar el entorno y proponer cambios.
