@@ -26,6 +26,7 @@
     "egs:quarter-close": "tsx scripts/egs-quarter-close-demo.ts",
     "egs:stress": "tsx scripts/egs-stress-discrepancy.ts",
     "models:audit": "tsx scripts/audit-models.ts",
+    "agents:sync-cursor": "node scripts/sync-cursor-agents.mjs",
     "models:guardian:nightly": "bash scripts/model-guardian-nightly.sh",
     "db:sync": "tsx src/db/sync/run-replicator.ts",
     "db:demo-sync": "tsx src/db/demo-sync.ts",

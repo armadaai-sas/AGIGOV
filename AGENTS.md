@@ -57,6 +57,8 @@ Definiciones (agentes de desarrollo, config local): consultar herramienta IA del
 
 Subagentes invocables en `.github/agents/` para cerrar el PRE-LAUNCH PILOT y abrir la comunidad open source: `lead-developer`, `lead-backend-developer`, `computer-science-architect`, `agentic-systems-architect`, `llm-research-lead`, `cybersecurity-expert`, `cryptography-expert`, `telemetry-expert`, `blockchain-dao-architect`, `product-manager`, `project-manager`, `app-ux-designer`, `oss-community-lead`, `growth-marketing-lead`, `content-creator-lead`, `ai-marketing-strategist`, `political-science-advisor`, `political-economist`, `social-science-researcher`.
 
+**Espejo para Cursor:** `.github/agents/*.agent.md` es formato de GitHub Copilot y Cursor **no** lo lee. El espejo versionado para Cursor vive en `.cursor/agents/*.md` (subagentes, invocables con `/<nombre>` y auto-delegables por su `description`). `.github/agents/` es la fuente de verdad; regenera el espejo con `npm run agents:sync-cursor` tras editar cualquier experto. Solo `.cursor/agents/` se versiona; el resto de `.cursor/` sigue siendo config local.
+
 ## Producto y visión
 
 Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/producto final, usar skill **`sovereign-product-studio`**.

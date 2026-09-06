@@ -43,7 +43,10 @@ Desktop.ini
 *.swp
 *.swo
 *~
-.cursor/
+# Config local de Cursor no versionada, EXCEPTO el espejo del equipo de expertos
+# (.cursor/agents/), generado desde .github/agents/ con `npm run agents:sync-cursor`.
+.cursor/*
+!.cursor/agents/
 
 # PHP / Composer
 .phpunit.result.cache
