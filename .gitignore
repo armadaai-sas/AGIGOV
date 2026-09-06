@@ -43,8 +43,9 @@ Desktop.ini
 *.swp
 *.swo
 *~
-# Config local de Cursor no versionada, EXCEPTO el espejo del equipo de expertos
-# (.cursor/agents/), generado desde .github/agents/ con `npm run agents:sync-cursor`.
+# Config local del IDE de desarrollo no versionada, EXCEPTO el espejo del equipo
+# de expertos, generado desde .github/agents/ con `npm run agents:sync`. Esa ruta
+# la impone el IDE (ver regla de marca en AGENTS.md).
 .cursor/*
 !.cursor/agents/
 

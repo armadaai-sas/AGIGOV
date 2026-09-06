@@ -1,15 +1,17 @@
 #!/usr/bin/env node
-// Espeja el equipo de expertos versionado en .github/agents/*.agent.md (formato
-// GitHub Copilot) hacia subagentes de Cursor en .cursor/agents/*.md, que Cursor
-// sí reconoce (invocables con /nombre y auto-delegables por su `description`).
+// Espeja el equipo de expertos versionado en .github/agents/*.agent.md hacia el
+// formato de subagentes que lee el IDE de desarrollo, generándolos en el
+// directorio de carga de subagentes del IDE (.cursor/agents/*.md) — esa ruta la
+// impone la herramienta y es la única referencia de marca que se conserva, por
+// requisito funcional (ver regla en AGENTS.md).
 //
 // Fuente de verdad: .github/agents/*.agent.md. Regenera tras editarlos:
-//   npm run agents:sync-cursor
+//   npm run agents:sync
 //
-// Copilot no comparte esquema con Cursor, así que solo mapeamos campos válidos:
-//   name        -> nombre del archivo en kebab-case (requisito de Cursor)
-//   description -> se conserva (Cursor la usa para decidir delegación)
-//   model       -> "inherit" (los IDs de modelo de Copilot no son válidos en Cursor)
+// El formato de origen no comparte esquema, así que solo mapeamos campos válidos:
+//   name        -> nombre del archivo en kebab-case
+//   description -> se conserva (el IDE la usa para decidir delegación)
+//   model       -> "inherit" (los IDs de modelo del formato de origen no aplican)
 // El cuerpo del prompt (en español) se conserva intacto.
 
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
@@ -18,6 +20,8 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const srcDir = join(repoRoot, '.github', 'agents');
+// Ruta de carga de subagentes impuesta por el IDE de desarrollo (excepción a la
+// regla de marca del proyecto; ver AGENTS.md).
 const outDir = join(repoRoot, '.cursor', 'agents');
 
 /** Extrae { frontmatter, body } de un .md con front-matter YAML simple. */
@@ -49,7 +53,7 @@ function yamlString(value) {
 
 function main() {
   if (!existsSync(srcDir)) {
-    console.error(`[sync-cursor-agents] No existe ${srcDir}`);
+    console.error(`[sync-agents] No existe ${srcDir}`);
     process.exit(1);
   }
 
@@ -85,9 +89,7 @@ function main() {
     generated.push(name);
   }
 
-  console.log(
-    `[sync-cursor-agents] Generados ${generated.length} subagentes en .cursor/agents/:`,
-  );
+  console.log(`[sync-agents] Generados ${generated.length} subagentes:`);
   for (const n of generated) console.log(`  - ${n}  (invócalo con /${n})`);
 }
 
