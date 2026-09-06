@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactElement } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   Apple,
@@ -397,7 +397,7 @@ function LandingOutcomeList() {
         </li>
       );
     })
-    .filter((item): item is JSX.Element => item !== null);
+    .filter((item): item is ReactElement => item !== null);
 
   return <ul className="ls-min-list ls-min-list--outcomes">{items}</ul>;
 }
