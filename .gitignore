@@ -43,7 +43,11 @@ Desktop.ini
 *.swp
 *.swo
 *~
-.cursor/
+# Config local del IDE de desarrollo no versionada, EXCEPTO el espejo del equipo
+# de expertos, generado desde .github/agents/ con `npm run agents:sync`. Esa ruta
+# la impone el IDE (ver regla de marca en AGENTS.md).
+.cursor/*
+!.cursor/agents/
 
 # PHP / Composer
 .phpunit.result.cache

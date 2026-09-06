@@ -57,6 +57,8 @@ Definiciones (agentes de desarrollo, config local): consultar herramienta IA del
 
 Subagentes invocables en `.github/agents/` para cerrar el PRE-LAUNCH PILOT y abrir la comunidad open source: `lead-developer`, `lead-backend-developer`, `computer-science-architect`, `agentic-systems-architect`, `llm-research-lead`, `cybersecurity-expert`, `cryptography-expert`, `telemetry-expert`, `blockchain-dao-architect`, `product-manager`, `project-manager`, `app-ux-designer`, `oss-community-lead`, `growth-marketing-lead`, `content-creator-lead`, `ai-marketing-strategist`, `political-science-advisor`, `political-economist`, `social-science-researcher`.
 
+**Espejo para el IDE de desarrollo:** `.github/agents/*.agent.md` es el formato del asistente de GitHub y otros IDEs de agentes **no** lo leen. El espejo versionado para el IDE vive como subagentes (invocables con `/<nombre>` y auto-delegables por su `description`) en la ruta de carga que el IDE impone (`.cursor/agents/*.md`). `.github/agents/` es la fuente de verdad; regenera el espejo con `npm run agents:sync` tras editar cualquier experto. Solo ese directorio de subagentes se versiona; el resto de la config local del IDE no.
+
 ## Producto y visión
 
 Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/producto final, usar skill **`sovereign-product-studio`**.
@@ -86,6 +88,7 @@ Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/pro
 - Multi-sig y firmas Ed25519 antes de efectos irreversibles (`applied-cryptography`).
 - Offline-first en nodos territoriales (`resilient-data-architecture`).
 - PANIC_MODE congela mutaciones al ledger (`tactical-cybersecurity`).
+- **Neutralidad de marca (open source):** el proyecto es abierto y agnóstico de proveedor. No incluir nombres de marcas de herramientas de desarrollo propietarias (editores, asistentes de IA, IDEs) en código, comentarios, nombres de archivos/scripts, mensajes de salida, commits ni documentación. Usar términos genéricos ("IDE de desarrollo", "asistente de agentes", "subagente"). **Única excepción:** rutas de carga que una herramienta exige para funcionar (hoy, el directorio de subagentes `.cursor/agents/`), que se mantienen por requisito técnico y se documentan como tal. Esta regla aplica a todos los agentes, skills y expertos en el desarrollo continuo del proyecto.
 
 ## Boundaries
 
