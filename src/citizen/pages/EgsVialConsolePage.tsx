@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
 
 import {
@@ -23,6 +23,7 @@ import {
   ministryEgsResultLine,
   ministryEgsStatusHint,
 } from '../platform/egsMinistryCopy.js';
+import { egsDemoHealth, egsDemoPipeline, egsDemoStatus } from './egsDemoFixture.js';
 
 /** EGS — consola ministerio (Estado territorial §7.3). */
 export default function EgsVialConsolePage() {
@@ -30,8 +31,14 @@ export default function EgsVialConsolePage() {
   const { sovereign } = useSovereignConfig();
   const { isAuthenticated } = useInstitutionAuth();
   const { ministryCode, displayName } = useEgsMinistryScope();
+  const [searchParams] = useSearchParams();
+  const demo = searchParams.get('demo') === '1';
   const [pipeline, setPipeline] = useState<EgsPipelineResponse | null>(null);
   const [status, setStatus] = useState<EgsMinistryStatusResponse | null>(null);
+
+  const demoData = useMemo(() => (demo ? egsDemoHealth() : null), [demo]);
+  const demoStatus = useMemo(() => (demo ? egsDemoStatus() : null), [demo]);
+  const demoPipeline = useMemo(() => (demo ? egsDemoPipeline() : null), [demo]);
 
   const health = useCachedFetch(
     `ministry-health-${ministryCode}`,
@@ -67,9 +74,11 @@ export default function EgsVialConsolePage() {
     void loadStatus();
   }, [loadStatus, health.data?.updatedAt]);
 
-  const data = health.data;
-  const noData = Boolean(health.error && !data);
-  const loading = health.state === 'syncing' && !data;
+  const data = demo ? demoData : health.data;
+  const effectiveStatus = demo ? demoStatus : status;
+  const effectivePipeline = demo ? demoPipeline : pipeline;
+  const noData = !demo && Boolean(health.error && !health.data);
+  const loading = !demo && health.state === 'syncing' && !health.data;
 
   const title = data
     ? `${data.ministryCode} · ${data.programName}`
@@ -103,6 +112,12 @@ export default function EgsVialConsolePage() {
           </button>
         }
       >
+        {demo ? (
+          <p className="egs-demo-banner" role="note">
+            Modo demostración · datos de ejemplo (MPPI). No es telemetría publicada real.
+          </p>
+        ) : null}
+
         {loading ? <LoadingState label="Cargando telemetría del ministerio…" /> : null}
 
         {noData && !loading ? (
@@ -118,11 +133,11 @@ export default function EgsVialConsolePage() {
           </>
         ) : null}
 
-        {data && status ? (
+        {data && effectiveStatus ? (
           <MinistryEgsConsole
             data={data}
-            status={status}
-            pipeline={pipeline}
+            status={effectiveStatus}
+            pipeline={effectivePipeline}
             isAuthenticated={isAuthenticated}
             onPublished={() => void refreshAll()}
           />
