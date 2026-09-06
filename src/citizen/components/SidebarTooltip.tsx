@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 type Props = {
@@ -12,8 +12,8 @@ type Props = {
 export function SidebarTooltip({ label, hint, enabled = true, children }: Props) {
   if (!enabled) return <>{children}</>;
 
-  const child = isValidElement(children)
-    ? cloneElement(children as ReactElement<{ className?: string }>, {
+  const child = isValidElement<{ className?: string }>(children)
+    ? cloneElement(children, {
         className: [children.props.className, 'app-sidebar-tooltip-anchor'].filter(Boolean).join(' '),
       })
     : children;

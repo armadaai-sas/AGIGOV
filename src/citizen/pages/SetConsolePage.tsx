@@ -44,7 +44,7 @@ export default function SetConsolePage() {
                 <div>
                   <dt className="text-xs text-zinc-500">Votos emitidos</dt>
                   <dd className="text-lg font-semibold text-zinc-900">
-                    {cne.data.consultation.totalVotes}
+                    {cne.data.consultation.options.reduce((sum, o) => sum + o.votes, 0)}
                   </dd>
                 </div>
                 {cne.data.consultation.setLedger ? (
