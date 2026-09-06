@@ -16,6 +16,7 @@ import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { downloadEgsMinistryPdf } from '../../platform/exportEgsMinistryPdf.js';
 import { ministryEgsConforme, ministryEgsStatusHint } from '../../platform/egsMinistryCopy.js';
 import { EgsPublishModal } from './EgsPublishModal.js';
+import { EgsRunExperience } from './EgsRunExperience.js';
 
 type Props = {
   data: MinistryHealthResponse;
@@ -112,6 +113,8 @@ export function MinistryEgsConsole({
           </ul>
         </PlatformAlert>
       ) : null}
+
+      {pipeline ? <EgsRunExperience pipeline={pipeline} data={data} /> : null}
 
       <ModelConsoleZone label="Resultado">
         <dl className="desk-page-metrics desk-console-metrics">
