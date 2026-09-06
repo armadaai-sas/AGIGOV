@@ -15,21 +15,11 @@ type RunPhase = 'idle' | 'running' | 'done';
 type StepView = 'done' | 'active' | 'pending' | 'failed' | 'blocked';
 type StageStatus = EgsPipelineResponse['stages'][number]['status'];
 
-/** Ritmo del "pensar → procesar" por etapa (ms). */
-const STEP_MS = 950;
-
-function usePrefersReducedMotion(): boolean {
-  const [reduce, setReduce] = useState(false);
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReduce(mq.matches);
-    update();
-    mq.addEventListener?.('change', update);
-    return () => mq.removeEventListener?.('change', update);
-  }, []);
-  return reduce;
-}
+/** Ritmo del "pensar → procesar" por etapa (ms). La revelación secuencial es
+ * contenido (como mostrar el razonamiento), no decoración: se ejecuta siempre;
+ * el movimiento decorativo (pulso, spinner) lo desactiva CSS bajo
+ * `prefers-reduced-motion`. */
+const STEP_MS = 700;
 
 function realToView(status: StageStatus): StepView {
   switch (status) {
@@ -57,7 +47,6 @@ export function EgsRunExperience({ pipeline, data }: Props) {
   const { formatMoney, sovereign } = useSovereignConfig();
   const unit = data.currency ?? sovereign.currency;
   const fmt = (v: string) => `${formatMoney(v)} ${unit}`;
-  const reduce = usePrefersReducedMotion();
 
   const stages = pipeline.stages;
   const stagesRef = useRef(stages);
@@ -75,16 +64,9 @@ export function EgsRunExperience({ pipeline, data }: Props) {
     window.clearTimeout(timerRef.current);
     const runId = ++runIdRef.current;
     setHaltIndex(null);
-
-    if (reduce) {
-      const firstFailed = current.findIndex((s) => s.status === 'failed');
-      setActiveStep(firstFailed >= 0 ? firstFailed + 1 : current.length);
-      setHaltIndex(firstFailed >= 0 ? firstFailed : null);
-      setPhase('done');
-      return;
-    }
-
     setPhase('running');
+    setActiveStep(0);
+
     const step = (i: number) => {
       if (runId !== runIdRef.current) return;
       if (i >= current.length) {
@@ -105,7 +87,7 @@ export function EgsRunExperience({ pipeline, data }: Props) {
       }, STEP_MS);
     };
     step(0);
-  }, [reduce]);
+  }, []);
 
   useEffect(() => {
     play();
