@@ -26,7 +26,7 @@ export default function ProposalsPage() {
     <PageShell shell banner={{ state, lastUpdated }}>
       <div className="desk-page">
         <DeskPageHeader
-          title="Dictámenes"
+          title="Propuestas"
           result={meta.result}
           dataHint={meta.dataHint}
           action={
@@ -50,8 +50,8 @@ export default function ProposalsPage() {
         {data ? (
           data.proposals.length === 0 ? (
             <EmptyState
-              title="No hay dictámenes publicados"
-              description="Las propuestas validadas aparecerán aquí con resumen ciudadano."
+              title="Aún no hay propuestas publicadas"
+              description="Las propuestas validadas aparecerán aquí con un resumen claro."
               action={
                 <Link to="/participar" className="desk-page-primary-btn">
                   Enviar propuesta

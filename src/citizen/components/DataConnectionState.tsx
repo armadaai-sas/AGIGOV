@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { fetchHealth } from '../api.js';
 import { checkEgsVialService } from '../services/egs-vial-service.js';
@@ -57,9 +57,9 @@ const MODULE_COPY: Record<
     devHint: 'npm run api:public · npm run db:seed:egs-pilot',
   },
   gestion: {
-    emptyTitle: 'Aún no hay telemetría publicada',
+    emptyTitle: 'Aún no hay información publicada',
     emptyDescription:
-      'Aquí verás actos ya publicados del ledger — cuando existan en este despliegue.',
+      'Cuando la institución publique actos verificables, aparecerán aquí automáticamente.',
     serviceTitle: 'Gestión pública',
     devHint: 'npm run api:public · npm run db:seed · npm run agents:flow',
   },
@@ -162,17 +162,35 @@ export function DataConnectionState({
         ) : null}
       </div>
 
-      {usesEgsCheck(module) ? (
-        <EgsConnectionPanel
-          title={copy.serviceTitle}
-          showConsoleLink={false}
-          onReadyChange={handleReady}
-        />
+      {DEV_MODE ? (
+        usesEgsCheck(module) ? (
+          <EgsConnectionPanel
+            title={copy.serviceTitle}
+            showConsoleLink={false}
+            onReadyChange={handleReady}
+          />
+        ) : (
+          <PublicApiConnectionPanel title={copy.serviceTitle} onReadyChange={handleReady} />
+        )
       ) : (
-        <PublicApiConnectionPanel title={copy.serviceTitle} onReadyChange={handleReady} />
+        <AutoRetryOnMount onRetry={onRetryRef.current} />
       )}
     </div>
   );
+}
+
+/**
+ * En producción el ciudadano no ve el panel de diagnóstico del operador.
+ * Reintentamos silenciosamente la carga en segundo plano para que, si el
+ * servicio vuelve, los datos aparezcan sin acción del usuario.
+ */
+function AutoRetryOnMount({ onRetry }: { onRetry?: () => void }) {
+  useEffect(() => {
+    if (!onRetry) return;
+    const id = window.setInterval(onRetry, 20000);
+    return () => window.clearInterval(id);
+  }, [onRetry]);
+  return null;
 }
 
 export async function verifyModuleConnection(module: DataModule): Promise<boolean> {

@@ -1,15 +1,16 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-
 import { fetchSupply } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
+import { DeskPageHeader } from '../components/desk/DeskPageHeader.js';
 import {
   PageShell,
   LoadingState,
   EmptyState,
 } from '../components/PageShell.js';
 import { StatusBadge } from '../components/StatusBadge.js';
+import { getDeskPageMeta } from '../platform/deskPageMeta.js';
+
+const meta = getDeskPageMeta('/suministros')!;
 
 export default function SupplyPage() {
   const { data, error, state, lastUpdated, reload } = useCachedFetch(
@@ -17,26 +18,15 @@ export default function SupplyPage() {
     fetchSupply,
   );
 
-  return (
-    <PageShell shell banner={{ state, lastUpdated }}>
-      <div className="os-workspace">
-        <header className="os-workspace-head">
-          <div className="os-workspace-head-text">
-            <h1 className="os-workspace-title">Suministros</h1>
-            <p className="os-workspace-sub">
-              Agregados del agente Logístico — sin información personal.
-            </p>
-          </div>
-          <div className="os-workspace-cta">
-            <Link to="/gestion" className="ds-btn-secondary ds-btn-app-shape hidden sm:inline-flex">
-              Ver gestión
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </header>
+  const fatalError = Boolean(error && state === 'error' && !data);
 
-        {error && state === 'error' && !data ? (
-          <DataConnectionState module="supply" error={error} onRetry={() => void reload()} />
+  return (
+    <PageShell shell banner={fatalError ? undefined : { state, lastUpdated }}>
+      <div className="desk-page">
+        <DeskPageHeader title="Suministros" result={meta.result} dataHint={meta.dataHint} />
+
+        {fatalError ? (
+          <DataConnectionState module="supply" error={error!} onRetry={() => void reload()} />
         ) : null}
 
         {!data && state !== 'error' ? <LoadingState /> : null}
@@ -44,23 +34,23 @@ export default function SupplyPage() {
         {data ? (
           data.inventory.length === 0 ? (
             <EmptyState
-              title="Sin datos de inventario"
-              description="Cuando el pipeline publique suministros agregados, aparecerán aquí."
+              title="Aún no hay suministros publicados"
+              description="Cuando se publiquen totales agregados, aparecerán aquí."
             />
           ) : (
-            <ul className="os-workspace-list">
+            <ul className="desk-page-list">
               {data.inventory.map((item) => (
                 <li key={item.status}>
-                  <article className="os-workspace-row os-workspace-row--static">
-                    <span className="os-workspace-row-body">
-                      <span className="os-workspace-row-name">
+                  <article className="desk-page-row">
+                    <div className="desk-page-row-body">
+                      <h2 className="desk-page-row-title">
                         {item.totalAmount} {item.currency}
-                      </span>
-                      <span className="os-workspace-row-meta">
-                        {item.count} registros agregados
-                      </span>
-                    </span>
-                    <StatusBadge status={item.status} />
+                      </h2>
+                      <p className="desk-page-row-summary">{item.count} registros agregados</p>
+                    </div>
+                    <div className="desk-page-row-meta">
+                      <StatusBadge status={item.status} />
+                    </div>
                   </article>
                 </li>
               ))}

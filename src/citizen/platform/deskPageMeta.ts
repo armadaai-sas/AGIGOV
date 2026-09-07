@@ -14,12 +14,16 @@ const DESK_PAGE_META: Record<string, DeskPageMeta> = {
     dataHint: 'Título, sector y dos hechos — sin datos personales.',
   },
   '/propuestas': {
-    result: 'Dictámenes publicados — estado claro de cada propuesta.',
-    dataHint: 'Solo lectura del registro ciudadano.',
+    result: 'Estado claro de cada propuesta ciudadana.',
+    dataHint: 'Solo lectura — no necesitas enviar datos.',
   },
   '/gestion': {
-    result: 'Telemetría y ledger publicados en vivo.',
-    dataHint: 'Consulta verificable — no requiere enviar datos.',
+    result: 'Actos de gobierno publicados y verificables.',
+    dataHint: 'Solo consulta — no necesitas enviar datos.',
+  },
+  '/suministros': {
+    result: 'Suministros públicos, agregados y sin datos personales.',
+    dataHint: 'Solo consulta — totales por estado.',
   },
   '/contratos': {
     result: 'Custodia por hitos — liberación con evidencia.',

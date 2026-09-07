@@ -44,7 +44,7 @@ export default function InstitutionalPage() {
           <li>
             <Link to={EGS_CONSOLE_PATH} className="inst-trial-link">
               <ArrowRight className="h-4 w-4" aria-hidden />
-              <span>Ver consola EGS (telemetría pública)</span>
+              <span>Ver resultados públicos</span>
             </Link>
           </li>
           <li>

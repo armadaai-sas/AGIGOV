@@ -1,5 +1,7 @@
 # OS Minimal Tokens (neutros — landing + shell)
 
+> **Fuente única de la verdad: [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md).** Este documento es referencia; ante cualquier diferencia, prevalece el contrato.
+
 Aplica en **todo el producto**: landing `/` y `.app-shell`.  
 **Azul `#0052ff` solo en el logo / marca.** Nada de cyan/teal/purple como acento de UI.
 
