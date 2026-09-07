@@ -11,6 +11,7 @@ import {
 } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { modelWorkspacePath } from '../platform/modelWorkspace.js';
+import { StatusBadge } from '../components/StatusBadge.js';
 
 export default function ContratosPage() {
   const { sovereign, formatMoney } = useSovereignConfig();
@@ -80,7 +81,7 @@ export default function ContratosPage() {
                           {contract.milestonesTotal} hitos · {formatMoney(contract.spentAmount)}
                         </span>
                       </span>
-                      <span className="os-workspace-row-status capitalize">{contract.status}</span>
+                      <StatusBadge status={contract.status} />
                       <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
                     </Link>
                   </li>

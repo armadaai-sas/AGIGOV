@@ -72,8 +72,8 @@ export function EgsPublishModal({
 
         <div className="os-modal-body space-y-4">
           <p className="text-sm text-agigov-text-muted">
-            Q{data.quarter} {data.fiscalYear} · {data.ministryCode} — Comunicador publicará al ledger
-            ciudadano. Esta acción es visible en telemetría pública.
+            Q{data.quarter} {data.fiscalYear} · {data.ministryCode} — se publicará el cierre y quedará
+            visible y verificable para la ciudadanía.
           </p>
 
           <dl className="desk-page-metrics desk-console-metrics">

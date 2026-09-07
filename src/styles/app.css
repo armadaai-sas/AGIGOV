@@ -58,11 +58,11 @@
   }
 
 .inst-pilot-step {
-    @apply flex w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-agigov-text-muted disabled:cursor-not-allowed;
+    @apply flex w-full items-center gap-2 rounded-lg border border-agigov-border bg-agigov-surface px-3 py-1.5 text-xs text-agigov-text-muted disabled:cursor-not-allowed;
   }
 
 .inst-pilot-footer {
-    @apply mt-6 flex items-center justify-between gap-3 border-t border-white/10 pt-4;
+    @apply mt-6 flex items-center justify-between gap-3 border-t border-agigov-border pt-4;
   }
 
 .inst-pilot-step.is-active {
@@ -1307,7 +1307,7 @@
 }
 
 .inst-auth-title {
-  @apply font-display text-2xl font-semibold text-agigov-text sm:text-3xl;
+  @apply font-display text-xl font-semibold text-agigov-text sm:text-2xl;
 }
 
 .inst-auth-lead {
@@ -1319,7 +1319,7 @@
 }
 
 .inst-auth-card {
-  @apply space-y-5 rounded-2xl border border-agigov-border bg-white p-6 shadow-sm sm:p-8;
+  @apply space-y-5 rounded-lg border border-agigov-border bg-white p-5 shadow-sm sm:p-6;
 }
 
 .inst-auth-card--busy {

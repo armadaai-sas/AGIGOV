@@ -12,7 +12,7 @@ export function ministryEgsResultLine(data: MinistryHealthResponse): string {
   const reinversion = parseAmount(data.split.reinversion);
 
   if (!data.reconcileOk) {
-    return 'Cierre bloqueado — Centinela detectó discrepancia en custodia.';
+    return 'Cierre en pausa — se detectó una diferencia en la custodia.';
   }
 
   if (delta <= 0) {
@@ -32,7 +32,7 @@ export function ministryEgsStatusHint(data: MinistryHealthResponse): string {
     return 'Pagos congelados hasta resolución humana.';
   }
   if (data.published) {
-    return `Publicado · Conforme centinela · ${data.releaseCount} hitos verificados`;
+    return `Publicado · Verificación conforme · ${data.releaseCount} hitos verificados`;
   }
   if (data.quarterCloseStatus === 'PENDING_VALIDATION') {
     return 'Pendiente validación — listo para publicar';

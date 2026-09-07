@@ -114,11 +114,11 @@ export default function EgsVialConsolePage() {
       >
         {demo ? (
           <p className="egs-demo-banner" role="note">
-            Modo demostración · datos de ejemplo (MPPI). No es telemetría publicada real.
+            Modo demostración · datos de ejemplo (MPPI). No son datos publicados reales.
           </p>
         ) : null}
 
-        {loading ? <LoadingState label="Cargando telemetría del ministerio…" /> : null}
+        {loading ? <LoadingState label="Cargando datos de la institución…" /> : null}
 
         {noData && !loading ? (
           <>

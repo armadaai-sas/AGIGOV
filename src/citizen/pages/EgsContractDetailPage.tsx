@@ -60,7 +60,7 @@ export default function EgsContractDetailPage() {
                 </p>
                 <h1 className="os-workspace-title">{data.contract.title}</h1>
                 <p className="os-workspace-sub">
-                  Territorio {data.contract.territoryCode} · {data.contract.id}
+                  Territorio {data.contract.territoryCode}
                 </p>
               </div>
               <div className="os-workspace-cta">
@@ -136,14 +136,14 @@ export default function EgsContractDetailPage() {
                                 </div>
                                 {milestone.evidenceRef ? (
                                   <div className="sm:col-span-2">
-                                    <dt className="text-zinc-500">Evidencia (hash)</dt>
+                                    <dt className="text-zinc-500">Evidencia verificable</dt>
                                     <dd className="os-mono-id break-all text-xs">{milestone.evidenceRef}</dd>
                                   </div>
                                 ) : null}
                                 {milestone.validators ? (
                                   <>
                                     <div className="sm:col-span-2">
-                                      <dt className="text-zinc-500">Centinela</dt>
+                                      <dt className="text-zinc-500">Validación</dt>
                                       <dd className="os-mono-id text-xs">{milestone.validators.centinela}</dd>
                                     </div>
                                     <div>
@@ -161,7 +161,7 @@ export default function EgsContractDetailPage() {
                               </dl>
                             ) : (
                               <p className="mt-2 text-[13px] text-zinc-600">
-                                Fondos en escrow hasta verificación centinela.
+                                Fondos en custodia hasta verificar la evidencia.
                               </p>
                             )}
                           </div>
@@ -175,7 +175,7 @@ export default function EgsContractDetailPage() {
 
             {data.ledgerProcessId ? (
               <p className="text-xs text-zinc-500">
-                Ancla ledger: <span className="os-mono-id">{data.ledgerProcessId}</span>
+                Registro verificable: <span className="os-mono-id">{data.ledgerProcessId}</span>
               </p>
             ) : null}
           </>

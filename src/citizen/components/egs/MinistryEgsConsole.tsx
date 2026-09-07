@@ -206,22 +206,22 @@ export function MinistryEgsConsole({
       </ModelConsoleZone>
 
       <details className="desk-console-tech egs-ministry-tech">
-        <summary>Quién validó y detalle técnico</summary>
+        <summary>Validación y detalle</summary>
         <div className="egs-ministry-tech-body">
           <p>
-            <strong>Estado consola:</strong> {status.estadoConsola} · semáforo {status.semaphore}
+            <strong>Estado:</strong> {status.estadoConsola}
           </p>
           <p>
-            <strong>Centinela:</strong>{' '}
-            {data.reconcileOk ? 'custodia conforme con releases' : 'FREEZE — discrepancia'}
+            <strong>Auditoría:</strong>{' '}
+            {data.reconcileOk ? 'custodia conforme con las liberaciones' : 'en pausa por diferencia'}
           </p>
           <p>
-            <strong>Comunicador:</strong>{' '}
-            {data.published ? 'cierre publicado al ledger ciudadano' : 'pendiente publish'}
+            <strong>Publicación:</strong>{' '}
+            {data.published ? 'cierre publicado y verificable' : 'pendiente de publicar'}
           </p>
           {data.ledgerProcessId ? (
             <p className="desk-console-tech-line">
-              Proceso: <code className="os-mono-id">{data.ledgerProcessId}</code>
+              Registro: <code className="os-mono-id">{data.ledgerProcessId}</code>
             </p>
           ) : null}
           {pipeline ? (

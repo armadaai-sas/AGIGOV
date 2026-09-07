@@ -130,17 +130,17 @@ export function EgsRunExperience({ pipeline, data }: Props) {
     running && activeStep >= 0 && activeStep < stages.length
       ? `${stages[activeStep].agentLabel}: ${stages[activeStep].detail}`
       : haltIndex != null
-        ? `Centinela: FREEZE — ${pipeline.discrepancies[0] ?? 'discrepancia en custodia escrow'}`
+        ? `En pausa por revisión — ${pipeline.discrepancies[0] ?? 'diferencia detectada en la custodia de fondos'}`
         : pipeline.liveLabel;
 
-  const btnLabel = running ? 'Procesando…' : phase === 'done' ? 'Ejecutar de nuevo' : 'Ejecutar pipeline';
+  const btnLabel = running ? 'Procesando…' : phase === 'done' ? 'Ejecutar de nuevo' : 'Ejecutar análisis';
 
   return (
-    <section className="egs-run" aria-label="Ejecución del pipeline EGS">
+    <section className="egs-run" aria-label="Ejecución del análisis EGS">
       <div className="egs-run-head">
         <div className="egs-run-head-copy">
-          <p className="egs-run-title">Pipeline EGS</p>
-          <p className="egs-run-sub">8 etapas · el enjambre trabaja sobre datos reales del ministerio</p>
+          <p className="egs-run-title">Análisis EGS</p>
+          <p className="egs-run-sub">8 pasos sobre los datos reales de la institución</p>
         </div>
         <button
           type="button"
@@ -232,11 +232,11 @@ export function EgsRunExperience({ pipeline, data }: Props) {
           </dl>
           {data.ledgerProcessId ? (
             <p className="egs-run-evidence">
-              Ancla ledger: <code className="os-mono-id">{data.ledgerProcessId}</code>
+              Registro verificable: <code className="os-mono-id">{data.ledgerProcessId}</code>
             </p>
           ) : (
             <p className="egs-run-evidence egs-run-evidence--muted">
-              Aún sin publicar al ledger — completa el cierre para anclar la evidencia.
+              Aún sin publicar — completa el cierre para registrar la evidencia.
             </p>
           )}
           <EgsAgentSwarmBar swarm={pipeline.swarm} lastAgentId={pipeline.swarm.lastAgentId} />
