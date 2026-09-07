@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { fetchMinistryHealth } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
 import { DataConnectionState } from '../components/DataConnectionState.js';
+import { DeskPageHeader } from '../components/desk/DeskPageHeader.js';
 import {
   PageShell,
   LoadingState,
@@ -12,6 +13,9 @@ import {
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 import { StatusBadge } from '../components/StatusBadge.js';
+import { getDeskPageMeta } from '../platform/deskPageMeta.js';
+
+const meta = getDeskPageMeta('/contratos')!;
 
 export default function ContratosPage() {
   const { sovereign, formatMoney } = useSovereignConfig();
@@ -25,20 +29,18 @@ export default function ContratosPage() {
 
   return (
     <PageShell shell banner={fatalError ? undefined : { state, lastUpdated }}>
-      <div className="os-workspace">
-        <header className="os-workspace-head">
-          <div className="os-workspace-head-text">
-            <h1 className="os-workspace-title">Contratos</h1>
-            <p className="os-workspace-sub">
-              Custodia por hitos — pago solo con evidencia verificada.
-            </p>
-          </div>
-          <div className="os-workspace-cta">
-            <Link to={modelWorkspacePath('egs')} className="ds-btn-secondary ds-btn-app-shape">
+      <div className="desk-page">
+        <DeskPageHeader
+          title="Contratos"
+          result={meta.result}
+          dataHint={meta.dataHint}
+          action={
+            <Link to={modelWorkspacePath('egs')} className="desk-page-primary-btn">
               Espacio EGS
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
-          </div>
-        </header>
+          }
+        />
 
         {fatalError ? (
           <DataConnectionState module="escrow" error={error!} onRetry={() => void reload()} />
@@ -48,16 +50,16 @@ export default function ContratosPage() {
 
         {data ? (
           <>
-            <dl className="os-metrics-row">
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Periodo</dt>
-                <dd className="os-metrics-value text-base">
+            <dl className="desk-page-metrics">
+              <div className="desk-page-metric">
+                <dt>Periodo</dt>
+                <dd>
                   {data.fiscalYear} Q{data.quarter}
                 </dd>
               </div>
-              <div className="os-metrics-item">
-                <dt className="os-metrics-label">Contratos</dt>
-                <dd className="os-metrics-value">{data.contracts.length}</dd>
+              <div className="desk-page-metric">
+                <dt>Contratos</dt>
+                <dd>{data.contracts.length}</dd>
               </div>
             </dl>
 
@@ -67,22 +69,24 @@ export default function ContratosPage() {
                 description="Cuando el ministerio publique contratos con hitos verificables, aparecerán aquí."
               />
             ) : (
-              <ul className="os-workspace-list">
+              <ul className="desk-page-list">
                 {data.contracts.map((contract) => (
                   <li key={contract.id}>
                     <Link
                       to={`/proyectos/contrato/${encodeURIComponent(contract.id)}`}
-                      className="os-workspace-row"
+                      className="desk-page-row"
                     >
-                      <span className="os-workspace-row-body">
-                        <span className="os-workspace-row-name">{contract.title}</span>
-                        <span className="os-workspace-row-meta">
+                      <div className="desk-page-row-body">
+                        <h2 className="desk-page-row-title">{contract.title}</h2>
+                        <p className="desk-page-row-summary">
                           {contract.territoryCode} · {contract.milestonesReleased}/
                           {contract.milestonesTotal} hitos · {formatMoney(contract.spentAmount)}
-                        </span>
-                      </span>
-                      <StatusBadge status={contract.status} />
-                      <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />
+                        </p>
+                      </div>
+                      <div className="desk-page-row-meta">
+                        <StatusBadge status={contract.status} />
+                        <ChevronRight className="h-4 w-4" aria-hidden />
+                      </div>
                     </Link>
                   </li>
                 ))}
