@@ -29,6 +29,8 @@
   --console-hit-sm: 32px;
   --console-hit-md: 36px;
   --console-hit-nav: 28px;
+  /* Ancho de lectura canónico de las páginas del OS (única fuente de verdad). */
+  --os-read: 34rem;
 }
 
 @layer components {

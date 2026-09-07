@@ -43,7 +43,7 @@ export default function DevelopersPage() {
   const apiBase = import.meta.env.VITE_PUBLIC_API_URL ?? 'http://127.0.0.1:3001';
 
   return (
-    <PageShell shell narrow={false}>
+    <PageShell shell narrow>
       <div className="os-workspace">
         <header className="os-workspace-head os-workspace-head--stack">
           <div className="os-workspace-head-text">

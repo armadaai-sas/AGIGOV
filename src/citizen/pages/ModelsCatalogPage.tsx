@@ -75,7 +75,7 @@ export default function ModelsCatalogPage() {
   const grouped = audienceFilter === 'all' && !query.trim() && statusFilter === 'all';
 
   return (
-    <PageShell shell narrow={false} banner={undefined}>
+    <PageShell shell narrow banner={undefined}>
       <div className="os-workspace">
         <header className="os-workspace-head os-workspace-head--stack">
           <div className="os-workspace-head-text">
