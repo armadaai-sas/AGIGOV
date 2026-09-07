@@ -131,15 +131,18 @@ function DeskNavLink({
 }) {
   const Icon = item.icon;
   const isSecondary = item.tier === 'secondary';
-  const showLabel = !collapsed && !isSecondary;
+  // Menú tipo Cursor/Gmail: expandido = icono + etiqueta para todos (sin iconos
+  // huérfanos); colapsado = solo icono con tooltip. Los items secundarios se
+  // atenúan con estilo, sin ocultar su etiqueta.
+  const showLabel = !collapsed;
 
   const link = (
     <Link
       to={item.to}
-      className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''} ${isSecondary && !collapsed ? 'app-sidebar-link--icon-only' : ''} ${!isSecondary && !collapsed ? 'app-sidebar-link--named' : ''}`}
+      className={`app-sidebar-link app-sidebar-link--desk ${active ? 'app-sidebar-link--active' : ''} ${isSecondary ? 'app-sidebar-link--muted' : ''} ${showLabel ? 'app-sidebar-link--named' : ''}`}
       onMouseEnter={() => prefetchRoute(item.to)}
       onFocus={() => prefetchRoute(item.to)}
-      aria-label={!showLabel || isSecondary ? item.label : undefined}
+      aria-label={!showLabel ? item.label : undefined}
     >
       <span className="app-sidebar-link-icon-wrap" aria-hidden>
         <Icon className="app-sidebar-link-icon" />
@@ -152,19 +155,9 @@ function DeskNavLink({
     </Link>
   );
 
-  if (collapsed || isSecondary) {
-    return (
-      <li>
-        <SidebarTooltip label={item.label} hint={item.outcome} enabled>
-          {link}
-        </SidebarTooltip>
-      </li>
-    );
-  }
-
   return (
     <li>
-      <SidebarTooltip label={item.label} hint={item.outcome} enabled={false}>
+      <SidebarTooltip label={item.label} hint={item.outcome} enabled={collapsed}>
         {link}
       </SidebarTooltip>
     </li>

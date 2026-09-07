@@ -2,7 +2,6 @@ import { useRef } from 'react';
 
 import { fetchHealth } from '../api.js';
 import { checkEgsVialService } from '../services/egs-vial-service.js';
-import { EmptyState } from './PageShell.js';
 import { PlatformAlert } from './PlatformAlert.js';
 import {
   PublicApiConnectionPanel,
@@ -144,22 +143,24 @@ export function DataConnectionState({
   }
 
   return (
-    <div className="space-y-6">
-      <EmptyState
-        kicker={offline ? 'Sin conexión al nodo' : 'Sin datos publicados aún'}
-        title={title}
-        description={copy.emptyDescription}
-        hint={
-          DEV_MODE ? (
-            <details className="text-left">
-              <summary className="cursor-pointer text-xs text-agigov-text-muted">
-                Instrucciones para administrador (desarrollo)
-              </summary>
-              <p className="mt-2 font-mono text-[11px] text-agigov-text-muted">{copy.devHint}</p>
-            </details>
-          ) : undefined
-        }
-      />
+    <div className="space-y-8">
+      <div className="max-w-xl">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-agigov-text-subtle">
+          {offline ? 'Sin conexión al nodo' : 'Sin datos publicados aún'}
+        </p>
+        <h2 className="mt-1.5 text-lg font-semibold text-agigov-text">{title}</h2>
+        <p className="mt-1.5 text-sm leading-relaxed text-agigov-text-muted">
+          {copy.emptyDescription}
+        </p>
+        {DEV_MODE ? (
+          <details className="mt-3">
+            <summary className="cursor-pointer text-xs text-agigov-text-muted">
+              Instrucciones para administrador (desarrollo)
+            </summary>
+            <p className="mt-2 font-mono text-[11px] text-agigov-text-muted">{copy.devHint}</p>
+          </details>
+        ) : null}
+      </div>
 
       {usesEgsCheck(module) ? (
         <EgsConnectionPanel
