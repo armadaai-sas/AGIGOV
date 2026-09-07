@@ -68,9 +68,9 @@ export function CentinelaReportForm() {
       <form onSubmit={(e) => void handleSubmit(e)} className="os-panel">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="font-display text-lg font-semibold text-zinc-900">Centinela ciudadano</h2>
+            <h2 className="font-display text-lg font-semibold text-zinc-900">Reportar irregularidad</h2>
             <p className="mt-1 text-sm text-zinc-600">
-              Describe hechos verificables — sin datos personales. Conciliador revisará el proceso.
+              Describe hechos verificables — sin datos personales. Se revisará antes de publicar.
             </p>
           </div>
           <button

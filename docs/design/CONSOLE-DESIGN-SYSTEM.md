@@ -1,5 +1,7 @@
 # AGIGOV · Console Design System (light)
 
+> **Fuente única de la verdad: [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md).** Este documento es referencia; ante cualquier diferencia, prevalece el contrato.
+
 Sistema unificado para **landing**, **shell de trabajo** y **aplicaciones** del OS.
 
 ## Principios

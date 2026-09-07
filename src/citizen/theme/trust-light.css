@@ -41,6 +41,38 @@
   color: var(--color-agigov-primary);
 }
 
+/**
+ * Escalera de botones única (ver docs/design/DESIGN-SYSTEM.md).
+ * El skin trust es el único activo, así que clampamos aquí todas las familias
+ * heredadas (48–52px, rounded-full, radio 12px) a un solo tamaño: 36px / 8px.
+ * Esto unifica landing y app sin editar cada componente.
+ */
+[data-agigov-skin='trust'] .agigov-btn-primary,
+[data-agigov-skin='trust'] .agigov-btn-secondary,
+[data-agigov-skin='trust'] .agigov-btn-ghost,
+[data-agigov-skin='trust'] .agigov-btn-accent,
+[data-agigov-skin='trust'] .ui-btn-primary,
+[data-agigov-skin='trust'] .ui-btn-secondary,
+[data-agigov-skin='trust'] .ui-btn-ghost,
+[data-agigov-skin='trust'] .ui-btn-lg,
+[data-agigov-skin='trust'] .ds-btn-primary,
+[data-agigov-skin='trust'] .ds-btn-primary.ds-btn-app-shape,
+[data-agigov-skin='trust'] .ds-btn-sm,
+[data-agigov-skin='trust'] .agigov-centinela-trigger {
+  min-height: 36px;
+  border-radius: 8px;
+  padding-block: 0;
+  padding-inline: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+[data-agigov-skin='trust'] .agigov-input {
+  min-height: 40px;
+  border-radius: 8px;
+}
+
 [data-agigov-skin='trust'] .ui-btn-primary {
   background: var(--color-agigov-primary);
   border-color: var(--color-agigov-primary);

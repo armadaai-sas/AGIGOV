@@ -85,7 +85,7 @@ export default function DashboardPage() {
             <section id="reportar" className="desk-page-section desk-page-section--border scroll-mt-20">
               <h2 className="desk-page-section-title">Reportar irregularidad</h2>
               <p className="desk-page-data-hint mb-4">
-                Describe el hecho con fuente — el centinela valida antes de publicar.
+                Describe el hecho con su fuente — se valida antes de publicar.
               </p>
               <CentinelaReportForm />
             </section>
