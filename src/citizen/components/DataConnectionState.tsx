@@ -130,7 +130,7 @@ export function DataConnectionState({
             <button
               type="button"
               onClick={onRetry}
-              className="ds-btn-secondary ds-btn-app-shape min-h-11"
+              className="ds-btn-secondary ds-btn-app-shape min-h-9"
             >
               Reintentar carga
             </button>

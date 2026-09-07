@@ -8,7 +8,7 @@ const STATUS: Record<string, { label: string; className: string }> = {
   published: { label: 'Publicada', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   frozen: { label: 'Congelada', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
   PENDING: { label: 'Pendiente', className: 'border border-zinc-200 bg-zinc-50 text-zinc-600' },
-  LOCKED: { label: 'En escrow', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
+  LOCKED: { label: 'En custodia', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
   RELEASED: { label: 'Completado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },
   FROZEN: { label: 'Congelado', className: 'border border-zinc-300 bg-zinc-100 text-zinc-800' },
   VALIDATED: { label: 'Validado', className: 'border border-zinc-200 bg-zinc-100 text-zinc-800' },

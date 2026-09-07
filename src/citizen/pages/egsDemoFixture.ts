@@ -89,7 +89,7 @@ export function egsDemoStatus(): EgsMinistryStatusResponse {
     tenantSlug: 'mppi-vial',
     primaryAction: {
       id: 'view_citizen_telemetry',
-      label: 'Ver telemetría ciudadana',
+      label: 'Ver resultados públicos',
       enabled: true,
       href: '/gestion',
     },
@@ -114,7 +114,7 @@ export function egsDemoPipeline(): EgsPipelineResponse {
     updatedAt: nowIso(),
     modelId: 'egs',
     currentStage: 'serve',
-    liveLabel: 'Telemetría fiscal publicada — consola en vivo',
+    liveLabel: 'Cierre publicado — datos en vivo',
     connection: {
       mode: 'pilot_read',
       ministryCode: 'MPPI',
@@ -139,16 +139,15 @@ export function egsDemoPipeline(): EgsPipelineResponse {
       lastAgentId: 'comunicador',
     },
     stages: [
-      { id: 'provision', label: 'Provisionar', detail: 'Tenant mppi-vial activo', status: 'complete', agent: 'ops', agentLabel: 'Operaciones' },
-      { id: 'baseline', label: 'Acta baseline', detail: 'Multi-sig ratificado — ingest_ready', status: 'complete', agent: 'institution', agentLabel: 'Institución' },
-      { id: 'ingest', label: 'Ingesta hitos', detail: '3 hitos verificados', status: 'complete', agent: 'human', agentLabel: 'Operador ministerio' },
-      { id: 'reconcile', label: 'Reconciliar', detail: 'Custodia escrow coherente', status: 'complete', agent: 'centinela', agentLabel: 'Centinela' },
-      { id: 'delta', label: 'Cálculo Δ', detail: 'Δ = 300000.0000', status: 'complete', agent: 'logistico', agentLabel: 'Logístico' },
-      { id: 'sovereign', label: 'Dictamen reparto', detail: 'SPLIT_APPROVED + tesorería webhook', status: 'blocked', agent: 'soberano', agentLabel: 'Soberano' },
-      { id: 'publish', label: 'Publicar', detail: 'Checkpoint comunicador published', status: 'complete', agent: 'comunicador', agentLabel: 'Comunicador' },
-      { id: 'serve', label: 'Consola ciudadana', detail: '2 contratos · Q1 2026', status: 'complete', agent: 'comunicador', agentLabel: 'Comunicador' },
+      { id: 'provision', label: 'Preparación', detail: 'Espacio de la institución activo', status: 'complete', agent: 'ops', agentLabel: 'Operaciones' },
+      { id: 'baseline', label: 'Línea base', detail: 'Firmada — lista para cargar datos', status: 'complete', agent: 'institution', agentLabel: 'Institución' },
+      { id: 'ingest', label: 'Carga de datos', detail: '3 hitos verificados', status: 'complete', agent: 'human', agentLabel: 'Operador de la institución' },
+      { id: 'reconcile', label: 'Verificación', detail: 'Custodia de fondos coherente', status: 'complete', agent: 'centinela', agentLabel: 'Centinela' },
+      { id: 'delta', label: 'Cálculo del ahorro', detail: 'Ahorro verificado: 300.000 USD', status: 'complete', agent: 'logistico', agentLabel: 'Logístico' },
+      { id: 'sovereign', label: 'Dictamen del reparto', detail: 'Reparto aprobado', status: 'blocked', agent: 'soberano', agentLabel: 'Soberano' },
+      { id: 'publish', label: 'Publicación', detail: 'Cierre publicado', status: 'complete', agent: 'comunicador', agentLabel: 'Comunicador' },
+      { id: 'serve', label: 'Resultados públicos', detail: '2 contratos · Q1 2026', status: 'complete', agent: 'comunicador', agentLabel: 'Comunicador' },
     ],
-    disclaimer:
-      'Datos demostrativos (modo demo). El pipeline real corre sobre Postgres; el enrutado IAP MQTT de Q-close está en roadmap.',
+    disclaimer: 'Datos demostrativos (modo demo).',
   };
 }

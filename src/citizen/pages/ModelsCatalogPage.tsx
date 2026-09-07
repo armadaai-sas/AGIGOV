@@ -80,7 +80,7 @@ export default function ModelsCatalogPage() {
         <header className="os-workspace-head os-workspace-head--stack">
           <div className="os-workspace-head-text">
             <h1 className="os-workspace-title">Modelos</h1>
-            <p className="os-workspace-sub">Modelos operativos del OS — elige uno para operar.</p>
+            <p className="os-workspace-sub">Elige un modelo para empezar.</p>
           </div>
         </header>
 

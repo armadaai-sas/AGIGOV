@@ -113,7 +113,7 @@ const AGENT_LABELS: Record<EgsAgentRole, string> = {
   soberano: 'Soberano',
   comunicador: 'Comunicador',
   conciliador: 'Conciliador',
-  human: 'Operador ministerio',
+  human: 'Operador de la institución',
 };
 
 function stage(
@@ -174,27 +174,27 @@ function liveLabelFor(
 ): string {
   const active = stages.find((s) => s.id === current);
   if (!reconcileOk && current === 'reconcile') {
-    return 'Centinela: FREEZE — discrepancia en custodia escrow';
+    return 'En pausa por revisión — diferencia en la custodia de fondos';
   }
   switch (current) {
     case 'provision':
-      return 'Provisionar tenant piloto (ops) o conectar lectura MPPI';
+      return 'Preparando el espacio de la institución…';
     case 'baseline':
-      return 'Institución: ratificar acta baseline (multi-sig)';
+      return 'La institución firma la línea base…';
     case 'ingest':
-      return 'Operador ministerio: ingestar hitos verificados';
+      return 'Cargando los hitos verificados…';
     case 'reconcile':
-      return 'Centinela: reconciliando escrow vs releases…';
+      return 'Verificando la custodia frente a las liberaciones…';
     case 'delta':
-      return 'Calculando Δ y reparto 70/20/10…';
+      return 'Calculando el ahorro y su reparto…';
     case 'sovereign':
-      return 'Soberano: dictamen de reparto (roadmap)';
+      return 'Dictamen del reparto (próximamente)';
     case 'publish':
-      return 'Comunicador: publicando cierre al ledger ciudadano…';
+      return 'Publicando el cierre para la ciudadanía…';
     case 'serve':
-      return 'Telemetría fiscal publicada — consola en vivo';
+      return 'Cierre publicado — datos en vivo';
     default:
-      return active?.detail ?? 'Pipeline EGS';
+      return active?.detail ?? 'Análisis EGS';
   }
 }
 
@@ -203,9 +203,9 @@ export async function connectEgsPipeline(
   ministryCode = 'MPPI',
 ): Promise<EgsPipelineResponse> {
   const labels: Record<EgsConnectMode, string> = {
-    pilot_read: `Lectura piloto ${ministryCode}`,
-    institutional_ingest: 'Ingesta institucional — token Bearer',
-    ops_api: 'API ops — provision + q-close',
+    pilot_read: `Lectura ${ministryCode}`,
+    institutional_ingest: 'Carga institucional',
+    ops_api: 'Operaciones',
   };
   const connection: EgsPipelineConnection = {
     mode,
@@ -224,20 +224,20 @@ export async function getEgsPipelineStatus(ministryCode = 'MPPI'): Promise<EgsPi
 
   if (!health) {
     const stages: EgsPipelineStage[] = [
-      stage('provision', 'Provisionar', 'Tenant + seed EGS (npm run db:seed:egs-pilot)', 'active', 'ops'),
-      stage('baseline', 'Acta baseline', 'Multi-sig institucional', 'pending', 'institution'),
-      stage('ingest', 'Ingesta hitos', 'POST /api/ops/ingest/:slug', 'pending', 'human'),
-      stage('reconcile', 'Reconciliar', 'Centinela — escrow vs releases', 'pending', 'centinela'),
-      stage('delta', 'Cálculo Δ', '70/20/10 + fee protocolo', 'pending', 'logistico'),
-      stage('sovereign', 'Dictamen reparto', 'Soberano + tesorería', 'blocked', 'soberano'),
-      stage('publish', 'Publicar', 'Comunicador → ledger', 'pending', 'comunicador'),
-      stage('serve', 'Consola', 'GET ministry-health', 'pending', 'comunicador'),
+      stage('provision', 'Preparación', 'Espacio de la institución', 'active', 'ops'),
+      stage('baseline', 'Línea base', 'Firma de la institución', 'pending', 'institution'),
+      stage('ingest', 'Carga de datos', 'Hitos verificados', 'pending', 'human'),
+      stage('reconcile', 'Verificación', 'Custodia frente a liberaciones', 'pending', 'centinela'),
+      stage('delta', 'Cálculo del ahorro', 'Reparto del ahorro', 'pending', 'logistico'),
+      stage('sovereign', 'Dictamen del reparto', 'Próximamente', 'blocked', 'soberano'),
+      stage('publish', 'Publicación', 'Publicar el cierre', 'pending', 'comunicador'),
+      stage('serve', 'Resultados públicos', 'Datos publicados', 'pending', 'comunicador'),
     ];
     return {
       updatedAt: new Date().toISOString(),
       modelId: 'egs',
       currentStage: 'provision',
-      liveLabel: 'Sin datos EGS — ejecute seed piloto vial',
+      liveLabel: 'Aún no hay datos — conecta la institución para empezar',
       connection: ctx.connection,
       ministryCode: code,
       tenantSlug: null,
@@ -250,8 +250,7 @@ export async function getEgsPipelineStatus(ministryCode = 'MPPI'): Promise<EgsPi
       ledgerProcessId: null,
       swarm: buildSwarmState(stages, null, true),
       stages,
-      disclaimer:
-        'Multiagente: centinela/comunicador en código; soberano/logístico IAP en roadmap. npm run db:seed:egs-pilot',
+      disclaimer: '',
     };
   }
 
@@ -287,56 +286,56 @@ export async function getEgsPipelineStatus(ministryCode = 'MPPI'): Promise<EgsPi
   const stages: EgsPipelineStage[] = [
     stage(
       'provision',
-      'Provisionar',
-      tenant ? `Tenant ${tenant.slug} activo` : 'Seed piloto vial',
+      'Preparación',
+      tenant ? 'Espacio de la institución activo' : 'Espacio de la institución',
       tenant ? 'complete' : 'complete',
       'ops',
     ),
     stage(
       'baseline',
-      'Acta baseline',
-      baselineDone ? 'Multi-sig ratificado — ingest_ready' : 'Pendiente ratificación',
+      'Línea base',
+      baselineDone ? 'Firmada — lista para cargar datos' : 'Pendiente de firma',
       baselineDone ? 'complete' : onboarding === 'baseline_pending' ? 'active' : 'pending',
       'institution',
     ),
     stage(
       'ingest',
-      'Ingesta hitos',
+      'Carga de datos',
       `${releases} hitos verificados`,
       ingestDone ? 'complete' : baselineDone ? 'active' : 'pending',
       'human',
     ),
     stage(
       'reconcile',
-      'Reconciliar',
-      reconcileOk ? 'Custodia escrow coherente' : 'Discrepancias detectadas',
+      'Verificación',
+      reconcileOk ? 'Custodia de fondos coherente' : 'Diferencias detectadas',
       !reconcileOk && ingestDone ? 'failed' : reconcileDone ? 'complete' : ingestDone ? 'active' : 'pending',
       'centinela',
     ),
     stage(
       'delta',
-      'Cálculo Δ',
-      health.calculoAhorroFinal !== '0.0000' ? `Δ = ${health.calculoAhorroFinal}` : 'Pendiente',
+      'Cálculo del ahorro',
+      health.calculoAhorroFinal !== '0.0000' ? `Ahorro verificado: ${health.calculoAhorroFinal}` : 'Pendiente',
       deltaDone ? 'complete' : reconcileDone ? 'active' : 'pending',
       'logistico',
     ),
     stage(
       'sovereign',
-      'Dictamen reparto',
-      'SPLIT_APPROVED + tesorería webhook',
+      'Dictamen del reparto',
+      'Reparto aprobado',
       'blocked',
       'soberano',
     ),
     stage(
       'publish',
-      'Publicar',
-      publishDone ? 'Checkpoint comunicador published' : 'POST q-close publish',
+      'Publicación',
+      publishDone ? 'Cierre publicado' : 'Pendiente de publicar',
       publishDone ? 'complete' : deltaDone && reconcileOk ? 'active' : 'pending',
       'comunicador',
     ),
     stage(
       'serve',
-      'Consola ciudadana',
+      'Resultados públicos',
       `${health.contracts.length} contratos · Q${health.quarter} ${health.fiscalYear}`,
       publishDone ? 'complete' : 'pending',
       'comunicador',
@@ -362,8 +361,7 @@ export async function getEgsPipelineStatus(ministryCode = 'MPPI'): Promise<EgsPi
     ledgerProcessId: health.ledgerProcessId,
     swarm: buildSwarmState(stages, lastAgentId, reconcileOk),
     stages,
-    disclaimer:
-      'Pipeline real Postgres. IAP MQTT no enruta Q-close aún; agentId en processCheckpoint es evidencia runtime.',
+    disclaimer: '',
   };
 }
 

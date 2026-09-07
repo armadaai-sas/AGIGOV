@@ -3,16 +3,27 @@ import { Check, AlertTriangle } from 'lucide-react';
 import type { EgsPipelineResponse, EgsSwarmState } from '../../api.js';
 import { agigovIconProps } from '../icons/agigovIcon.js';
 
+const DEV_MODE = import.meta.env.DEV;
+
 const SWARM_AGENTS: Array<{
   key: keyof Pick<EgsSwarmState, 'centinela' | 'logistico' | 'soberano' | 'comunicador'>;
   label: string;
   role: string;
 }> = [
-  { key: 'centinela', label: 'Centinela', role: 'Reconcilia escrow · FREEZE' },
-  { key: 'logistico', label: 'Logístico', role: 'Reparto Δ 70/20/10' },
-  { key: 'soberano', label: 'Soberano', role: 'Dictamen tesorería' },
-  { key: 'comunicador', label: 'Comunicador', role: 'Publica ledger ciudadano' },
+  { key: 'centinela', label: 'Centinela', role: 'Verifica la custodia de fondos' },
+  { key: 'logistico', label: 'Logístico', role: 'Calcula el reparto del ahorro' },
+  { key: 'soberano', label: 'Soberano', role: 'Dictamen de tesorería' },
+  { key: 'comunicador', label: 'Comunicador', role: 'Publica el resultado' },
 ];
+
+const SWARM_STATE_LABEL: Record<string, string> = {
+  active: 'trabajando',
+  complete: 'listo',
+  freeze: 'en pausa',
+  failed: 'en pausa',
+  blocked: 'pendiente',
+  idle: 'en espera',
+};
 
 function swarmClass(state: string): string {
   if (state === 'active') return 'is-active';
@@ -27,8 +38,8 @@ type SwarmProps = { swarm: EgsSwarmState; lastAgentId: string | null };
 /** Enjambre institucional — estado real por agente (no genérico Amazon). */
 export function EgsAgentSwarmBar({ swarm, lastAgentId }: SwarmProps) {
   return (
-    <section className="egs-swarm-bar" aria-label="Enjambre multiagente EGS">
-      {!swarm.iapWired ? (
+    <section className="egs-swarm-bar" aria-label="Equipo de agentes EGS">
+      {DEV_MODE && !swarm.iapWired ? (
         <p className="egs-swarm-iap-note">
           IAP bus: ingest/Q-close aún no enrutan por MQTT — evidencia en Postgres + processCheckpoint.
         </p>
@@ -40,12 +51,12 @@ export function EgsAgentSwarmBar({ swarm, lastAgentId }: SwarmProps) {
             <li key={key} className={`egs-swarm-agent ${swarmClass(state)}`}>
               <span className="egs-swarm-agent-name">{label}</span>
               <span className="egs-swarm-agent-role">{role}</span>
-              <span className="egs-swarm-agent-state">{state}</span>
+              <span className="egs-swarm-agent-state">{SWARM_STATE_LABEL[state] ?? state}</span>
             </li>
           );
         })}
       </ul>
-      {lastAgentId ? (
+      {DEV_MODE && lastAgentId ? (
         <p className="egs-swarm-last">
           Último agentId en checkpoint: <code>{lastAgentId}</code>
         </p>

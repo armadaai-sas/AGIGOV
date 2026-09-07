@@ -115,3 +115,21 @@ Leyenda veredicto: **Conservar** · **Simplificar** · **Cortar** · **Mover** (
 
 Pendiente (fases siguientes, requiere tu OK): badges de dictamen (`CONFORME/REVISAR`),
 unificación de i18n landing↔desk, y aplicar el contrato al resto del OS (modelos, EGS, escrow, institucional interno).
+
+## Auditoría Fase 2 — resto del OS (modelos, EGS, escrow, institucional interno)
+
+| Área | Elemento | Audiencia | Veredicto | Acción |
+|------|----------|-----------|-----------|--------|
+| Modelos | "Modelos operativos del OS — elige uno para operar" | usuario | Simplificar | → "Elige un modelo para empezar." |
+| Consola EGS | "Pipeline EGS" / "Ejecutar pipeline" / "enjambre" | usuario | Simplificar | → "Análisis EGS" / "Ejecutar análisis" / "8 pasos" |
+| Consola EGS | "Centinela: FREEZE" / "Ancla ledger" / "telemetría" | usuario | Simplificar | → "En pausa por revisión" / "Registro verificable" / "datos" |
+| Consola EGS | Nota `IAP bus · MQTT · Postgres · agentId checkpoint` | operador/dev | **Mover** | Gateado a `DEV_MODE` |
+| Consola EGS | Roles del enjambre (`Reparto Δ 70/20/10`, `Publica ledger`) + estado enum | usuario | Simplificar | Roles en lenguaje claro + estados traducidos |
+| Consola EGS | `<details>` "semáforo / Comunicador / pendiente publish" | operador | Simplificar | → "Estado / Auditoría / Publicación" |
+| Escrow | Estado crudo `RELEASED`/`LOCKED` en lista | usuario | Simplificar | Usar `StatusBadge` (Completado / En custodia) |
+| Escrow | "Evidencia (hash)" / "Centinela" / "Fondos en escrow" / "Ancla ledger" / id de contrato | usuario | Simplificar | → "Evidencia verificable" / "Validación" / "en custodia" / "Registro verificable" |
+| Institucional | "Ingesta manual" / "Reconciliación Centinela" / "token Bearer" / "Telemetría pública" / "cookie httpOnly" | usuario | Simplificar | Lenguaje claro (carga de datos, verificación, resultados públicos, sesión segura) |
+| Institucional | Título `text-2xl/3xl`; `inst-pilot-step` `rounded-full` glass oscuro | todas | **Normalizar** | Título 20/24px; chips `rounded-lg` claros |
+| Global | Botón "Reintentar" `min-h-11` (44px) | todas | **Normalizar** | → 36px (`min-h-9`) |
+
+Pendiente Fase 3 (requiere OK): migrar `os-workspace` / `inst-auth-page` a `desk-page` para un único primitivo de layout; unificar i18n landing (inglés) ↔ desk (español); componentes dev huérfanos (`ModelValidationPanel`).
