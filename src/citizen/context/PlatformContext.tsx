@@ -32,6 +32,10 @@ const ONBOARDING_KEY = 'agigov-onboarding-v1';
 const IMPLEMENTATION_KEY = 'agigov-implementation';
 const SOVEREIGN_PREF_KEY = 'agigov-sovereign-pref-v1';
 const GEO_APPLIED_KEY = 'agigov-geo-hint-applied-v1';
+/** El usuario eligió idioma explícitamente en Preferencias (no autodetección). */
+const LOCALE_EXPLICIT_KEY = 'agigov-locale-explicit-v1';
+/** Migración única: sanea idiomas no-español autodetectados por la lógica antigua. */
+const LOCALE_HEAL_KEY = 'agigov-locale-heal-v1';
 
 export type OnboardingPersona = 'citizen' | 'explorer' | 'government' | 'business';
 
@@ -122,16 +126,40 @@ function applyGeoHintOnce(): SovereignUserPref | null {
   return null;
 }
 
+/**
+ * Migración única para visitantes que ya tenían un idioma NO español guardado
+ * por la lógica antigua (navegador en-US → USA → en-US). Como el contenido está
+ * en español, quitamos ese idioma autodetectado para que vuelva al defecto en
+ * español. Se preserva la moneda/jurisdicción y cualquier idioma que el usuario
+ * haya elegido explícitamente en Preferencias.
+ */
+function healAutoLocaleOnce() {
+  if (typeof window === 'undefined') return;
+  if (localStorage.getItem(LOCALE_HEAL_KEY)) return;
+  localStorage.setItem(LOCALE_HEAL_KEY, '1');
+
+  if (localStorage.getItem(LOCALE_EXPLICIT_KEY) === '1') return;
+
+  const pref = readUserPref();
+  if (!pref?.locale || pref.locale.startsWith('es')) return;
+
+  const healed: SovereignUserPref = { ...pref };
+  delete healed.locale;
+  writeUserPref(healed);
+}
+
 export function PlatformProvider({ children }: { children: ReactNode }) {
   const [onboardingDone, setOnboardingDone] = useState(
     () => typeof window !== 'undefined' && localStorage.getItem(ONBOARDING_KEY) === '1',
   );
   const [implementationId, setImplementationIdState] = useState<ImplementationId>(() => {
     applyGeoHintOnce();
+    healAutoLocaleOnce();
     return readImplementationId();
   });
   const [userPref, setUserPref] = useState<SovereignUserPref | null>(() => {
     applyGeoHintOnce();
+    healAutoLocaleOnce();
     return readUserPref();
   });
   const [nodeConfig, setNodeConfig] = useState<PublicConfigResponse | null>(null);
@@ -206,6 +234,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setSovereignPref = useCallback((pref: SovereignUserPref) => {
+    if (pref.locale) localStorage.setItem(LOCALE_EXPLICIT_KEY, '1');
     const merged: SovereignUserPref = { ...userPref, ...pref };
     if (pref.iso) {
       const profile = JURISDICTIONS[pref.iso];
