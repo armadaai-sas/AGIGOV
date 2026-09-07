@@ -3,7 +3,8 @@ import { JURISDICTIONS } from './jurisdictions.js';
 import type { GeoHint } from './detect-region.js';
 
 /**
- * Idioma UI: inglés por defecto → español en hispanohablantes → locale por país.
+ * Idioma UI: español por defecto (AGIGOV es hispanohablante) → locale por país
+ * (VEN/COL/USA) o preferencia explícita del usuario cuando exista.
  */
 export function resolveUiLocale(input: {
   userLocale?: SovereignLocale | null;
@@ -18,8 +19,7 @@ export function resolveUiLocale(input: {
   if (profile.iso === 'COL') return 'es-CO';
   if (profile.iso === 'USA') return 'en-US';
 
-  const lang = input.browserLang?.toLowerCase() ?? '';
-  if (input.geoHint?.hispanicRegion || lang.startsWith('es')) return 'es';
-
-  return 'en';
+  // Español por defecto: el contenido del escritorio está en español y la
+  // audiencia es hispanohablante. El usuario puede cambiar idioma en Preferencias.
+  return 'es';
 }

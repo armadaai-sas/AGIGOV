@@ -85,7 +85,7 @@ export const JURISDICTIONS: Record<JurisdictionIso, JurisdictionProfile> = {
     label: 'Global model',
     currency: 'USD',
     currencySymbol: 'US$',
-    locale: 'en',
+    locale: 'es',
     timezone: 'UTC',
     territoryCode: 'GLOBAL',
     ministryCode: 'DEMO',
