@@ -140,4 +140,17 @@ unificación de i18n landing↔desk, y aplicar el contrato al resto del OS (mode
 | Layout | `ContratosPage` usaba `os-workspace` (ancho del shell) mientras el resto del flujo ciudadano usa `desk-page` (34rem) | **Unificar** | Migrada a `desk-page` + `DeskPageHeader` + `getDeskPageMeta('/contratos')` |
 | Huérfanos | `ModelValidationPanel` y `ModelComparePanel` construidos pero nunca enrutados | **Eliminar** | Borrados |
 
-Pendiente (siguiente iteración): migrar el resto de páginas `os-workspace` de catálogo/ayuda/legal (decisión de producto sobre ancho), variante `desk-page max-w-lg` para `inst-auth-page`, y migrar la copia hardcodeada del escritorio a claves `t()` para coherencia total al cambiar de idioma.
+### Fase 4 — ancho de página uniforme
+
+Antes: los contenedores de página tenían anchos y centrados distintos — `desk-page` 34rem, `desk-console` 42rem, `os-workspace` sin límite (llenaba el shell de 768–896px), `inst-auth-page` 512px — y el `catálogo`/`desarrolladores` usaban un shell más ancho (`narrow={false}`). Resultado: las páginas "saltaban" de ancho al navegar.
+
+| Área | Acción | Cambio |
+|------|--------|--------|
+| Token único | **Crear** | `--os-read: 34rem` en `console-design-system.css` como única fuente de verdad del ancho de lectura |
+| Contenedores | **Unificar** | `desk-page`, `desk-console`, `desk-home`, `os-workspace`, `inst-auth-page` → todos `max-width: var(--os-read)` |
+| Centrado | **Corregir** | `.os-page-content` (padre común de todas las páginas del shell) pasa a columna flex centrada, de modo que `margin-inline:auto` deja de fallar y todos los contenedores quedan centrados igual |
+| Shell | **Normalizar** | `ModelsCatalogPage` y `DevelopersPage` pasan de `narrow={false}` a `narrow` para que el shell sea idéntico en todas las rutas |
+
+Verificado (DevTools): las 4 familias de página miden **544px de ancho** con **leftGap == rightGap** (centrado idéntico).
+
+Pendiente (siguiente iteración): migrar la copia hardcodeada del escritorio a claves `t()` para coherencia total al cambiar de idioma; decidir si algún tipo de página (p. ej. catálogo con rejilla) merece un ancho mayor con su propia variante de token.

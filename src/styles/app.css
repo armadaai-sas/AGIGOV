@@ -115,11 +115,19 @@
   }
 
 .os-page-content {
-    @apply min-w-0;
+    @apply flex min-w-0 flex-col;
+    align-items: center;
+  }
+
+/* El contenedor de página llena el ancho de lectura y queda centrado de forma
+     uniforme (desk-page / os-workspace / desk-console / inst-auth-page). */
+.os-page-content > * {
+    width: 100%;
   }
 
 .os-workspace {
-    @apply flex w-full flex-col gap-6;
+    @apply mx-auto flex w-full flex-col gap-6;
+    max-width: var(--os-read, 34rem);
   }
 
 .os-workspace-head {
@@ -1295,7 +1303,8 @@
 
 /* —— Acceso institucional —— */
 .inst-auth-page {
-  @apply mx-auto flex w-full max-w-lg flex-col gap-8 py-4;
+  @apply mx-auto flex w-full flex-col gap-8 py-4;
+  max-width: var(--os-read, 34rem);
 }
 
 .inst-auth-page-head {

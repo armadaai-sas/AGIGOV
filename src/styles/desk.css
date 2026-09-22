@@ -348,7 +348,7 @@
   --desk-space-md: 1.75rem;
   --desk-space-lg: 2.75rem;
   --desk-space-xl: 4rem;
-  --desk-read: 34rem;
+  --desk-read: var(--os-read, 34rem);
 
   max-width: var(--desk-read);
   margin-inline: auto;
@@ -681,16 +681,16 @@
 
 /* Páginas del desk — mismo lenguaje ergonómico que el home */
 .desk-page {
-  --desk-read: 34rem;
+  --desk-read: var(--os-read, 34rem);
   width: 100%;
   max-width: var(--desk-read);
   margin-inline: auto;
   padding: 2.5rem 0 4rem;
 }
 
-/* Consola de modelo — canvas más ancho, centrado, zonas con aire */
+/* Consola de modelo — mismo ancho canónico que el resto del OS (uniforme) */
 .desk-console {
-  --desk-read: 42rem;
+  --desk-read: var(--os-read, 34rem);
   width: 100%;
   max-width: var(--desk-read);
   margin-inline: auto;
