@@ -110,7 +110,7 @@ const es: Record<MessageKey, string> = {
   'hero.diagram.hub': 'OS multi-agente',
   'hero.diagram.hubSub': 'Kernel · Centinela · congelación',
   'hero.diagram.node.ingest': 'Ingesta de gasto',
-  'hero.diagram.node.multifirma': 'Línea base multifirma',
+  'hero.diagram.node.multisig': 'Línea base multifirma',
   'hero.diagram.node.escrow': 'Custodia inteligente',
   'hero.diagram.node.sentinel': 'Centinela',
   'hero.diagram.node.ledger': 'Registro inmutable',

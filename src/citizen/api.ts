@@ -1,3 +1,5 @@
+import type { DataTrustPipelineStageId } from '../data-trust/pipeline.js';
+
 export type NetworkSyncState = 'offline' | 'syncing' | 'synced' | 'error';
 
 export interface DashboardReport {
@@ -531,7 +533,7 @@ export interface DataTrustPipelineStage {
 export interface DataTrustPipelineResponse {
   updatedAt: string;
   modelId: 'data-trust';
-  currentStage: string;
+  currentStage: DataTrustPipelineStageId;
   liveLabel: string;
   connection: {
     mode: DataTrustConnectMode;

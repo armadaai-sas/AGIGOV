@@ -1,5 +1,5 @@
-import type { MinistryHealthResponse } from '../../api.js';
-import { useSovereignConfig } from '../../context/PlatformContext.js';
+import type { MinistryHealthResponse } from '../api.js';
+import { useSovereignConfig } from '../context/PlatformContext.js';
 
 function parseAmount(value: string): number {
   const n = parseFloat(value);

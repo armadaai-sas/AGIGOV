@@ -65,7 +65,7 @@ export function InstitutionLoginForm() {
         applySession(result.session);
         navigate(redirectTo, { replace: true });
         void refresh();
-      } else {
+      } else if ('error' in result) {
         setErrorCode(result.error);
         setError(
           result.error === 'invalid_credentials'

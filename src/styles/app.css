@@ -740,6 +740,15 @@
   transform: translateY(-50%) translateX(0);
 }
 
+/* Tooltip del rail en portal (position: fixed) — no lo recorta el scroll del nav. */
+.app-sidebar-tooltip--portal {
+  position: fixed;
+  left: auto;
+  top: auto;
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
 .app-sidebar-tooltip-label {
   @apply block text-[12px] font-medium leading-snug;
   color: var(--console-text, #18181b);
