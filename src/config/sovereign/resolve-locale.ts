@@ -3,7 +3,13 @@ import { JURISDICTIONS } from './jurisdictions.js';
 import type { GeoHint } from './detect-region.js';
 
 /**
- * Idioma UI: inglés por defecto → español en hispanohablantes → locale por país.
+ * Idioma UI: español por defecto para todos los usuarios, porque el contenido
+ * del escritorio está en español (aún no i18n-izado). Solo se respeta el idioma
+ * cuando el usuario lo elige explícitamente en Preferencias (`userLocale`).
+ *
+ * Regionaliza dentro del español (VEN/COL) para formato y matices, pero no cae a
+ * inglés por geografía/navegador: eso rompía la coherencia landing↔escritorio
+ * (landing en inglés, interior en español). El inglés queda como opt-in manual.
  */
 export function resolveUiLocale(input: {
   userLocale?: SovereignLocale | null;
@@ -16,10 +22,6 @@ export function resolveUiLocale(input: {
   const profile = JURISDICTIONS[input.countryIso];
   if (profile.iso === 'VEN') return 'es-VE';
   if (profile.iso === 'COL') return 'es-CO';
-  if (profile.iso === 'USA') return 'en-US';
 
-  const lang = input.browserLang?.toLowerCase() ?? '';
-  if (input.geoHint?.hispanicRegion || lang.startsWith('es')) return 'es';
-
-  return 'en';
+  return 'es';
 }

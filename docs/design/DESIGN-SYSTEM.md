@@ -132,4 +132,12 @@ unificación de i18n landing↔desk, y aplicar el contrato al resto del OS (mode
 | Institucional | Título `text-2xl/3xl`; `inst-pilot-step` `rounded-full` glass oscuro | todas | **Normalizar** | Título 20/24px; chips `rounded-lg` claros |
 | Global | Botón "Reintentar" `min-h-11` (44px) | todas | **Normalizar** | → 36px (`min-h-9`) |
 
-Pendiente Fase 3 (requiere OK): migrar `os-workspace` / `inst-auth-page` a `desk-page` para un único primitivo de layout; unificar i18n landing (inglés) ↔ desk (español); componentes dev huérfanos (`ModelValidationPanel`).
+### Fase 3 — coherencia (idioma + layout + huérfanos)
+
+| Área | Problema | Acción | Cambio |
+|------|----------|--------|--------|
+| Idioma | Landing en inglés ↔ escritorio en español (locale UI por defecto `en` en `GEN`/navegador no hispano) | **Corregir** | Español por defecto en `resolveUiLocale` (`resolve-locale.ts`) y `GEN.locale` (`jurisdictions.ts`); el usuario puede cambiarlo en Preferencias |
+| Layout | `ContratosPage` usaba `os-workspace` (ancho del shell) mientras el resto del flujo ciudadano usa `desk-page` (34rem) | **Unificar** | Migrada a `desk-page` + `DeskPageHeader` + `getDeskPageMeta('/contratos')` |
+| Huérfanos | `ModelValidationPanel` y `ModelComparePanel` construidos pero nunca enrutados | **Eliminar** | Borrados |
+
+Pendiente (siguiente iteración): migrar el resto de páginas `os-workspace` de catálogo/ayuda/legal (decisión de producto sobre ancho), variante `desk-page max-w-lg` para `inst-auth-page`, y migrar la copia hardcodeada del escritorio a claves `t()` para coherencia total al cambiar de idioma.
