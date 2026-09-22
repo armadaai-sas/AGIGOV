@@ -1,0 +1,81 @@
+# Auditoría del OS — issues categorizados y priorizados (2026‑09)
+
+Objetivo: llevar el OS a calidad de **lanzamiento público en GitHub** (próximo mes) y cerrar los problemas de diseño, layout, páginas, responsividad y controles que quedan.
+
+Severidad:
+- **P0** — bloquea el lanzamiento o rompe una experiencia central.
+- **P1** — alta: calidad/uso visible que debe cerrarse antes del público.
+- **P2** — media: consistencia y pulido.
+- **P3** — baja: deseable.
+
+Método: análisis estático del repo (rutas, componentes, CSS) + revisiones previas en vivo. Los ítems marcados con 🔎 requieren confirmación en vivo (la verificación con navegador quedó bloqueada por límite de uso en esta sesión).
+
+---
+
+## A. Proceso, CI y flujo a producción (bloqueadores de avance)
+
+- [ ] **A1 · P0 · Nada llega a `main` → el droplet no avanza.** 10 PRs abiertos, todos apilados en borrador; `main` y `http://137.184.66.163/` siguen en un build de septiembre. Es la causa raíz de "no veo los cambios". → Consolidar y mergear un incremento a `main` (recomendado: la rama tip que agrupa todo el UI) y luego cerrar los borradores superados.
+- [x] **A2 · P0 · CI en rojo (10 errores de `tsc`).** Resuelto: `tsc --noEmit` → 0 errores, `npm run build` OK. Falta que el gate de CI corra en verde sobre `main`.
+- [ ] **A3 · P1 · CI como gate obligatorio.** Asegurar que `ci.yml` (lint/build) sea *required check* en `main` antes de abrir el repo, para no re‑romper el árbol.
+- [ ] **A4 · P2 · Higiene del stack de ramas.** Hay muchas ramas `cursor/*` apiladas; tras consolidar, borrar las obsoletas y documentar la estrategia de branching en `CONTRIBUTING.md`.
+
+## B. Layout y sistema de diseño (consistencia)
+
+- [ ] **B1 · P1 · 15 páginas siguen en el layout viejo `os-workspace`** en vez del unificado `desk-page`/`DeskPageHeader`: `SetConsolePage`, `DevelopersPage`, `ModelsCatalogPage`, `EgsContractDetailPage`, `ModelDetailPage`, `ProjectsPage`, `ModelWorkspacePage`, `ProjectDetailPage`, `GlosarioPage`, `LegalDocumentPage`, `DesktopDownloadPage`, `HelpCenterPage`, `CnePage`, `HelpTutorialPage`, `InstitutionPilotPage`. El ancho ya se unificó (`--os-read`), pero encabezados, métricas y espaciados difieren del patrón limpio de `/gestion`. → Migrar por tandas al patrón `desk-page`.
+- [ ] **B2 · P1 · Conviven varias familias de botones** (`app-btn`, `ds-btn`, `agigov-btn`, `desk-page-primary-btn`, `app-sidebar-skin-btn`). Aunque `trust-light.css` normaliza tamaños (36px/8px), la jerarquía y semántica siguen fragmentadas. → Unificar a un único set (primario/secundario/fantasma) documentado en `DESIGN-SYSTEM.md` y refactorizar usos.
+- [ ] **B3 · P2 · Encabezados de página inconsistentes.** Páginas migradas usan `DeskPageHeader` (título + resultado + dato); las de `os-workspace` usan `os-workspace-title/sub`. → Estandarizar en un solo componente de encabezado.
+- [ ] **B4 · P2 · Tokens duplicados.** `OS-MINIMAL-TOKENS.md`, `CONSOLE-DESIGN-SYSTEM.md` y `DESIGN-SYSTEM.md` coexisten. Ya se apunta a `DESIGN-SYSTEM.md` como fuente única; falta consolidar/deprecar los otros para evitar deriva.
+
+## C. Responsividad / móvil 🔎
+
+- [ ] **C1 · P1 · Las consolas de modelo probablemente no son responsivas.** `console-design-system.css` y `trust-light.css` tienen **0 media queries**; el manejo responsive se concentra en `landing-minimal.css` (8) y `desk.css` (12). Riesgo de desbordes/anchos fijos en móvil en `/modelos/*/consola`, `/proyectos`, `/institucional/piloto`. → Verificar en 390px y añadir tratamiento móvil (grids que colapsan, métricas apiladas, botones full‑width controlados).
+- [ ] **C2 · P1 · Barra de agentes/pipeline y tablas en móvil.** Componentes tipo `EgsAgentPipeline`, métricas en `dl` multi‑columna y listas de contratos pueden apretarse en pantallas chicas. 🔎 confirmar.
+- [ ] **C3 · P2 · Objetivos táctiles.** Verificar que botones/iconos cumplan ~44px de área táctil en móvil (el rail y algunos iconos usan 32–36px). 🔎
+- [ ] **C4 · P2 · Cajón móvil (drawer) vs sidebar.** El `☰` es `lg:hidden` (correcto), pero falta validar foco/scroll‑lock/cierre del drawer en móvil. 🔎
+
+## D. Claridad de contenido / jerga para el usuario final
+
+- [ ] **D1 · P1 · Consolas de modelo no “de‑jergadas”.** Las Fases 1–2 limpiaron el flujo ciudadano y la consola EGS, pero quedan términos técnicos en: `IaauConsolePage` (~12 ocurrencias), `EvidenciaConsolePage` (~6), `DataTrustConsolePage`/`DataTrustConnectWizard` (~7), `SetConsolePage`. → Aplicar el mismo contrato de contenido por audiencia.
+- [ ] **D2 · P1 · Flujo institucional piloto con mucha jerga.** `InstitutionPilotSteps` (~20 términos técnicos) y wizards asociados. Es un flujo clave de conversión (institución) → simplificar lenguaje y pasos.
+- [ ] **D3 · P2 · Mapa del sistema / Transparencia.** `SystemMapPage` (~6) y páginas de transparencia mezclan lenguaje interno. → Revisar qué necesita ver el ciudadano.
+- [ ] **D4 · P2 · Glosario/Ayuda.** Verificar que expliquen los términos que sí se muestran, y enlazarlos desde donde aparecen.
+
+## E. Estados vacíos, de carga y de error
+
+- [ ] **E1 · P1 · “No data”/error deben ser útiles, no técnicos.** Ya se corrigió en el flujo ciudadano y en la consola EGS demo (banner de error suprimido en `?demo=1`). Falta auditar el resto de consolas y `/proyectos` para que un usuario sin backend no vea "Error al sincronizar" ni instrucciones de administrador.
+- [ ] **E2 · P2 · Consistencia de estados vacíos.** Unificar el patrón (bloque a la izquierda, lenguaje claro) en todas las páginas; hoy hay una mezcla de `EmptyState` centrado y bloques nuevos.
+- [ ] **E3 · P2 · Datos reales vs demo.** Definir qué muestra el repo público por defecto: hoy muchas vistas dependen de backend sembrado. Considerar `?demo=1` (o modo demo por defecto en el sitio público) para que el visitante vea el producto funcionando sin setup.
+
+## F. Botones y controles
+
+- [ ] **F1 · P1 · Ver B2** (unificación de familias de botones) — se lista también aquí por ser lo que el usuario reportó ("botones grandes/anchos"). Confirmar que no queden botones full‑bleed o sobredimensionados fuera de los formularios.
+- [ ] **F2 · P2 · Inputs y selects.** `agigov-input` normalizado a 40px; verificar el resto de campos (wizards institucionales) para altura/tipografía consistentes.
+- [ ] **F3 · P2 · Estados de foco/hover accesibles** en todos los botones/enlaces (WCAG AA). 🔎
+
+## G. Navegación e IA (arquitectura de información)
+
+- [ ] **G1 · P2 · Sidebar estilo Gmail/Cursor — cerrado en lo esencial.** Colapsa a rail, tooltips en portal ya funcionan. Pendiente menor: transición de etiquetas (fade) y posición estable del botón contraer/expandir al colapsar.
+- [ ] **G2 · P2 · Redirecciones y rutas legacy.** Existen redirects (`/dashboard`, `/proyectos/salud`, `/ven/servicios/*`). Verificar que no queden enlaces internos a rutas muertas.
+- [ ] **G3 · P3 · Command palette (⌘K).** Confirmar que cubre las acciones principales y está descubrible.
+
+## H. Preparación del repositorio público (OSS)
+
+- [x] **H1 · P1 · Scaffolding OSS presente.** `LICENSE`, `README`, `CONTRIBUTING`, `CODE_OF_CONDUCT`, `SECURITY`, plantillas de issue/PR ya existen.
+- [ ] **H2 · P0 · Sin secretos en el repo.** Auditar que no haya credenciales (IP/keys del droplet, tokens) versionadas; añadir `.env.example` y documentar variables.
+- [ ] **H3 · P1 · “Getting started” desde clon limpio.** Verificar `npm install && npm run dev` en un clon nuevo sin backend; documentar el modo demo y qué requiere Postgres/Docker.
+- [ ] **H4 · P1 · README público con demo.** Pitch corto, diagrama de arquitectura, capturas/GIF de la ejecución interactiva EGS y enlace `?demo=1`.
+- [ ] **H5 · P1 · Alcance público vs privado.** Decidir qué queda fuera del repo público (credenciales de deploy, `docs/commercial/` con casos reales).
+- [ ] **H6 · P2 · Licencia y marca.** Confirmar coherencia de licencia y neutralidad de marca (regla ya aplicada en código nuevo).
+
+---
+
+## Orden sugerido de ejecución
+
+1. **A1** (mergear a `main` + deploy) — para ver avance real ya. *(requiere tu OK de deploy)*
+2. **H2 / H3 / H4 / H5** — preparación del repo público (paralelizable).
+3. **D1 / D2 / E1** — claridad para el usuario en consolas y flujo institucional.
+4. **C1 / C2** — responsividad de consolas (con verificación en vivo).
+5. **B1 / B2 / F1** — unificación de layout y botones.
+6. Pulido: **B3/B4, C3/C4, E2/E3, G1/G2, F2/F3**.
+
+> Nota: la verificación en vivo de móvil/responsividad de esta sesión quedó bloqueada por límite de uso del navegador de pruebas. Los ítems 🔎 se confirmarán con capturas desktop+móvil en cuanto se restablezca.
