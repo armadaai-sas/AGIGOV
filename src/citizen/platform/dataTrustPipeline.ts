@@ -25,7 +25,7 @@ export function dataTrustStageToProcessStep(stage: DataTrustPipelineStageId): Mo
 }
 
 export function processStepFromDataTrustPipeline(
-  pipeline: DataTrustPipelineResponse,
+  pipeline: Pick<DataTrustPipelineResponse, 'currentStage'>,
 ): ModelProcessStepId {
   return dataTrustStageToProcessStep(pipeline.currentStage);
 }
