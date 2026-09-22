@@ -90,7 +90,13 @@ export default function EgsVialConsolePage() {
     <PageShell
       shell
       narrow
-      banner={data ? { state: health.state, lastUpdated: health.lastUpdated } : undefined}
+      banner={
+        demo
+          ? { state: 'synced', lastUpdated: demoData?.updatedAt ?? null }
+          : data
+            ? { state: health.state, lastUpdated: health.lastUpdated }
+            : undefined
+      }
     >
       <ModelConsoleLayout
         eyebrow={model?.shortName ?? 'EGS'}
