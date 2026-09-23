@@ -42,8 +42,8 @@ export default function EvidenciaConsolePage() {
     reportCount > 0
       ? `${reportCount} actas publicadas · ${ledgerEntries} entradas en registro verificable.`
       : contractCount > 0
-        ? `${contractCount} contratos con hitos — evidencia en custodia escrow.`
-        : 'Conecta API o piloto institucional para certificar y publicar evidencia.';
+        ? `${contractCount} contratos con hitos — evidencia en custodia.`
+        : 'Conecta la API o el piloto institucional para certificar y publicar evidencia.';
 
   return (
     <PageShell
@@ -59,7 +59,7 @@ export default function EvidenciaConsolePage() {
         eyebrow={model?.shortName ?? 'Evidencia'}
         title="Registro de evidencia"
         result={resultLine}
-        dataHint="Hashes anclados al ledger · IAP envelopes en roadmap pipeline"
+        dataHint="Evidencia verificable y publicada de forma inalterable."
         action={
           <Link to="/desarrolladores" className="app-btn app-btn--ghost text-[13px]">
             API
@@ -72,7 +72,7 @@ export default function EvidenciaConsolePage() {
               currentStep={processStep}
               liveLabel={
                 reportCount > 0
-                  ? 'Evidencia publicada en consola ciudadana.'
+                  ? 'Evidencia publicada y verificable.'
                   : 'Esperando actas o hitos verificados…'
               }
               compact
@@ -100,7 +100,7 @@ export default function EvidenciaConsolePage() {
                 <dd>{reportCount}</dd>
               </div>
               <div className="desk-page-metric">
-                <dt>Entradas ledger</dt>
+                <dt>Entradas en registro</dt>
                 <dd>{ledgerEntries}</dd>
               </div>
               {contractCount > 0 ? (
@@ -184,7 +184,7 @@ export default function EvidenciaConsolePage() {
 
         <ModelConsoleZone label="Conectar">
           <p className="desk-console-outcome-note">
-            Integradores certificados envían envelopes IAP firmados vía API o suben documentos en el
+            Los integradores certificados envían evidencia firmada vía API, o suben documentos en el
             piloto institucional.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">

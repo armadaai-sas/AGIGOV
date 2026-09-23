@@ -20,7 +20,7 @@ export default function SetConsolePage() {
         <ModelConsoleHeader
           modelId="set"
           title="Recuento y auditoría"
-          subtitle="Consulta activa, commits en registro y verificación multifirma."
+          subtitle="Consulta activa, registros verificables y verificación por firma múltiple."
         >
           <Link to="/cne" className="ds-btn-app">
             Emitir voto
@@ -50,7 +50,7 @@ export default function SetConsolePage() {
                 {cne.data.consultation.setLedger ? (
                   <>
                     <div>
-                      <dt className="text-xs text-zinc-500">Commits registro</dt>
+                      <dt className="text-xs text-zinc-500">Registros</dt>
                       <dd className="text-lg font-semibold text-zinc-900">
                         {cne.data.consultation.setLedger.commitCount}
                       </dd>
@@ -90,7 +90,7 @@ export default function SetConsolePage() {
 
         {pilot.data ? (
           <section className="os-workspace-section os-workspace-section--border">
-            <h2 className="os-workspace-section-title">Despliegue multifirma</h2>
+            <h2 className="os-workspace-section-title">Verificación (firma múltiple)</h2>
             <p className="text-[13px] text-zinc-600">
               Acta <code className="os-mono-id">{pilot.data.processId}</code> —{' '}
               {pilot.data.ok ? 'verificación OK' : 'pendiente de cierre'}

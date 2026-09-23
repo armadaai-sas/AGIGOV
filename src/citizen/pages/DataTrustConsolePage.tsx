@@ -79,15 +79,15 @@ export default function DataTrustConsolePage() {
         title="Tu informe agregado"
         result={
           published
-            ? `${sectorCount} sectores publicados — consulta enterprise sin datos personales.`
+            ? `${sectorCount} sectores publicados — consulta agregada, sin datos personales.`
             : connected
-              ? 'Fuente conectada. Ejecuta el pipeline para generar el informe sectorial.'
-              : 'Conecta telemetría o API para generar agregados verificables (k-anonymity).'
+              ? 'Fuente conectada. Genera el informe para ver los sectores.'
+              : 'Conecta tu fuente de datos para generar agregados verificables y sin datos personales.'
         }
         dataHint={
           pipeline?.connection
             ? `Fuente activa: ${pipeline.connection.label}`
-            : 'Sin PII · k≥5 · dictamen Centinela en roadmap'
+            : 'Sin datos personales · grupos con muestra mínima garantizada'
         }
         action={
           connected ? (
@@ -130,12 +130,12 @@ export default function DataTrustConsolePage() {
                   <dd>{sectorCount}</dd>
                 </div>
                 <div className="desk-page-metric">
-                  <dt>Privacidad k-anonymity</dt>
+                  <dt>Privacidad (grupo mínimo)</dt>
                   <dd>≥{catalog.data!.kAnonymity}</dd>
                 </div>
               </dl>
               <p className="desk-console-outcome-note">
-                Celdas con muestra menor a k no se publican (demo: sector micro excluido).
+                Los grupos con muestra demasiado pequeña no se publican, para proteger la privacidad.
               </p>
             </ModelConsoleZone>
 
@@ -198,7 +198,7 @@ export default function DataTrustConsolePage() {
         ) : null}
 
         {connected && !published && catalog.state === 'synced' && !catalog.data?.datasets.length ? (
-          <p className="desk-console-outcome-note">Pipeline listo — pulsa Regenerar para publicar sectores.</p>
+          <p className="desk-console-outcome-note">Todo listo — pulsa Regenerar para publicar los sectores.</p>
         ) : null}
 
         <footer className="desk-console-foot">
@@ -217,7 +217,7 @@ export default function DataTrustConsolePage() {
 
         {pipeline?.stages ? (
           <details className="dt-pipeline-detail">
-            <summary>Pipeline técnico (operador)</summary>
+            <summary>Detalle técnico (operador)</summary>
             <ol className="dt-pipeline-stages">
               {pipeline.stages.map((stage) => (
                 <li key={stage.id} data-status={stage.status}>

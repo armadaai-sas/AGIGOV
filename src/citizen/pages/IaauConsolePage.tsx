@@ -41,12 +41,12 @@ export default function IaauConsolePage() {
         result={
           data
             ? iaauOutcomeLine(data.summary.totalUnits, data.summary.period, reconciled)
-            : 'Metering verificable — unidades consumidas vs registro institucional.'
+            : 'Uso medido y verificable — unidades consumidas frente al registro.'
         }
         dataHint={
           data
             ? `Plan ${humanizeIaauPlan(data.plan)} · estimado demo $${data.summary.estimatedUsdDemo.toFixed(2)} USD`
-            : 'Conciliación centinela · freeze facturación si discrepancia'
+            : 'Se verifica el uso · la facturación se pausa si hay diferencias.'
         }
         action={
           <button
@@ -65,8 +65,8 @@ export default function IaauConsolePage() {
               currentStep={processStep}
               liveLabel={
                 reconciled
-                  ? 'Consumo conciliado con el ledger — listo para facturación demo.'
-                  : 'Centinela revisando eventos de metering…'
+                  ? 'Uso verificado y cuadrado — listo para facturar (demo).'
+                  : 'Verificando los eventos de uso…'
               }
               compact
             />
@@ -88,8 +88,8 @@ export default function IaauConsolePage() {
                   <dd>{data.summary.totalUnits}</dd>
                 </div>
                 <div className="desk-page-metric">
-                  <dt>Estado conciliación</dt>
-                  <dd>{reconciled ? 'Conciliado' : 'Discrepancia'}</dd>
+                  <dt>Estado de verificación</dt>
+                  <dd>{reconciled ? 'Verificado' : 'Diferencia'}</dd>
                 </div>
                 <div className="desk-page-metric">
                   <dt>Factura estimada</dt>
@@ -126,8 +126,8 @@ export default function IaauConsolePage() {
                   <dd>{data.reconciliation.billable ? 'Sí' : 'No'}</dd>
                 </div>
                 <div className="desk-page-metric">
-                  <dt>Freeze facturación</dt>
-                  <dd>{data.billingFreeze.frozen ? 'Activo' : 'Inactivo'}</dd>
+                  <dt>Facturación en pausa</dt>
+                  <dd>{data.billingFreeze.frozen ? 'Sí' : 'No'}</dd>
                 </div>
               </dl>
               <details className="desk-console-tech">
