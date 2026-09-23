@@ -98,7 +98,9 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api': {
-          target: env.VITE_API_PROXY || 'http://137.184.66.163',
+          // Local API by default (npm run api:public). A public clone must not
+          // fall through to a private host. Override with VITE_API_PROXY.
+          target: env.VITE_API_PROXY || 'http://127.0.0.1:3001',
           changeOrigin: true,
           configure: (proxy) => {
             proxy.on('proxyRes', (proxyRes) => {

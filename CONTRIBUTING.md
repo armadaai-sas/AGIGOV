@@ -23,7 +23,7 @@ npm run lint          # tsc --noEmit — debe pasar antes de un PR
 npm run build         # build de producción
 ```
 
-Guía completa de infraestructura local (Docker, Postgres, Mosquitto): [docs/SETUP-GUIA-MAC.md](docs/SETUP-GUIA-MAC.md) · [infra/README.md](infra/README.md).
+La interfaz y la demo EGS (`/modelos/egs/consola?demo=1`) no piden base de datos. Postgres, el bus y los nodos son el nivel siguiente: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) · [docs/SETUP-GUIA-MAC.md](docs/SETUP-GUIA-MAC.md) · [infra/README.md](infra/README.md).
 
 ## Flujo de contribución
 

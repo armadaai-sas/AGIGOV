@@ -11,13 +11,28 @@ AGIGOV convierte funciones de Estado hoy discrecionales y opacas (ejecución pre
 
 > **Para quién:** gobiernos e instituciones que necesitan mostrar resultados con evidencia, no discurso; desarrolladores que quieren construir sobre un protocolo de gobernanza abierto; ciudadanos que quieren verificar en vez de confiar en la palabra de un funcionario.
 
-## Arquitectura en una línea
+## Arquitectura
 
-```
-Sensores → centinela → logistico | soberano → ledger → comunicador → dashboard
+```mermaid
+flowchart LR
+  sensores[Sensores] --> centinela[Centinela]
+  centinela --> logistico[Logístico]
+  centinela --> soberano[Soberano]
+  logistico --> ledger[Ledger]
+  soberano --> ledger
+  ledger --> comunicador[Comunicador]
+  comunicador --> dashboard[Dashboard]
 ```
 
 Disputas: **conciliador** (grafo de confianza). Incidentes: **centinela** FREEZE + intervención humana obligatoria. Ver [AGENTS.md](AGENTS.md) para la arquitectura completa y las convenciones técnicas.
+
+## Demo sin instalar el backend
+
+Tras `npm run dev`, la consola de ejecución presupuestaria se recorre sola:
+
+**http://localhost:3000/modelos/egs/consola?demo=1**
+
+Muestra un cierre de demostración y la secuencia del análisis (pensar → procesar → resultado). No usa Postgres. El dato está etiquetado como demostración.
 
 ## Estructura del repositorio
 
@@ -33,22 +48,29 @@ Disputas: **conciliador** (grafo de confianza). Incidentes: **centinela** FREEZE
 
 ## Quickstart
 
+Interfaz, sin Docker ni base de datos (Node.js ≥ 22):
+
 ```bash
 npm install
 npm run dev            # PWA → http://localhost:3000
+# demo EGS → http://localhost:3000/modelos/egs/consola?demo=1
 npm run lint            # tsc --noEmit
 npm run build            # build de producción
 ```
 
-Entorno completo con Docker (Postgres + Mosquitto + agentes):
+API y ledger locales (Docker + Postgres):
 
 ```bash
+cp .env.example .env
 npm run infra:up:dev
 npm run db:generate && npm run db:migrate && npm run db:seed
+npm run api:public       # :3001 — el proxy de Vite apunta aquí
 npm run agents:flow      # demo del pipeline completo
 ```
 
-Guía detallada (incluye setup en Mac): [docs/SETUP-GUIA-MAC.md](docs/SETUP-GUIA-MAC.md) · [infra/README.md](infra/README.md).
+Detalle por nivel: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) · [docs/SETUP-GUIA-MAC.md](docs/SETUP-GUIA-MAC.md) · [infra/README.md](infra/README.md).
+
+Qué entra al espejo público y qué se queda en este repo: [docs/OSS-PUBLIC-SCOPE.md](docs/OSS-PUBLIC-SCOPE.md).
 
 ## Documentación
 
