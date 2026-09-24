@@ -984,7 +984,7 @@ const es: Record<MessageKey, string> = {
   'pilot.gate.reconcile': 'Se debe validar la verificación antes de publicar.',
   'pilot.gate.publish': 'Publique el cierre trimestral para ver su panel con datos reales.',
   'pilot.verify.banner':
-    'Verificación institucional en curso — contactaremos canales públicos oficiales. Puede tomar días. El piloto local sigue disponible.',
+    'Una persona del equipo verifica la cuenta por los canales públicos de la institución. Puede tomar días. El escritorio sigue disponible.',
   'pilot.verify.verified': 'Institución verificada',
   'pilot.verify.rejected': 'Verificación rechazada — revise el correo institucional o contacte soporte.',
   'pilot.wizard.hydrating': 'Sincronizando estado de la cuenta…',
@@ -1077,7 +1077,7 @@ const es: Record<MessageKey, string> = {
   'reg.phoneCode': 'Código de país',
   'reg.phonePlaceholder': 'Número (sin código de país)',
   'reg.verificationNotice':
-    'La cuenta queda en verificación. El escritorio y el piloto en entorno de prueba están disponibles mientras tanto.',
+    'Una persona del equipo verifica la cuenta. El correo de alta no sale solo. El escritorio sigue disponible mientras tanto.',
   'reg.error.entityRequired': 'Seleccione una entidad o «Otra / no listada».',
   'reg.officialCode': 'RIF o código de registro presupuestario',
   'reg.officialEmail': 'Correo institucional oficial',

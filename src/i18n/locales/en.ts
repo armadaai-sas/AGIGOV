@@ -978,7 +978,7 @@ const en = {
   'pilot.gate.reconcile': 'Centinela must validate reconcile before publish.',
   'pilot.gate.publish': 'Publish Q-close to see your dashboard with live data.',
   'pilot.verify.banner':
-    'Institutional verification in progress — we will contact official public channels. This may take days. The local pilot remains available.',
+    'A person on the team verifies the account through the institution public channels. This may take days. The desk stays available.',
   'pilot.verify.verified': 'Institution verified',
   'pilot.verify.rejected': 'Verification rejected — check institutional email or contact support.',
   'pilot.wizard.hydrating': 'Syncing tenant state…',
@@ -1071,7 +1071,7 @@ const en = {
   'reg.phoneCode': 'Country code',
   'reg.phonePlaceholder': 'Number (without country code)',
   'reg.verificationNotice':
-    'The account stays in verification. Desk and sandbox pilot remain available meanwhile.',
+    'A person on the team verifies the account. The signup email is not sent on its own. The desk stays available meanwhile.',
   'reg.error.entityRequired': 'Select an entity or “Other / not listed”.',
   'reg.officialCode': 'Tax ID or budget registry code',
   'reg.officialEmail': 'Official institutional email',
