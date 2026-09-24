@@ -1,6 +1,8 @@
 # Auditoría de beta — 24 de septiembre de 2026
 
-Veredicto para salir al mercado como **beta**: **49%**.
+Veredicto medido antes de las seis puertas: **49%**.
+
+Las seis puertas de esa auditoría están implementadas en la rama de este cambio. Eso no sube el producto a 100%. El sitio en vivo sigue en la versión anterior hasta que este cambio se publique. El correo de registro sigue yendo a un archivo. Los datos que se ven siguen siendo semilla, ahora con el aviso de demostración. Una persona nueva todavía tiene que recorrer el producto publicado para confirmar el número.
 
 Esto no es “cuánto código hay”. Es cuánto del sistema operativo está listo para que una persona que entra por primera vez entienda AGIGOV, use un flujo real y no reciba una promesa que el software no cumple.
 

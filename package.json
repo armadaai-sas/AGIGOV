@@ -73,6 +73,7 @@
     "p8:verify": "tsx scripts/p8-verify-ops.ts",
     "p9:go": "tsx scripts/p9-go-pack.ts",
     "test:smoke": "tsx scripts/smoke-preprod.ts",
+    "test:beta-walk": "node scripts/beta-walk.mjs",
     "test:billing": "tsx scripts/test-billing-p2.ts",
     "test:webhook": "tsx scripts/test-webhook-p3.ts",
     "p4:finance-e2e": "tsx scripts/p4-finance-project-e2e.ts",

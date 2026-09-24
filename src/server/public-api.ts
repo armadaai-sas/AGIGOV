@@ -144,11 +144,21 @@ type OpsAuthRequest = Request & {
 };
 
 function isOpsAuthExcluded(path: string): boolean {
+  if (path === '/api/ops/auth/verification') return false;
   return (
     path === '/api/ops/health' ||
     path.startsWith('/api/ops/auth/') ||
     path.startsWith('/api/ops/ingest/')
   );
+}
+
+function isDemonstrationId(id: string): boolean {
+  return id.includes('-seed-') || id.startsWith('proj-dao-');
+}
+
+function withDemonstration<T extends object>(body: T, ids: string[]): T & { demonstration?: true } {
+  if (ids.length > 0 && ids.every(isDemonstrationId)) return { ...body, demonstration: true };
+  return body;
 }
 
 function setSessionCookie(
@@ -356,11 +366,16 @@ app.get('/api/public/dashboard', async (_req, res) => {
     });
 
     const ledgerCount = await db.ledgerEntry.count();
-    res.json({
-      updatedAt: new Date().toISOString(),
-      ledgerEntries: ledgerCount,
-      reports,
-    });
+    res.json(
+      withDemonstration(
+        {
+          updatedAt: new Date().toISOString(),
+          ledgerEntries: ledgerCount,
+          reports,
+        },
+        reports.map((row) => row.processId),
+      ),
+    );
   } catch (error) {
     res.status(500).json({ error: 'No se pudo cargar el dashboard' });
   }
@@ -422,18 +437,21 @@ app.get('/api/public/proposals', async (_req, res) => {
       }),
     );
 
-    res.json({
-      updatedAt: new Date().toISOString(),
-      proposals: actas.map((a) => ({
-        id: a.processId,
-        title: a.title,
-        status: a.status,
-        citizenSummary:
-          summaryByProcess.get(a.processId) ?? simplificarTitulo(a.title),
-        dictamen: dictamenByProcess.get(a.processId),
-        updatedAt: a.updatedAt.toISOString(),
-      })),
-    });
+    const proposals = actas.map((a) => ({
+      id: a.processId,
+      title: a.title,
+      status: a.status,
+      citizenSummary:
+        summaryByProcess.get(a.processId) ?? simplificarTitulo(a.title),
+      dictamen: dictamenByProcess.get(a.processId),
+      updatedAt: a.updatedAt.toISOString(),
+    }));
+    res.json(
+      withDemonstration(
+        { updatedAt: new Date().toISOString(), proposals },
+        proposals.map((item) => item.id),
+      ),
+    );
   } catch {
     res.status(500).json({ error: 'No se pudieron cargar propuestas' });
   }
@@ -479,21 +497,29 @@ app.post('/api/public/proposals', async (req, res) => {
 app.get('/api/public/supply', async (_req, res) => {
   try {
     const db = getCoreDb();
-    const escrows = await db.escrow.groupBy({
-      by: ['status'],
-      _count: { id: true },
-      _sum: { amount: true },
-    });
+    const rows = await db.escrow.findMany({ select: { processId: true, status: true, amount: true } });
+    const grouped = new Map<string, { count: number; total: number }>();
+    for (const row of rows) {
+      const current = grouped.get(row.status) ?? { count: 0, total: 0 };
+      current.count += 1;
+      current.total += Number(row.amount ?? 0);
+      grouped.set(row.status, current);
+    }
 
-    res.json({
-      updatedAt: new Date().toISOString(),
-      inventory: escrows.map((e) => ({
-        status: e.status,
-        count: e._count.id,
-        totalAmount: e._sum.amount?.toString() ?? '0',
-        currency: 'VES',
-      })),
-    });
+    res.json(
+      withDemonstration(
+        {
+          updatedAt: new Date().toISOString(),
+          inventory: [...grouped.entries()].map(([status, value]) => ({
+            status,
+            count: value.count,
+            totalAmount: value.total.toString(),
+            currency: 'VES',
+          })),
+        },
+        rows.map((row) => row.processId),
+      ),
+    );
   } catch {
     res.status(500).json({ error: 'No se pudo cargar inventario' });
   }
@@ -513,16 +539,21 @@ app.get('/api/public/projects', async (_req, res) => {
       { count: 0, raised: 0, contributions: 0 },
     );
 
-    res.json({
-      updatedAt: new Date().toISOString(),
-      summary: {
-        projectCount: totals.count,
-        totalRaised: totals.raised.toFixed(4),
-        totalContributions: totals.contributions,
-        currency: 'VES',
-      },
-      projects,
-    });
+    res.json(
+      withDemonstration(
+        {
+          updatedAt: new Date().toISOString(),
+          summary: {
+            projectCount: totals.count,
+            totalRaised: totals.raised.toFixed(4),
+            totalContributions: totals.contributions,
+            currency: 'VES',
+          },
+          projects,
+        },
+        projects.map((project) => project.id),
+      ),
+    );
   } catch {
     res.status(500).json({ error: 'No se pudieron cargar proyectos' });
   }

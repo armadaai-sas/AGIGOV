@@ -64,7 +64,12 @@ export function useCachedFetch<T>(
       setState('synced');
       setLastUpdated(new Date().toISOString());
       setError(null);
-      markDemoKey(key, false);
+      const demonstration =
+        fresh !== null &&
+        typeof fresh === 'object' &&
+        'demonstration' in fresh &&
+        (fresh as { demonstration?: boolean }).demonstration === true;
+      markDemoKey(key, demonstration);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Error de red';
       if (message === 'idle') {

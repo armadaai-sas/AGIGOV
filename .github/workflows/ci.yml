@@ -53,6 +53,14 @@ jobs:
 
       - run: npm run test:smoke
 
+      - name: Recorrido de beta
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium
+          npm run dev -- --host 127.0.0.1 --port 4173 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          CHROME_BIN="$(command -v chromium-browser || command -v chromium)" BETA_WALK_URL=http://127.0.0.1:4173 npm run test:beta-walk
+
       - run: npm run test:billing
 
       - run: npm run test:webhook

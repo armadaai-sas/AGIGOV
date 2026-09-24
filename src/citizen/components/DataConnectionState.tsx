@@ -184,7 +184,12 @@ export function DataConnectionState({
           )}
         </details>
       ) : (
-        <AutoRetryOnMount onRetry={onRetryRef.current} />
+        <>
+          {usesEgsCheck(module) ? (
+            <p className="text-sm text-agigov-text-muted">Este cierre no está publicado.</p>
+          ) : null}
+          <AutoRetryOnMount onRetry={onRetryRef.current} />
+        </>
       )}
     </div>
   );

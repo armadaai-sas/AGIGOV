@@ -128,6 +128,7 @@
 .os-workspace {
     @apply mx-auto flex w-full flex-col gap-6;
     max-width: var(--os-read, 34rem);
+    margin-inline: auto;
     padding: 2.5rem 0 4rem;
   }
 
@@ -143,7 +144,8 @@
     @apply min-w-0;
   }
 
-.os-workspace-title {
+.os-workspace-title,
+.desk-page-title {
     margin: 0 0 0.625rem;
     font-size: 1.5rem;
     font-weight: 600;

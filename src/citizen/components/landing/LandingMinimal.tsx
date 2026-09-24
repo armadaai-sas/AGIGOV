@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useMemo, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   Apple,
@@ -32,7 +32,6 @@ import {
   landingPersonaPath,
   landingRoleMapCapabilitiesKey,
   landingRoleMapPricingKey,
-  landingRotorWords,
   landingUtilityGeneral,
   type LandingPersonaId,
 } from '../../content/landingMinimalCopy.js';
@@ -46,8 +45,6 @@ export type LandingRow = {
   external?: boolean;
   pricing?: string;
 };
-
-const ROTOR_MS = 4000;
 
 const PERSONA_ICONS: Record<LandingPersonaId, LucideIcon> = {
   state: Building2,
@@ -76,31 +73,6 @@ export function LandingNav() {
         </nav>
       </div>
     </header>
-  );
-}
-
-function LandingHeroTitleRotor({ words }: { words: readonly string[] }) {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % words.length), ROTOR_MS);
-    return () => window.clearInterval(id);
-  }, [words.length]);
-
-  useEffect(() => {
-    setIndex(0);
-  }, [words]);
-
-  return (
-    <span
-      key={index}
-      className={`ls-min-title-rotor${index === 0 ? ' ls-min-title-rotor--brand' : ''}`}
-      aria-live="polite"
-    >
-      {words[index]}
-    </span>
   );
 }
 
@@ -168,8 +140,7 @@ function LandingTrustLine() {
 /** Hero — promesa, camino y una acción clara. */
 export function LandingHero() {
   const { t } = useSovereignConfig();
-  const rotorWords = useMemo(() => landingRotorWords(t), [t]);
-  const [persona, setPersona] = useState<LandingPersonaId>('state');
+  const [persona, setPersona] = useState<LandingPersonaId>('citizen');
   const personaPath = landingPersonaPath(persona);
 
   return (
@@ -178,7 +149,6 @@ export function LandingHero() {
       <div className="ls-min-inner ls-min-hero-inner">
         <h1 id="landing-title" className="ls-min-title">
           <span className="ls-min-title-base">{t('landing.min.hero.titleBase')}</span>
-          <LandingHeroTitleRotor words={rotorWords} />
         </h1>
         <p className="ls-min-lead">{t('landing.min.hero.lead')}</p>
         <LandingTrustLine />
@@ -335,7 +305,7 @@ export function LandingOpenSourceSection() {
       label: copy.repoLabel,
       meta: copy.repoMeta,
       icon: Github,
-      external: true,
+      external: copy.repoUrl.startsWith('http'),
     },
     {
       to: copy.devPath,

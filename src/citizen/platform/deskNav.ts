@@ -5,7 +5,7 @@ import {
   Database,
   FileCheck,
   FileText,
-  Landmark,
+  HelpCircle,
   LayoutDashboard,
   Package,
   Receipt,
@@ -65,28 +65,38 @@ function menu(items: readonly DeskNavItem[]): readonly DeskNavSection[] {
   return [{ id: 'menu', label: '', items }];
 }
 
+const HELP = {
+  to: '/ayuda',
+  label: 'Ayuda',
+  outcome: 'Qué es cada función y cómo se usa',
+  icon: HelpCircle,
+} as const;
+
 const CITIZEN_NAV = menu([
   { to: '/participar', label: 'Participar', outcome: 'Enviar una propuesta con hechos', icon: Users },
   { to: '/propuestas', label: 'Propuestas', outcome: 'Lo que ya se publicó', icon: FileText },
   { to: '/gestion', label: 'Gestión pública', outcome: 'Actos publicados y verificables', icon: Activity },
+  HELP,
 ]);
 
 const ENTERPRISE_NAV = menu([
-  { to: '/modelos/data-trust', label: 'DATA Trust', outcome: 'Agregados sectoriales, sin datos personales', icon: Database },
+  { to: '/modelos/data-trust', label: 'Datos del sector', outcome: 'Cifras agregadas, sin datos personales', icon: Database },
   { to: '/modelos/evidencia-certificada', label: 'Evidencia', outcome: 'Certificar un hito', icon: Receipt },
   { to: '/contratos', label: 'Contratos', outcome: 'Custodia y liberación por hito', icon: FileCheck },
+  HELP,
 ]);
 
 const STATE_NAV = menu([
-  { to: INSTITUTION_ROUTES.hub, label: 'Cuenta', outcome: 'La institución y su acceso', icon: Landmark },
   { to: INSTITUTION_ROUTES.pilot, label: 'Piloto', outcome: 'Preparar el cierre del trimestre', icon: Rocket },
-  { to: INSTITUTION_ROUTES.console, label: 'Consola EGS', outcome: 'Revisar el ahorro publicado', icon: Activity },
+  { to: INSTITUTION_ROUTES.console, label: 'Ahorro', outcome: 'Lo publicado del trimestre', icon: Activity },
   { to: '/contratos', label: 'Contratos', outcome: 'Hitos y evidencia', icon: FileCheck },
+  HELP,
 ]);
 
 const INTEGRATOR_NAV = menu([
-  { to: '/desarrolladores', label: 'API', outcome: 'Health, OpenAPI e integración', icon: Code2 },
+  { to: '/desarrolladores', label: 'API', outcome: 'Salud del servicio e integración', icon: Code2 },
   { to: '/modelos', label: 'Modelos', outcome: 'Catálogo y espacios de trabajo', icon: Package },
+  HELP,
 ]);
 
 export function getDeskNavSections(persona: DeskPersonaId): readonly DeskNavSection[] {

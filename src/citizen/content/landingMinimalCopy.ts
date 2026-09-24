@@ -68,7 +68,7 @@ export function landingOpenSourceCopy(t: TFunction) {
   return {
     title: t('landing.min.oss.title'),
     lead: t('landing.min.oss.lead'),
-    repoUrl: LANDING_OPEN_SOURCE.repoUrl,
+    repoUrl: '/ayuda',
     repoLabel: t('landing.min.oss.repoLabel'),
     repoMeta: t('landing.min.oss.repoMeta'),
     devPath: LANDING_OPEN_SOURCE.devPath,
