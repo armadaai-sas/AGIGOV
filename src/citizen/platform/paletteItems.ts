@@ -19,8 +19,7 @@ const MODEL_ITEMS: PaletteItem[] = AGIGOV_MODELS.map((m) => ({
 
 /** Entradas del command palette ⌘K — rutas secundarias (no sidebar). */
 export const PALETTE_ITEMS: readonly PaletteItem[] = [
-  { id: 'home', label: 'Inicio landing', to: '/', group: 'Salir del desk', keywords: 'home landing inicio' },
-  { id: 'escritorio', label: 'Escritorio', to: '/escritorio', group: 'Desk', keywords: 'home os workspace' },
+  { id: 'escritorio', label: 'Escritorio', to: '/escritorio', group: 'Desk', keywords: 'home os workspace escritorio' },
   { id: 'empresas', label: 'Recorrido empresas', to: '/empresas', group: 'Empresa', keywords: 'b2b a-z data' },
   { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Estado', keywords: 'protocolo contacto piloto' },
   { id: 'desplegar', label: 'Registro institucional', to: '/institucional/registro', group: 'Estado', keywords: 'registro sandbox tenant' },
@@ -58,10 +57,10 @@ export function filterPaletteItems(query: string): PaletteItem[] {
 }
 
 const PERSONA_GROUPS: Record<DeskPersonaId, readonly string[]> = {
-  citizen: ['Ciudadano', 'Recursos', 'Desk', 'Salir del desk'],
-  enterprise: ['Empresa', 'Operación', 'Recursos', 'Desk', 'Salir del desk'],
-  state: ['Estado', 'Operación', 'Recursos', 'Desk', 'Salir del desk'],
-  integrator: ['Integrador', 'Recursos', 'Desk', 'Salir del desk', 'Operación'],
+  citizen: ['Ciudadano', 'Recursos', 'Desk'],
+  enterprise: ['Empresa', 'Operación', 'Recursos', 'Desk'],
+  state: ['Estado', 'Operación', 'Recursos', 'Desk'],
+  integrator: ['Integrador', 'Recursos', 'Desk', 'Operación'],
 };
 
 const PERSONA_MODEL_AUDIENCE: Record<DeskPersonaId, readonly ModelAudience[]> = {

@@ -137,7 +137,7 @@ export function DataConnectionState({
           ) : undefined
         }
       >
-        {DEV_MODE ? error : 'Inténtalo más tarde o contacta al administrador del despliegue.'}
+        {DEV_MODE ? error : 'Vuelve a intentar en unos minutos.'}
       </PlatformAlert>
     );
   }

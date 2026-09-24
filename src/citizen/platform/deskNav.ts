@@ -135,8 +135,8 @@ const CITIZEN_NAV: readonly DeskNavSection[] = [
       },
       {
         to: '/propuestas',
-        label: 'Dictámenes',
-        outcome: 'Propuestas publicadas',
+        label: 'Propuestas',
+        outcome: 'Lo que ya se publicó',
         icon: FileText,
         tier: 'secondary',
       },
@@ -190,7 +190,7 @@ const ENTERPRISE_NAV: readonly DeskNavSection[] = [
       {
         to: '/modelos/iaau',
         label: 'IaaU',
-        outcome: 'Infra por uso — firma y sync',
+        outcome: 'Uso de la plataforma, medido',
         icon: Server,
         tier: 'secondary',
       },
@@ -232,7 +232,7 @@ const STATE_NAV: readonly DeskNavSection[] = [
       {
         to: '/gestion',
         label: 'Gestión pública',
-        outcome: 'Telemetría y ledger publicado',
+        outcome: 'Actos publicados y verificables',
         icon: ScrollText,
       },
       {
@@ -279,7 +279,7 @@ const INTEGRATOR_NAV: readonly DeskNavSection[] = [
       {
         to: '/aprender/glosario',
         label: 'Glosario',
-        outcome: 'Protocolo e IAP en lenguaje claro',
+        outcome: 'Términos que sí aparecen en pantalla',
         icon: Landmark,
         tier: 'secondary',
       },
@@ -320,9 +320,9 @@ export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWork
         },
         {
           to: '/propuestas',
-          name: 'Dictámenes',
+          name: 'Propuestas',
           utility: 'Seguir',
-          outcome: 'Estado de propuestas',
+          outcome: 'Estado de lo enviado',
           icon: FileText,
         },
       ];
@@ -377,7 +377,7 @@ export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWork
           to: '/gestion',
           name: 'Gestión pública',
           utility: 'Publicar',
-          outcome: 'Telemetría ciudadana',
+          outcome: 'Actos publicados',
           icon: ScrollText,
         },
         {
@@ -401,7 +401,7 @@ export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWork
           to: '/modelos',
           name: 'Modelos',
           utility: 'Explorar',
-          outcome: 'Espacios IAP',
+          outcome: 'Espacios de trabajo',
           icon: Package,
         },
         {
@@ -415,11 +415,14 @@ export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWork
   }
 }
 
-/** Escritorio siempre accesible — primer ítem del rail. */
+/**
+ * Primer ítem del rail: el escritorio, no el landing.
+ * La marca del sidebar apunta al mismo sitio. El pie no añade otro “inicio”.
+ */
 export const DESK_HOME_ITEM: DeskNavItem = {
   to: INSTITUTION_ROUTES.desk,
-  label: 'Hub',
-  outcome: 'Tu espacio por persona',
+  label: 'Escritorio',
+  outcome: 'Tu espacio según el rol',
   icon: LayoutDashboard,
 };
 

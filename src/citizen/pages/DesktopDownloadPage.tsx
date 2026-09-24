@@ -247,11 +247,11 @@ export default function DesktopDownloadPage() {
               </h2>
               <ul className="os-workspace-list">
                 <li>
-                  <Link to="/" className="os-workspace-row">
+                  <Link to="/escritorio" className="os-workspace-row">
                     <span className="os-workspace-row-body">
-                      <span className="os-workspace-row-name">Web + PWA</span>
+                      <span className="os-workspace-row-name">Abrir el escritorio</span>
                       <span className="os-workspace-row-meta">
-                        Usa el navegador o instala como app web progresiva
+                        La aplicación web, sin salir a la página de presentación
                       </span>
                     </span>
                     <ChevronRight className="os-workspace-row-chevron h-4 w-4" aria-hidden />

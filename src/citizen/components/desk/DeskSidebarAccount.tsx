@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, Home, LogIn, LogOut } from 'lucide-react';
+import { Building2, LogIn, LogOut } from 'lucide-react';
 
 import { SidebarTooltip } from '../SidebarTooltip.js';
 import { agigovIconProps } from '../icons/agigovIcon.js';
@@ -9,7 +9,11 @@ import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
 import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
-/** Cuenta e inicio — iconos alineados al rail del sidebar. */
+/**
+ * Pie del rail: solo la sesión.
+ * El escritorio no ofrece salida al landing. La marca y el ítem Escritorio
+ * ya vuelven a /escritorio; el marketing vive en `/`, fuera de este menú.
+ */
 export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
@@ -51,11 +55,6 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
           </Link>
         </SidebarTooltip>
       )}
-      <SidebarTooltip label="Inicio" hint="Salir al landing" enabled={collapsed}>
-        <Link to="/" className="app-sidebar-skin-btn" aria-label="Inicio">
-          <Home {...agigovIconProps('md')} />
-        </Link>
-      </SidebarTooltip>
     </>
   );
 }

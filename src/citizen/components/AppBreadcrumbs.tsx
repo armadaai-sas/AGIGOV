@@ -42,7 +42,7 @@ const gestion: BreadcrumbItem = { label: 'Gestión pública', to: '/gestion' };
 
 /** Migas estándar para rutas de la plataforma. */
 export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
-  const root: BreadcrumbItem = { label: 'Inicio', to: '/' };
+  const root: BreadcrumbItem = { label: 'Escritorio', to: '/escritorio' };
 
   if (pathname === '/modelos') {
     return [root, { label: 'Modelos' }];
@@ -71,7 +71,7 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
 
   switch (pathname) {
     case '/escritorio':
-      return [root, { label: 'Escritorio' }];
+      return [{ label: 'Escritorio' }];
     case '/gestion':
       return [root, { label: 'Gestión pública' }];
     case '/propuestas':

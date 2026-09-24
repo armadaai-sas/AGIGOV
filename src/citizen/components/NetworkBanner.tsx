@@ -4,7 +4,7 @@ import { PlatformAlert } from './PlatformAlert.js';
 const LABELS: Record<Exclude<NetworkSyncState, 'synced'>, string> = {
   offline: 'Sin conexión — datos guardados',
   syncing: 'Sincronizando…',
-  error: 'Error al sincronizar',
+  error: 'No se pudo actualizar',
 };
 
 const VARIANTS: Record<
