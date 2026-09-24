@@ -4,15 +4,13 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { PlatformProvider } from './context/PlatformContext.js';
 import { PanicBanner } from './components/PanicBanner.js';
 import { CommandPalette } from './components/CommandPalette.js';
-import { OnboardingModal } from './components/OnboardingModal.js';
-import { ConciergeDock } from './components/os/ConciergeDock.js';
 import { SwUpdateBanner } from './components/SwUpdateBanner.js';
 import { OsToastProvider } from './components/os/OsToast.js';
 import { RouteLoadingFallback } from './components/RouteLoadingFallback.js';
 import { ScrollToTop, PageTransition } from './components/ScrollToTop.js';
 import { AppShellLayout } from './components/AppShellLayout.js';
 import { LegacyVenRouteRedirect } from './components/LegacyVenRouteRedirect.js';
-import { usesAppShell, usesConciergeDock } from './platform/navConfig.js';
+import { usesAppShell } from './platform/navConfig.js';
 import { prefetchWarmRoutes } from './platform/routePrefetch.js';
 /** Home eager: landing sin chunk extra. */
 import HomePage from './pages/HomePage.js';
@@ -126,15 +124,13 @@ export default function CitizenApp() {
 }
 
 function CitizenAppInner() {
-  const { pathname } = useLocation();
-
   useEffect(() => {
     prefetchWarmRoutes();
   }, []);
 
   return (
     <OsToastProvider>
-      <div className={`min-h-screen bg-white text-zinc-900${usesConciergeDock(pathname) ? ' has-concierge-dock' : ''}`}>
+      <div className="min-h-screen bg-white text-zinc-900">
         <PanicBanner />
         <SwUpdateBanner />
         <ScrollToTop />
@@ -142,8 +138,6 @@ function CitizenAppInner() {
           <AppRoutes />
         </PageTransition>
         <CommandPalette />
-        <OnboardingModal />
-        {usesConciergeDock(pathname) ? <ConciergeDock /> : null}
       </div>
     </OsToastProvider>
   );

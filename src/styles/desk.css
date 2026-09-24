@@ -148,6 +148,34 @@
   gap: 0.5rem;
 }
 
+.app-sidebar-session {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--console-text, #18181b);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.app-sidebar-session:hover {
+  background: var(--console-bg-hover, #f4f4f5);
+}
+
+.app-sidebar-session-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8.5rem;
+}
+
 .app-sidebar-brand-mark p {
   font-size: 14px;
   font-weight: 600;

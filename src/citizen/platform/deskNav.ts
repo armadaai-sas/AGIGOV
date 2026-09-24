@@ -1,29 +1,20 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   Activity,
-  Briefcase,
   Code2,
   Database,
   FileCheck,
   FileText,
   Landmark,
   LayoutDashboard,
-  Network,
   Package,
   Receipt,
   Rocket,
-  Scale,
-  ScrollText,
-  Server,
-  TrendingDown,
   Users,
 } from 'lucide-react';
 
 import type { LandingPersonaId } from '../content/landingMinimalCopy.js';
-import { ENTERPRISE_ROUTES } from './enterpriseRoutes.js';
-import { EGS_MODEL_PATH } from './agigovModels.js';
 import { INSTITUTION_ROUTES } from './institutionalRoutes.js';
-import { modelWorkspacePath } from './modelWorkspace.js';
 
 /** Alineado al landing — 4 tipos de usuario del desk. */
 export type DeskPersonaId = LandingPersonaId;
@@ -41,17 +32,9 @@ export type DeskNavItem = {
 };
 
 export type DeskNavSection = {
-  id: 'utilidad' | 'resultado';
+  id: 'menu';
   label: string;
   items: readonly DeskNavItem[];
-};
-
-export type DeskWorkspaceCard = {
-  to: string;
-  name: string;
-  utility: string;
-  outcome: string;
-  icon: LucideIcon;
 };
 
 export const DESK_PERSONA_IDS: readonly DeskPersonaId[] = [
@@ -78,214 +61,33 @@ export function deskPersonaHomePath(_id: DeskPersonaId): string {
   return INSTITUTION_ROUTES.desk;
 }
 
-/** Inferir persona desde la ruta activa. */
-export function inferDeskPersonaFromPath(pathname: string): DeskPersonaId | null {
-  if (
-    pathname.startsWith('/institucional') ||
-    pathname.startsWith('/contratos') ||
-    pathname.startsWith('/escritorio/mapa') ||
-    pathname.includes('/egs')
-  ) {
-    return 'state';
-  }
-  if (
-    pathname.startsWith('/empresas') ||
-    pathname.includes('data-trust') ||
-    pathname.includes('evidencia-certificada') ||
-    pathname.includes('/iaau')
-  ) {
-    return 'enterprise';
-  }
-  if (pathname.startsWith('/desarrolladores') || pathname.startsWith('/aprender/glosario')) {
-    return 'integrator';
-  }
-  if (
-    pathname.startsWith('/gestion') ||
-    pathname.startsWith('/participar') ||
-    pathname.startsWith('/propuestas') ||
-    pathname.startsWith('/transparencia')
-  ) {
-    return 'citizen';
-  }
-  return null;
+function menu(items: readonly DeskNavItem[]): readonly DeskNavSection[] {
+  return [{ id: 'menu', label: '', items }];
 }
 
-const CITIZEN_NAV: readonly DeskNavSection[] = [
-  {
-    id: 'utilidad',
-    label: 'Introducir',
-    items: [
-      {
-        to: '/participar',
-        label: 'Participar',
-        outcome: 'Enviar propuesta con hechos',
-        icon: Users,
-      },
-    ],
-  },
-  {
-    id: 'resultado',
-    label: 'Resultado',
-    items: [
-      {
-        to: '/gestion',
-        label: 'Gestión pública',
-        outcome: 'Registro verificable en vivo',
-        icon: Activity,
-      },
-      {
-        to: '/propuestas',
-        label: 'Propuestas',
-        outcome: 'Lo que ya se publicó',
-        icon: FileText,
-        tier: 'secondary',
-      },
-      {
-        to: '/transparencia',
-        label: 'Transparencia',
-        outcome: 'Marco legal publicado',
-        icon: Scale,
-        tier: 'secondary',
-      },
-    ],
-  },
-] as const;
+const CITIZEN_NAV = menu([
+  { to: '/participar', label: 'Participar', outcome: 'Enviar una propuesta con hechos', icon: Users },
+  { to: '/propuestas', label: 'Propuestas', outcome: 'Lo que ya se publicó', icon: FileText },
+  { to: '/gestion', label: 'Gestión pública', outcome: 'Actos publicados y verificables', icon: Activity },
+]);
 
-const ENTERPRISE_NAV: readonly DeskNavSection[] = [
-  {
-    id: 'utilidad',
-    label: 'Introducir',
-    items: [
-      {
-        to: ENTERPRISE_ROUTES.hub,
-        label: 'Recorrido A→Z',
-        outcome: 'Catálogo → DATA → contacto',
-        icon: Briefcase,
-      },
-      {
-        to: '/modelos/data-trust',
-        label: 'DATA Trust',
-        outcome: 'Agregados sectoriales verificables',
-        icon: Database,
-      },
-      {
-        to: '/modelos/evidencia-certificada',
-        label: 'Evidencia API',
-        outcome: 'Certificar hitos de contrato',
-        icon: Receipt,
-        tier: 'secondary',
-      },
-    ],
-  },
-  {
-    id: 'resultado',
-    label: 'Resultado',
-    items: [
-      {
-        to: '/contratos',
-        label: 'Contratos',
-        outcome: 'Custodia y liberación por hito',
-        icon: FileCheck,
-      },
-      {
-        to: '/modelos/iaau',
-        label: 'IaaU',
-        outcome: 'Uso de la plataforma, medido',
-        icon: Server,
-        tier: 'secondary',
-      },
-    ],
-  },
-] as const;
+const ENTERPRISE_NAV = menu([
+  { to: '/modelos/data-trust', label: 'DATA Trust', outcome: 'Agregados sectoriales, sin datos personales', icon: Database },
+  { to: '/modelos/evidencia-certificada', label: 'Evidencia', outcome: 'Certificar un hito', icon: Receipt },
+  { to: '/contratos', label: 'Contratos', outcome: 'Custodia y liberación por hito', icon: FileCheck },
+]);
 
-const STATE_NAV: readonly DeskNavSection[] = [
-  {
-    id: 'utilidad',
-    label: 'Introducir',
-    items: [
-      {
-        to: '/escritorio/mapa',
-        label: 'Mapa del sistema',
-        outcome: 'Ver interconexiones en vivo',
-        icon: Network,
-        tier: 'primary',
-      },
-      {
-        to: INSTITUTION_ROUTES.pilot,
-        label: 'Piloto fiscal',
-        outcome: 'Asistente EGS institucional',
-        icon: Rocket,
-        tier: 'secondary',
-      },
-      {
-        to: modelWorkspacePath('egs'),
-        label: 'EGS',
-        outcome: 'Operar ahorro con evidencia',
-        icon: TrendingDown,
-      },
-    ],
-  },
-  {
-    id: 'resultado',
-    label: 'Resultado',
-    items: [
-      {
-        to: '/gestion',
-        label: 'Gestión pública',
-        outcome: 'Actos publicados y verificables',
-        icon: ScrollText,
-      },
-      {
-        to: '/contratos',
-        label: 'Contratos',
-        outcome: 'Cadena de custodia por hitos',
-        icon: FileCheck,
-        tier: 'secondary',
-      },
-    ],
-  },
-] as const;
+const STATE_NAV = menu([
+  { to: INSTITUTION_ROUTES.hub, label: 'Cuenta', outcome: 'La institución y su acceso', icon: Landmark },
+  { to: INSTITUTION_ROUTES.pilot, label: 'Piloto', outcome: 'Preparar el cierre del trimestre', icon: Rocket },
+  { to: INSTITUTION_ROUTES.console, label: 'Consola EGS', outcome: 'Revisar el ahorro publicado', icon: Activity },
+  { to: '/contratos', label: 'Contratos', outcome: 'Hitos y evidencia', icon: FileCheck },
+]);
 
-const INTEGRATOR_NAV: readonly DeskNavSection[] = [
-  {
-    id: 'utilidad',
-    label: 'Introducir',
-    items: [
-      {
-        to: '/desarrolladores',
-        label: 'API',
-        outcome: 'Health, OpenAPI e integración',
-        icon: Code2,
-      },
-      {
-        to: '/modelos',
-        label: 'Modelos',
-        outcome: 'Catálogo y espacios de trabajo',
-        icon: Package,
-      },
-    ],
-  },
-  {
-    id: 'resultado',
-    label: 'Resultado',
-    items: [
-      {
-        to: '/contratos',
-        label: 'Custodia',
-        outcome: 'Hitos y evidencia en cadena',
-        icon: FileCheck,
-        tier: 'secondary',
-      },
-      {
-        to: '/aprender/glosario',
-        label: 'Glosario',
-        outcome: 'Términos que sí aparecen en pantalla',
-        icon: Landmark,
-        tier: 'secondary',
-      },
-    ],
-  },
-] as const;
+const INTEGRATOR_NAV = menu([
+  { to: '/desarrolladores', label: 'API', outcome: 'Health, OpenAPI e integración', icon: Code2 },
+  { to: '/modelos', label: 'Modelos', outcome: 'Catálogo y espacios de trabajo', icon: Package },
+]);
 
 export function getDeskNavSections(persona: DeskPersonaId): readonly DeskNavSection[] {
   switch (persona) {
@@ -297,121 +99,6 @@ export function getDeskNavSections(persona: DeskPersonaId): readonly DeskNavSect
       return STATE_NAV;
     case 'integrator':
       return INTEGRATOR_NAV;
-  }
-}
-
-export function getDeskWorkspaceCards(persona: DeskPersonaId): readonly DeskWorkspaceCard[] {
-  switch (persona) {
-    case 'citizen':
-      return [
-        {
-          to: '/gestion',
-          name: 'Gestión pública',
-          utility: 'Consultar',
-          outcome: 'Registro verificable',
-          icon: Activity,
-        },
-        {
-          to: '/participar',
-          name: 'Participar',
-          utility: 'Enviar',
-          outcome: 'Propuesta con hechos',
-          icon: Users,
-        },
-        {
-          to: '/propuestas',
-          name: 'Propuestas',
-          utility: 'Seguir',
-          outcome: 'Estado de lo enviado',
-          icon: FileText,
-        },
-      ];
-    case 'enterprise':
-      return [
-        {
-          to: ENTERPRISE_ROUTES.hub,
-          name: 'Recorrido empresas',
-          utility: 'Descubrir',
-          outcome: 'A→Z B2B',
-          icon: Briefcase,
-        },
-        {
-          to: '/modelos/data-trust',
-          name: 'DATA Trust',
-          utility: 'Consultar',
-          outcome: 'Agregados verificables',
-          icon: Database,
-        },
-        {
-          to: '/modelos/evidencia-certificada',
-          name: 'Evidencia API',
-          utility: 'Certificar',
-          outcome: 'Hitos demostrables',
-          icon: Receipt,
-        },
-        {
-          to: '/contratos',
-          name: 'Contratos',
-          utility: 'Cobrar',
-          outcome: 'Menos fricción por hito',
-          icon: FileCheck,
-        },
-      ];
-    case 'state':
-      return [
-        {
-          to: INSTITUTION_ROUTES.pilot,
-          name: 'Piloto fiscal',
-          utility: 'Desplegar',
-          outcome: 'EGS con asistencia',
-          icon: Rocket,
-        },
-        {
-          to: modelWorkspacePath('egs'),
-          name: 'EGS',
-          utility: 'Operar',
-          outcome: 'Ahorro certificado',
-          icon: TrendingDown,
-        },
-        {
-          to: '/gestion',
-          name: 'Gestión pública',
-          utility: 'Publicar',
-          outcome: 'Actos publicados',
-          icon: ScrollText,
-        },
-        {
-          to: '/contratos',
-          name: 'Contratos',
-          utility: 'Custodiar',
-          outcome: 'Hitos con evidencia',
-          icon: FileCheck,
-        },
-      ];
-    case 'integrator':
-      return [
-        {
-          to: '/desarrolladores',
-          name: 'API',
-          utility: 'Integrar',
-          outcome: 'Health y OpenAPI',
-          icon: Code2,
-        },
-        {
-          to: '/modelos',
-          name: 'Modelos',
-          utility: 'Explorar',
-          outcome: 'Espacios de trabajo',
-          icon: Package,
-        },
-        {
-          to: '/contratos',
-          name: 'Custodia',
-          utility: 'Probar',
-          outcome: 'Flujo de hitos',
-          icon: FileCheck,
-        },
-      ];
   }
 }
 

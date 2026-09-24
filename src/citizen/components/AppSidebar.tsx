@@ -59,8 +59,8 @@ export function AppSidebar({ variant = 'desk' }: { variant?: 'desk' | 'drawer' }
         </nav>
 
         <div className="app-sidebar-foot">
+          {collapsed ? <DeskPersonaSwitch compact /> : null}
           <div className="app-sidebar-foot-actions">
-            {collapsed ? <DeskPersonaSwitch compact /> : null}
             <SidebarTooltip
               label={collapsed ? 'Expandir panel' : 'Contraer panel'}
               hint="Ancho del menú lateral"
@@ -106,7 +106,9 @@ function DeskNavSectionBlock({
 
   return (
     <div className={`app-sidebar-section ${showDivider ? 'app-sidebar-section--divided' : ''}`}>
-      {!collapsed ? <p className="app-sidebar-desk-section-label">{section.label}</p> : null}
+      {!collapsed && section.label ? (
+        <p className="app-sidebar-desk-section-label">{section.label}</p>
+      ) : null}
       <ul className="app-sidebar-list">
         {section.items.map((item) => (
           <DeskNavLink

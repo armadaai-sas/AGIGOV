@@ -34,7 +34,11 @@ export default function HelpCenterPage() {
         </header>
 
         <p className="text-[13px] text-zinc-600">
-          Primera vez: elige una sección. También puedes usar <kbd className="agigov-kbd">⌘K</kbd> para buscar rutas.
+          Primera vez: elige una sección. El{' '}
+          <Link to="/escritorio/mapa" className="underline-offset-2 hover:underline">
+            mapa del sistema
+          </Link>{' '}
+          está aquí, no en el menú.
         </p>
 
         {HELP_CATEGORIES.map(({ id, label, description }) => {

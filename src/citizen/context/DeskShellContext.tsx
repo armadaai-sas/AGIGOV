@@ -2,15 +2,11 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react';
-import { useLocation } from 'react-router-dom';
-
 import {
-  inferDeskPersonaFromPath,
   readStoredDeskPersona,
   storeDeskPersona,
   type DeskPersonaId,
@@ -28,22 +24,11 @@ type DeskShellContextValue = {
 const DeskShellContext = createContext<DeskShellContextValue | null>(null);
 
 export function DeskShellProvider({ children }: { children: ReactNode }) {
-  const { pathname } = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1';
   });
   const [persona, setPersonaState] = useState<DeskPersonaId>(readStoredDeskPersona);
-
-  useEffect(() => {
-    const inferred = inferDeskPersonaFromPath(pathname);
-    if (!inferred) return;
-    setPersonaState((prev) => {
-      if (prev === inferred) return prev;
-      storeDeskPersona(inferred);
-      return inferred;
-    });
-  }, [pathname]);
 
   const setPersona = useCallback((id: DeskPersonaId) => {
     setPersonaState(id);

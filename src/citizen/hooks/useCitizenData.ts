@@ -74,26 +74,18 @@ export function useCachedFetch<T>(
       }
       const cached = await readCache<T>(key);
       const fallback = cached ?? dataRef.current;
-      if (fallback !== null && !demoRequested()) {
+      if (fallback !== null) {
         dataRef.current = fallback;
         setData(fallback);
         setState('offline');
         setError(message);
-        markDemoKey(key, false);
-      } else if (fixture) {
-        dataRef.current = fixture;
-        setData(fixture);
-        setState('synced');
-        setLastUpdated(new Date().toISOString());
-        setError(null);
-        markDemoKey(key, true);
       } else {
         dataRef.current = null;
         setData(null);
         setState('error');
         setError(message);
-        markDemoKey(key, false);
       }
+      markDemoKey(key, false);
     }
   }, [key]);
 

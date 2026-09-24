@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { fetchHealth } from '../api.js';
 import { checkEgsVialService } from '../services/egs-vial-service.js';
@@ -137,7 +138,8 @@ export function DataConnectionState({
           ) : undefined
         }
       >
-        {DEV_MODE ? error : 'Vuelve a intentar en unos minutos.'}
+        {DEV_MODE ? error : 'Aún no hay nada publicado.'}
+        <DemoLink />
       </PlatformAlert>
     );
   }
@@ -152,6 +154,7 @@ export function DataConnectionState({
         <p className="mt-1.5 text-sm leading-relaxed text-agigov-text-muted">
           {copy.emptyDescription}
         </p>
+        <DemoLink />
         {DEV_MODE ? (
           <details className="mt-3">
             <summary className="cursor-pointer text-xs text-agigov-text-muted">
@@ -184,6 +187,20 @@ export function DataConnectionState({
  * Reintentamos silenciosamente la carga en segundo plano para que, si el
  * servicio vuelve, los datos aparezcan sin acción del usuario.
  */
+function DemoLink() {
+  const { pathname, search } = useLocation();
+  if (new URLSearchParams(search).get('demo') === '1') return null;
+  const next = new URLSearchParams(search);
+  next.set('demo', '1');
+  return (
+    <p className="mt-3">
+      <Link to={`${pathname}?${next.toString()}`} className="desk-console-foot-link">
+        Ver demostración
+      </Link>
+    </p>
+  );
+}
+
 function AutoRetryOnMount({ onRetry }: { onRetry?: () => void }) {
   useEffect(() => {
     if (!onRetry) return;

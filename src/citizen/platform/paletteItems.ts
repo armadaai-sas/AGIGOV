@@ -1,5 +1,4 @@
 import type { DeskPersonaId } from './deskNav.js';
-import { AGIGOV_MODELS, MODEL_AUDIENCE_LABEL, type ModelAudience } from './agigovModels.js';
 
 export type PaletteItem = {
   id: string;
@@ -9,40 +8,15 @@ export type PaletteItem = {
   keywords?: string;
 };
 
-const MODEL_ITEMS: PaletteItem[] = AGIGOV_MODELS.map((m) => ({
-  id: `model-${m.id}`,
-  label: m.name,
-  to: m.productPath,
-  group: `Modelo · ${MODEL_AUDIENCE_LABEL[m.audience]}`,
-  keywords: m.keywords,
-}));
-
-/** Entradas del command palette ⌘K — rutas secundarias (no sidebar). */
+/** ⌘K solo con lo que no está en el menú del rol. */
 export const PALETTE_ITEMS: readonly PaletteItem[] = [
-  { id: 'escritorio', label: 'Escritorio', to: '/escritorio', group: 'Desk', keywords: 'home os workspace escritorio' },
-  { id: 'empresas', label: 'Recorrido empresas', to: '/empresas', group: 'Empresa', keywords: 'b2b a-z data' },
-  { id: 'institucional', label: 'Institucional', to: '/institucional', group: 'Estado', keywords: 'protocolo contacto piloto' },
-  { id: 'desplegar', label: 'Registro institucional', to: '/institucional/registro', group: 'Estado', keywords: 'registro sandbox tenant' },
-  { id: 'acceso', label: 'Acceso institucional', to: '/institucional/acceso', group: 'Estado', keywords: 'login sesión' },
-  { id: 'piloto', label: 'Piloto fiscal EGS', to: '/institucional/piloto', group: 'Estado', keywords: 'wizard egs' },
-  { id: 'desarrolladores', label: 'API · Desarrolladores', to: '/desarrolladores', group: 'Integrador', keywords: 'openapi health' },
-  { id: 'modelos', label: 'Catálogo modelos', to: '/modelos', group: 'Integrador', keywords: 'catalogo servicios' },
-  { id: 'descargar', label: 'App de escritorio', to: '/descargar', group: 'Recursos', keywords: 'desktop electron' },
-  { id: 'egs-consola', label: 'Consola EGS', to: '/modelos/egs/consola', group: 'Estado', keywords: 'quarter ahorro consola' },
-  { id: 'contratos', label: 'Custodia · Contratos', to: '/contratos', group: 'Operación', keywords: 'hitos centinela' },
-  { id: 'transparencia', label: 'Transparencia', to: '/transparencia', group: 'Ciudadano', keywords: 'aei telemetría' },
-  { id: 'gestion', label: 'Gestión pública', to: '/gestion', group: 'Ciudadano', keywords: 'ledger registro' },
-  { id: 'propuestas', label: 'Propuestas', to: '/propuestas', group: 'Ciudadano', keywords: 'dictamen' },
-  { id: 'participar', label: 'Participar', to: '/participar', group: 'Ciudadano', keywords: 'enviar propuesta' },
-  { id: 'cne', label: 'Consulta electoral', to: '/cne', group: 'Más', keywords: 'voto set demo' },
-  { id: 'proyectos', label: 'Proyectos DAO', to: '/proyectos?tab=dao', group: 'Más', keywords: 'escrow dao' },
-  { id: 'suministros', label: 'Suministros', to: '/suministros', group: 'Más', keywords: 'logístico' },
-  { id: 'ayuda', label: 'Centro de ayuda', to: '/ayuda', group: 'Recursos', keywords: 'tutorial guía' },
-  { id: 'glosario', label: 'Glosario', to: '/aprender/glosario', group: 'Recursos', keywords: 'ledger dictamen iap' },
-  { id: 'data-trust', label: 'DATA Trust', to: '/modelos/data-trust', group: 'Empresa', keywords: 'agregados sector' },
-  { id: 'evidencia', label: 'Evidencia API', to: '/modelos/evidencia-certificada', group: 'Empresa', keywords: 'certificar hito api' },
-  { id: 'iaau', label: 'IaaU', to: '/modelos/iaau', group: 'Empresa', keywords: 'infra uso firma' },
-  ...MODEL_ITEMS,
+  { id: 'ayuda', label: 'Centro de ayuda', to: '/ayuda', group: 'Más', keywords: 'tutorial guía mapa' },
+  { id: 'glosario', label: 'Glosario', to: '/aprender/glosario', group: 'Más', keywords: 'términos' },
+  { id: 'descargar', label: 'App de escritorio', to: '/descargar', group: 'Más', keywords: 'desktop' },
+  { id: 'cne', label: 'Consulta', to: '/cne', group: 'Más', keywords: 'voto' },
+  { id: 'suministros', label: 'Suministros', to: '/suministros', group: 'Más', keywords: 'inventario' },
+  { id: 'proyectos', label: 'Proyectos', to: '/proyectos?tab=dao', group: 'Más', keywords: 'dao' },
+  { id: 'mapa', label: 'Mapa del sistema', to: '/escritorio/mapa', group: 'Más', keywords: 'ayuda diagrama' },
 ] as const;
 
 export function filterPaletteItems(query: string): PaletteItem[] {
@@ -56,32 +30,6 @@ export function filterPaletteItems(query: string): PaletteItem[] {
   );
 }
 
-const PERSONA_GROUPS: Record<DeskPersonaId, readonly string[]> = {
-  citizen: ['Ciudadano', 'Recursos', 'Desk'],
-  enterprise: ['Empresa', 'Operación', 'Recursos', 'Desk'],
-  state: ['Estado', 'Operación', 'Recursos', 'Desk'],
-  integrator: ['Integrador', 'Recursos', 'Desk', 'Operación'],
-};
-
-const PERSONA_MODEL_AUDIENCE: Record<DeskPersonaId, readonly ModelAudience[]> = {
-  citizen: ['ciudadano'],
-  enterprise: ['empresarial', 'gubernamental'],
-  state: ['gubernamental', 'ciudadano'],
-  integrator: ['empresarial', 'gubernamental', 'ciudadano'],
-};
-
-function paletteItemAllowed(item: PaletteItem, persona: DeskPersonaId): boolean {
-  const allowed = PERSONA_GROUPS[persona];
-  if (allowed.includes(item.group)) return true;
-  if (item.group.startsWith('Modelo ·')) {
-    return PERSONA_MODEL_AUDIENCE[persona].some((a) =>
-      item.group.includes(MODEL_AUDIENCE_LABEL[a]),
-    );
-  }
-  return false;
-}
-
-/** ⌘K filtrado por persona — sin ruido de otros roles. */
-export function filterPaletteItemsForPersona(query: string, persona: DeskPersonaId): PaletteItem[] {
-  return filterPaletteItems(query).filter((item) => paletteItemAllowed(item, persona));
+export function filterPaletteItemsForPersona(query: string, _persona: DeskPersonaId): PaletteItem[] {
+  return filterPaletteItems(query);
 }

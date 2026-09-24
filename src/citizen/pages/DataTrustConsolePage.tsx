@@ -50,8 +50,8 @@ export default function DataTrustConsolePage() {
       setPipeline(await fetchDataTrustPipeline());
       markDemoKey('data-trust-pipeline', false);
     } catch {
-      setPipeline(dataTrustPipelineDemo());
-      markDemoKey('data-trust-pipeline', true);
+      setPipeline(null);
+      markDemoKey('data-trust-pipeline', false);
     } finally {
       setPipelineLoading(false);
     }
