@@ -1,3 +1,4 @@
+import { AgigovLogo } from '../components/AgigovLogo.js';
 import { InstitutionAlreadyLoggedIn } from '../components/institutional/InstitutionAlreadyLoggedIn.js';
 import { InstitutionRegistrationForm } from '../components/institutional/InstitutionRegistrationForm.js';
 import { InstitutionTrialSteps } from '../components/institutional/InstitutionTrialSteps.js';
@@ -12,13 +13,14 @@ export default function InstitutionRegisterPage() {
   const { isAuthenticated, authReady } = useInstitutionAuth();
 
   return (
-    <PageShell shell narrow>
+    <PageShell shell>
+      <div className="inst-auth-split">
+        <aside className="inst-auth-aside">
+          <AgigovLogo size="sm" variant="light" showWordmark />
+          <h1 className="inst-auth-aside-title">{t('trial.title')}</h1>
+          <p className="inst-auth-aside-lead">{t('trial.lead')}</p>
+        </aside>
       <div className="inst-auth-page">
-        <header className="inst-auth-page-head">
-          <p className="inst-auth-kicker">{t('trial.kicker')}</p>
-          <h1 className="inst-auth-title">{t('trial.title')}</h1>
-          <p className="inst-auth-lead">{t('trial.lead')}</p>
-        </header>
 
         <InstitutionTrialSteps active={0} />
 
@@ -29,6 +31,7 @@ export default function InstitutionRegisterPage() {
         ) : (
           <InstitutionRegistrationForm mode="trial" />
         )}
+      </div>
       </div>
     </PageShell>
   );

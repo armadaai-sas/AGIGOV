@@ -219,6 +219,7 @@ export async function refreshInstitutionSessionFromServer(): Promise<Institution
     res = await fetch(`${API_BASE}/api/ops/auth/session`, {
       credentials: 'include',
       headers,
+      signal: AbortSignal.timeout(2500),
     });
   } catch {
     return loadInstitutionSession();

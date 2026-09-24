@@ -139,10 +139,25 @@
 .app-sidebar-brand {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 2.625rem;
-  height: 2.625rem;
+  min-width: 0;
+  height: 2rem;
   text-decoration: none;
+}
+
+.app-sidebar-brand-mark {
+  gap: 0.5rem;
+}
+
+.app-sidebar-brand-mark p {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.app-sidebar--collapsed .app-sidebar-brand {
+  width: 2rem;
+  justify-content: center;
 }
 
 .app-sidebar-nav--desk {
@@ -281,7 +296,7 @@
   gap: 0.0625rem;
 }
 
-/* Fila compacta estilo Cursor/Gmail (~34px) en lugar de 48px. */
+/* Fila compacta del menú (~34px). */
 .app-sidebar-link--desk {
   min-height: 2.125rem;
   padding: 0.375rem 0.625rem;

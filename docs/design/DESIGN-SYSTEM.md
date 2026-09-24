@@ -5,7 +5,7 @@
 > quedan como referencia histórica y se subordinan a lo que aquí se define.
 >
 > Origen: se toma del **sistema de la landing** (`.ls-min-*`) + la guía UI/UX existente.
-> Regla base: **claro, neutro, denso pero legible, app-first — estilo Cursor / Gmail.**
+> Regla base: **claro, neutro, denso pero legible, app-first.**
 
 ## 1. Namespace de tokens (canónico)
 
@@ -86,7 +86,7 @@ Una pantalla cumple solo si:
 3. **Ancho de lectura** — ≤ 34rem para texto; nunca a todo el ancho.
 4. **Jerarquía tipográfica** — 3–4 tamaños máximo.
 5. **Una acción primaria** — un solo botón primario; el resto secundario/fantasma; tamaño estándar (36px), nunca pastillas de 48–52px.
-6. **Densidad tipo Cursor/Gmail** — filas compactas con etiqueta, separadores sutiles, sin cards decorativas.
+6. **Densidad de escritorio** — filas compactas con etiqueta, separadores sutiles, sin cards decorativas.
 7. **Responsive por defecto** — verificado en móvil / tablet / desktop.
 
 Y, en contenido:

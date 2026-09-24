@@ -54,7 +54,7 @@ Método: análisis estático del repo (rutas, componentes, CSS) + revisiones pre
 
 ## G. Navegación e IA (arquitectura de información)
 
-- [ ] **G1 · P2 · Sidebar estilo Gmail/Cursor — cerrado en lo esencial.** Colapsa a rail, tooltips en portal ya funcionan. Pendiente menor: transición de etiquetas (fade) y posición estable del botón contraer/expandir al colapsar.
+- [ ] **G1 · P2 · Sidebar del escritorio — cerrado en lo esencial.** Colapsa a rail, tooltips en portal ya funcionan. Pendiente menor: transición de etiquetas (fade) y posición estable del botón contraer/expandir al colapsar.
 - [ ] **G2 · P2 · Redirecciones y rutas legacy.** Existen redirects (`/dashboard`, `/proyectos/salud`, `/ven/servicios/*`). Verificar que no queden enlaces internos a rutas muertas.
 - [ ] **G3 · P3 · Command palette (⌘K).** Confirmar que cubre las acciones principales y está descubrible.
 

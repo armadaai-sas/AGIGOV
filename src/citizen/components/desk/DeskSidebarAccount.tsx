@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Building2, LogIn, LogOut } from 'lucide-react';
 
 import { SidebarTooltip } from '../SidebarTooltip.js';
@@ -7,7 +7,6 @@ import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
 import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
-import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 /**
  * Pie del rail: solo la sesión.
@@ -17,11 +16,12 @@ import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
   const { t } = useSovereignConfig();
   const navigate = useNavigate();
+  const { pathname, search } = useLocation();
   const { session, isAuthenticated, logout } = useInstitutionAuth();
 
   async function handleLogout() {
     await logout();
-    navigate(INSTITUTION_ROUTES.login, { replace: true, state: { loggedOut: true } });
+    navigate('/escritorio', { replace: true });
   }
 
   return (
@@ -50,7 +50,7 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
         </>
       ) : (
         <SidebarTooltip label={t('nav.login')} hint={t('nav.login')} enabled={collapsed}>
-          <Link to={loginPathWithRedirect('/escritorio')} className="app-sidebar-skin-btn" aria-label={t('nav.login')}>
+          <Link to={loginPathWithRedirect(`${pathname}${search}`)} className="app-sidebar-skin-btn" aria-label={t('nav.login')}>
             <LogIn {...agigovIconProps('md')} />
           </Link>
         </SidebarTooltip>

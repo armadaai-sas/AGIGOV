@@ -66,11 +66,11 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
           onClick={() => setMobileOpen(false)}
           aria-hidden
         />
-        <AppSidebar />
+        <AppSidebar variant="drawer" />
       </div>
 
       <div className="app-sidebar-desktop">
-        <AppSidebar />
+        <AppSidebar variant="desk" />
       </div>
 
       <div className="app-shell-main">

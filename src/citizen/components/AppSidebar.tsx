@@ -19,31 +19,32 @@ import {
 import { isNavActive } from '../platform/navConfig.js';
 import { prefetchRoute } from '../platform/routePrefetch.js';
 
-export function AppSidebar() {
+export function AppSidebar({ variant = 'desk' }: { variant?: 'desk' | 'drawer' }) {
   const { pathname, hash, search } = useLocation();
   const { sidebarCollapsed, toggleSidebar, persona } = useDeskShell();
+  const collapsed = variant === 'desk' && sidebarCollapsed;
   const [prefsOpen, setPrefsOpen] = useState(false);
   const sections = getDeskNavSections(persona);
 
   return (
     <>
       <aside
-        className={`app-sidebar ${sidebarCollapsed ? 'app-sidebar--collapsed' : ''}`}
+        className={`app-sidebar ${collapsed ? 'app-sidebar--collapsed' : ''}`}
         aria-label="Navegación del desk"
       >
         <div className="app-sidebar-head">
           <Link to="/escritorio" className="app-sidebar-brand" aria-label="Escritorio AGIGOV">
-            <AgigovLogo size="xs" variant="light" className="gap-0" />
+            <AgigovLogo size="xs" variant="light" showWordmark={!collapsed} className="app-sidebar-brand-mark" />
           </Link>
         </div>
 
-        {!sidebarCollapsed ? <DeskPersonaSwitch /> : null}
+        {!collapsed ? <DeskPersonaSwitch /> : null}
 
         <nav className="app-sidebar-nav app-sidebar-nav--desk">
           <ul className="app-sidebar-list">
             <DeskNavLink
               item={DESK_HOME_ITEM}
-              collapsed={sidebarCollapsed}
+              collapsed={collapsed}
               active={isNavActive(pathname, hash, DESK_HOME_ITEM.to, search)}
             />
           </ul>
@@ -51,7 +52,7 @@ export function AppSidebar() {
             <DeskNavSectionBlock
               key={section.id}
               section={section}
-              collapsed={sidebarCollapsed}
+              collapsed={collapsed}
               showDivider={index > 0}
             />
           ))}
@@ -59,20 +60,20 @@ export function AppSidebar() {
 
         <div className="app-sidebar-foot">
           <div className="app-sidebar-foot-actions">
-            {sidebarCollapsed ? <DeskPersonaSwitch compact /> : null}
+            {collapsed ? <DeskPersonaSwitch compact /> : null}
             <SidebarTooltip
-              label={sidebarCollapsed ? 'Expandir panel' : 'Contraer panel'}
+              label={collapsed ? 'Expandir panel' : 'Contraer panel'}
               hint="Ancho del menú lateral"
-              enabled={sidebarCollapsed}
+              enabled={collapsed}
             >
               <DeskIconButton
-                kind={sidebarCollapsed ? 'expand' : 'collapse'}
-                label={sidebarCollapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'}
+                kind={collapsed ? 'expand' : 'collapse'}
+                label={collapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'}
                 className="app-sidebar-skin-btn hidden lg:inline-flex"
                 onClick={toggleSidebar}
               />
             </SidebarTooltip>
-            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={sidebarCollapsed}>
+            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={collapsed}>
               <button
                 type="button"
                 className="app-sidebar-skin-btn"
@@ -82,9 +83,9 @@ export function AppSidebar() {
                 <Settings2 {...agigovIconProps('md')} />
               </button>
             </SidebarTooltip>
-            <DeskSidebarAccount collapsed={sidebarCollapsed} />
+            <DeskSidebarAccount collapsed={collapsed} />
           </div>
-          {!sidebarCollapsed ? <p className="app-sidebar-desk-hint">⌘K — todo lo demás</p> : null}
+          {!collapsed ? <p className="app-sidebar-desk-hint">⌘K — todo lo demás</p> : null}
         </div>
       </aside>
       <OsPreferencesModal open={prefsOpen} onClose={() => setPrefsOpen(false)} />
@@ -131,9 +132,7 @@ function DeskNavLink({
 }) {
   const Icon = item.icon;
   const isSecondary = item.tier === 'secondary';
-  // Menú tipo Cursor/Gmail: expandido = icono + etiqueta para todos (sin iconos
-  // huérfanos); colapsado = solo icono con tooltip. Los items secundarios se
-  // atenúan con estilo, sin ocultar su etiqueta.
+  // Expandido: icono y etiqueta. Colapsado: solo icono, con tooltip.
   const showLabel = !collapsed;
 
   const link = (

@@ -87,6 +87,10 @@ Cuando el usuario no entienda qué es el proyecto o pida navegación/diseño/pro
 - Offline-first en nodos territoriales (`resilient-data-architecture`).
 - PANIC_MODE congela mutaciones al ledger (`tactical-cybersecurity`).
 
+## Marca del producto
+
+El producto, la documentación pública y cualquier build que vaya a GitHub o al droplet no nombran la herramienta con la que se escribe el código. Antes de ese paso, buscar en `src/` y en el bundle palabras o comentarios que identifiquen al editor. `cursor: pointer` en CSS es el puntero del ratón y se queda. Las ramas de trabajo del agente no se muestran en la interfaz.
+
 ## Boundaries
 
 | Nivel | Regla |

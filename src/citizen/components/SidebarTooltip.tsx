@@ -12,7 +12,7 @@ type Props = {
 type Anchor = { top: number; left: number };
 
 /**
- * Tooltip del rail colapsado (estilo Cursor/Gmail). Se renderiza en un portal
+ * Tooltip del rail colapsado. Se renderiza en un portal
  * con `position: fixed` para que no lo recorte el scroll del `<nav>` (overflow),
  * que era la causa de que no apareciera junto a los iconos.
  */
