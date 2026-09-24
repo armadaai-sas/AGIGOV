@@ -103,7 +103,7 @@ export function InstitutionLoginForm() {
         ) : null}
 
         <label className="inst-auth-field">
-          <span>{t('reg.officialEmail')}</span>
+          <span>{t('auth.email')}</span>
           <input
             type="email"
             required

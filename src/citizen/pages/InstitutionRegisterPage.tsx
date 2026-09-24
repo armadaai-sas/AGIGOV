@@ -1,7 +1,6 @@
 import { AgigovLogo } from '../components/AgigovLogo.js';
 import { InstitutionAlreadyLoggedIn } from '../components/institutional/InstitutionAlreadyLoggedIn.js';
 import { InstitutionRegistrationForm } from '../components/institutional/InstitutionRegistrationForm.js';
-import { InstitutionTrialSteps } from '../components/institutional/InstitutionTrialSteps.js';
 import { LoadingState } from '../components/PageShell.js';
 import { PageShell } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
@@ -21,8 +20,6 @@ export default function InstitutionRegisterPage() {
           <p className="inst-auth-aside-lead">{t('trial.lead')}</p>
         </aside>
       <div className="inst-auth-page">
-
-        <InstitutionTrialSteps active={0} />
 
         {!authReady ? (
           <LoadingState label={t('auth.redirecting')} />

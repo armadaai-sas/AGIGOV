@@ -1400,6 +1400,28 @@
   @apply block space-y-1.5 text-sm;
 }
 
+.inst-auth-hint {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--agigov-text-muted, #71717a);
+  font-size: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+span.inst-auth-hint {
+  cursor: default;
+}
+
+.inst-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .inst-auth-field > span {
   @apply font-medium text-agigov-text;
 }

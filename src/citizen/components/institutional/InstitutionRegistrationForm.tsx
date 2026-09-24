@@ -26,7 +26,7 @@ import {
   slugifyInstitution,
 } from '../../institutional/institutionProfile.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
-import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
+import { InstitutionTrialSteps } from './InstitutionTrialSteps.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
 type RegistrationMode = 'trial' | 'full';
@@ -63,6 +63,8 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
   const [bootstrapBusy, setBootstrapBusy] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [step, setStep] = useState<1 | 2>(1);
+  const [showPassword, setShowPassword] = useState(false);
   const initialIso: JurisdictionIso = (() => {
     const fromForm = form.iso as JurisdictionIso | undefined;
     if (fromForm && ['VEN', 'COL', 'USA'].includes(fromForm)) return fromForm;
@@ -150,24 +152,40 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
     }
   }
 
+  function accountStepReady(): boolean {
+    if (!form.officialEmail.trim() || !form.officialEmail.includes('@')) {
+      setError(t('reg.error.email'));
+      return false;
+    }
+    if (password.length < 8) {
+      setError(t('auth.error.passwordShort'));
+      return false;
+    }
+    if (password !== passwordConfirm) {
+      setError(t('auth.error.passwordMatch'));
+      return false;
+    }
+    return true;
+  }
+
+  function continueAccount(e: React.FormEvent) {
+    e.preventDefault();
+    if (!accountStepReady()) return;
+    setError(null);
+    setStep(2);
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (isTrial && step === 1) {
+      continueAccount(e);
+      return;
+    }
     if (!form.legalName.trim()) {
       setError(t('reg.error.legalName'));
       return;
     }
-    if (!form.officialEmail.trim() || !form.officialEmail.includes('@')) {
-      setError(t('reg.error.email'));
-      return;
-    }
-    if (password.length < 8) {
-      setError(t('auth.error.passwordShort'));
-      return;
-    }
-    if (password !== passwordConfirm) {
-      setError(t('auth.error.passwordMatch'));
-      return;
-    }
+    if (!accountStepReady()) return;
     if (!form.acceptedTerms) {
       setError(t('reg.error.terms'));
       return;
@@ -236,7 +254,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         programName: isTrial
           ? t('trial.defaultProgram')
           : form.entityType === 'municipality'
-            ? 'Mantenimiento urbano verificable — Piloto EGS'
+            ? 'Mantenimiento urbano verificable — Piloto de ahorro'
             : profile.programName,
         fiscalYear: 2026,
         quarter: 1,
@@ -261,11 +279,8 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
             quarter: savedProfile.quarter,
             annualBaseline: savedProfile.annualBaselineEstimate,
           });
-        } catch (bootstrapError) {
-          setError(
-            bootstrapError instanceof Error ? bootstrapError.message : t('trial.bootstrapError'),
-          );
-          return;
+        } catch {
+          /* La cuenta ya existe. El escritorio abre aunque el ejemplo no cargue. */
         } finally {
           setBootstrapBusy(false);
         }
@@ -273,7 +288,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
 
       await refresh();
       onComplete?.();
-      navigate(isTrial ? EGS_CONSOLE_PATH : INSTITUTION_ROUTES.desk, { replace: true });
+      navigate(INSTITUTION_ROUTES.desk, { replace: true });
     } finally {
       setBusy(false);
     }
@@ -284,6 +299,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
   return (
     <div className={isTrial ? 'inst-auth-panel' : 'inst-reg-shell inst-reg-shell--simple'}>
       <form className={isTrial ? 'inst-auth-card' : 'agigov-card inst-reg-form'} onSubmit={(e) => void submit(e)}>
+        {isTrial ? <InstitutionTrialSteps active={step - 1} /> : null}
         {isTrial ? (
           <p className="inst-auth-banner inst-auth-banner--ok">{t('trial.registerNote')}</p>
         ) : null}
@@ -380,7 +396,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
                 </label>
               ) : null}
             </>
-          ) : (
+          ) : step === 2 ? (
             <label className="inst-auth-field">
               <span>{t('reg.jurisdiction')}</span>
               <select
@@ -395,8 +411,9 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
                 ))}
               </select>
             </label>
-          )}
+          ) : null}
 
+          {(!isTrial || step === 2) ? (
           <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('reg.legalName')}</span>
             <input
@@ -408,9 +425,11 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               readOnly={!isTrial && !isOtherEntity && Boolean(entityCatalogId)}
             />
           </label>
+          ) : null}
 
+          {(!isTrial || step === 1) ? (
           <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
-            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('reg.officialEmail')}</span>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.email')}</span>
             <input
               type="email"
               required
@@ -421,11 +440,13 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               placeholder="finanzas@ministerio.gob.ve"
             />
           </label>
+          ) : null}
 
+          {(!isTrial || step === 1) ? (
           <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.password')}</span>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               minLength={8}
               autoComplete="new-password"
@@ -433,12 +454,15 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <span className="inst-auth-hint">{t('auth.passwordHint')}</span>
           </label>
+          ) : null}
 
+          {(!isTrial || step === 1) ? (
           <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.passwordConfirm')}</span>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               minLength={8}
               autoComplete="new-password"
@@ -446,7 +470,13 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
+            {isTrial ? (
+              <button type="button" className="inst-auth-hint" onClick={() => setShowPassword((v) => !v)}>
+                {showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
+              </button>
+            ) : null}
           </label>
+          ) : null}
         </div>
 
         {!isTrial ? (
@@ -506,6 +536,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         </details>
         ) : null}
 
+        {(!isTrial || step === 2) ? (
         <label className={`flex cursor-pointer items-start gap-3 text-sm ${isTrial ? 'mt-2' : 'mt-6'}`}>
           <input
             type="checkbox"
@@ -515,6 +546,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           />
           <span className="text-agigov-text-muted">{t('reg.terms')}</span>
         </label>
+        ) : null}
 
         {error ? (
           <p className="inst-auth-banner inst-auth-banner--error" role="alert">
@@ -532,12 +564,24 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           </p>
         ) : null}
 
-        {isTrial ? (
-          <button type="submit" className="desk-page-primary-btn justify-center" disabled={submitting}>
-            {submitting ? t('trial.bootstrapBusy') : t('trial.submit')}
+        {isTrial && step === 1 ? (
+          <button type="submit" className="desk-page-primary-btn justify-center">
+            {t('auth.continue')}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </button>
-        ) : (
+        ) : null}
+        {isTrial && step === 2 ? (
+          <div className="inst-auth-actions">
+            <button type="button" className="ds-btn-secondary" onClick={() => setStep(1)}>
+              {t('pilot.nav.back')}
+            </button>
+            <button type="submit" className="desk-page-primary-btn justify-center" disabled={submitting}>
+              {submitting ? t('trial.bootstrapBusy') : t('trial.submit')}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+        ) : null}
+        {!isTrial ? (
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button type="submit" className="ds-btn-app" disabled={submitting}>
               {t('reg.submit')}
@@ -550,7 +594,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               {t('reg.backInstitutional')}
             </Link>
           </div>
-        )}
+        ) : null}
 
         {isTrial ? (
           <p className="inst-auth-footnote inst-auth-footnote--center">
