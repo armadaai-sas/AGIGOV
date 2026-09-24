@@ -1,7 +1,7 @@
 # Plan de pulido OSGOV — hitos G1–G20 (Scrum / GO·NO-GO)
 
 **Estado:** activo · **Modo:** finish-product + UX polish  
-**Superficie live:** `http://137.184.66.163/`  
+**Superficie live:** `http://127.0.0.1/`  
 **Canvas:** `agigov-polish-g1-g20`  
 **Principio:** sin PASS inventado; cada hito cierra con evidencia. **No hace falta llegar a G20** — solo los G necesarios para producción usable.
 

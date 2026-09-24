@@ -1,6 +1,6 @@
 # Escrutinio ventanas — Sprint ciudadano / apps (live)
 
-**Fecha:** 2026-08-21 · **Host:** `http://137.184.66.163` · **SHA:** `50cc8f7`  
+**Fecha:** 2026-08-21 · **Host:** `http://127.0.0.1` · **SHA:** `50cc8f7`  
 **Método:** checklist PLAN-PULIDO + HEAD smoke + health JSON
 
 ## Smoke live (2026-08-21T16:01Z)
@@ -39,4 +39,4 @@
 
 ## Próximo movimiento
 
-**Solo G20:** ventana privada → http://137.184.66.163/institucional/registro → checklist `01-operador-b-checklist.md` → PNGs en `artifacts/` → `npm run verify:operador-b`.
+**Solo G20:** ventana privada → http://127.0.0.1/institucional/registro → checklist `01-operador-b-checklist.md` → PNGs en `artifacts/` → `npm run verify:operador-b`.

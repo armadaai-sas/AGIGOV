@@ -39,7 +39,7 @@ Checklist para publicar cambios de interfaz (landing + shell + páginas) sin rom
 ## Post-merge / pre-prod
 
 - [ ] Deploy [05-SERVER-DEPLOY-OPS.md](./05-SERVER-DEPLOY-OPS.md)
-- [ ] `curl -s -o /dev/null -w "%{http_code}" http://137.184.66.163/`
+- [ ] `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1/`
 - [ ] Screenshot opcional en `docs/design/` o case study
 - [ ] Hard refresh CDN/cache si aplica
 

@@ -82,7 +82,7 @@ Agrega pipelines existentes — **no inventa aristas**.
 ## 5. Evidencia PASS
 
 ```bash
-curl -s http://137.184.66.163/api/public/system/graph | jq '.nodes | length'
+curl -s http://127.0.0.1/api/public/system/graph | jq '.nodes | length'
 # ≥ 6 nodos con DATA Trust + EGS seed
 ```
 

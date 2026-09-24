@@ -96,7 +96,7 @@
     "block-b:pilot": "bash scripts/block-b-pilot.sh",
     "setup:guia": "open docs/SETUP-GUIA-MAC.md 2>/dev/null || cat docs/SETUP-GUIA-MAC.md",
     "desktop:dev": "concurrently -k \"npm run dev\" \"wait-on http://localhost:3000 && cross-env AGIGOV_DESKTOP_DEV=1 electron desktop/main.mjs\"",
-    "desktop:build:web": "cross-env VITE_DESKTOP=1 VITE_PUBLIC_API_URL=https://137.184.66.163 vite build",
+    "desktop:build:web": "cross-env VITE_DESKTOP=1 VITE_PUBLIC_API_URL=https://127.0.0.1 vite build",
     "desktop:pack": "npm run desktop:build:web && electron-builder --config desktop/electron-builder.yml",
     "desktop:pack:win": "npm run desktop:build:web && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --config desktop/electron-builder.yml --config.directories.output=%TEMP%/agigov-desktop-release",
     "desktop:pack:win:dir": "npm run desktop:build:web && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --dir --x64 --config desktop/electron-builder.yml --config.directories.output=%TEMP%/agigov-desktop-release",

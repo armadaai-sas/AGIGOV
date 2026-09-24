@@ -88,8 +88,8 @@ No añadir filtros “marketing” sin destino real (ej. “Resultados” como p
 ## Evidencia mínima al publicar
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}" http://137.184.66.163/modelos
-curl -s -o /dev/null -w "%{http_code}" http://137.184.66.163/modelos/<id>
+curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1/modelos
+curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1/modelos/<id>
 npm run models:audit
 ```
 

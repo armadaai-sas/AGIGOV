@@ -4,7 +4,7 @@
  * Runs in GitHub Actions — not on the founder PC.
  *
  * Env:
- *   AGIGOV_LIVE_URL  default http://137.184.66.163
+ *   AGIGOV_LIVE_URL  default http://127.0.0.1
  *   ARTIFACTS_DIR    default docs/commercial/case-studies/prueba-real-2/artifacts
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = (process.env.AGIGOV_LIVE_URL ?? 'http://137.184.66.163').replace(/\/$/, '');
+const BASE = (process.env.AGIGOV_LIVE_URL ?? 'http://127.0.0.1').replace(/\/$/, '');
 const ARTIFACTS = process.env.ARTIFACTS_DIR
   ? join(root, process.env.ARTIFACTS_DIR)
   : join(root, 'docs/commercial/case-studies/prueba-real-2/artifacts');

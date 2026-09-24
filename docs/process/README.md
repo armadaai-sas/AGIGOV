@@ -4,7 +4,7 @@
 
 **Regla transversal:** ningún PASS sin prueba (URL, log, artefacto). Ver [00-EVIDENCE-LAW.md](./00-EVIDENCE-LAW.md).
 
-**Superficie producto viva (referencia):** `http://137.184.66.163/`
+**Superficie producto viva (referencia):** `http://127.0.0.1/`
 
 ---
 
@@ -77,7 +77,7 @@ Ver [../design/TAXONOMY.md](../design/TAXONOMY.md):
 ## Para terceros (integradores, gobiernos, builders)
 
 1. Leer [07-INTEGRATOR-GUIDE.md](./07-INTEGRATOR-GUIDE.md)
-2. Probar health: `curl http://137.184.66.163/api/public/health`
+2. Probar health: `curl http://127.0.0.1/api/public/health`
 3. Abrir sandbox: `/institucional/registro` en la PWA
 4. Publicar un modelo: [03-MODEL-LIFECYCLE.md](./03-MODEL-LIFECYCLE.md) + [MODEL-MANIFEST-v1.md](../AGIGOV/MODEL-MANIFEST-v1.md)
 
