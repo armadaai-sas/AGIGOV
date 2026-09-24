@@ -1,6 +1,8 @@
 # Alcance público vs privado
 
-Decisión para abrir el repositorio en GitHub (ítem H5 de [OS-AUDIT-2026-09.md](OS-AUDIT-2026-09.md)). Este árbol sigue siendo el repo **privado**. El espejo público se arma a partir de estas tres listas. No se borra nada de aquí hasta el corte.
+Decisión tomada el 24 de septiembre de 2026: **opción 1**. Este árbol sigue siendo el repo **privado**. El espejo público, cuando se arme, usa las tres listas de abajo. No se borra nada de aquí.
+
+Un colaborador puede proponer cambios al producto. No puede publicar información privada. No recibe acceso al servidor, ni claves, ni la dirección de la máquina. El espejo todavía no se abre: varios archivos que entrarían en la copia nombran el servidor de producción, y eso hay que quitarlo antes de copiar.
 
 ## Entra al repo público
 
