@@ -47,6 +47,10 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
   const { implementationId } = usePlatform();
   const { sidebarCollapsed } = useDeskShell();
   const funnelMode = usesFunnelShell(pathname, implementationId);
+  const accountScreen =
+    pathname === INSTITUTION_ROUTES.hub ||
+    pathname.startsWith(INSTITUTION_ROUTES.login) ||
+    pathname.startsWith(INSTITUTION_ROUTES.register);
   const pageTitle = deskPageTitle(pathname);
   const showLegacyBanner = pathname.startsWith('/modelos');
 
@@ -59,31 +63,44 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
       className="app-shell"
       data-agigov-mode={funnelMode ? 'funnel' : 'full'}
       data-desk-collapsed={sidebarCollapsed ? 'true' : 'false'}
+      data-account-screen={accountScreen ? 'true' : 'false'}
     >
-      <div className={`app-sidebar-drawer ${mobileOpen ? 'app-sidebar-drawer--open' : ''}`}>
-        <div
-          className="app-sidebar-drawer-backdrop"
-          onClick={() => setMobileOpen(false)}
-          aria-hidden
-        />
-        <AppSidebar variant="drawer" />
-      </div>
+      {accountScreen ? null : (
+        <>
+          <div className={`app-sidebar-drawer ${mobileOpen ? 'app-sidebar-drawer--open' : ''}`}>
+            <div
+              className="app-sidebar-drawer-backdrop"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden
+            />
+            <AppSidebar variant="drawer" />
+          </div>
 
-      <div className="app-sidebar-desktop">
-        <AppSidebar variant="desk" />
-      </div>
+          <div className="app-sidebar-desktop">
+            <AppSidebar variant="desk" />
+          </div>
+        </>
+      )}
 
       <div className="app-shell-main">
         <header className="app-topbar">
           <div className="app-topbar-lead">
-            <DeskIconButton
-              kind={mobileOpen ? 'close' : 'menu'}
-              label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
-              className="app-topbar-menu lg:hidden"
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen((open) => !open)}
-            />
-            <span className="app-topbar-title lg:hidden">{pageTitle}</span>
+            {accountScreen ? (
+              <Link to="/escritorio" className="app-topbar-title">
+                Escritorio
+              </Link>
+            ) : (
+              <>
+                <DeskIconButton
+                  kind={mobileOpen ? 'close' : 'menu'}
+                  label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+                  className="app-topbar-menu lg:hidden"
+                  aria-expanded={mobileOpen}
+                  onClick={() => setMobileOpen((open) => !open)}
+                />
+                <span className="app-topbar-title lg:hidden">{pageTitle}</span>
+              </>
+            )}
           </div>
           <div className="app-topbar-center">
             <CommandPaletteButton />

@@ -143,7 +143,7 @@ export function InstitutionLoginForm() {
           </p>
         ) : null}
 
-        <button type="submit" className="desk-page-primary-btn w-full justify-center" disabled={busy}>
+        <button type="submit" className="desk-page-primary-btn justify-center" disabled={busy}>
           {busy ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

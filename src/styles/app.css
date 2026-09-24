@@ -46,7 +46,7 @@
   }
 
 .ds-btn-sm {
-    @apply min-h-[40px] px-5 text-sm;
+    @apply min-h-9 px-3 text-[13px];
   }
 
 .inst-pilot-wizard {
@@ -1056,7 +1056,7 @@
 }
 
 .os-modal-root {
-  @apply fixed inset-0 z-[100] flex items-center justify-center p-4;
+  @apply fixed inset-0 z-[200] flex items-center justify-center p-4;
 }
 
 .os-modal-backdrop {
@@ -1362,8 +1362,8 @@
 .inst-auth-page .desk-page-primary-btn,
 .inst-auth-page .app-btn,
 .inst-auth-page .ds-btn-app {
-  width: 100%;
-  max-width: 22rem;
+  width: auto;
+  align-self: flex-start;
   min-height: 36px;
   justify-content: center;
 }

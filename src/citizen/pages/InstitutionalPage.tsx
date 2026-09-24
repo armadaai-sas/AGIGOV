@@ -21,7 +21,7 @@ export default function InstitutionalPage() {
 
         <div className="inst-auth-panel">
           <div className="inst-auth-card inst-trial-hero">
-            <Link to={INSTITUTION_ROUTES.register} className="desk-page-primary-btn w-full justify-center no-underline">
+            <Link to={INSTITUTION_ROUTES.register} className="desk-page-primary-btn justify-center no-underline">
               <Rocket className="h-4 w-4" aria-hidden />
               Crear cuenta
               <ArrowRight className="h-4 w-4" aria-hidden />

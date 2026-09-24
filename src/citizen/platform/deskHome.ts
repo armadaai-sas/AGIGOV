@@ -140,10 +140,10 @@ const ENTERPRISE_HOME: DeskPersonaHome = {
     { title: 'Verifica liberación', detail: 'Custodia confirma — menos fricción al cobrar.' },
   ],
   primary: {
-    to: ENTERPRISE_ROUTES.hub,
-    label: 'Recorrido A→Z',
-    outcome: 'Catálogo → DATA → contacto',
-    icon: Briefcase,
+    to: '/modelos/evidencia-certificada',
+    label: 'Certificar un hito',
+    outcome: 'Evidencia del contrato',
+    icon: Receipt,
   },
   secondary: {
     to: '/modelos/evidencia-certificada',
@@ -213,10 +213,10 @@ const STATE_HOME: DeskPersonaHome = {
     { title: 'Publica resultado', detail: 'Telemetría visible en gestión pública.' },
   ],
   primary: {
-    to: INSTITUTION_ROUTES.pilot,
-    label: 'Piloto fiscal',
-    outcome: 'Desplegar EGS con asistencia',
-    icon: Rocket,
+    to: '/gestion',
+    label: 'Ver el ahorro',
+    outcome: 'Actos publicados',
+    icon: Activity,
   },
   secondary: {
     to: modelWorkspacePath('egs'),

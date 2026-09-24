@@ -1,6 +1,7 @@
 import { LogOut, Settings2, X } from 'lucide-react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   JURISDICTIONS,
@@ -12,6 +13,7 @@ import {
 } from '../../../config/sovereign/index.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
+import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 const LOCALE_LABELS: Record<SovereignLocale, string> = {
@@ -53,7 +55,7 @@ export function OsPreferencesModal({ open, onClose }: Props) {
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div className="os-modal-root" role="dialog" aria-modal="true" aria-labelledby="os-prefs-title">
       <button type="button" className="os-modal-backdrop" aria-label="Cerrar" onClick={onClose} />
       <div className="os-modal-panel os-modal-panel--narrow">
@@ -119,27 +121,34 @@ export function OsPreferencesModal({ open, onClose }: Props) {
             </select>
           </label>
 
-          <details className="os-field-advanced">
-            <summary>Tenant / jurisdicción (avanzado)</summary>
-            <label className="os-field mt-3">
-              <span>{t('settings.country')}</span>
-              <select
-                value={sovereign.iso}
-                onChange={(e) => setSovereignPref({ iso: e.target.value as JurisdictionIso })}
-              >
-                {(Object.keys(JURISDICTIONS) as JurisdictionIso[]).map((iso) => (
-                  <option key={iso} value={iso}>
-                    {JURISDICTIONS[iso].label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <p className="mt-2 text-xs text-agigov-text-muted">
-              La jurisdicción operativa se define en registro y piloto institucional.
+          <label className="os-field">
+            <span>País</span>
+            <select
+              value={sovereign.iso}
+              onChange={(e) => setSovereignPref({ iso: e.target.value as JurisdictionIso })}
+            >
+              {(Object.keys(JURISDICTIONS) as JurisdictionIso[]).map((iso) => (
+                <option key={iso} value={iso}>
+                  {JURISDICTIONS[iso].label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {!isAuthenticated ? (
+            <p className="os-prefs-account">
+              <Link to={loginPathWithRedirect('/escritorio')} onClick={onClose}>
+                Iniciar sesión
+              </Link>
+              <span aria-hidden> · </span>
+              <Link to={INSTITUTION_ROUTES.register} onClick={onClose}>
+                Crear cuenta
+              </Link>
             </p>
-          </details>
+          ) : null}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

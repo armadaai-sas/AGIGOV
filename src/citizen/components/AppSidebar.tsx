@@ -4,7 +4,6 @@ import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { DeskIconButton } from './desk/DeskGlyph.js';
-import { DeskSidebarAccount } from './desk/DeskSidebarAccount.js';
 import { agigovIconProps } from './icons/agigovIcon.js';
 import { DeskPersonaSwitch } from './desk/DeskPersonaSwitch.js';
 import { OsPreferencesModal } from './os/OsPreferencesModal.js';
@@ -73,17 +72,17 @@ export function AppSidebar({ variant = 'desk' }: { variant?: 'desk' | 'drawer' }
                 onClick={toggleSidebar}
               />
             </SidebarTooltip>
-            <SidebarTooltip label="Preferencias" hint="Idioma y cuenta" enabled={collapsed}>
+            <SidebarTooltip label="Preferencias" hint="Idioma, país y cuenta" enabled={collapsed}>
               <button
                 type="button"
-                className="app-sidebar-skin-btn"
+                className="app-sidebar-skin-btn app-sidebar-prefs-btn"
                 aria-label="Preferencias"
                 onClick={() => setPrefsOpen(true)}
               >
                 <Settings2 {...agigovIconProps('md')} />
+                {collapsed ? null : <span>Preferencias</span>}
               </button>
             </SidebarTooltip>
-            <DeskSidebarAccount collapsed={collapsed} />
           </div>
           {!collapsed ? <p className="app-sidebar-desk-hint">⌘K — todo lo demás</p> : null}
         </div>
