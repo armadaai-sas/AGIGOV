@@ -533,7 +533,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         ) : null}
 
         {isTrial ? (
-          <button type="submit" className="desk-page-primary-btn w-full justify-center" disabled={submitting}>
+          <button type="submit" className="desk-page-primary-btn justify-center" disabled={submitting}>
             {submitting ? t('trial.bootstrapBusy') : t('trial.submit')}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </button>

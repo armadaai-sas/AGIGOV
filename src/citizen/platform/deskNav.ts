@@ -5,7 +5,6 @@ import {
   Database,
   FileCheck,
   FileText,
-  Landmark,
   LayoutDashboard,
   Package,
   Receipt,
@@ -78,7 +77,6 @@ const ENTERPRISE_NAV = menu([
 ]);
 
 const STATE_NAV = menu([
-  { to: INSTITUTION_ROUTES.hub, label: 'Cuenta', outcome: 'La institución y su acceso', icon: Landmark },
   { to: INSTITUTION_ROUTES.pilot, label: 'Piloto', outcome: 'Preparar el cierre del trimestre', icon: Rocket },
   { to: INSTITUTION_ROUTES.console, label: 'Consola EGS', outcome: 'Revisar el ahorro publicado', icon: Activity },
   { to: '/contratos', label: 'Contratos', outcome: 'Hitos y evidencia', icon: FileCheck },

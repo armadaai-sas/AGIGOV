@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import { fetchMinistryHealth } from '../api.js';
 import { useCachedFetch } from '../hooks/useCitizenData.js';
@@ -11,7 +11,6 @@ import {
   EmptyState,
 } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
-import { modelWorkspacePath } from '../platform/modelWorkspace.js';
 import { StatusBadge } from '../components/StatusBadge.js';
 import { getDeskPageMeta } from '../platform/deskPageMeta.js';
 
@@ -34,12 +33,6 @@ export default function ContratosPage() {
           title="Contratos"
           result={meta.result}
           dataHint={meta.dataHint}
-          action={
-            <Link to={modelWorkspacePath('egs')} className="desk-page-primary-btn">
-              Espacio EGS
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          }
         />
 
         {fatalError ? (
