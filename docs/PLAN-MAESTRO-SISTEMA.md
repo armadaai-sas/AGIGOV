@@ -1,7 +1,7 @@
 # Plan maestro del sistema AGIGOV (2026)
 
 Actualización integral: producto · diseño · ingeniería · customer-centric.  
-Superficie viva: `http://137.184.66.163/` · Evidencia: [00-EVIDENCE-LAW.md](./process/00-EVIDENCE-LAW.md)
+Superficie viva: `http://127.0.0.1/` · Evidencia: [00-EVIDENCE-LAW.md](./process/00-EVIDENCE-LAW.md)
 
 ---
 
@@ -98,7 +98,7 @@ Superficie viva: `http://137.184.66.163/` · Evidencia: [00-EVIDENCE-LAW.md](./p
 - [x] Reglas métricas en doc ([DATA-TRUST-PIPELINE](./design/DATA-TRUST-PIPELINE.md), [EGS-PIPELINE](./design/EGS-PIPELINE.md))
 - [~] Sidebar expandido por defecto — diferido polish (G6)
 
-#### Evidencia gate (137.184.66.163)
+#### Evidencia gate (127.0.0.1)
 
 | # | Criterio | Prod | Notas |
 |---|----------|------|-------|

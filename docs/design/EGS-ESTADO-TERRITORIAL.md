@@ -3,7 +3,7 @@
 **Audiencia:** ministerios, gobernaciones, alcaldías, tesorería, contraloría.  
 **Propósito:** interconectar presupuesto, ejecución y resultados verificables — no solo “verificar”.  
 **Estado:** diseño de producto · **sin UI** hasta validación de este documento.  
-**Superficie viva:** http://137.184.66.163 · Piloto referencia: mantenimiento vial MPPI.
+**Superficie viva:** http://127.0.0.1 · Piloto referencia: mantenimiento vial MPPI.
 
 ---
 

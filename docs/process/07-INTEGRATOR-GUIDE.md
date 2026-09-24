@@ -12,7 +12,7 @@ Taxonomía completa: [TAXONOMY.md](../design/TAXONOMY.md)
 
 | Recurso | URL |
 |---------|-----|
-| PWA | https://137.184.66.163/ (o http en demo) |
+| PWA | https://127.0.0.1/ (o http en demo) |
 | Health | `/api/public/health` |
 | Dashboard demo | `/api/public/dashboard` |
 | Docs API en producto | `/desarrolladores` |
@@ -24,7 +24,7 @@ Taxonomía completa: [TAXONOMY.md](../design/TAXONOMY.md)
 ### Paso 1 — Probar vivo
 
 ```bash
-curl -s https://137.184.66.163/api/public/health
+curl -s https://127.0.0.1/api/public/health
 ```
 
 Esperado: JSON con `ok` y campos advisory (postgres puede ser soft offline).

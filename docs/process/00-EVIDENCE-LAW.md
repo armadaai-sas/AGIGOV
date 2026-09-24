@@ -21,10 +21,10 @@ Aplica a **todos** los procesos AGIGOV: diseño, dev, deploy, modelos, ventas, p
 
 | Superficie | URL |
 |------------|-----|
-| PWA | `http://137.184.66.163/` |
-| Health público | `http://137.184.66.163/api/public/health` |
-| Health ops | `http://137.184.66.163/api/ops/health` |
-| Dashboard demo | `http://137.184.66.163/api/public/dashboard` |
+| PWA | `http://127.0.0.1/` |
+| Health público | `http://127.0.0.1/api/public/health` |
+| Health ops | `http://127.0.0.1/api/ops/health` |
+| Dashboard demo | `http://127.0.0.1/api/public/dashboard` |
 
 Local (`localhost:3010`) sirve para **desarrollo UI**, no para declarar “producción mundial”.
 
@@ -37,8 +37,8 @@ Local (`localhost:3010`) sirve para **desarrollo UI**, no para declarar “produ
 ## Comandos de prueba rápida
 
 ```bash
-curl -s http://137.184.66.163/api/public/health
-curl -s -o /dev/null -w "%{http_code}" http://137.184.66.163/
+curl -s http://127.0.0.1/api/public/health
+curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1/
 npm run doctor
 ```
 

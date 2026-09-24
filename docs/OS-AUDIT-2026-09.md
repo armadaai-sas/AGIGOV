@@ -14,7 +14,7 @@ Método: análisis estático del repo (rutas, componentes, CSS) + revisiones pre
 
 ## A. Proceso, CI y flujo a producción (bloqueadores de avance)
 
-- [ ] **A1 · P0 · Nada llega a `main` → el droplet no avanza.** 10 PRs abiertos, todos apilados en borrador; `main` y `http://137.184.66.163/` siguen en un build de septiembre. Es la causa raíz de "no veo los cambios". → Consolidar y mergear un incremento a `main` (recomendado: la rama tip que agrupa todo el UI) y luego cerrar los borradores superados.
+- [ ] **A1 · P0 · Nada llega a `main` → el droplet no avanza.** 10 PRs abiertos, todos apilados en borrador; `main` y `http://127.0.0.1/` siguen en un build de septiembre. Es la causa raíz de "no veo los cambios". → Consolidar y mergear un incremento a `main` (recomendado: la rama tip que agrupa todo el UI) y luego cerrar los borradores superados.
 - [x] **A2 · P0 · CI en rojo (10 errores de `tsc`).** Resuelto: `tsc --noEmit` → 0 errores, `npm run build` OK. Falta que el gate de CI corra en verde sobre `main`.
 - [ ] **A3 · P1 · CI como gate obligatorio.** Asegurar que `ci.yml` (lint/build) sea *required check* en `main` antes de abrir el repo, para no re‑romper el árbol.
 - [ ] **A4 · P2 · Higiene del stack de ramas.** Hay muchas ramas `cursor/*` apiladas; tras consolidar, borrar las obsoletas y documentar la estrategia de branching en `CONTRIBUTING.md`.

@@ -1,7 +1,7 @@
 {
   "titulo": "Prueba EGS — ministerio (Operador B)",
   "version": "2026-08-30",
-  "superficie": "http://137.184.66.163",
+  "superficie": "http://127.0.0.1",
   "tiempo_estimado_min": 45,
   "requisitos": [
     "Ventana privada / perfil limpio",
@@ -98,17 +98,17 @@
   "probes_api": [
     {
       "nombre": "Health",
-      "curl": "curl -s http://137.184.66.163/api/ops/health",
+      "curl": "curl -s http://127.0.0.1/api/ops/health",
       "ok_si": "ok:true y postgres:true"
     },
     {
       "nombre": "Salud ministerio",
-      "curl": "curl -s \"http://137.184.66.163/api/public/egs/ministry-health?ministry=MINTRANS\"",
+      "curl": "curl -s \"http://127.0.0.1/api/public/egs/ministry-health?ministry=MINTRANS\"",
       "ok_si": "available true, reconcileOk, published"
     },
     {
       "nombre": "Estado consola + CTA",
-      "curl": "curl -s \"http://137.184.66.163/api/public/models/egs/status?ministry=MINTRANS\"",
+      "curl": "curl -s \"http://127.0.0.1/api/public/models/egs/status?ministry=MINTRANS\"",
       "ok_si": "estadoConsola y primaryAction.label"
     }
   ],
