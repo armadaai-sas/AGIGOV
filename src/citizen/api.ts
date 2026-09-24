@@ -466,6 +466,37 @@ export function fetchBillingCatalog() {
   return fetchPublic<BillingCatalogResponse>('/api/public/billing/catalog');
 }
 
+export interface PublicBillingPlan {
+  id: 'free' | 'saas' | 'sovereign';
+  name: string;
+  amountUsd: number;
+  period: 'year' | 'none';
+  summary: string;
+}
+
+export function fetchBillingPlans() {
+  return fetchPublic<{ updatedAt: string; paymentConnected: false; plans: PublicBillingPlan[] }>(
+    '/api/public/billing/plans',
+  );
+}
+
+export interface BillingOrderReceipt {
+  id: string;
+  plan: PublicBillingPlan['id'];
+  amountUsd: number;
+  status: 'pending' | 'no_charge';
+  charged: false;
+  message: string;
+}
+
+export function createBillingOrder(body: {
+  plan: PublicBillingPlan['id'];
+  institutionName: string;
+  email: string;
+}) {
+  return postPublicJson<BillingOrderReceipt>('/api/public/billing/orders', body);
+}
+
 export interface DataTrustDatasetMeta {
   id: string;
   sector: string;

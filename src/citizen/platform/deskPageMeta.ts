@@ -25,6 +25,10 @@ const DESK_PAGE_META: Record<string, DeskPageMeta> = {
     result: 'Suministros públicos, agregados y sin datos personales.',
     dataHint: 'Solo consulta — totales por estado.',
   },
+  '/facturacion': {
+    result: 'Pides un plan. No se cobra ninguna tarjeta desde esta pantalla.',
+    dataHint: 'Institución y correo. El pago queda pendiente.',
+  },
   '/contratos': {
     result: 'Custodia por hitos — liberación con evidencia.',
     dataHint: 'Contratos y cadena de custodia.',

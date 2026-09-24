@@ -25,6 +25,7 @@ import { buildChargeCatalog } from '../billing/catalog.js';
 import { assertFreeCostZero, resolvePlan } from '../billing/plan.js';
 import { getBillingFreeze, clearBillingFreeze } from '../billing/freeze.js';
 import { computeEgsFeeInvoice } from '../billing/egs-fee.js';
+import { createBillingOrder, listPublicBillingPlans } from '../billing/orders.js';
 import { claimTenantSeat, getTenantSeats, setTenantSaasPlan } from '../billing/seats.js';
 import type { AgigovPlan } from '../billing/plan.js';
 import { getDatasetById, getPublishedDatasets } from '../data-trust/aggregation.js';
@@ -745,6 +746,29 @@ app.get('/api/public/billing/usage', async (req, res) => {
   }
 });
 
+function billingOrdersPath(): string {
+  return join(process.cwd(), 'data', 'billing-orders.jsonl');
+}
+
+app.get('/api/public/billing/plans', (_req, res) => {
+  res.json({
+    updatedAt: new Date().toISOString(),
+    paymentConnected: false,
+    plans: listPublicBillingPlans(),
+  });
+});
+
+app.post('/api/public/billing/orders', (req, res) => {
+  try {
+    const body = req.body as { plan?: string; institutionName?: string; email?: string };
+    const order = createBillingOrder(body, billingOrdersPath());
+    res.status(201).json(order);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'No se pudo registrar el pedido';
+    res.status(400).json({ error: msg });
+  }
+});
+
 app.get('/api/public/billing/catalog', (_req, res) => {
   try {
     const catalog = buildChargeCatalog();
@@ -1125,6 +1149,8 @@ app.get('/api/public/openapi.json', (_req, res) => {
       '/api/public/billing/usage': {
         get: { summary: 'Uso IaaU + invoice + freeGuard + freeze + checkpoint reconcile P1' },
       },
+      '/api/public/billing/plans': { get: { summary: 'Planes públicos. El cobro no está conectado.' } },
+      '/api/public/billing/orders': { post: { summary: 'Pedido de plan pendiente. No cobra tarjeta.' } },
       '/api/public/billing/catalog': { get: { summary: 'Catálogo cobro P0/P1 (seats SaaS)' } },
       '/api/public/billing/egs-preview': { post: { summary: 'Preview fee EGS 10% Δ' } },
       '/api/ops/tenants/{slug}/seats': { get: { summary: 'Cupo seats SaaS del tenant' } },

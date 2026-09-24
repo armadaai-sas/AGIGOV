@@ -80,6 +80,7 @@ const CITIZEN_NAV = menu([
 ]);
 
 const ENTERPRISE_NAV = menu([
+  { to: '/facturacion', label: 'Plan', outcome: 'Pedir licencia. El cobro queda pendiente', icon: Receipt },
   { to: '/modelos/data-trust', label: 'Datos del sector', outcome: 'Cifras agregadas, sin datos personales', icon: Database },
   { to: '/modelos/evidencia-certificada', label: 'Evidencia', outcome: 'Certificar un hito', icon: Receipt },
   { to: '/contratos', label: 'Contratos', outcome: 'Custodia y liberación por hito', icon: FileCheck },
@@ -87,6 +88,7 @@ const ENTERPRISE_NAV = menu([
 ]);
 
 const STATE_NAV = menu([
+  { to: '/facturacion', label: 'Plan', outcome: 'Pedir licencia. El cobro queda pendiente', icon: Receipt },
   { to: INSTITUTION_ROUTES.pilot, label: 'Piloto', outcome: 'Preparar el cierre del trimestre', icon: Rocket },
   { to: INSTITUTION_ROUTES.console, label: 'Ahorro', outcome: 'Lo publicado del trimestre', icon: Activity },
   { to: '/contratos', label: 'Contratos', outcome: 'Hitos y evidencia', icon: FileCheck },

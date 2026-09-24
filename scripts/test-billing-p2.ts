@@ -3,6 +3,9 @@
  * Sin DB. Uso: npm run test:billing
  */
 import assert from 'node:assert/strict';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 import { assertFreeCostZero, resolvePlan } from '../src/billing/plan.js';
 import { buildChargeCatalog } from '../src/billing/catalog.js';
@@ -12,6 +15,7 @@ import {
   getUsageSummary,
 } from '../src/billing/metering.js';
 import { computeEgsFeeInvoice } from '../src/billing/egs-fee.js';
+import { createBillingOrder } from '../src/billing/orders.js';
 
 function section(name: string) {
   console.log(`  ✓ ${name}`);
@@ -101,6 +105,23 @@ function section(name: string) {
   const summary = getUsageSummary('test-billing-p2');
   assert.ok(summary.totalUnits >= 1);
   section('metering record + reconcile shape');
+}
+
+{
+  const dir = mkdtempSync(join(tmpdir(), 'agigov-billing-'));
+  const file = join(dir, 'orders.jsonl');
+  const order = createBillingOrder(
+    { plan: 'saas', institutionName: 'Ministerio de prueba', email: 'mesa@example.com' },
+    file,
+  );
+  assert.equal(order.charged, false);
+  assert.equal(order.status, 'pending');
+  assert.equal(order.amountUsd, 18000);
+  assert.throws(
+    () => createBillingOrder({ plan: 'saas', institutionName: 'Ministerio', email: 'no' }, file),
+    /correo/,
+  );
+  section('plan order records a pending request and does not charge');
 }
 
 console.log('[test:billing] OK');
