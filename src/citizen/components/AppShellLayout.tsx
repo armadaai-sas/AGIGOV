@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import { publicDemoActive, subscribePublicDemo } from '../demo/publicDemo.js';
 
 import '../../styles/app.css';
 import '../../styles/desk.css';
@@ -91,10 +93,22 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
 
         <div className="app-shell-content app-shell-content--desk">
           {showLegacyBanner ? <LegacyRedirectBanner /> : null}
+          <PublicDemoNotice />
           {children}
         </div>
       </div>
     </div>
+  );
+}
+
+function PublicDemoNotice() {
+  const { pathname } = useLocation();
+  const active = useSyncExternalStore(subscribePublicDemo, publicDemoActive, () => false);
+  if (!active || pathname.startsWith('/modelos/egs/consola')) return null;
+  return (
+    <p className="egs-demo-banner" role="status">
+      Demostración. Estos datos muestran el producto; no son un cierre publicado.
+    </p>
   );
 }
 

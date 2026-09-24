@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { demoRequested, markDemoKey, publicDemoFixture } from '../demo/publicDemo.js';
+
 import { readCache, writeCache } from '../cache.js';
 import type { NetworkSyncState } from '../api.js';
 
@@ -38,28 +40,59 @@ export function useCachedFetch<T>(
       setState('syncing');
     }
 
+    const fixture = publicDemoFixture(key) as T | null;
+    if (demoRequested() && fixture) {
+      dataRef.current = fixture;
+      setData(fixture);
+      setState('synced');
+      setLastUpdated(new Date().toISOString());
+      setError(null);
+      markDemoKey(key, true);
+      return;
+    }
+
     try {
-      const fresh = await fetcherRef.current();
+      const fresh = await Promise.race([
+        fetcherRef.current(),
+        new Promise<never>((_, reject) => {
+          window.setTimeout(() => reject(new Error('timeout')), fixture ? 2500 : 20000);
+        }),
+      ]);
       dataRef.current = fresh;
       setData(fresh);
       await writeCache(key, fresh);
       setState('synced');
       setLastUpdated(new Date().toISOString());
       setError(null);
+      markDemoKey(key, false);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Error de red';
+      if (message === 'idle') {
+        setState('synced');
+        setError(null);
+        return;
+      }
       const cached = await readCache<T>(key);
       const fallback = cached ?? dataRef.current;
-      if (fallback !== null) {
+      if (fallback !== null && !demoRequested()) {
         dataRef.current = fallback;
         setData(fallback);
         setState('offline');
         setError(message);
+        markDemoKey(key, false);
+      } else if (fixture) {
+        dataRef.current = fixture;
+        setData(fixture);
+        setState('synced');
+        setLastUpdated(new Date().toISOString());
+        setError(null);
+        markDemoKey(key, true);
       } else {
         dataRef.current = null;
         setData(null);
         setState('error');
         setError(message);
+        markDemoKey(key, false);
       }
     }
   }, [key]);

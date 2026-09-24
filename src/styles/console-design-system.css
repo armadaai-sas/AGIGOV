@@ -40,9 +40,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
-    min-height: 32px;
-    padding: 0 12px;
-    border-radius: var(--console-radius);
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 8px;
     border: 1px solid transparent;
     font-family: var(--font-sans);
     font-size: var(--console-font);
@@ -93,9 +93,9 @@
   }
 
   .app-btn--sm {
-    min-height: 28px;
-    padding: 0 10px;
-    font-size: var(--console-font-sm);
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: var(--console-font);
   }
 
   .app-btn--lg {

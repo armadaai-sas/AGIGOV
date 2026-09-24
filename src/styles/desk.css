@@ -2147,6 +2147,55 @@
   margin: 0;
 }
 
+@media (max-width: 420px) {
+  .desk-page-metrics,
+  .egs-run-metrics,
+  .os-metrics-row,
+  .desk-console-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .desk-console-table,
+  .egs-run {
+    max-width: 100%;
+  }
+
+  .desk-console-detail {
+    overflow-x: auto;
+  }
+
+  .desk-console-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .egs-run {
+    padding: 0.875rem;
+  }
+
+  .egs-run-head,
+  .desk-page-head,
+  .os-workspace-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .egs-run-label,
+  .egs-run-detail {
+    overflow-wrap: anywhere;
+  }
+
+  .desk-page-action .app-btn,
+  .desk-page-action .ds-btn-app,
+  .desk-page-action .desk-page-primary-btn,
+  .os-workspace-cta .app-btn,
+  .os-workspace-cta .ds-btn-app,
+  .os-workspace-cta .ds-btn-secondary,
+  .os-workspace-cta .desk-page-primary-btn {
+    width: 100%;
+  }
+}
+
 .egs-run-metrics dt {
   font-size: 11px;
   color: var(--console-text-muted, #71717a);

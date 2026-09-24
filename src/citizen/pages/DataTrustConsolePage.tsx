@@ -19,6 +19,7 @@ import { agigovIconProps } from '../components/icons/agigovIcon.js';
 import { getAgigovModel } from '../platform/agigovModels.js';
 import { processStepFromDataTrustPipeline } from '../platform/dataTrustPipeline.js';
 import { humanizeDataTrustMetric } from '../platform/dataTrustMetrics.js';
+import { dataTrustPipelineDemo, demoRequested, markDemoKey } from '../demo/publicDemo.js';
 
 export default function DataTrustConsolePage() {
   const model = getAgigovModel('data-trust');
@@ -39,10 +40,18 @@ export default function DataTrustConsolePage() {
   );
 
   const loadPipeline = useCallback(async () => {
+    if (demoRequested()) {
+      setPipeline(dataTrustPipelineDemo());
+      markDemoKey('data-trust-pipeline', true);
+      setPipelineLoading(false);
+      return;
+    }
     try {
       setPipeline(await fetchDataTrustPipeline());
+      markDemoKey('data-trust-pipeline', false);
     } catch {
-      setPipeline(null);
+      setPipeline(dataTrustPipelineDemo());
+      markDemoKey('data-trust-pipeline', true);
     } finally {
       setPipelineLoading(false);
     }
