@@ -52,8 +52,8 @@ export type DeskPersonaHome = {
 };
 
 const CITIZEN_HOME: DeskPersonaHome = {
-  hubBadge: 'Gratis siempre',
-  resultFocus: 'Ve lo publicado, participa con hechos y aprende el marco — sin exponer tu identidad.',
+  hubBadge: 'Ciudadano',
+  resultFocus: 'Mira lo publicado y envía una propuesta con hechos.',
   dataLead: 'Tres pasos para introducir tu propuesta.',
   steps: [
     { title: 'Abre Participar', detail: 'Describe la utilidad concreta que buscas.' },
@@ -80,13 +80,13 @@ const CITIZEN_HOME: DeskPersonaHome = {
         {
           to: '/gestion',
           label: 'Gestión pública',
-          outcome: 'Telemetría en vivo',
+          outcome: 'Actos publicados',
           icon: Activity,
         },
         {
           to: '/propuestas',
-          label: 'Dictámenes',
-          outcome: 'Estado de propuestas',
+          label: 'Propuestas',
+          outcome: 'Lo que ya se publicó',
           icon: FileText,
         },
         {
@@ -131,8 +131,8 @@ const CITIZEN_HOME: DeskPersonaHome = {
 };
 
 const ENTERPRISE_HOME: DeskPersonaHome = {
-  hubBadge: 'Recorrido + por uso',
-  resultFocus: 'Certifica hitos, consulta DATA Trust y cobra con evidencia demostrable.',
+  hubBadge: 'Empresa',
+  resultFocus: 'Certifica un hito y consulta datos agregados.',
   dataLead: 'Tres pasos para conectar tus datos operativos.',
   steps: [
     { title: 'Recorre el catálogo', detail: 'Modelos B2B alineados a tu sector.' },
@@ -204,8 +204,8 @@ const ENTERPRISE_HOME: DeskPersonaHome = {
 };
 
 const STATE_HOME: DeskPersonaHome = {
-  hubBadge: 'Piloto · éxito sobre Δ',
-  resultFocus: 'Despliega EGS, publica telemetría y custodia contratos con evidencia.',
+  hubBadge: 'Estado',
+  resultFocus: 'Revisa el ahorro publicado y los contratos.',
   dataLead: 'Tres pasos para desplegar con datos institucionales.',
   steps: [
     { title: 'Registra institución', detail: 'Correo oficial — sesión vinculada.' },
@@ -250,7 +250,7 @@ const STATE_HOME: DeskPersonaHome = {
         {
           to: '/gestion',
           label: 'Gestión pública',
-          outcome: 'Telemetría ciudadana',
+          outcome: 'Actos publicados',
           icon: ScrollText,
         },
       ],
@@ -277,8 +277,8 @@ const STATE_HOME: DeskPersonaHome = {
 };
 
 const INTEGRATOR_HOME: DeskPersonaHome = {
-  hubBadge: 'OSS + metering',
-  resultFocus: 'Conecta API, firma IAP y prueba custodia antes de producción.',
+  hubBadge: 'Integrador',
+  resultFocus: 'Abre la API y prueba un contrato.',
   dataLead: 'Tres pasos para integrar tu stack.',
   steps: [
     { title: 'Revisa la API', detail: 'Health, OpenAPI y rutas.' },
@@ -311,7 +311,7 @@ const INTEGRATOR_HOME: DeskPersonaHome = {
         {
           to: '/modelos',
           label: 'Modelos',
-          outcome: 'Catálogo IAP',
+          outcome: 'Catálogo de modelos',
           icon: Package,
         },
       ],
@@ -335,7 +335,7 @@ const INTEGRATOR_HOME: DeskPersonaHome = {
         {
           to: '/aprender/glosario',
           label: 'Glosario',
-          outcome: 'Protocolo e IAP',
+          outcome: 'Términos en claro',
           icon: BookOpen,
         },
         {

@@ -31,7 +31,7 @@ export default function EscritorioPage() {
       />
 
       {!isAuthenticated && persona === 'state' ? (
-        <p className="desk-home-register">
+        <p className="desk-home-register desk-home-register--inline">
           <Link to={INSTITUTION_ROUTES.register}>Crear cuenta para probar EGS</Link>
           <span className="desk-home-register-sep"> · </span>
           <Link to={INSTITUTION_ROUTES.login}>Iniciar sesión</Link>
