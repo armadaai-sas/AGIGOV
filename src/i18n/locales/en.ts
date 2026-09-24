@@ -703,7 +703,7 @@ const en = {
   'landing.min.what.institutional.meta': 'Registration, pilot and human support',
   'landing.min.oss.title': 'Product rules',
   'landing.min.oss.lead':
-    'The rules are on this site. The public repository is not open yet.',
+    'The rules are on this site. The code is in the public repository.',
   'landing.min.oss.repoLabel': 'Help',
   'landing.min.oss.repoMeta': 'What each function is and how to use it',
   'landing.min.oss.devLabel': 'Developers',
