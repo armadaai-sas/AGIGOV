@@ -39,6 +39,7 @@ const GlosarioPage = lazy(() => import('./pages/GlosarioPage.js'));
 const HelpCenterPage = lazy(() => import('./pages/HelpCenterPage.js'));
 const HelpTutorialPage = lazy(() => import('./pages/HelpTutorialPage.js'));
 const BillingPage = lazy(() => import('./pages/BillingPage.js'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage.js'));
 const DevelopersPage = lazy(() => import('./pages/DevelopersPage.js'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage.js'));
 const EgsContractDetailPage = lazy(() => import('./pages/EgsContractDetailPage.js'));
@@ -85,6 +86,7 @@ function AppRoutes() {
         <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
         <Route path="/contratos" element={<ContratosPage />} />
         <Route path="/facturacion" element={<BillingPage />} />
+        <Route path="/ajustes" element={<SettingsPage />} />
         <Route path="/transparencia" element={<TransparenciaPage />} />
         <Route path="/dashboard" element={<Navigate to="/modelos/egs/consola" replace />} />
         <Route path="/proyectos/salud" element={<Navigate to="/modelos/egs/consola" replace />} />

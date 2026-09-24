@@ -40,21 +40,21 @@ export function listPublicBillingPlans(): PublicBillingPlan[] {
       name: 'Libre',
       amountUsd: 0,
       period: 'none',
-      summary: 'Prueba con infraestructura propia. No hay cobro.',
+      summary: 'Prueba con infraestructura propia. No hay cobro de licencia ni de uso.',
     },
     {
       id: 'saas',
       name: 'Licencia',
       amountUsd: SAAS_ANNUAL_USD.saas,
       period: 'year',
-      summary: 'Licencia anual de la plataforma para una institución.',
+      summary: 'Licencia anual para una institución. Pedir el plan no cobra ninguna tarjeta.',
     },
     {
       id: 'sovereign',
       name: 'Soberana',
       amountUsd: SAAS_ANNUAL_USD.sovereign,
       period: 'year',
-      summary: 'Licencia anual con asientos incluidos.',
+      summary: 'Licencia anual con asientos incluidos. Pedir el plan no cobra ninguna tarjeta.',
     },
   ];
 }

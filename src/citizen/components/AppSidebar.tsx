@@ -1,12 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { Settings2 } from 'lucide-react';
 
 import { AgigovLogo } from './AgigovLogo.js';
 import { DeskIconButton } from './desk/DeskGlyph.js';
 import { agigovIconProps } from './icons/agigovIcon.js';
 import { DeskPersonaSwitch } from './desk/DeskPersonaSwitch.js';
-import { OsPreferencesModal } from './os/OsPreferencesModal.js';
 import { SidebarTooltip } from './SidebarTooltip.js';
 import { useDeskShell } from '../context/DeskShellContext.js';
 import {
@@ -22,7 +20,6 @@ export function AppSidebar({ variant = 'desk' }: { variant?: 'desk' | 'drawer' }
   const { pathname, hash, search } = useLocation();
   const { sidebarCollapsed, toggleSidebar, persona } = useDeskShell();
   const collapsed = variant === 'desk' && sidebarCollapsed;
-  const [prefsOpen, setPrefsOpen] = useState(false);
   const sections = getDeskNavSections(persona);
 
   return (
@@ -72,22 +69,20 @@ export function AppSidebar({ variant = 'desk' }: { variant?: 'desk' | 'drawer' }
                 onClick={toggleSidebar}
               />
             </SidebarTooltip>
-            <SidebarTooltip label="Preferencias" hint="Idioma, país y cuenta" enabled={collapsed}>
-              <button
-                type="button"
+            <SidebarTooltip label="Ajustes" hint="Cuenta, plan y uso" enabled={collapsed}>
+              <Link
+                to="/ajustes"
                 className="app-sidebar-skin-btn app-sidebar-prefs-btn"
-                aria-label="Preferencias"
-                onClick={() => setPrefsOpen(true)}
+                aria-label="Ajustes"
               >
                 <Settings2 {...agigovIconProps('md')} />
-                {collapsed ? null : <span>Preferencias</span>}
-              </button>
+                {collapsed ? null : <span>Ajustes</span>}
+              </Link>
             </SidebarTooltip>
           </div>
           {!collapsed ? <p className="app-sidebar-desk-hint">⌘K — todo lo demás</p> : null}
         </div>
       </aside>
-      <OsPreferencesModal open={prefsOpen} onClose={() => setPrefsOpen(false)} />
     </>
   );
 }
