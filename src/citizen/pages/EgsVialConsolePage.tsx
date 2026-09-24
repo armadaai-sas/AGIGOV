@@ -99,7 +99,7 @@ export default function EgsVialConsolePage() {
       }
     >
       <ModelConsoleLayout
-        eyebrow={model?.shortName ?? 'EGS'}
+        eyebrow={model?.shortName ?? 'Ahorro'}
         title={title}
         result={
           data
@@ -151,7 +151,7 @@ export default function EgsVialConsolePage() {
 
         <p className="model-console-foot">
           <Link to={EGS_MODEL_PATH} className="desk-console-foot-link">
-            Ficha del modelo EGS
+            Ficha del ahorro
           </Link>
         </p>
       </ModelConsoleLayout>

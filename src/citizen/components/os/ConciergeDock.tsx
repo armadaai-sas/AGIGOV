@@ -17,10 +17,10 @@ const FAQ = [
     cta: 'Abrir entorno de prueba',
   },
   {
-    q: '¿Qué es EGS?',
+    q: '¿Qué es el ahorro?',
     a: 'Reparto del ahorro por eficiencia: comisión solo sobre ahorro verificado.',
     to: EGS_MODEL_PATH,
-    cta: 'Ver modelo EGS',
+    cta: 'Ver el ahorro',
   },
   {
     q: '¿Necesito hablar con alguien?',
@@ -33,7 +33,7 @@ const FAQ = [
 function matchFaq(input: string) {
   const q = input.toLowerCase();
   if (q.includes('precio') || q.includes('costo') || q.includes('comisión')) {
-    return 'Comisión solo sobre ahorro certificado (EGS). Piloto institucional: contacto humano para cotización.';
+    return 'Comisión solo sobre ahorro certificado. Piloto institucional: contacto humano para cotización.';
   }
   if (q.includes('registr') || q.includes('empez') || q.includes('sandbox')) {
     return 'Registro en /institucional/registro — cuenta gratis para probar la plataforma.';
@@ -42,7 +42,7 @@ function matchFaq(input: string) {
     return 'Documentación en /desarrolladores. Verifica health en vivo antes de integrar.';
   }
   if (q.includes('congel') || q.includes('centinela') || q.includes('freeze')) {
-    return 'Centinela pausa mutaciones si la evidencia no cuadra. Un humano decide antes de publicar.';
+    return 'Si la evidencia no cuadra, los cambios se pausan. Una persona decide antes de publicar.';
   }
   return null;
 }

@@ -59,7 +59,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
   {
     id: 'egs',
     name: 'Reparto del ahorro por eficiencia',
-    shortName: 'EGS',
+    shortName: 'Ahorro',
     audience: 'gubernamental',
     status: 'disponible',
     icon: TrendingDown,
@@ -79,7 +79,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Acta línea base multifirma fija el techo presupuestario',
       'Logístico registra ejecución e hitos en escrow',
-      'Centinela reconcilia antes del Cierre trimestral',
+      'Revisión reconcilia antes del Cierre trimestral',
       'Comunicador publica ahorro y reparto en panel',
     ],
     businessModel: {
@@ -88,7 +88,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Ahorro neto verificable vs baseline firmada',
     },
     operationalModel: {
-      agents: 'Centinela · Logístico · Soberano · Comunicador',
+      agents: 'Revisión · Logístico · Soberano · Comunicador',
       flow: 'Línea base → ejecución → reconciliación → Cierre trimestral → reparto',
       evidence: 'Registro inmutable + acta multifirma + hashes de hitos',
     },
@@ -128,7 +128,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Elecciones certificadas sin incidente centinela material',
     },
     operationalModel: {
-      agents: 'Centinela · Soberano · Comunicador',
+      agents: 'Revisión · Soberano · Comunicador',
       flow: 'Emisión → registro → recuento → publicación → auditoría',
       evidence: 'Hash chain por mesa/territorio + acta multifirma',
     },
@@ -159,7 +159,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Soberano valida marco contractual',
       'Logístico programa liberaciones',
-      'Centinela valida evidencia por hito',
+      'Revisión valida evidencia por hito',
       'Comunicador publica estado por contrato',
     ],
     businessModel: {
@@ -168,7 +168,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Hitos liberados sin discrepancia centinela',
     },
     operationalModel: {
-      agents: 'Logístico · Centinela · Conciliador (disputas)',
+      agents: 'Logístico · Revisión · Conciliador (disputas)',
       flow: 'Contrato → escrow → hitos → validación → pago',
       evidence: 'Evidencia firmada + validators triple (centinela, IoT, ciudadanos)',
     },
@@ -189,7 +189,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     purpose:
       'Publicar telemetría de actos institucionales (propuestas, commits, reportes) desde ledger verificable, con pipeline received → validated → decided → published.',
     whyVital:
-      'Sin rendición de cuentas verificable no hay confianza fiscal ni política. Este modelo es la capa de transparencia mínima antes de EGS o escrow avanzado.',
+      'Sin rendición de cuentas verificable no hay confianza fiscal ni política. Este modelo es la capa de transparencia mínima antes del ahorro o de una custodia avanzada.',
     benefits: [
       'Panel público sin datos personales',
       'Flujo institucional auditable',
@@ -199,7 +199,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Agentes procesan actos con evidenceBundle',
       'Solo estado published llega a API pública',
-      'Centinela bloquea irregularidades (congelación)',
+      'Revisión bloquea irregularidades (congelación)',
       'Comunicador renderiza telemetría ciudadana',
     ],
     businessModel: {
@@ -208,7 +208,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Cero discrepancias material centinela en periodo',
     },
     operationalModel: {
-      agents: 'Comunicador · Centinela · Soberano',
+      agents: 'Comunicador · Revisión · Soberano',
       flow: 'Acto → validación → registro → publicación',
       evidence: 'Entradas del registro + reportes publicados',
     },
@@ -238,7 +238,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     ],
     howItWorks: [
       'Ejecución genera evento metered',
-      'Centinela cruza metering ↔ ledger',
+      'Revisión cruza metering ↔ ledger',
       'Factura mensual jurisdicción / integrador',
       'Topes definidos en carta institucional',
     ],
@@ -248,7 +248,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Tx/día firmadas vs costo infra + margen',
     },
     operationalModel: {
-      agents: 'Logístico · Centinela',
+      agents: 'Logístico · Revisión',
       flow: 'Uso → metering → conciliación → factura',
       evidence: 'Registro metering + hash ledger',
     },
@@ -278,7 +278,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     ],
     howItWorks: [
       'Flujo ETL de agregación',
-      'Centinela + dictamen soberano previo',
+      'Revisión + dictamen soberano previo',
       'Licencia por sector / dataset',
       'Publicación de metadatos de uso en el registro',
     ],
@@ -288,7 +288,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Revenue positivo mes 6; 0 incidentes re-ID',
     },
     operationalModel: {
-      agents: 'Centinela · Soberano · Comunicador',
+      agents: 'Revisión · Soberano · Comunicador',
       flow: 'Agregación → auditoría → licencia → API',
       evidence: 'Dictamen conforme + logs de acceso',
     },
@@ -319,7 +319,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Integrador registra DID en registry',
       'Envía evidencia vía API / bus MQTT',
-      'Centinela valida firma y frescura',
+      'Revisión valida firma y frescura',
       'Custodia recibe señal de liberación',
     ],
     businessModel: {
@@ -328,7 +328,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Tiempo medio validación hito ↓ vs manual',
     },
     operationalModel: {
-      agents: 'Centinela · Logístico',
+      agents: 'Revisión · Logístico',
       flow: 'Evidencia → validación → señal escrow',
       evidence: 'SignedAgentEnvelope v1',
     },
@@ -439,7 +439,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
     howItWorks: [
       'Autoridad convoca consulta con quórum definido',
       'Ciudadanos emiten preferencia cifrada',
-      'Centinela valida integridad del proceso',
+      'Revisión valida integridad del proceso',
       'Resultado publicado con acta multifirma',
     ],
     businessModel: {
@@ -448,7 +448,7 @@ export const AGIGOV_MODELS: readonly AgigovModel[] = [
       metric: 'Consultas cerradas sin incidente de congelación',
     },
     operationalModel: {
-      agents: 'Centinela · Comunicador · Soberano',
+      agents: 'Revisión · Comunicador · Soberano',
       flow: 'Convocatoria → emisión → cierre → publicación',
       evidence: 'Acta + agregados + hashes de urna digital',
     },

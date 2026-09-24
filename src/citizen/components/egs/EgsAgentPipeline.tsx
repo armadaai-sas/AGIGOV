@@ -10,7 +10,7 @@ const SWARM_AGENTS: Array<{
   label: string;
   role: string;
 }> = [
-  { key: 'centinela', label: 'Centinela', role: 'Verifica la custodia de fondos' },
+  { key: 'centinela', label: 'Revisión', role: 'Verifica la custodia de fondos' },
   { key: 'logistico', label: 'Logístico', role: 'Calcula el reparto del ahorro' },
   { key: 'soberano', label: 'Soberano', role: 'Dictamen de tesorería' },
   { key: 'comunicador', label: 'Comunicador', role: 'Publica el resultado' },
@@ -38,7 +38,7 @@ type SwarmProps = { swarm: EgsSwarmState; lastAgentId: string | null };
 /** Enjambre institucional — estado real por agente (no genérico Amazon). */
 export function EgsAgentSwarmBar({ swarm, lastAgentId }: SwarmProps) {
   return (
-    <section className="egs-swarm-bar" aria-label="Equipo de agentes EGS">
+    <section className="egs-swarm-bar" aria-label="Equipo del ahorro">
       {DEV_MODE && !swarm.iapWired ? (
         <p className="egs-swarm-iap-note">
           IAP bus: ingest/Q-close aún no enrutan por MQTT — evidencia en Postgres + processCheckpoint.
@@ -78,7 +78,7 @@ export function EgsAgentProcessTracker({ pipeline }: TrackerProps) {
   const currentIndex = activeIndex >= 0 ? activeIndex : stages.findLastIndex((s) => s.status === 'complete');
 
   return (
-    <section className="egs-process-tracker" aria-label="Pipeline EGS">
+    <section className="egs-process-tracker" aria-label="Pasos del ahorro">
       <p className="model-process-tracker-live" role="status">
         {pipeline.liveLabel}
       </p>

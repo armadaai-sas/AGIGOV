@@ -21,7 +21,7 @@ import { usePlatform } from '../context/PlatformContext.js';
 function deskPageTitle(pathname: string): string {
   if (pathname === '/escritorio') return 'Escritorio';
   if (pathname === '/escritorio/mapa') return 'Mapa del sistema';
-  if (pathname === EGS_CONSOLE_PATH || pathname.startsWith(`${EGS_CONSOLE_PATH}/`)) return 'Consola EGS';
+  if (pathname === EGS_CONSOLE_PATH || pathname.startsWith(`${EGS_CONSOLE_PATH}/`)) return 'Ahorro';
   if (pathname.startsWith('/modelos')) return 'Modelos';
   if (pathname.startsWith('/empresas')) return 'Empresas';
   if (pathname.startsWith('/institucional')) {

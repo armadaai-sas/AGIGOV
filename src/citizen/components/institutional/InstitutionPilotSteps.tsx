@@ -75,7 +75,7 @@ export function InstitutionModelStep() {
           <TrendingDown className="h-6 w-6 text-zinc-600" />
         </div>
         <div>
-          <h3 className="font-display text-lg font-semibold">Trust Pilot Fiscal · EGS</h3>
+          <h3 className="font-display text-lg font-semibold">Piloto fiscal · Ahorro</h3>
           <p className="mt-1 text-sm text-agigov-text-muted">{t('pilot.model.lead')}</p>
           <ul className="mt-3 space-y-1 text-sm text-agigov-text-muted">
             <li>· {t('pilot.model.point1')}</li>
@@ -94,7 +94,7 @@ export function InstitutionModelStep() {
           checked={selected === 'egs'}
           onChange={() => setSelected('egs')}
         />
-        <span className="text-sm font-medium">Reparto del ahorro por eficiencia (EGS)</span>
+        <span className="text-sm font-medium">Reparto del ahorro por eficiencia</span>
         <CheckCircle2 className="ml-auto h-5 w-5 text-zinc-600" />
       </label>
       <WizardStepFooter onContinue={confirm} continueDisabled={false} />

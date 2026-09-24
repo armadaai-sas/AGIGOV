@@ -169,7 +169,7 @@ function SaludTab({
       <>
         <MinistryHealthPanel data={health.data} />
         <Link to={EGS_CONSOLE_PATH} className="os-workspace-foot-link mt-4 inline-flex items-center gap-1">
-          Consola EGS completa
+          Ver el ahorro completo
           <ChevronRight className="h-4 w-4" />
         </Link>
       </>
@@ -180,7 +180,7 @@ function SaludTab({
     <>
       <MinistryHealthUnavailable />
       <Link to={EGS_CONSOLE_PATH} className="os-workspace-foot-link mt-4 inline-flex items-center gap-1">
-        Abrir consola EGS
+        Abrir el ahorro
         <ChevronRight className="h-4 w-4" />
       </Link>
     </>

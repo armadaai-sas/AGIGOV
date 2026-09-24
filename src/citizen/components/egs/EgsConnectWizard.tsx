@@ -64,11 +64,10 @@ export function EgsConnectWizard({ onConnected }: Props) {
     <section className="dt-connect-wizard" aria-labelledby="egs-connect-title">
       <header className="dt-connect-head">
         <h2 id="egs-connect-title" className="dt-connect-title">
-          Conectar consola EGS
+          Conectar el ahorro
         </h2>
         <p className="dt-connect-lead">
-          El pipeline refleja Postgres + checkpoints multiagente. Centinela reconcilia; Comunicador
-          publica. Soberano/Logístico IAP en roadmap.
+          Los pasos leen los datos guardados. La revisión compara los hechos y luego se publican.
         </p>
       </header>
 

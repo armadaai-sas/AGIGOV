@@ -144,7 +144,7 @@ export function DataTrustConnectWizard({ onConnected }: Props) {
       </div>
 
       <p className="dt-connect-disclaimer">
-        Demo P2: telemetría sintética. Dictamen Centinela y licencia enterprise en roadmap.
+        Datos de demostración. El dictamen de una persona y la licencia de empresa siguen en camino.
       </p>
     </section>
   );

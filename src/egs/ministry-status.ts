@@ -74,7 +74,7 @@ export function deriveEgsMinistryStatus(
       tenantSlug: tenant?.slug ?? null,
       primaryAction: {
         id: 'start_pilot',
-        label: 'Iniciar piloto EGS',
+        label: 'Iniciar piloto de ahorro',
         enabled: true,
         href: '/institucional/piloto',
       },

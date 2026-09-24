@@ -262,7 +262,7 @@ Siguiente paso (dentro de la consola autenticada):
 El token de ingest y las claves de firmantes solo están disponibles tras iniciar sesión — no se envían por correo.
 
 Abrir piloto: ${pilotUrl}
-Consola EGS: ${consoleUrl}
+Ahorro: ${consoleUrl}
 
 — AGIGOV · Operaciones de piloto
 `;
@@ -276,7 +276,7 @@ Consola EGS: ${consoleUrl}
 <li>Ministerio / rubro: ${escapeHtml(vars.ministryCode)} · ${escapeHtml(vars.budgetCode)}</li>
 </ul>
 <p><a href="${escapeHtml(pilotUrl)}" style="display:inline-block;padding:12px 20px;background:#0f172a;color:#fff;text-decoration:none;border-radius:6px;">Abrir mi piloto</a></p>
-<p style="font-size:13px;"><a href="${escapeHtml(consoleUrl)}">Consola EGS</a></p>
+<p style="font-size:13px;"><a href="${escapeHtml(consoleUrl)}">Ahorro</a></p>
 <p>El token de ingest y las claves de firmantes solo están disponibles tras iniciar sesión — no se envían por correo.</p>`,
   );
   return {

@@ -111,7 +111,7 @@ export const HELP_TOPICS: readonly HelpTopic[] = [
     tagline: 'Tu voz con hechos verificables — pipeline institucional.',
     category: 'participar',
     whatIs:
-      'Canal para enviar propuestas ciudadanas. Centinela valida evidencia; Soberano emite dictamen; lo publicado aparece en Propuestas.',
+      'Canal para enviar propuestas ciudadanas. La evidencia se revisa, una persona emite el dictamen y lo publicado aparece en Propuestas.',
     whoFor: 'Ciudadanos activos, organizaciones y desarrolladores que aportan al modelo con trazabilidad.',
     youCan: [
       'Enviar propuesta con hechos y fuentes',
