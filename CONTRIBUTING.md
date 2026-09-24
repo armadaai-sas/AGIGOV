@@ -33,6 +33,12 @@ La interfaz y la demo EGS (`/modelos/egs/consola?demo=1`) no piden base de datos
 4. **PRs pequeños y enfocados** — facilita revisión y reduce riesgo en un sistema con ledger inmutable.
 5. Un mantenedor revisa y aprueba antes de merge a `main`.
 
+## Información privada
+
+Un colaborador no publica información privada. Eso incluye precios, casos comerciales, actas de piloto, claves, copias de la base y cualquier dato del servidor (dirección, rutas de la máquina, secretos de despliegue).
+
+Colaborar no da acceso al servidor. El despliegue y la operación quedan en quienes ya administran la máquina.
+
 ## Qué requiere aprobación humana explícita (no negociable)
 
 Ver tabla de *Boundaries* en [AGENTS.md](AGENTS.md#boundaries). En resumen: cambios a firmas/multi-sig, rotación de claves, dictámenes normativos publicados, y despliegue de infraestructura de producción **siempre** requieren revisión humana antes de aplicarse — ningún PR automatizado los aprueba solo.
