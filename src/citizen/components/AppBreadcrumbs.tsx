@@ -77,7 +77,7 @@ export function breadcrumbsForPath(pathname: string): BreadcrumbItem[] {
     case '/propuestas':
       return [root, gestion, { label: 'Propuestas' }];
     case '/proyectos':
-      return [root, gestion, { label: 'Proyectos DAO' }];
+      return [root, gestion, { label: 'Proyectos' }];
     case '/contratos':
       return [root, modelosRoot, { label: 'Custodia · Contratos' }];
     case '/transparencia':

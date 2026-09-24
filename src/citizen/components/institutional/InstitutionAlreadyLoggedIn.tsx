@@ -4,7 +4,6 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 import { resolvePostLoginRedirect } from '../../institutional/authRedirect.js';
-import { EGS_CONSOLE_PATH } from '../../platform/agigovModels.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 
 /** Sesión activa en pantalla de acceso — continuar o cerrar sesión. */
@@ -43,8 +42,8 @@ export function InstitutionAlreadyLoggedIn() {
             {t('auth.continue')}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
-          <Link to={EGS_CONSOLE_PATH} className="app-btn app-btn--secondary flex-1 justify-center no-underline">
-            {t('auth.goConsole')}
+          <Link to={INSTITUTION_ROUTES.desk} className="app-btn app-btn--secondary flex-1 justify-center no-underline">
+            {t('auth.goDesk')}
           </Link>
         </div>
 

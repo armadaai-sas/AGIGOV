@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 import { fetchHealth } from '../api.js';
 import { checkEgsVialService } from '../services/egs-vial-service.js';
-import { PlatformAlert } from './PlatformAlert.js';
+import { FeatureIntro, type FeatureIntroContent } from './FeatureIntro.js';
 import {
   PublicApiConnectionPanel,
   EgsConnectionPanel,
@@ -96,6 +95,57 @@ const MODULE_COPY: Record<
   },
 };
 
+const MODULE_INTRO: Record<DataModule, FeatureIntroContent> = {
+  escrow: {
+    title: 'Contratos',
+    what: 'Pagos de una obra que se liberan cuando el hito está verificado.',
+    why: 'Para ver la custodia de cada contrato sin esperar un informe aparte.',
+    see: 'Contrato, hitos y cuánto ya se liberó.',
+  },
+  egs: {
+    title: 'Ahorro del trimestre',
+    what: 'La diferencia entre lo presupuestado y lo gastado, con la verificación hecha.',
+    why: 'Para saber si el cierre del ministerio ya está publicado.',
+    see: 'Presupuesto, gasto verificado y ahorro.',
+  },
+  gestion: {
+    title: 'Gestión pública',
+    what: 'Los actos que la institución ya publicó.',
+    why: 'Para leerlos sin pedir un expediente.',
+    see: 'Cada acto, su estado y la fecha.',
+  },
+  proposals: {
+    title: 'Propuestas',
+    what: 'Lo que la ciudadanía envió y el estado en que quedó.',
+    why: 'Para seguir una propuesta después de enviarla.',
+    see: 'Título, resumen y si ya tiene dictamen.',
+  },
+  supply: {
+    title: 'Suministros',
+    what: 'Totales de inventario público, sin datos de personas.',
+    why: 'Para ver existencias agregadas, no un almacén interno.',
+    see: 'Estado, cantidad y monto.',
+  },
+  projects: {
+    title: 'Proyectos',
+    what: 'Obras con un monto objetivo, aportes y hitos.',
+    why: 'Para ver cuánto se reunió y qué hito falta.',
+    see: 'Proyecto, porcentaje reunido y territorio.',
+  },
+  cne: {
+    title: 'Consulta',
+    what: 'Una pregunta abierta y el recuento de cada opción.',
+    why: 'Para ver el resultado sin un acta aparte.',
+    see: 'La pregunta, las opciones y los votos.',
+  },
+  generic: {
+    title: 'Esta función',
+    what: 'Una parte del escritorio que publica un resultado verificable.',
+    why: 'Para consultarlo cuando la institución lo haya publicado.',
+    see: 'El resultado de esta pantalla, cuando exista.',
+  },
+};
+
 function usesEgsCheck(module: DataModule): boolean {
   return module === 'escrow' || module === 'egs';
 }
@@ -109,10 +159,7 @@ export function DataConnectionState({
   error: string;
   onRetry?: () => void;
 }) {
-  const kind = classifyFetchError(error);
   const copy = MODULE_COPY[module];
-  const offline = kind === 'offline';
-  const title = offline ? 'Nodo no alcanzable' : copy.emptyTitle;
   const onRetryRef = useRef(onRetry);
   onRetryRef.current = onRetry;
 
@@ -120,61 +167,22 @@ export function DataConnectionState({
     if (ready) onRetryRef.current?.();
   };
 
-  if (kind === 'server') {
-    return (
-      <PlatformAlert
-        variant="error"
-        title="El servicio no respondió"
-        hint={DEV_MODE ? copy.devHint : undefined}
-        action={
-          onRetry ? (
-            <button
-              type="button"
-              onClick={onRetry}
-              className="ds-btn-secondary ds-btn-app-shape min-h-9"
-            >
-              Reintentar carga
-            </button>
-          ) : undefined
-        }
-      >
-        {DEV_MODE ? error : 'Aún no hay nada publicado.'}
-        <DemoLink />
-      </PlatformAlert>
-    );
-  }
-
   return (
     <div className="space-y-8">
-      <div className="max-w-xl">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-agigov-text-subtle">
-          {offline ? 'Sin conexión al nodo' : 'Sin datos publicados aún'}
-        </p>
-        <h2 className="mt-1.5 text-lg font-semibold text-agigov-text">{title}</h2>
-        <p className="mt-1.5 text-sm leading-relaxed text-agigov-text-muted">
-          {copy.emptyDescription}
-        </p>
-        <DemoLink />
-        {DEV_MODE ? (
-          <details className="mt-3">
-            <summary className="cursor-pointer text-xs text-agigov-text-muted">
-              Instrucciones para administrador (desarrollo)
-            </summary>
-            <p className="mt-2 font-mono text-[11px] text-agigov-text-muted">{copy.devHint}</p>
-          </details>
-        ) : null}
-      </div>
-
+      <FeatureIntro {...MODULE_INTRO[module]} />
       {DEV_MODE ? (
-        usesEgsCheck(module) ? (
-          <EgsConnectionPanel
-            title={copy.serviceTitle}
-            showConsoleLink={false}
-            onReadyChange={handleReady}
-          />
-        ) : (
-          <PublicApiConnectionPanel title={copy.serviceTitle} onReadyChange={handleReady} />
-        )
+        <details className="mt-3">
+          <summary className="cursor-pointer text-xs text-agigov-text-muted">
+            Instrucciones para administrador (desarrollo)
+          </summary>
+          <p className="mt-2 font-mono text-[11px] text-agigov-text-muted">{copy.devHint}</p>
+          <p className="mt-2 font-mono text-[11px] text-agigov-text-muted">{error}</p>
+          {usesEgsCheck(module) ? (
+            <EgsConnectionPanel title={copy.serviceTitle} showConsoleLink={false} onReadyChange={handleReady} />
+          ) : (
+            <PublicApiConnectionPanel title={copy.serviceTitle} onReadyChange={handleReady} />
+          )}
+        </details>
       ) : (
         <AutoRetryOnMount onRetry={onRetryRef.current} />
       )}
@@ -187,20 +195,6 @@ export function DataConnectionState({
  * Reintentamos silenciosamente la carga en segundo plano para que, si el
  * servicio vuelve, los datos aparezcan sin acción del usuario.
  */
-function DemoLink() {
-  const { pathname, search } = useLocation();
-  if (new URLSearchParams(search).get('demo') === '1') return null;
-  const next = new URLSearchParams(search);
-  next.set('demo', '1');
-  return (
-    <p className="mt-3">
-      <Link to={`${pathname}?${next.toString()}`} className="desk-console-foot-link">
-        Ver demostración
-      </Link>
-    </p>
-  );
-}
-
 function AutoRetryOnMount({ onRetry }: { onRetry?: () => void }) {
   useEffect(() => {
     if (!onRetry) return;

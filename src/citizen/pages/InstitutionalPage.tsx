@@ -3,7 +3,6 @@ import { ArrowRight, LogIn, Mail, Rocket } from 'lucide-react';
 
 import { PageShell } from '../components/PageShell.js';
 import { INSTITUTION_ROUTES, TEAM_CONTACT_MAILTO } from '../platform/institutionalRoutes.js';
-import { EGS_CONSOLE_PATH } from '../platform/agigovModels.js';
 
 /**
  * Institucional — una acción principal: probar EGS con cuenta propia.
@@ -14,10 +13,9 @@ export default function InstitutionalPage() {
       <div className="inst-auth-page">
         <header className="inst-auth-page-head">
           <p className="inst-auth-kicker">Institucional</p>
-          <h1 className="inst-auth-title">Pruebe EGS con su institución</h1>
+          <h1 className="inst-auth-title">Cuenta de la institución</h1>
           <p className="inst-auth-lead">
-            Cree su cuenta, cargamos datos de ejemplo del trimestre y abre la consola fiscal — sin
-            credenciales compartidas ni pasos técnicos.
+            Con la cuenta se entra al escritorio y a los modelos que la institución tenga activos.
           </p>
         </header>
 
@@ -25,11 +23,11 @@ export default function InstitutionalPage() {
           <div className="inst-auth-card inst-trial-hero">
             <Link to={INSTITUTION_ROUTES.register} className="desk-page-primary-btn w-full justify-center no-underline">
               <Rocket className="h-4 w-4" aria-hidden />
-              Crear cuenta para probar
+              Crear cuenta
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <p className="inst-auth-footnote inst-auth-footnote--center">
-              Tarda menos de un minuto · Q1 de ejemplo incluido
+              Correo institucional y contraseña.
             </p>
           </div>
         </div>
@@ -42,9 +40,9 @@ export default function InstitutionalPage() {
             </Link>
           </li>
           <li>
-            <Link to={EGS_CONSOLE_PATH} className="inst-trial-link">
+            <Link to="/modelos" className="inst-trial-link">
               <ArrowRight className="h-4 w-4" aria-hidden />
-              <span>Ver resultados públicos</span>
+              <span>Ver los modelos</span>
             </Link>
           </li>
           <li>

@@ -91,14 +91,9 @@ export default function ProjectsPage() {
       <div className="os-workspace">
         <header className="os-workspace-head os-workspace-head--stack">
           <div className="os-workspace-head-text">
-            <p className="os-workspace-section-title">Prosperidad compartida</p>
-            <h1 className="os-workspace-title">
-              {tab === 'salud' ? 'Salud presupuestaria' : 'Proyectos DAO'}
-            </h1>
+            <h1 className="os-workspace-title">Proyectos</h1>
             <p className="os-workspace-sub">
-              {tab === 'salud'
-                ? 'Cierre trimestral EGS · baseline y gasto verificado.'
-                : 'Escrow programático y aportes trazables.'}
+              Obras y causas con aportes. El pago sale cuando la etapa está hecha.
             </p>
           </div>
           <div className="os-workspace-cta">
@@ -106,7 +101,7 @@ export default function ProjectsPage() {
               to={modelWorkspacePath(tab === 'salud' ? 'egs' : 'dao-ciudadano')}
               className="ds-btn-secondary ds-btn-app-shape"
             >
-              Espacio {tab === 'salud' ? 'EGS' : 'DAO'}
+              {tab === 'salud' ? 'Abrir el cierre' : 'Abrir el modelo'}
             </Link>
           </div>
         </header>
@@ -122,8 +117,8 @@ export default function ProjectsPage() {
                   <Activity className="h-4 w-4" />
                 </span>
                 <span className="os-workspace-row-body">
-                  <span className="os-workspace-row-name">Salud del ministerio</span>
-                  <span className="os-workspace-row-meta">EGS · cierre trimestral</span>
+                  <span className="os-workspace-row-name">Ahorro del trimestre</span>
+                  <span className="os-workspace-row-meta">Lo presupuestado frente a lo gastado</span>
                 </span>
               </button>
             </li>
@@ -137,8 +132,8 @@ export default function ProjectsPage() {
                   <Briefcase className="h-4 w-4" />
                 </span>
                 <span className="os-workspace-row-body">
-                  <span className="os-workspace-row-name">Proyectos DAO</span>
-                  <span className="os-workspace-row-meta">Financiación verificable</span>
+                  <span className="os-workspace-row-name">Obras con aportes</span>
+                  <span className="os-workspace-row-meta">Monto reunido y etapa</span>
                 </span>
               </button>
             </li>

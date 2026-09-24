@@ -6,50 +6,26 @@ import { agigovIconProps } from '../icons/agigovIcon.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 import { loginPathWithRedirect } from '../../institutional/authRedirect.js';
 
-type SessionPhase = 'comprobando' | 'dentro' | 'fuera' | 'invitado';
-
 /**
  * Pie del rail: un solo lugar para la sesión.
- * Estados: comprobando, dentro, fuera, invitado.
+ * Sin sesión el botón dice «Iniciar sesión». Con sesión, el nombre.
  */
 export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { session, isAuthenticated, authReady, logout } = useInstitutionAuth();
-  const loggedOut = Boolean((location.state as { loggedOut?: boolean } | null)?.loggedOut);
-
   async function handleLogout() {
     await logout();
-    navigate('/escritorio', { replace: true, state: { loggedOut: true } });
+    navigate('/escritorio', { replace: true });
   }
-
-  const phase: SessionPhase = !authReady
-    ? 'comprobando'
-    : isAuthenticated
-      ? 'dentro'
-      : loggedOut
-        ? 'fuera'
-        : 'invitado';
 
   const name = session?.institutionName?.trim() || session?.email?.trim() || 'Institución';
-  const label =
-    phase === 'comprobando'
-      ? 'Comprobando'
-      : phase === 'dentro'
-        ? name
-        : phase === 'fuera'
-          ? 'Fuera'
-          : 'Invitado';
 
-  if (phase === 'comprobando') {
-    return (
-      <span className="app-sidebar-session" aria-live="polite">
-        {collapsed ? null : <span className="app-sidebar-session-label">{label}</span>}
-      </span>
-    );
+  if (!authReady) {
+    return <span className="app-sidebar-session" aria-hidden />;
   }
 
-  if (phase === 'dentro') {
+  if (isAuthenticated) {
     return (
       <SidebarTooltip label={name} hint="Cerrar sesión" enabled={collapsed}>
         <button
@@ -59,21 +35,21 @@ export function DeskSidebarAccount({ collapsed }: { collapsed: boolean }) {
           onClick={() => void handleLogout()}
         >
           <LogOut {...agigovIconProps('md')} />
-          {collapsed ? null : <span className="app-sidebar-session-label">{label}</span>}
+          {collapsed ? null : <span className="app-sidebar-session-label">{name}</span>}
         </button>
       </SidebarTooltip>
     );
   }
 
   return (
-    <SidebarTooltip label={phase === 'fuera' ? 'Fuera' : 'Iniciar sesión'} enabled={collapsed}>
+    <SidebarTooltip label="Iniciar sesión" enabled={collapsed}>
       <Link
         to={loginPathWithRedirect(`${location.pathname}${location.search}`)}
         className="app-sidebar-session"
-        aria-label={phase === 'fuera' ? 'Fuera. Iniciar sesión' : 'Iniciar sesión'}
+        aria-label="Iniciar sesión"
       >
         <LogIn {...agigovIconProps('md')} />
-        {collapsed ? null : <span className="app-sidebar-session-label">{label}</span>}
+        {collapsed ? null : <span className="app-sidebar-session-label">Iniciar sesión</span>}
       </Link>
     </SidebarTooltip>
   );

@@ -148,6 +148,127 @@
   gap: 0.5rem;
 }
 
+.feature-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  max-width: 28rem;
+  margin-top: 1.5rem;
+}
+
+.feature-intro-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--console-border, #e4e4e7);
+  border-radius: 8px;
+  color: var(--console-text, #18181b);
+}
+
+.feature-intro-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.feature-intro-what {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--console-text, #18181b);
+}
+
+.feature-intro-points {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.feature-intro-points dt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--console-text-subtle, #a1a1aa);
+}
+
+.feature-intro-points dd {
+  margin: 0.25rem 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--console-text-muted, #71717a);
+}
+
+.feature-intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.feature-intro {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.feature-intro-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--console-border, #e4e4e7);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--console-text, #18181b);
+}
+
+.feature-intro-mark-bar {
+  display: block;
+  width: 0.75rem;
+  height: 2px;
+  background: var(--console-text, #18181b);
+}
+
+.feature-intro-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--console-text, #18181b);
+}
+
+.feature-intro-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.feature-intro-points dt {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--console-text-subtle, #a1a1aa);
+}
+
+.feature-intro-points dd {
+  margin: 0.2rem 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--console-text, #18181b);
+}
+
 .app-sidebar-session {
   display: inline-flex;
   align-items: center;
