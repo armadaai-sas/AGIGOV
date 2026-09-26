@@ -83,6 +83,7 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
       )}
 
       <div className="app-shell-main">
+        {accountScreen ? null : (
         <header className="app-topbar">
           <div className="app-topbar-lead">
             {accountScreen ? (
@@ -107,6 +108,7 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
           </div>
           <div className="app-topbar-trail" aria-hidden />
         </header>
+        )}
 
         <div className="app-shell-content app-shell-content--desk">
           {showLegacyBanner ? <LegacyRedirectBanner /> : null}
