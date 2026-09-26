@@ -1341,7 +1341,6 @@
 .auth-stage-story {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
   padding: clamp(1.75rem, 4vw, 3.25rem) clamp(1.5rem, 5vw, 4.5rem) clamp(2rem, 4vw, 3.25rem);
 }
 
@@ -1629,41 +1628,6 @@
 
 .auth-stage-form .desk-page-primary-btn:hover {
   background: #0b1c40;
-}
-
-@media (max-width: 1079px) {
-  .auth-stage {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .auth-stage-story {
-    display: contents;
-  }
-
-  .auth-stage-logo {
-    order: 1;
-    padding: 1.75rem 1.5rem 0;
-    background: #f4f6f8;
-  }
-
-  .auth-stage-story-body {
-    order: 2;
-    margin-top: 0;
-    padding: 2rem 1.5rem 0.5rem;
-    background: #f4f6f8;
-  }
-
-  .auth-stage-form {
-    order: 3;
-  }
-
-  .auth-stage-proof {
-    order: 4;
-    margin-top: 0;
-    padding: 2rem 1.5rem 2.75rem;
-    background: #f4f6f8;
-  }
 }
 
 @media (min-width: 1080px) {
