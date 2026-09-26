@@ -850,7 +850,7 @@
     flex-direction: column;
     align-items: center;
     background: var(--console-bg, #fff);
-    padding: 0 clamp(1.25rem, 4vw, 3rem) 3rem;
+    padding: 0.25rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
   }
 
 .app-topbar-menu {

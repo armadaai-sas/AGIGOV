@@ -129,8 +129,10 @@ export default function SettingsPage() {
           <ul className="desk-page-list">
             {(plans.data?.plans ?? []).map((item) => (
               <li key={item.id} className="desk-page-row">
-                <span className="desk-page-row-title">{item.name}</span>
-                <span className="desk-page-row-summary">{item.summary}</span>
+                <span className="desk-page-row-copy">
+                  <span className="desk-page-row-title">{item.name}</span>
+                  <span className="desk-page-row-summary">{item.summary}</span>
+                </span>
                 <span className="desk-page-row-meta">{money(item.amountUsd)}</span>
               </li>
             ))}

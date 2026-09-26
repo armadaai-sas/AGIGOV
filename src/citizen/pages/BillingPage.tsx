@@ -50,8 +50,10 @@ export default function BillingPage() {
                 aria-pressed={planId === item.id}
                 onClick={() => setPlanId(item.id)}
               >
-                <span className="desk-page-row-title">{item.name}</span>
-                <span className="desk-page-row-summary">{item.summary}</span>
+                <span className="desk-page-row-copy">
+                  <span className="desk-page-row-title">{item.name}</span>
+                  <span className="desk-page-row-summary">{item.summary}</span>
+                </span>
                 <span className="desk-page-row-meta">{money(item.amountUsd)}</span>
               </button>
             </li>
@@ -59,6 +61,7 @@ export default function BillingPage() {
         </ul>
 
         <form className="desk-billing-form" onSubmit={(event) => void onSubmit(event)}>
+          <h2 className="desk-page-title">Su pedido</h2>
           <label className="os-field">
             <span className="os-form-label">Institución</span>
             <input
