@@ -709,7 +709,7 @@ const es: Record<MessageKey, string> = {
   'landing.min.what.institutional.meta': 'Registro, piloto y soporte humano',
   'landing.min.oss.title': 'Reglas del producto',
   'landing.min.oss.lead':
-    'Las reglas se leen en este sitio. El repositorio público todavía no está abierto.',
+    'Las reglas se leen en este sitio. El código está en el repositorio público.',
   'landing.min.oss.repoLabel': 'Ayuda',
   'landing.min.oss.repoMeta': 'Qué es cada función y cómo se usa',
   'landing.min.oss.devLabel': 'Desarrolladores',

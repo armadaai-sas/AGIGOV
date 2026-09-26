@@ -351,16 +351,17 @@ app.get('/api/public/dashboard', async (_req, res) => {
         processId: row.processId,
         status: row.status,
         updatedAt: row.updatedAt.toISOString(),
-        summary:
-          typeof metrics.summary === 'string'
+        summary: isDemonstrationId(row.processId)
+          ? 'Dato de demostración. No es un acto publicado.'
+          : typeof metrics.summary === 'string'
             ? metrics.summary
             : typeof metrics.factCount === 'number'
-              ? `${metrics.factCount} hechos verificados registrados en ledger`
+              ? `${metrics.factCount} hechos verificados`
               : bundle.cartaRatification
-                ? 'Carta AGIGOV-VEN ratificada'
+                ? 'Carta ratificada'
                 : bundle.pilotRatification
-                  ? 'Piloto nacional ratificado'
-                  : 'Gestión transparente publicada',
+                  ? 'Piloto ratificado'
+                  : 'Acto publicado',
         metrics,
       };
     });
@@ -441,8 +442,9 @@ app.get('/api/public/proposals', async (_req, res) => {
       id: a.processId,
       title: a.title,
       status: a.status,
-      citizenSummary:
-        summaryByProcess.get(a.processId) ?? simplificarTitulo(a.title),
+      citizenSummary: isDemonstrationId(a.processId)
+        ? 'Dato de demostración. No es un acto publicado.'
+        : (summaryByProcess.get(a.processId) ?? simplificarTitulo(a.title)),
       dictamen: dictamenByProcess.get(a.processId),
       updatedAt: a.updatedAt.toISOString(),
     }));

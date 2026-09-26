@@ -13,7 +13,8 @@ function mustInclude(label, text, needle) {
 }
 
 mustInclude('portada', es, 'AGIGOV publica lo que hace una institución, con hechos que se pueden revisar.');
-mustInclude('portada', es, 'El repositorio público todavía no está abierto.');
+mustInclude('portada', es, 'El código está en el repositorio público.');
+mustInclude('gestión', api, 'Dato de demostración. No es un acto publicado.');
 mustInclude('menú', nav, "label: 'Ayuda'");
 mustInclude('menú', nav, "label: 'Datos del sector'");
 mustInclude('menú', nav, "label: 'Ahorro'");
