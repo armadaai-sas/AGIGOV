@@ -80,7 +80,7 @@ export default function SystemMapPage() {
         title="Mapa del sistema"
         result={
           graph
-            ? `${graph.nodeCount} nodos · ${graph.edgeCount} conexiones — pipelines DATA Trust y EGS en vivo.`
+            ? `${graph.nodeCount} nodos · ${graph.edgeCount} conexiones — datos del sector y ahorro en vivo.`
             : 'Vista read-only de modelos, agentes y checkpoints interconectados.'
         }
         dataHint={graph?.disclaimer}

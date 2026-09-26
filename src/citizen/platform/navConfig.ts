@@ -95,7 +95,7 @@ export const NAV_SECTION_MODELS: NavSection = {
     },
     {
       to: EGS_MODEL_PATH,
-      label: 'EGS',
+      label: 'Ahorro',
       hint: 'Ahorro fiscal con evidencia',
       icon: TrendingDown,
     },
@@ -116,7 +116,7 @@ export const NAV_SECTION_OPERATE: NavSection = {
     },
     {
       to: modelWorkspacePath('egs'),
-      label: 'EGS',
+      label: 'Ahorro',
       hint: 'Espacio de trabajo',
       icon: TrendingDown,
     },
@@ -238,7 +238,7 @@ export const NAV_SECTION_SERVICES: NavSection = {
     },
     {
       to: modelWorkspacePath('egs'),
-      label: 'EGS',
+      label: 'Ahorro',
       hint: 'Espacio de trabajo',
       icon: LayoutDashboard,
     },

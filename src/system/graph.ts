@@ -108,7 +108,7 @@ export async function getSystemGraph(): Promise<SystemGraphResponse> {
   addNode({
     id: 'model:egs',
     kind: 'model',
-    label: 'EGS',
+    label: 'Ahorro',
     status: egs.connection ? 'connected' : egs.tenantSlug ? 'active' : 'idle',
     detail: egs.liveLabel,
     href: '/modelos/egs/consola',
@@ -116,7 +116,7 @@ export async function getSystemGraph(): Promise<SystemGraphResponse> {
 
   // —— Agentes (enjambre EGS) ——
   const agents: Array<{ id: string; label: string; swarmKey: keyof typeof egs.swarm }> = [
-    { id: 'agent:centinela', label: 'Centinela', swarmKey: 'centinela' },
+    { id: 'agent:centinela', label: 'Revisión', swarmKey: 'centinela' },
     { id: 'agent:logistico', label: 'Logístico', swarmKey: 'logistico' },
     { id: 'agent:soberano', label: 'Soberano', swarmKey: 'soberano' },
     { id: 'agent:comunicador', label: 'Comunicador', swarmKey: 'comunicador' },

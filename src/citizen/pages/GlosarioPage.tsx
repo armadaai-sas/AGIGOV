@@ -11,9 +11,9 @@ const TERMS = [
     example: 'Un reporte de gestión publicado aparece como entrada verificable.',
   },
   {
-    term: 'Centinela',
+    term: 'Pausa',
     definition:
-      'Agente de integridad. Si el flujo no cuadra con la evidencia, pausa la operación.',
+      'Si el flujo no cuadra con la evidencia, la operación se detiene.',
     example: 'Una discrepancia en un hito dispara revisión antes del pago.',
   },
   {
@@ -29,10 +29,10 @@ const TERMS = [
   {
     term: 'Kernel',
     definition: 'Núcleo de gobernanza que decide qué se publica y qué se paga — con evidencia.',
-    example: 'Los agentes corren encima del kernel, subordinados a Centinela.',
+    example: 'Lo que se publica pasa por evidencia y por una persona si algo no cuadra.',
   },
   {
-    term: 'EGS',
+    term: 'Ahorro',
     definition: 'Reparto del ahorro por eficiencia fiscal verificada con reglas publicadas.',
     example: 'Ahorro certificado se reparte según contrato publicado.',
   },

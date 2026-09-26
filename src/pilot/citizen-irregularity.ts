@@ -121,6 +121,6 @@ export async function registerIrregularityReport(
     category,
     committedAt: new Date().toISOString(),
     message:
-      'Reporte registrado. Centinela y conciliador revisarán la evidencia — sin publicar datos personales.',
+      'Reporte registrado. Una persona del equipo revisará la evidencia — sin publicar datos personales.',
   };
 }

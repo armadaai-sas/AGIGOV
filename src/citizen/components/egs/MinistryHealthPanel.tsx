@@ -98,7 +98,7 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
         </div>
       </section>
 
-      <OsCollapsible title="Reparto EGS y comisiones" hint="70 / 20 / 10">
+      <OsCollapsible title="Reparto del ahorro y comisiones" hint="70 / 20 / 10">
         <div className="space-y-4 pt-2">
           <p className="text-sm text-agigov-text-muted">{t('egs.savings.splitLead')}</p>
           <div className="grid gap-3 sm:grid-cols-3">
@@ -147,7 +147,7 @@ export function MinistryHealthPanel({ data }: { data: MinistryHealthResponse }) 
 export function MinistryHealthUnavailable() {
   return (
     <EgsConnectionPanel
-      title="Reparto del ahorro por eficiencia (EGS)"
+      title="Reparto del ahorro por eficiencia"
       showConsoleLink={false}
       autoVerify
     />

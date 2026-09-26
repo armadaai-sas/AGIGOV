@@ -136,10 +136,10 @@ export function EgsRunExperience({ pipeline, data }: Props) {
   const btnLabel = running ? 'Procesando…' : phase === 'done' ? 'Ejecutar de nuevo' : 'Ejecutar análisis';
 
   return (
-    <section className="egs-run" aria-label="Ejecución del análisis EGS">
+    <section className="egs-run" aria-label="Ejecución del análisis de ahorro">
       <div className="egs-run-head">
         <div className="egs-run-head-copy">
-          <p className="egs-run-title">Análisis EGS</p>
+          <p className="egs-run-title">Análisis de ahorro</p>
           <p className="egs-run-sub">8 pasos sobre los datos reales de la institución</p>
         </div>
         <button

@@ -236,7 +236,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         programName: isTrial
           ? t('trial.defaultProgram')
           : form.entityType === 'municipality'
-            ? 'Mantenimiento urbano verificable — Piloto EGS'
+            ? 'Mantenimiento urbano verificable — Piloto de ahorro'
             : profile.programName,
         fiscalYear: 2026,
         quarter: 1,

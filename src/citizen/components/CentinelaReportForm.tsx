@@ -137,7 +137,7 @@ export function CentinelaReportForm() {
             monoId={processId}
             onDismiss={() => setProcessId(null)}
           >
-            <p>Centinela y conciliador revisarán la evidencia — sin publicar datos personales.</p>
+            <p>Una persona del equipo revisará la evidencia — sin publicar datos personales.</p>
           </ActionReceipt>
         ) : null}
       </form>

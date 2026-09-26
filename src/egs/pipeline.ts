@@ -108,7 +108,7 @@ function writeContext(ctx: PersistedContext) {
 const AGENT_LABELS: Record<EgsAgentRole, string> = {
   ops: 'Operaciones',
   institution: 'Institución',
-  centinela: 'Centinela',
+  centinela: 'Revisión',
   logistico: 'Logístico',
   soberano: 'Soberano',
   comunicador: 'Comunicador',
@@ -194,7 +194,7 @@ function liveLabelFor(
     case 'serve':
       return 'Cierre publicado — datos en vivo';
     default:
-      return active?.detail ?? 'Análisis EGS';
+      return active?.detail ?? 'Análisis de ahorro';
   }
 }
 

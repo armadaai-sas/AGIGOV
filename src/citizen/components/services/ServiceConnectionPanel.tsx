@@ -130,7 +130,7 @@ export function EgsConnectionPanel({
         },
         {
           icon: Shield,
-          label: 'Datos EGS en el registro',
+          label: 'Datos de ahorro en el registro',
           ok: status?.egsDataOk,
           pending: checking && !status,
           detail: status?.egsDataOk ? 'Contratos disponibles' : 'Sin datos publicados',
@@ -147,7 +147,7 @@ export function ServiceConnectionPanel(props: {
 }) {
   return (
     <EgsConnectionPanel
-      title="Reparto del ahorro por eficiencia (EGS)"
+      title="Reparto del ahorro por eficiencia"
       onReadyChange={props.onReadyChange}
       showConsoleLink={props.showConsoleLink ?? true}
     />
@@ -279,11 +279,11 @@ function StatusRow({
 export function EgsServiceUnavailable({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
-      <PlatformAlert variant="info" title="Servicio EGS no disponible">
+      <PlatformAlert variant="info" title="El ahorro no está disponible">
         Verifique el nodo API público antes de continuar.
       </PlatformAlert>
     );
   }
 
-  return <EgsConnectionPanel title="Reparto del ahorro por eficiencia (EGS)" />;
+  return <EgsConnectionPanel title="Reparto del ahorro por eficiencia" />;
 }

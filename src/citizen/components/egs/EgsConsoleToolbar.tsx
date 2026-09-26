@@ -33,7 +33,7 @@ export function EgsConsoleToolbar({
               Consola operativa
             </p>
             <h1 className="font-display text-base font-semibold text-agigov-text sm:text-lg">
-              Salud presupuestaria · EGS
+              Salud presupuestaria · Ahorro
             </h1>
           </div>
           {model ? <ModelStatusBadge modelId={model.id} status={model.status} size="md" /> : null}

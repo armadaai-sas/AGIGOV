@@ -15,8 +15,8 @@ export function PanicBanner() {
       <div>
         <p className="agigov-panic-banner-title">Sistema congelado</p>
         <p className="agigov-panic-banner-lead">
-          Centinela suspendió mutaciones al ledger. Propuestas y aportes están pausados hasta
-          des-congelamiento autorizado.
+          Una revisión detuvo los cambios. Propuestas y aportes están pausados hasta que una
+          persona autoriza continuar.
         </p>
       </div>
     </div>

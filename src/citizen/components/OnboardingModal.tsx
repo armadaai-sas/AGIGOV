@@ -29,7 +29,7 @@ const PATHS: Array<{
     persona: 'government',
     icon: Landmark,
     title: 'Represento un gobierno',
-    text: 'Crear cuenta institucional y abrir el escritorio — consola EGS y modelos.',
+    text: 'Crear cuenta institucional y abrir el escritorio — ahorro y modelos.',
     to: INSTITUTION_ROUTES.register,
   },
   {

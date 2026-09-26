@@ -94,7 +94,7 @@ export function EgsDeltaSimulator() {
 
       <dl className="mt-6 grid gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 sm:grid-cols-2 lg:grid-cols-4">
         <Metric label={t('egs.simulator.metric')} value={result.delta} highlight />
-        <Metric label="Comisión EGS" value={result.fee} />
+        <Metric label="Comisión sobre el ahorro" value={result.fee} />
         <Metric label="→ Ciudadano" value={result.citizen} />
         <Metric label="→ Operador" value={result.operator} />
       </dl>

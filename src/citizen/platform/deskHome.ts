@@ -209,7 +209,7 @@ const STATE_HOME: DeskPersonaHome = {
   dataLead: 'Tres pasos para desplegar con datos institucionales.',
   steps: [
     { title: 'Registra institución', detail: 'Correo oficial — sesión vinculada.' },
-    { title: 'Activa piloto EGS', detail: 'Datos fiscales en entorno seguro.' },
+    { title: 'Activa el piloto de ahorro', detail: 'Datos fiscales en entorno seguro.' },
     { title: 'Publica resultado', detail: 'Telemetría visible en gestión pública.' },
   ],
   primary: {
@@ -220,7 +220,7 @@ const STATE_HOME: DeskPersonaHome = {
   },
   secondary: {
     to: modelWorkspacePath('egs'),
-    label: 'Operar EGS',
+    label: 'Operar el ahorro',
     outcome: 'Ahorro certificado',
     icon: TrendingDown,
   },
@@ -232,12 +232,12 @@ const STATE_HOME: DeskPersonaHome = {
         {
           to: INSTITUTION_ROUTES.pilot,
           label: 'Piloto fiscal',
-          outcome: 'Asistente EGS',
+          outcome: 'Asistente de ahorro',
           icon: Rocket,
         },
         {
           to: modelWorkspacePath('egs'),
-          label: 'Consola EGS',
+          label: 'Ahorro',
           outcome: 'Operar ahorro',
           icon: TrendingDown,
         },

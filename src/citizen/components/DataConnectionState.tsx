@@ -53,7 +53,7 @@ const MODULE_COPY: Record<
     emptyTitle: 'Consola no disponible',
     emptyDescription:
       'No pudimos cargar la salud presupuestaria. Reintenta o vuelve más tarde.',
-    serviceTitle: 'Consola EGS',
+    serviceTitle: 'Ahorro',
     devHint: 'npm run api:public · npm run db:seed:egs-pilot',
   },
   gestion: {
