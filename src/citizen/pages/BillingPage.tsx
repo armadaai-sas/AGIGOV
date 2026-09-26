@@ -80,7 +80,7 @@ export default function BillingPage() {
               required
             />
           </label>
-          <button type="submit" className="ds-btn-primary" disabled={busy}>
+          <button type="submit" className="desk-page-primary-btn" disabled={busy}>
             {busy ? 'Registrando' : 'Pedir este plan'}
           </button>
         </form>

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { publicDemoActive, subscribePublicDemo } from '../demo/publicDemo.js';
 
@@ -86,27 +86,18 @@ function AppShellLayoutInner({ children }: { children: ReactNode }) {
         {accountScreen ? null : (
         <header className="app-topbar">
           <div className="app-topbar-lead">
-            {accountScreen ? (
-              <Link to="/escritorio" className="app-topbar-title">
-                Escritorio
-              </Link>
-            ) : (
-              <>
-                <DeskIconButton
-                  kind={mobileOpen ? 'close' : 'menu'}
-                  label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
-                  className="app-topbar-menu lg:hidden"
-                  aria-expanded={mobileOpen}
-                  onClick={() => setMobileOpen((open) => !open)}
-                />
-                <span className="app-topbar-title lg:hidden">{pageTitle}</span>
-              </>
-            )}
+            <DeskIconButton
+              kind={mobileOpen ? 'close' : 'menu'}
+              label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+              className="app-topbar-menu lg:hidden"
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((open) => !open)}
+            />
+            <span className="app-topbar-title">{pageTitle}</span>
           </div>
-          <div className="app-topbar-center">
+          <div className="app-topbar-trail">
             <CommandPaletteButton />
           </div>
-          <div className="app-topbar-trail" aria-hidden />
         </header>
         )}
 
