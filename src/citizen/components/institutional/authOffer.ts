@@ -9,6 +9,8 @@ export type AuthRoleOffer = {
   headline: string;
   purpose: string;
   can: string;
+  /** Tres acciones cortas, en el orden en que el usuario las usa. */
+  actions: [string, string, string];
   open: string;
   enter: string;
   emailHint: string;
@@ -18,6 +20,7 @@ export type AuthRoleOffer = {
 export type AuthOffer = {
   product: string;
   choose: string;
+  assurance: string;
   innovationLabel: string;
   innovation: string;
   whyLabel: string;
@@ -27,12 +30,13 @@ export type AuthOffer = {
 };
 
 const ES: AuthOffer = {
-  product: 'AGIGOV es el escritorio donde una institución publica lo que hace, y se puede revisar.',
-  choose: 'Elija su escritorio',
+  product: 'Registro institucional que se puede revisar.',
+  choose: 'Su escritorio',
+  assurance: 'Dos pasos. Después entra. Una persona verifica la cuenta.',
   innovationLabel: 'La innovación',
-  innovation: 'El cierre, el contrato y la propuesta salen del mismo lugar. No de un informe aparte.',
+  innovation: 'El cierre, el contrato y la propuesta salen del mismo registro.',
   whyLabel: 'Por qué AGIGOV',
-  why: 'Si una cifra no cuadra, una persona la detiene antes de publicarla.',
+  why: 'Si una cifra no cuadra, una persona la detiene antes de que se publique.',
   canLabel: 'Qué puede hacer aquí',
   roles: [
     {
@@ -40,8 +44,9 @@ const ES: AuthOffer = {
       label: 'Estado',
       tile: 'Cierre y contratos',
       headline: 'Publique el trimestre. Defiéndalo con hechos.',
-      purpose: 'Para un ministerio o ente que cierra un rubro y lo muestra.',
+      purpose: 'Usted cierra el rubro y lo publica. Quien audite, lo revisa aquí.',
       can: 'Ver el ahorro, preparar el piloto y pedir un plan.',
+      actions: ['Ver el ahorro', 'Preparar el piloto', 'Pedir un plan'],
       open: 'Abra el escritorio del Estado',
       enter: 'Entre al escritorio del Estado',
       emailHint: 'finanzas@ministerio.gob.ve',
@@ -52,8 +57,9 @@ const ES: AuthOffer = {
       label: 'Empresa',
       tile: 'Hitos y sector',
       headline: 'Certifique un hito. Lea el sector sin datos personales.',
-      purpose: 'Para una empresa que evidencia un contrato o lee cifras agregadas.',
+      purpose: 'Usted evidencia el contrato y lee cifras del sector. Sin datos personales.',
       can: 'Evidenciar un hito, ver el sector y pedir licencia.',
+      actions: ['Evidenciar un hito', 'Ver el sector', 'Pedir licencia'],
       open: 'Abra el escritorio de su empresa',
       enter: 'Entre al escritorio de su empresa',
       emailHint: 'contratos@empresa.com',
@@ -64,8 +70,9 @@ const ES: AuthOffer = {
       label: 'Ciudadano',
       tile: 'Gestión y propuestas',
       headline: 'Lea lo publicado. Participe con hechos.',
-      purpose: 'Para quien quiere ver la gestión y enviar una propuesta. Su nombre no va al registro público.',
+      purpose: 'Usted ve la gestión y envía una propuesta. Su nombre no va al registro público.',
       can: 'Ver la gestión, participar y seguir una propuesta.',
+      actions: ['Ver la gestión', 'Enviar una propuesta', 'Seguir una propuesta'],
       open: 'Abra su escritorio',
       enter: 'Entre a su escritorio',
       emailHint: 'usted@correo.com',
@@ -76,8 +83,9 @@ const ES: AuthOffer = {
       label: 'Integrador',
       tile: 'API y modelos',
       headline: 'Conecte su sistema. Compruebe que responde.',
-      purpose: 'Para un equipo que integra la API y deja rastro de cada llamada.',
+      purpose: 'Usted conecta su sistema y comprueba que responde. Cada llamada deja rastro.',
       can: 'Ver la salud del servicio, leer los modelos y pedir acceso.',
+      actions: ['Ver la salud del servicio', 'Leer los modelos', 'Pedir acceso'],
       open: 'Abra el escritorio de integración',
       enter: 'Entre al escritorio de integración',
       emailHint: 'api@organizacion.com',
@@ -87,10 +95,11 @@ const ES: AuthOffer = {
 };
 
 const EN: AuthOffer = {
-  product: 'AGIGOV is the desk where an institution publishes what it does, and anyone can check it.',
-  choose: 'Choose your desk',
+  product: 'An institutional record that can be checked.',
+  choose: 'Your desk',
+  assurance: 'Two steps. Then you enter. A person verifies the account.',
   innovationLabel: 'The innovation',
-  innovation: 'The close, the contract, and the proposal come from the same place. Not from a separate report.',
+  innovation: 'The close, the contract, and the proposal come from the same record.',
   whyLabel: 'Why AGIGOV',
   why: 'If a figure does not match, a person stops it before it is published.',
   canLabel: 'What you can do here',
@@ -100,8 +109,9 @@ const EN: AuthOffer = {
       label: 'State',
       tile: 'Close and contracts',
       headline: 'Publish the quarter. Defend it with facts.',
-      purpose: 'For a ministry or agency that closes a line and shows it.',
+      purpose: 'You close the line and publish it. Whoever audits, checks it here.',
       can: 'See savings, prepare the pilot, and request a plan.',
+      actions: ['See savings', 'Prepare the pilot', 'Request a plan'],
       open: 'Open the state desk',
       enter: 'Sign in to the state desk',
       emailHint: 'finance@ministry.gov',
@@ -112,8 +122,9 @@ const EN: AuthOffer = {
       label: 'Enterprise',
       tile: 'Milestones and sector',
       headline: 'Certify a milestone. Read the sector without personal data.',
-      purpose: 'For a company that files a contract or reads aggregate figures.',
+      purpose: 'You file the contract and read sector figures. No personal data.',
       can: 'File a milestone, see the sector, and request a license.',
+      actions: ['File a milestone', 'See the sector', 'Request a license'],
       open: 'Open your company desk',
       enter: 'Sign in to your company desk',
       emailHint: 'contracts@company.com',
@@ -124,8 +135,9 @@ const EN: AuthOffer = {
       label: 'Citizen',
       tile: 'Management and proposals',
       headline: 'Read what is published. Take part with facts.',
-      purpose: 'For someone who wants to see management and send a proposal. Your name stays off the public record.',
+      purpose: 'You see management and send a proposal. Your name stays off the public record.',
       can: 'See management, take part, and follow a proposal.',
+      actions: ['See management', 'Send a proposal', 'Follow a proposal'],
       open: 'Open your desk',
       enter: 'Sign in to your desk',
       emailHint: 'you@email.com',
@@ -136,8 +148,9 @@ const EN: AuthOffer = {
       label: 'Integrator',
       tile: 'API and models',
       headline: 'Connect your system. Check that it responds.',
-      purpose: 'For a team that integrates the API and leaves a trail of each call.',
+      purpose: 'You connect your system and check that it responds. Each call leaves a trail.',
       can: 'See service health, read the models, and request access.',
+      actions: ['See service health', 'Read the models', 'Request access'],
       open: 'Open the integration desk',
       enter: 'Sign in to the integration desk',
       emailHint: 'api@organization.com',
