@@ -5,7 +5,7 @@ import { LoadingState } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 
-/** Alta — relato del rol a la izquierda; formulario a la derecha. */
+/** Alta — tarjeta de cuenta. El escritorio se elige dentro del formulario. */
 export default function InstitutionRegisterPage() {
   const { t } = useSovereignConfig();
   const { isAuthenticated, authReady } = useInstitutionAuth();

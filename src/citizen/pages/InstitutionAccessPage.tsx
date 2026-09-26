@@ -5,7 +5,7 @@ import { LoadingState } from '../components/PageShell.js';
 import { useSovereignConfig } from '../context/PlatformContext.js';
 import { useInstitutionAuth } from '../institutional/useInstitutionAuth.js';
 
-/** Acceso — el mismo relato por rol que el registro. */
+/** Acceso — la misma tarjeta de cuenta que el registro. */
 export default function InstitutionAccessPage() {
   const { t } = useSovereignConfig();
   const { isAuthenticated, authReady } = useInstitutionAuth();

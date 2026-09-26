@@ -145,23 +145,26 @@ export function InstitutionLoginForm() {
           </p>
         ) : null}
 
-        <button type="submit" className="desk-page-primary-btn justify-center" disabled={busy}>
-          {busy ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-              {t('auth.redirecting')}
-            </>
-          ) : (
-            <>
-              {t('auth.submit')}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </>
-          )}
-        </button>
+        <div className="auth-submit-row">
+          <button type="submit" className="desk-page-primary-btn justify-center" disabled={busy}>
+            {busy ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                {t('auth.redirecting')}
+              </>
+            ) : (
+              <>
+                {t('auth.submit')}
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </>
+            )}
+          </button>
+        </div>
 
-        <p className="inst-auth-footnote inst-auth-footnote--center">
-          {t('auth.needRegister')}{' '}
-          <Link to={INSTITUTION_ROUTES.register}>{t('auth.goRegister')}</Link>
+        <p className="inst-auth-footnote">
+          <Link to={INSTITUTION_ROUTES.register}>
+            {t('auth.needRegister')} {t('auth.goRegister')}
+          </Link>
         </p>
 
         <p className="inst-auth-security">{t('auth.securityNote')}</p>

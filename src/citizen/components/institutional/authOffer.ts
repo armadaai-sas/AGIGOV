@@ -30,13 +30,13 @@ export type AuthOffer = {
 };
 
 const ES: AuthOffer = {
-  product: 'Registro institucional que se puede revisar.',
+  product: 'El cierre, el contrato y la propuesta quedan en el mismo registro.',
   choose: 'Su escritorio',
   assurance: 'Una persona verifica la cuenta. El correo de alta no sale solo.',
   innovationLabel: 'La innovación',
   innovation: 'El cierre, el contrato y la propuesta salen del mismo registro.',
   whyLabel: 'Por qué AGIGOV',
-  why: 'Si una cifra no cuadra, una persona la detiene antes de que se publique.',
+  why: 'Si una cifra no cuadra, una persona la detiene.',
   canLabel: 'Qué puede hacer aquí',
   roles: [
     {
@@ -44,7 +44,7 @@ const ES: AuthOffer = {
       label: 'Estado',
       tile: 'Cierre y contratos',
       headline: 'Publique el trimestre. Defiéndalo con hechos.',
-      purpose: 'Publica el cierre del trimestre y los contratos, con hechos que se pueden revisar.',
+      purpose: 'Publique el cierre del trimestre y los contratos. Cada cifra se puede revisar.',
       can: 'Ver el ahorro, preparar el piloto y pedir un plan.',
       actions: ['Ver el ahorro', 'Preparar el piloto', 'Pedir un plan'],
       open: 'Abra el escritorio del Estado',
@@ -57,7 +57,7 @@ const ES: AuthOffer = {
       label: 'Empresa',
       tile: 'Hitos y sector',
       headline: 'Certifique un hito. Lea el sector sin datos personales.',
-      purpose: 'Certifica un hito y lee cifras del sector, sin datos personales.',
+      purpose: 'Certifique un hito y lea las cifras del sector, sin datos personales.',
       can: 'Evidenciar un hito, ver el sector y pedir licencia.',
       actions: ['Evidenciar un hito', 'Ver el sector', 'Pedir licencia'],
       open: 'Abra el escritorio de su empresa',
@@ -70,7 +70,7 @@ const ES: AuthOffer = {
       label: 'Ciudadano',
       tile: 'Gestión y propuestas',
       headline: 'Lea lo publicado. Participe con hechos.',
-      purpose: 'Ve lo publicado y envía una propuesta. Su nombre no va al registro público.',
+      purpose: 'Vea lo publicado y envíe una propuesta. Su nombre no va al registro público.',
       can: 'Ver la gestión, participar y seguir una propuesta.',
       actions: ['Ver la gestión', 'Enviar una propuesta', 'Seguir una propuesta'],
       open: 'Abra su escritorio',
@@ -83,7 +83,7 @@ const ES: AuthOffer = {
       label: 'Integrador',
       tile: 'API y modelos',
       headline: 'Conecte su sistema. Compruebe que responde.',
-      purpose: 'Conecta su sistema y comprueba que la API responde, con rastro.',
+      purpose: 'Conecte su sistema y compruebe que la API responde, con rastro.',
       can: 'Ver la salud del servicio, leer los modelos y pedir acceso.',
       actions: ['Ver la salud del servicio', 'Leer los modelos', 'Pedir acceso'],
       open: 'Abra el escritorio de integración',
@@ -95,13 +95,13 @@ const ES: AuthOffer = {
 };
 
 const EN: AuthOffer = {
-  product: 'An institutional record that can be checked.',
+  product: 'The close, the contract, and the proposal stay in the same record.',
   choose: 'Your desk',
   assurance: 'A person verifies the account. The signup email is not sent on its own.',
   innovationLabel: 'The innovation',
   innovation: 'The close, the contract, and the proposal come from the same record.',
   whyLabel: 'Why AGIGOV',
-  why: 'If a figure does not match, a person stops it before it is published.',
+  why: 'If a figure does not match, a person stops it.',
   canLabel: 'What you can do here',
   roles: [
     {
@@ -109,7 +109,7 @@ const EN: AuthOffer = {
       label: 'State',
       tile: 'Close and contracts',
       headline: 'Publish the quarter. Defend it with facts.',
-      purpose: 'Publish the quarter close and the contracts, with facts that can be checked.',
+      purpose: 'Publish the quarter close and the contracts. Every figure can be checked.',
       can: 'See savings, prepare the pilot, and request a plan.',
       actions: ['See savings', 'Prepare the pilot', 'Request a plan'],
       open: 'Open the state desk',
@@ -122,7 +122,7 @@ const EN: AuthOffer = {
       label: 'Enterprise',
       tile: 'Milestones and sector',
       headline: 'Certify a milestone. Read the sector without personal data.',
-      purpose: 'Certify a milestone and read sector figures, without personal data.',
+      purpose: 'Certify a milestone and read the sector figures, without personal data.',
       can: 'File a milestone, see the sector, and request a license.',
       actions: ['File a milestone', 'See the sector', 'Request a license'],
       open: 'Open your company desk',

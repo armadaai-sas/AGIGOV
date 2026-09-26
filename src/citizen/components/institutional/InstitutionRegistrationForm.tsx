@@ -79,6 +79,8 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
   const [error, setError] = useState<string | null>(null);
   const [emailAlreadyRegistered, setEmailAlreadyRegistered] = useState(false);
   const [busy, setBusy] = useState(false);
+  const en = sovereign.locale.toLowerCase().startsWith('en');
+  const stepLabel = en ? `Step ${step} of 2` : `Paso ${step} de 2`;
 
   const isGovernmentTier =
     form.entityType === 'ministry' || form.entityType === 'governorship';
@@ -301,17 +303,6 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
   return (
     <div className={isTrial ? 'inst-auth-panel' : 'inst-reg-shell inst-reg-shell--simple'}>
       <form className={isTrial ? 'inst-auth-card' : 'agigov-card inst-reg-form'} onSubmit={(e) => void submit(e)}>
-        {isTrial ? (
-          <p className="auth-step">
-            {sovereign.locale.toLowerCase().startsWith('en')
-              ? step === 1
-                ? 'Step 1 of 2'
-                : 'Step 2 of 2'
-              : step === 1
-                ? 'Paso 1 de 2'
-                : 'Paso 2 de 2'}
-          </p>
-        ) : null}
         {!isTrial && isGovernmentTier ? (
           <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-700">
             {t('reg.governmentChannel')}
@@ -348,7 +339,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           </fieldset>
         ) : null}
 
-        <div className={`grid gap-4 ${isTrial ? 'inst-auth-fields' : 'mt-6 sm:grid-cols-2'}`}>
+        <div className={isTrial ? 'auth-fields' : 'mt-6 grid gap-4 sm:grid-cols-2'}>
           {!isTrial ? (
             <>
               <label className="block text-sm">
@@ -406,7 +397,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               ) : null}
             </>
           ) : step === 2 ? (
-            <label className="inst-auth-field">
+            <label className="auth-field">
               <span>{t('reg.jurisdiction')}</span>
               <select
                 className="inst-auth-input"
@@ -423,7 +414,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           ) : null}
 
           {(!isTrial || step === 2) ? (
-          <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
+          <label className={isTrial ? 'auth-field' : 'block text-sm sm:col-span-2'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>
               {isTrial ? accountNameLabel(authRole.id, sovereign.locale) : t('reg.legalName')}
             </span>
@@ -439,7 +430,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           ) : null}
 
           {(!isTrial || step === 1) ? (
-          <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
+          <label className={isTrial ? 'auth-field' : 'block text-sm sm:col-span-2'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.email')}</span>
             <input
               type="email"
@@ -454,7 +445,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           ) : null}
 
           {(!isTrial || step === 1) ? (
-          <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
+          <label className={isTrial ? 'auth-field' : 'block text-sm'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.password')}</span>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -470,7 +461,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
           ) : null}
 
           {(!isTrial || step === 1) ? (
-          <label className={isTrial ? 'inst-auth-field' : 'block text-sm'}>
+          <label className={isTrial ? 'auth-field' : 'block text-sm'}>
             <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('auth.passwordConfirm')}</span>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -481,12 +472,13 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
-            {isTrial ? (
-              <button type="button" className="inst-auth-hint" onClick={() => setShowPassword((v) => !v)}>
-                {showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
-              </button>
-            ) : null}
           </label>
+          ) : null}
+
+          {isTrial && step === 1 ? (
+            <button type="button" className="auth-reveal" onClick={() => setShowPassword((v) => !v)}>
+              {showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
+            </button>
           ) : null}
         </div>
 
@@ -576,13 +568,16 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         ) : null}
 
         {isTrial && step === 1 ? (
-          <button type="submit" className="desk-page-primary-btn justify-center">
-            {t('auth.continue')}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </button>
+          <div className="auth-submit-row">
+            <button type="submit" className="desk-page-primary-btn justify-center">
+              {t('auth.continue')}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </button>
+            <span className="auth-step">{stepLabel}</span>
+          </div>
         ) : null}
         {isTrial && step === 2 ? (
-          <div className="inst-auth-actions">
+          <div className="auth-submit-row">
             <button type="button" className="ds-btn-secondary" onClick={() => setStep(1)}>
               {t('pilot.nav.back')}
             </button>
@@ -590,6 +585,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               {submitting ? t('trial.bootstrapBusy') : t('trial.submit')}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
+            <span className="auth-step">{stepLabel}</span>
           </div>
         ) : null}
         {!isTrial ? (
@@ -608,9 +604,8 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
         ) : null}
 
         {isTrial ? (
-          <p className="inst-auth-footnote inst-auth-footnote--center">
-            {t('auth.alreadyHaveAccount')}{' '}
-            <Link to={INSTITUTION_ROUTES.login}>{t('auth.submit')}</Link>
+          <p className="inst-auth-footnote">
+            <Link to={INSTITUTION_ROUTES.login}>{t('auth.alreadyHaveAccount')}</Link>
           </p>
         ) : null}
       </form>
