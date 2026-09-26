@@ -1314,6 +1314,199 @@
   @apply text-xs text-agigov-text-muted sm:text-right;
 }
 
+.app-shell[data-account-screen='true'] .app-topbar {
+  display: none;
+}
+
+.app-shell[data-account-screen='true'] .app-shell-content--desk {
+  padding: 0;
+}
+
+.auth-stage {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  grid-template-columns: 1fr;
+  background: #f6f5f2;
+}
+
+@media (min-width: 960px) {
+  .auth-stage {
+    grid-template-columns: minmax(28rem, 1.25fr) minmax(24rem, 0.75fr);
+  }
+}
+
+.auth-stage-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 2rem 1.5rem 2.5rem;
+  background:
+    radial-gradient(900px 420px at 0% 0%, rgb(37 99 235 / 0.22), transparent 58%),
+    #0b1220;
+  color: #f4f4f5;
+}
+
+@media (min-width: 960px) {
+  .auth-stage-brand {
+    justify-content: center;
+    padding: 3rem 3.25rem;
+  }
+}
+
+.auth-stage-product {
+  margin: 0.75rem 0 0;
+  max-width: 32rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #d4d4d8;
+}
+
+.auth-stage-kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.auth-stage-headline {
+  margin: 0;
+  max-width: 22rem;
+  font-size: clamp(1.85rem, 3vw, 2.55rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+.auth-stage-facts {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  max-width: 30rem;
+  list-style: none;
+}
+
+.auth-stage-fact-label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.auth-stage-facts p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #f4f4f5;
+}
+
+.auth-stage-roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  max-width: 30rem;
+}
+
+.auth-stage-role {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 0.85rem;
+  background: rgb(255 255 255 / 0.04);
+  color: #f4f4f5;
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.auth-stage-role:focus-visible {
+  outline: 2px solid #f4f4f5;
+  outline-offset: 2px;
+}
+
+.auth-stage-role.is-on {
+  background: #f7f6f3;
+  color: #0b1220;
+  border-color: #f7f6f3;
+}
+
+.auth-stage-role-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.auth-stage-role-hint {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: #a1a1aa;
+}
+
+.auth-stage-role.is-on .auth-stage-role-hint {
+  color: #52525b;
+}
+
+.auth-stage-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem 3rem;
+  background: #f6f5f2;
+}
+
+.auth-stage-sheet {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.auth-stage-sheet-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.auth-stage-sheet h2 {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #18181b;
+}
+
+.auth-stage-sheet-lead {
+  margin: 0.55rem 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #52525b;
+}
+
+.auth-stage-form .inst-auth-page,
+.auth-stage-form .inst-auth-panel,
+.auth-stage-form .inst-auth-card {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.auth-stage-form .inst-auth-input {
+  min-height: 2.75rem;
+  background: #fff;
+}
+
+.auth-stage-form .inst-auth-card > .desk-page-primary-btn {
+  width: 100%;
+}
+
 /* —— Acceso institucional: panel de marca + formulario estrecho —— */
 .inst-auth-split {
   display: grid;

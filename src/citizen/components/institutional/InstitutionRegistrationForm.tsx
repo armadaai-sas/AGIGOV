@@ -26,6 +26,8 @@ import {
   slugifyInstitution,
 } from '../../institutional/institutionProfile.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
+import { accountNameLabel } from './authOffer.js';
+import { useSelectedAuthRole } from './AuthStage.js';
 import { InstitutionTrialSteps } from './InstitutionTrialSteps.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
@@ -54,6 +56,7 @@ const ENTITY_TYPES: Array<{
 export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Props) {
   const isTrial = mode === 'trial';
   const { t, sovereign, setSovereignPref } = useSovereignConfig();
+  const { selected: authRole } = useSelectedAuthRole();
   const navigate = useNavigate();
   const { refresh, applySession } = useInstitutionAuth();
   const [form, setForm] = useState<InstitutionRegistration>(() => ({
@@ -415,13 +418,15 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
 
           {(!isTrial || step === 2) ? (
           <label className={isTrial ? 'inst-auth-field sm:col-span-2' : 'block text-sm sm:col-span-2'}>
-            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>{t('reg.legalName')}</span>
+            <span className={isTrial ? undefined : 'text-agigov-text-muted'}>
+              {isTrial ? accountNameLabel(authRole.id, sovereign.locale) : t('reg.legalName')}
+            </span>
             <input
               required
               className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={form.legalName}
               onChange={(e) => patch({ legalName: e.target.value })}
-              placeholder={t('reg.legalNamePlaceholder')}
+              placeholder={isTrial ? authRole.nameHint : t('reg.legalNamePlaceholder')}
               readOnly={!isTrial && !isOtherEntity && Boolean(entityCatalogId)}
             />
           </label>
@@ -437,7 +442,7 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
               className={isTrial ? 'inst-auth-input' : 'mt-1 w-full rounded-xl border border-agigov-border bg-agigov-surface px-3 py-2.5 text-agigov-text outline-none ring-zinc-500/40 focus:ring-2'}
               value={form.officialEmail}
               onChange={(e) => patch({ officialEmail: e.target.value })}
-              placeholder="finanzas@ministerio.gob.ve"
+              placeholder={isTrial ? authRole.emailHint : 'finanzas@ministerio.gob.ve'}
             />
           </label>
           ) : null}

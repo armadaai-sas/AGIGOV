@@ -10,10 +10,12 @@ import {
 import { resolvePostLoginRedirect } from '../../institutional/authRedirect.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
+import { useSelectedAuthRole } from './AuthStage.js';
 
 /** Inicio de sesión institucional — correo + contraseña. */
 export function InstitutionLoginForm() {
   const { t } = useSovereignConfig();
+  const { selected } = useSelectedAuthRole();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -112,7 +114,7 @@ export function InstitutionLoginForm() {
             className="inst-auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="finanzas@ministerio.gob.ve"
+            placeholder={selected.emailHint}
             disabled={busy}
           />
         </label>

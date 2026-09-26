@@ -122,6 +122,9 @@ function PublicDemoNotice() {
   const { pathname } = useLocation();
   const active = useSyncExternalStore(subscribePublicDemo, publicDemoActive, () => false);
   if (!active || pathname.startsWith('/modelos/egs/consola')) return null;
+  if (pathname.startsWith('/institucional/acceso') || pathname.startsWith('/institucional/registro')) {
+    return null;
+  }
   return (
     <p className="egs-demo-banner" role="status">
       Demostración. Estos datos muestran el producto; no son un cierre publicado.
