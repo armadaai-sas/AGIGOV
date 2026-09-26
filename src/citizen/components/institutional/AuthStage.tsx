@@ -5,8 +5,8 @@ import { AgigovLogo } from '../AgigovLogo.js';
 import { useDeskPersonaOptional, useDeskShell } from '../../context/DeskShellContext.js';
 import { useSovereignConfig } from '../../context/PlatformContext.js';
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
-import { authOffer, type AuthOffer, type AuthRoleOffer } from './authOffer.js';
 import type { DeskPersonaId } from '../../platform/deskNav.js';
+import { authOffer, type AuthOffer, type AuthRoleOffer } from './authOffer.js';
 
 type Props = {
   mode: 'register' | 'login';
@@ -23,7 +23,7 @@ export function useSelectedAuthRole(): { offer: AuthOffer; selected: AuthRoleOff
   return { offer, selected };
 }
 
-/** Alta e inicio en la misma línea del producto: barra, titular y formulario. */
+/** Cuenta: una sola pieza. El escritorio se elige arriba; el formulario cierra el mismo ancho. */
 export function AuthStage({ mode, children }: Props) {
   const { sovereign } = useSovereignConfig();
   const { setPersona } = useDeskShell();
@@ -36,7 +36,6 @@ export function AuthStage({ mode, children }: Props) {
     : mode === 'register'
       ? 'Crear cuenta'
       : 'Iniciar sesión';
-  const youAre = en ? 'You are' : 'Eres';
   const roles = ROLE_ORDER.map((id) => offer.roles.find((item) => item.id === id)).filter(
     (item): item is AuthRoleOffer => Boolean(item),
   );
@@ -59,30 +58,28 @@ export function AuthStage({ mode, children }: Props) {
         </div>
       </header>
 
-      <div className="auth-frame">
-        <div className="auth-intro">
+      <div className="auth-sheet-wrap">
+        <main className="auth-sheet">
           <h1>{title}</h1>
           <p className="auth-lead">{selected.purpose}</p>
-          {mode === 'register' ? <p className="auth-note">{offer.assurance}</p> : null}
-          <div className="auth-personas">
-            <span className="auth-personas-label">{youAre}</span>
-            <div className="auth-personas-row" role="tablist" aria-label={offer.choose}>
-              {roles.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={item.id === selected.id}
-                  className={`auth-persona${item.id === selected.id ? ' is-on' : ''}`}
-                  onClick={() => setPersona(item.id)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+          <div className="auth-roles" role="tablist" aria-label={offer.choose}>
+            {roles.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={item.id === selected.id}
+                className={`auth-role${item.id === selected.id ? ' is-on' : ''}`}
+                onClick={() => setPersona(item.id)}
+              >
+                <span className="auth-role-name">{item.label}</span>
+                <span className="auth-role-tile">{item.tile}</span>
+              </button>
+            ))}
           </div>
-        </div>
-        <div className="auth-form">{children}</div>
+          <div className="auth-form">{children}</div>
+          {mode === 'register' ? <p className="auth-note">{offer.assurance}</p> : null}
+        </main>
       </div>
     </div>
   );
