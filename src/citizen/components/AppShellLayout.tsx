@@ -36,9 +36,16 @@ function deskPageTitle(pathname: string): string {
   if (pathname.startsWith('/contratos')) return 'Contratos';
   if (pathname.startsWith('/proyectos')) return 'Proyectos';
   if (pathname.startsWith('/desarrolladores')) return 'Desarrolladores';
-  if (pathname.startsWith('/ayuda') || pathname.startsWith('/aprender')) return 'Ayuda';
-  if (pathname.startsWith('/descargar')) return 'Escritorio app';
-  return 'Desk';
+  if (pathname.startsWith('/ayuda')) return 'Centro de ayuda';
+  if (pathname.startsWith('/aprender')) return 'Glosario';
+  if (pathname.startsWith('/descargar')) return 'App de escritorio';
+  if (pathname.startsWith('/facturacion')) return 'Plan';
+  if (pathname.startsWith('/ajustes')) return 'Ajustes';
+  if (pathname.startsWith('/suministros')) return 'Suministros';
+  if (pathname.startsWith('/transparencia')) return 'Transparencia';
+  if (pathname.startsWith('/cne')) return 'Consulta ciudadana';
+  if (pathname.startsWith('/legal')) return 'Legal';
+  return 'AGIGOV';
 }
 
 function AppShellLayoutInner({ children }: { children: ReactNode }) {
