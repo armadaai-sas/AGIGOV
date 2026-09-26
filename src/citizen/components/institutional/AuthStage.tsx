@@ -19,7 +19,7 @@ export function useSelectedAuthRole(): { offer: AuthOffer; selected: AuthRoleOff
   return { offer, selected };
 }
 
-/** Registro e inicio de sesión: relato amplio a la izquierda, formulario en calma a la derecha. */
+/** Alta e inicio: panel de marca a pantalla completa y formulario centrado. */
 export function AuthStage({ mode, children }: Props) {
   const { sovereign } = useSovereignConfig();
   const { setPersona } = useDeskShell();
@@ -37,14 +37,13 @@ export function AuthStage({ mode, children }: Props) {
     <div className="auth-stage">
       <section className="auth-stage-story">
         <Link to="/" className="auth-stage-logo" aria-label="AGIGOV">
-          <AgigovLogo size="sm" variant="light" showWordmark />
+          <AgigovLogo size="sm" variant="dark" showWordmark />
         </Link>
         <div className="auth-stage-story-body">
-          <p className="auth-stage-kicker">{offer.product}</p>
           <h1 className="auth-stage-headline">{selected.headline}</h1>
           <p className="auth-stage-purpose">{selected.purpose}</p>
           <div className="auth-stage-roles" role="tablist" aria-label={offer.choose}>
-            {offer.roles.map((item, index) => (
+            {offer.roles.map((item) => (
               <button
                 key={item.id}
                 type="button"
@@ -53,41 +52,24 @@ export function AuthStage({ mode, children }: Props) {
                 className={`auth-stage-role${item.id === selected.id ? ' is-on' : ''}`}
                 onClick={() => setPersona(item.id)}
               >
-                <span className="auth-stage-role-index">{String(index + 1).padStart(2, '0')}</span>
-                <span className="auth-stage-role-copy">
-                  <span className="auth-stage-role-label">{item.label}</span>
-                  <span className="auth-stage-role-hint">{item.tile}</span>
-                </span>
+                {item.label}
               </button>
             ))}
           </div>
         </div>
-        <div className="auth-stage-proof">
-          <p className="auth-stage-innovation">
-            <span>{offer.innovationLabel}. </span>
-            {offer.innovation}
-          </p>
-          <p className="auth-stage-why">
-            <span>{offer.whyLabel}. </span>
-            {offer.why}
-          </p>
-          <ul className="auth-stage-actions" aria-label={offer.canLabel}>
-            {selected.actions.map((action) => (
-              <li key={action}>{action}</li>
-            ))}
-          </ul>
-        </div>
+        <p className="auth-stage-proof">
+          {offer.innovation}
+          <span>{selected.actions.join(' · ')}</span>
+        </p>
       </section>
 
       <section className="auth-stage-form">
         <div className="auth-stage-sheet">
           <header className="auth-stage-sheet-head">
-            <p className="auth-stage-sheet-kicker">
-              {kicker} · {selected.label}
-            </p>
-            <h2>{mode === 'register' ? selected.open : selected.enter}</h2>
+            <p className="auth-stage-sheet-kicker">{selected.label}</p>
+            <h2>{kicker}</h2>
             <p className="auth-stage-sheet-lead">
-              {mode === 'register' ? offer.assurance : selected.purpose}
+              {mode === 'register' ? offer.assurance : selected.can}
             </p>
           </header>
           {children}

@@ -28,7 +28,6 @@ import {
 import { INSTITUTION_ROUTES } from '../../platform/institutionalRoutes.js';
 import { accountNameLabel } from './authOffer.js';
 import { useSelectedAuthRole } from './AuthStage.js';
-import { InstitutionTrialSteps } from './InstitutionTrialSteps.js';
 import { useInstitutionAuth } from '../../institutional/useInstitutionAuth.js';
 
 type RegistrationMode = 'trial' | 'full';
@@ -302,9 +301,16 @@ export function InstitutionRegistrationForm({ onComplete, mode = 'trial' }: Prop
   return (
     <div className={isTrial ? 'inst-auth-panel' : 'inst-reg-shell inst-reg-shell--simple'}>
       <form className={isTrial ? 'inst-auth-card' : 'agigov-card inst-reg-form'} onSubmit={(e) => void submit(e)}>
-        {isTrial ? <InstitutionTrialSteps active={step - 1} /> : null}
         {isTrial ? (
-          <p className="inst-auth-banner inst-auth-banner--ok">{t('trial.registerNote')}</p>
+          <p className="auth-step">
+            {sovereign.locale.toLowerCase().startsWith('en')
+              ? step === 1
+                ? 'Step 1 of 2'
+                : 'Step 2 of 2'
+              : step === 1
+                ? 'Paso 1 de 2'
+                : 'Paso 2 de 2'}
+          </p>
         ) : null}
         {!isTrial && isGovernmentTier ? (
           <p className="mb-4 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-700">
